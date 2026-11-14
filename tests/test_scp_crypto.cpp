@@ -10,14 +10,15 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <optional>
 
+#include "model/bytes.hpp"
 #include "model/scp_crypto.hpp"
 #include "model/scp_loop.hpp"
 #include "se05x_crypto.hpp"
 #include "test_harness.hpp"
 
+using se05x::testmodel::SameBytes;
 using namespace se05x;
 
 namespace {
@@ -45,7 +46,7 @@ std::array<uint8_t, N> Hex(const char* s) {
 
 template <std::size_t N>
 bool Same(const std::array<uint8_t, N>& a, const uint8_t* b) {
-  return std::memcmp(a.data(), b, N) == 0;
+  return SameBytes(a.data(), b, N);
 }
 
 // FIPS 197 C.1 to C.3: plaintext 00112233..ff, key 000102...

@@ -134,7 +134,10 @@ TEST_CASE("A block longer than the host's IFS is refused, as GPC_SPE_172 section
   if (b.link.State() == LinkState::Dead) {
     REQUIRE(b.link.Open().ok());
   }
-  CHECK(Intact(b, Send(b, 5U), 5U, b.handler.commands));
+  // The count is read before the call: the order in which arguments are evaluated is unspecified.
+  const uint32_t before = b.handler.commands;
+  const auto again = Send(b, 5U);
+  CHECK(Intact(b, again, 5U, before + 1U));
 }
 
 TEST_CASE("Idle bytes while the chip works are polled, never taken for a frame") {

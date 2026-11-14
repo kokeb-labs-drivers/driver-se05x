@@ -55,7 +55,9 @@ static smStatus_t Capture(struct Se05xSession *s, const tlvHeader_t *hdr, uint8_
         if (len > sizeof(g_body)) {
             len = sizeof(g_body);
         }
-        memcpy(g_body, cmd, len);
+        if ((cmd != NULL) && (len != 0U)) {
+            memcpy(g_body, cmd, len);
+        }
         g_len   = len;
         g_hasle = hasle;
     }

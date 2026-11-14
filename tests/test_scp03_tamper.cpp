@@ -8,14 +8,15 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/scp_loop.hpp"
 #include "model/scp_target.hpp"
 #include "se05x_crypto.hpp"
 #include "se05x_scp03.hpp"
 #include "test_harness.hpp"
 
+using se05x::testmodel::SameBytes;
 using namespace se05x;
 using testmodel::Loop;
 using testmodel::ScpFixture;
@@ -285,7 +286,7 @@ TEST_CASE("UserID session: open, commands framed in the clear, close") {
   CHECK((r.value == 4U) && (rsp[0] == 0xABU) && (rsp[2] == 0x90U));
   CHECK_EQ(t.loop.last_cmd[0], 0x80U); // no secure messaging bit: plain on the wire
   CHECK_EQ(t.loop.last_cmd[1], 0x05U); // ProcessSessionCmd
-  CHECK(std::memcmp(&t.loop.last_cmd[17], cmd.data(), cmd.size()) == 0);
+  CHECK(SameBytes(&t.loop.last_cmd[17], cmd.data(), cmd.size()));
   CHECK(t.s.Close().ok());
   CHECK_EQ(t.chip.sessions_open, 0U);
   CHECK_EQ(t.s.Transceive(ByteSpan{cmd}, MutableByteSpan{rsp}).error, Error::NotInitialized);

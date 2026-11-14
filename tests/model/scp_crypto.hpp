@@ -21,6 +21,8 @@
 #include <cstring>
 #include <span>
 
+#include "model/bytes.hpp"
+
 namespace se05x::testmodel::mc {
 
 using Bytes = std::span<const uint8_t>;
@@ -39,11 +41,11 @@ public:
       return false;
     }
     nr_ = nk + 6U;
-    static_cast<void>(std::memcpy(w_.data(), key.data(), key.size()));
+    CopyBytes(w_.data(), key.data(), key.size());
     uint8_t rc = 1U;
     for (std::size_t i = nk; i < (4U * (nr_ + 1U)); ++i) {
       uint8_t t[4];
-      static_cast<void>(std::memcpy(t, &w_[4U * (i - 1U)], 4U));
+      CopyBytes(t, &w_[4U * (i - 1U)], 4U);
       if ((i % nk) == 0U) {
         const uint8_t a = t[0];
         t[0] = static_cast<uint8_t>(sbox_[t[1]] ^ rc);
@@ -66,7 +68,7 @@ public:
   }
   void Encrypt(uint8_t* b) const {
     uint8_t s[16];
-    static_cast<void>(std::memcpy(s, b, 16U));
+    CopyBytes(s, b, 16U);
     xorKey(s, 0U);
     for (std::size_t r = 1U; r <= nr_; ++r) {
       for (uint8_t& v : s) {
@@ -87,15 +89,15 @@ public:
           s[(4U * c) + 3U] = xor4(mul(a[0], 3U), a[1], a[2], mul(a[3], 2U));
         }
       } else {
-        static_cast<void>(std::memcpy(s, t, 16U));
+        CopyBytes(s, t, 16U);
       }
       xorKey(s, r);
     }
-    static_cast<void>(std::memcpy(b, s, 16U));
+    CopyBytes(b, s, 16U);
   }
   void Decrypt(uint8_t* b) const {
     uint8_t s[16];
-    static_cast<void>(std::memcpy(s, b, 16U));
+    CopyBytes(s, b, 16U);
     xorKey(s, nr_);
     for (std::size_t r = nr_; r >= 1U; --r) {
       uint8_t t[16];
@@ -111,7 +113,7 @@ public:
       if (r != 1U) {
         for (std::size_t c = 0U; c < 4U; ++c) {
           uint8_t a[4];
-          static_cast<void>(std::memcpy(a, &s[4U * c], 4U));
+          CopyBytes(a, &s[4U * c], 4U);
           for (std::size_t row = 0U; row < 4U; ++row) {
             s[(4U * c) + row] = xor4(mul(a[row], 14U), mul(a[(row + 1U) % 4U], 11U),
                                      mul(a[(row + 2U) % 4U], 13U), mul(a[(row + 3U) % 4U], 9U));
@@ -119,7 +121,7 @@ public:
         }
       }
     }
-    static_cast<void>(std::memcpy(b, s, 16U));
+    CopyBytes(b, s, 16U);
   }
 
 private:
@@ -180,7 +182,7 @@ inline bool CbcEncrypt(Bytes key, uint8_t* iv, uint8_t* data, std::size_t n) {
       data[off + i] = static_cast<uint8_t>(data[off + i] ^ iv[i]);
     }
     aes.Encrypt(&data[off]);
-    static_cast<void>(std::memcpy(iv, &data[off], 16U));
+    CopyBytes(iv, &data[off], 16U);
   }
   return true;
 }
@@ -192,12 +194,12 @@ inline bool CbcDecrypt(Bytes key, uint8_t* iv, uint8_t* data, std::size_t n) {
   }
   for (std::size_t off = 0U; off < n; off += 16U) {
     uint8_t c[16];
-    static_cast<void>(std::memcpy(c, &data[off], 16U));
+    CopyBytes(c, &data[off], 16U);
     aes.Decrypt(&data[off]);
     for (std::size_t i = 0U; i < 16U; ++i) {
       data[off + i] = static_cast<uint8_t>(data[off + i] ^ iv[i]);
     }
-    static_cast<void>(std::memcpy(iv, c, 16U));
+    CopyBytes(iv, c, 16U);
   }
   return true;
 }
@@ -238,8 +240,11 @@ inline void Cmac(Bytes key, Bytes msg, uint8_t* out16) {
     full = (msg.size() % 16U) == 0U;
   }
   uint8_t last[16] = {};
-  const std::size_t tail = msg.size() - (16U * (n - 1U));
-  static_cast<void>(std::memcpy(last, msg.data() + (16U * (n - 1U)), tail));
+  // The bytes of the last block: 1 to 16, or none for an empty message (written so the compiler
+  // sees the bound).
+  const std::size_t before = 16U * (n - 1U);
+  const std::size_t tail = (msg.size() > before) ? (msg.size() - before) : 0U;
+  CopyBytes(last, msg.subspan(before).data(), (tail < 16U) ? tail : 16U);
   if (full) {
     for (int i = 0; i < 16; ++i) {
       last[i] = static_cast<uint8_t>(last[i] ^ k1[i]);
@@ -262,7 +267,7 @@ inline void Cmac(Bytes key, Bytes msg, uint8_t* out16) {
     x[i] = static_cast<uint8_t>(x[i] ^ last[i]);
   }
   aes.Encrypt(x);
-  static_cast<void>(std::memcpy(out16, x, 16U));
+  CopyBytes(out16, x, 16U);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -723,7 +728,7 @@ inline bool ParseDer(Bytes der, uint8_t* r32, uint8_t* s32) {
       return false;
     }
     static_cast<void>(std::memset(o, 0, 32U));
-    static_cast<void>(std::memcpy(o + (32U - len), v, len));
+    CopyBytes(o + (32U - len), v, len);
   }
   return at == der.size();
 }

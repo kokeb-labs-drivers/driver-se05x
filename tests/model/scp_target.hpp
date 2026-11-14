@@ -33,8 +33,8 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/model_if.hpp"
 #include "model/scp_crypto.hpp"
 
@@ -64,32 +64,32 @@ public:
 
   /** @brief Set the platform key set (16 or 32 bytes each) and its version. */
   void SetPlatformKeys(const uint8_t* enc, const uint8_t* mac, std::size_t len, uint8_t kvn) {
-    static_cast<void>(std::memcpy(pf_enc_.data(), enc, len));
-    static_cast<void>(std::memcpy(pf_mac_.data(), mac, len));
+    CopyBytes(pf_enc_.data(), enc, len);
+    CopyBytes(pf_mac_.data(), mac, len);
     pf_len_ = len;
     kvn_ = kvn;
   }
   /** @brief Register an AESKey authentication object. */
   void AddAesKey(uint32_t id, const uint8_t* key16) {
     Cred& c = newCred(id, 1);
-    static_cast<void>(std::memcpy(c.secret.data(), key16, 16U));
+    CopyBytes(c.secret.data(), key16, 16U);
     c.secret_len = 16U;
   }
   /** @brief Register an ECKey authentication object (the host's public key). */
   void AddEcKey(uint32_t id, const uint8_t* pub65) {
     Cred& c = newCred(id, 2);
-    static_cast<void>(std::memcpy(c.pub.data(), pub65, 65U));
+    CopyBytes(c.pub.data(), pub65, 65U);
   }
   /** @brief Register a UserID object. */
   void AddUserId(uint32_t id, const uint8_t* value, std::size_t len, uint32_t max_attempts) {
     Cred& c = newCred(id, 3);
-    static_cast<void>(std::memcpy(c.secret.data(), value, len));
+    CopyBytes(c.secret.data(), value, len);
     c.secret_len = len;
     c.max_attempts = max_attempts;
   }
   /** @brief The chip's ECKey-session key pair (RESERVED_ID_ECKEY_SESSION). */
   void SetSeKey(const uint8_t* priv32) {
-    static_cast<void>(std::memcpy(se_priv_.data(), priv32, 32U));
+    CopyBytes(se_priv_.data(), priv32, 32U);
     static_cast<void>(mc::PublicKey(se_priv_.data(), se_pub_.data()));
   }
   [[nodiscard]] const std::array<uint8_t, 65>& SePublic() const {
@@ -196,13 +196,13 @@ private:
     const auto bits = static_cast<uint32_t>(outlen * 8U);
     dd[13] = static_cast<uint8_t>(bits >> 8);
     dd[14] = static_cast<uint8_t>(bits);
-    static_cast<void>(std::memcpy(dd + 16, ctx, clen));
+    CopyBytes(dd + 16, ctx, clen);
     for (std::size_t i = 0U; (i * 16U) < outlen; ++i) {
       dd[15] = static_cast<uint8_t>(i + 1U);
       uint8_t blk[16];
       mc::Cmac(mc::Bytes(key, klen), mc::Bytes(dd, 16U + clen), blk);
       const std::size_t take = ((outlen - (i * 16U)) < 16U) ? (outlen - (i * 16U)) : 16U;
-      static_cast<void>(std::memcpy(out + (i * 16U), blk, take));
+      CopyBytes(out + (i * 16U), blk, take);
     }
   }
 
@@ -220,8 +220,8 @@ private:
     for (std::size_t i = 0U; i < 8U; ++i) {
       card[i] = static_cast<uint8_t>((std::size_t{challenge_seed_} * 37U) + (i * 11U) + 5U);
     }
-    static_cast<void>(std::memcpy(p.ctx.data(), &c[5], 8U));
-    static_cast<void>(std::memcpy(p.ctx.data() + 8, card.data(), 8U));
+    CopyBytes(p.ctx.data(), &c[5], 8U);
+    CopyBytes(p.ctx.data() + 8, card.data(), 8U);
     p.sm = Sm{};
     p.sm.len = klen;
     kdf(enc, klen, 0x04U, p.ctx.data(), 16U, p.sm.enc.data(), klen);
@@ -234,14 +234,14 @@ private:
     r[i++] = kvn;
     r[i++] = knobs.scp_id; // SCP03 unless a test says otherwise
     r[i++] = knobs.sequence_counter ? 0x10U : 0x00U;
-    static_cast<void>(std::memcpy(&r[i], card.data(), 8U));
+    CopyBytes(&r[i], card.data(), 8U);
     i += 8U;
     uint8_t crypt[8];
     kdf(p.sm.mac.data(), klen, 0x00U, p.ctx.data(), 16U, crypt, 8U);
     if (knobs.bad_card_cryptogram) {
       crypt[0] = static_cast<uint8_t>(crypt[0] ^ 0x01U);
     }
-    static_cast<void>(std::memcpy(&r[i], crypt, 8U));
+    CopyBytes(&r[i], crypt, 8U);
     i += 8U;
     if (knobs.sequence_counter) {
       r[i++] = 0x00U;
@@ -261,16 +261,16 @@ private:
     uint8_t host[8];
     kdf(p.sm.mac.data(), p.sm.len, 0x01U, p.ctx.data(), 16U, host, 8U);
     uint8_t buf[16 + 13] = {};
-    static_cast<void>(std::memcpy(buf + 16, c.data(), 13U));
+    CopyBytes(buf + 16, c.data(), 13U);
     uint8_t mac[16];
     mc::Cmac(mc::Bytes(p.sm.mac.data(), p.sm.len), mc::Bytes(buf, sizeof(buf)), mac);
-    const bool ok = (std::memcmp(host, &c[5], 8U) == 0) && (std::memcmp(mac, &c[13], 8U) == 0);
+    const bool ok = (SameBytes(host, &c[5], 8U)) && (SameBytes(mac, &c[13], 8U));
     p.active = false;
     if (!ok) {
       return putSw(r, 0, 0x6300U);
     }
     out = p.sm;
-    static_cast<void>(std::memcpy(out.mcv.data(), mac, 16U));
+    CopyBytes(out.mcv.data(), mac, 16U);
     out.level = c[2];
     out.ctr = first_ctr;
     return putSw(r, 0, 0x9000U);
@@ -294,20 +294,20 @@ private:
     const bool has_le = c.size() > (at + lc);
     const std::size_t dlen = lc - 8U;
     static uint8_t buf[16 + 1100];
-    static_cast<void>(std::memcpy(buf, sm.mcv.data(), 16U));
-    static_cast<void>(std::memcpy(buf + 16, c.data(), at + dlen));
+    CopyBytes(buf, sm.mcv.data(), 16U);
+    CopyBytes(buf + 16, c.data(), at + dlen);
     uint8_t mac[16];
     mc::Cmac(mc::Bytes(sm.mac.data(), sm.len), mc::Bytes(buf, 16U + at + dlen), mac);
-    if (std::memcmp(mac, &c[at + dlen], 8U) != 0) {
+    if (!SameBytes(mac, &c[at + dlen], 8U)) {
       ++mac_failures;
       return 0U;
     }
-    static_cast<void>(std::memcpy(sm.mcv.data(), mac, 16U));
+    CopyBytes(sm.mcv.data(), mac, 16U);
     if (platform && ((dlen != 0U) || knobs.gp_counter)) {
       ++sm.ctr;
     }
     uint8_t data[1100];
-    static_cast<void>(std::memcpy(data, &c[at], dlen));
+    CopyBytes(data, &c[at], dlen);
     std::size_t plen = dlen;
     if (((sm.level & 0x02U) != 0U) && (dlen != 0U)) {
       uint8_t iv[16] = {};
@@ -341,7 +341,7 @@ private:
       } else {
         plain[i++] = static_cast<uint8_t>(plen);
       }
-      static_cast<void>(std::memcpy(&plain[i], data, plen));
+      CopyBytes(&plain[i], data, plen);
       i += plen;
     }
     if (has_le) {
@@ -376,13 +376,13 @@ private:
     }
     if ((sm.level & 0x10U) != 0U) {
       static uint8_t buf[16 + 1100];
-      static_cast<void>(std::memcpy(buf, sm.mcv.data(), 16U));
-      static_cast<void>(std::memcpy(buf + 16, r.data(), dlen));
+      CopyBytes(buf, sm.mcv.data(), 16U);
+      CopyBytes(buf + 16, r.data(), dlen);
       buf[16 + dlen] = static_cast<uint8_t>(sw >> 8);
       buf[17 + dlen] = static_cast<uint8_t>(sw);
       uint8_t mac[16];
       mc::Cmac(mc::Bytes(sm.rmac.data(), sm.len), mc::Bytes(buf, 18U + dlen), mac);
-      static_cast<void>(std::memcpy(&r[dlen], mac, 8U));
+      CopyBytes(&r[dlen], mac, 8U);
       dlen += 8U;
     }
     return putSw(r, dlen, sw);
@@ -446,29 +446,29 @@ private:
       return putSw(r, 0, 0x6700U);
     }
     const uint8_t* aid = &c[5];
-    if ((lc == 8U) && (std::memcmp(aid, kIsd, 8U) == 0)) {
+    if ((lc == 8U) && (SameBytes(aid, kIsd, 8U))) {
       selected_ = Sel::Isd;
       static const uint8_t kFci[] = {0x6F, 0x0A, 0x84, 0x08, 0xA0, 0x00,
                                      0x00, 0x01, 0x51, 0x00, 0x00, 0x00};
-      static_cast<void>(std::memcpy(r.data(), kFci, sizeof(kFci)));
+      CopyBytes(r.data(), kFci, sizeof(kFci));
       return putSw(r, sizeof(kFci), 0x9000U);
     }
-    if ((lc == 16U) && (std::memcmp(aid, kIotAid, 16U) == 0) && (applet != nullptr)) {
+    if ((lc == 16U) && (SameBytes(aid, kIotAid, 16U)) && (applet != nullptr)) {
       auth_id = 0U;
       const std::size_t n = applet->Handle(c, r);
       selected_ = ((n >= 2U) && (r[n - 2U] == 0x90U)) ? Sel::Iot : Sel::None;
       return n;
     }
-    if ((lc == 16U) && (std::memcmp(aid, kIotAid, 16U) == 0)) {
+    if ((lc == 16U) && (SameBytes(aid, kIotAid, 16U))) {
       selected_ = Sel::Iot;
       static const uint8_t kVer[7] = {7, 2, 0, 0x3F, 0xFF, 0x01, 0x0B};
-      static_cast<void>(std::memcpy(r.data(), kVer, 7U));
+      CopyBytes(r.data(), kVer, 7U);
       return putSw(r, 7U, 0x9000U);
     }
-    if ((lc == 16U) && (std::memcmp(aid, kPersoAid, 16U) == 0) && knobs.perso_present) {
+    if ((lc == 16U) && (SameBytes(aid, kPersoAid, 16U)) && knobs.perso_present) {
       selected_ = Sel::Perso;
       static const uint8_t kVer[7] = {1, 4, 0, 0x00, 0x00, 0x00, 0x01};
-      static_cast<void>(std::memcpy(r.data(), kVer, 7U));
+      CopyBytes(r.data(), kVer, 7U);
       return putSw(r, 7U, 0x9000U);
     }
     selected_ = Sel::None;
@@ -502,7 +502,7 @@ private:
       r[i++] = 0xDFU;
       r[i++] = 0x28U;
       r[i++] = static_cast<uint8_t>(sizeof(kDf28));
-      static_cast<void>(std::memcpy(&r[i], kDf28, sizeof(kDf28)));
+      CopyBytes(&r[i], kDf28, sizeof(kDf28));
       r[i + 4U] = static_cast<uint8_t>(oef_id >> 8U);
       r[i + 5U] = static_cast<uint8_t>(oef_id & 0xFFU);
       i += sizeof(kDf28);
@@ -553,7 +553,7 @@ private:
     }
     r[0] = 0x41U;
     r[1] = static_cast<uint8_t>(len);
-    static_cast<void>(std::memcpy(&r[2], value, len));
+    CopyBytes(&r[2], value, len);
     return putSw(r, 2U + len, 0x9000U);
   }
 
@@ -570,7 +570,7 @@ private:
 
   std::size_t appletCommand(se05x::ByteSpan c, se05x::MutableByteSpan r) {
     ++applet_commands;
-    static_cast<void>(std::memcpy(last_plain.data(), c.data(), c.size()));
+    CopyBytes(last_plain.data(), c.data(), c.size());
     last_plain_len = c.size();
     if (applet != nullptr) {
       return applet->Handle(c, r);
@@ -599,7 +599,7 @@ private:
       lc = 0U;
     }
     if (lc != 0U) {
-      static_cast<void>(std::memcpy(r.data(), c.data() + at, lc));
+      CopyBytes(r.data(), c.data() + at, lc);
     }
     return putSw(r, lc, 0x9000U);
   }
@@ -634,7 +634,7 @@ private:
         r[1] = 0x82U;
         r[2] = 0x00U;
         r[3] = 0x08U;
-        static_cast<void>(std::memcpy(&r[4], s.id.data(), 8U));
+        CopyBytes(&r[4], s.id.data(), 8U);
         return putSw(r, 12U, 0x9000U);
       }
     }
@@ -654,7 +654,7 @@ private:
     }
     Session* s = nullptr;
     for (Session& k : sessions_) {
-      if (k.used && (std::memcmp(k.id.data(), &c[at + 2U], 8U) == 0)) {
+      if (k.used && (SameBytes(k.id.data(), &c[at + 2U], 8U))) {
         s = &k;
       }
     }
@@ -758,7 +758,7 @@ private:
     }
     const bool ok = (in.size() == (7U + cred.secret_len)) && (in[5] == 0x41U) &&
                     (in[6] == cred.secret_len) &&
-                    (std::memcmp(&in[7], cred.secret.data(), cred.secret_len) == 0);
+                    (SameBytes(&in[7], cred.secret.data(), cred.secret_len));
     if (!ok) {
       ++cred.failures;
       return putSw(r, 0, 0x6985U);
@@ -810,8 +810,8 @@ private:
       dr[k] = static_cast<uint8_t>((std::size_t{challenge_seed_} * 29U) + (k * 3U));
     }
     uint8_t mk_in[4 + 32 + 16 + 4] = {0, 0, 0, 1};
-    static_cast<void>(std::memcpy(mk_in + 4, z, 32U));
-    static_cast<void>(std::memcpy(mk_in + 36, dr, 16U));
+    CopyBytes(mk_in + 4, z, 32U);
+    CopyBytes(mk_in + 36, dr, 16U);
     mk_in[52] = 0x01U;
     mk_in[53] = level;
     mk_in[54] = 0x88U;
@@ -837,10 +837,10 @@ private:
     s.secure = true;
     r[0] = 0x85U;
     r[1] = 16U;
-    static_cast<void>(std::memcpy(&r[2], dr, 16U));
+    CopyBytes(&r[2], dr, 16U);
     r[18] = 0x86U;
     r[19] = 16U;
-    static_cast<void>(std::memcpy(&r[20], receipt, 16U));
+    CopyBytes(&r[20], receipt, 16U);
     return putSw(r, 36U, 0x9000U);
   }
 

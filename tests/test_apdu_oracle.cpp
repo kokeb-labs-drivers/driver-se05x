@@ -14,9 +14,12 @@
 #include <cstdint>
 #include <cstring>
 
+#include "model/bytes.hpp"
 #include "se05x_policy.hpp"
 #include "test_apdu_util.hpp"
 #include "vectors/nxp_layouts.hpp"
+
+using se05x::testmodel::SameBytes;
 
 namespace {
 
@@ -82,7 +85,7 @@ bool Matches(const oracle::Layout& l, const Encoded& e) {
     static_cast<void>(std::printf("    %s: the codec refused the arguments\n", l.name));
     return false;
   }
-  if (l.has_header && (std::memcmp(l.header.data(), e.bytes.data(), 4U) != 0)) {
+  if (l.has_header && (!SameBytes(l.header.data(), e.bytes.data(), 4U))) {
     static_cast<void>(std::printf(
         "    %s: header %02X %02X %02X %02X, middleware %02X %02X %02X %02X\n", l.name, e.bytes[0],
         e.bytes[1], e.bytes[2], e.bytes[3], l.header[0], l.header[1], l.header[2], l.header[3]));
