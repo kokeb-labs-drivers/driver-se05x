@@ -1,0 +1,247 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# PKI layer: the DER rules, the X.509 profile, chain verification, CSR building, storage.
+pki-der-indefinite | inc/se05x_pki_der.hpp | the indefinite length is refused (X.690 10.1)
+- if (first == 0x80U) {
++ if (false) {
+pki-der-length-bytes | inc/se05x_pki_der.hpp | at most two length bytes (kMaxLength)
+- if (count > 2U) {
++ if (count > 3U) {
+pki-der-minimal | inc/se05x_pki_der.hpp | a length in the fewest bytes (X.690 10.1)
+- if (LengthFieldSize(value) != (1U + count)) {
++ if (false) {
+pki-der-truncated | inc/se05x_pki_der.hpp | an element must fit its input
+- if ((1U + header + length) > left) {
++ if ((header + length) > left) {
+pki-der-high-tag | inc/se05x_pki_der.hpp | multi-byte tags are refused
+- if ((tag & 0x1FU) == 0x1FU) {
++ if (false) {
+pki-der-depth | inc/se05x_pki_der.hpp | nesting stops at kMaxDepth
+- if ((depth_ + 1U) > kMaxDepth) {
++ if ((depth_ + 1U) > (kMaxDepth + 1U)) {
+pki-der-enter-primitive | inc/se05x_pki_der.hpp | only a constructed element is opened
+- if ((element.tag & kConstructed) == 0U) {
++ if (false) {
+pki-der-trailing | inc/se05x_pki_der.hpp | bytes after the last element are refused
+- return AtEnd() ? Reason::Ok : Reason::TrailingData;
++ return Reason::Ok;
+pki-der-int-minimal | inc/se05x_pki_der.hpp | no redundant leading zero in an INTEGER (X.690 8.3.2)
+- if ((value[0] == 0x00U) && ((value[1] & 0x80U) == 0U)) {
++ if (false) {
+pki-der-int-negative | inc/se05x_pki_der.hpp | a negative INTEGER is refused where a count or key is expected
+- if (value.empty() || ((value[0] & 0x80U) != 0U)) {
++ if (value.empty()) {
+pki-der-boolean | inc/se05x_pki_der.hpp | BOOLEAN is 00 or FF (X.690 11.1)
+- ((value[0] != 0x00U) && (value[0] != 0xFFU))
++ ((value[0] != 0x00U) && (value[0] == 0x02U))
+pki-der-pad-bits | inc/se05x_pki_der.hpp | the unused bits of a BIT STRING are zero (X.690 11.2.1)
+- if ((static_cast<uint32_t>(value[value.size() - 1U]) & mask) != 0U) {
++ if (false) {
+pki-der-named-trailing | inc/se05x_pki_der.hpp | a named bit list has no trailing zero bit (X.690 11.2.2)
+- if ((last & (uint32_t{1} << unused)) == 0U) {
++ if (false) {
+pki-der-oid-leading | inc/se05x_pki_der.hpp | a sub-identifier has no leading 0x80
+- if (start && (b == 0x80U)) {
++ if (false) {
+pki-der-utf8-overlong | inc/se05x_pki_der.hpp | overlong UTF-8 is refused (RFC 3629)
+- if ((cp < min) || (cp > 0x10FFFFU) || ((cp >= 0xD800U) && (cp <= 0xDFFFU))) {
++ if ((cp > 0x10FFFFU) || ((cp >= 0xD800U) && (cp <= 0xDFFFU))) {
+pki-der-utf8-surrogate | inc/se05x_pki_der.hpp | UTF-16 surrogates are refused (RFC 3629)
+- if ((cp < min) || (cp > 0x10FFFFU) || ((cp >= 0xD800U) && (cp <= 0xDFFFU))) {
++ if ((cp < min) || (cp > 0x10FFFFU)) {
+pki-der-time-z | inc/se05x_pki_der.hpp | a time ends in Z (RFC 5280 4.1.2.5)
+- if ((v.size() != (digits + 1U)) || (v[digits] != 0x5AU)) {
++ if (v.size() != (digits + 1U)) {
+pki-der-utc-century | inc/se05x_pki_der.hpp | UTCTime years below 50 are 20YY (RFC 5280 4.1.2.5.1)
+- year = (f[0] < 50U) ? (2000U + f[0]) : (1900U + f[0]);
++ year = (f[0] < 49U) ? (2000U + f[0]) : (1900U + f[0]);
+pki-der-ecdsa-width | inc/se05x_pki_der.hpp | r and s fit the curve
+- (m.size() > width) || ((m.size() == 1U) && (m[0] == 0U))) {
++ (m.size() > (width + 1U)) || ((m.size() == 1U) && (m[0] == 0U))) {
+pki-der-ecdsa-zero | inc/se05x_pki_der.hpp | r and s are not zero
+- (m.size() > width) || ((m.size() == 1U) && (m[0] == 0U))) {
++ (m.size() > width)) {
+pki-der-short-form | inc/se05x_pki_der.hpp | the writer's short form ends at 127
+- if (length < 0x80U) {
++ if (length <= 0x80U) {
+pki-der-int-pad | inc/se05x_pki_der.hpp | the writer pads a positive INTEGER whose top bit is set
+- const bool pad = m.empty() || ((m[0] & 0x80U) != 0U);
++ const bool pad = m.empty();
+pki-x509-version | src/se05x_pki_x509.ipp | only v3 certificates (RFC 5280 4.1.2.1)
+- if ((r == Reason::Ok) && (v != 2U)) {
++ if (false) {
+pki-x509-serial | src/se05x_pki_x509.ipp | the serial is positive (RFC 5280 4.1.2.2)
+- ((serial.size() > kMaxSerial) || ((serial.size() == 1U) && (serial[0] == 0U)))) {
++ (serial.size() > kMaxSerial)) {
+pki-x509-algorithms | src/se05x_pki_x509.ipp | the inner and outer algorithms are the same (4.1.1.2)
+- if ((r == Reason::Ok) && !der::SameBytes(outer_alg.encoded, inner.encoded)) {
++ if (false) {
+pki-x509-parameters | src/se05x_pki_x509.ipp | ECDSA and Ed25519 identifiers carry no parameters
+- return (seq.Finish() == Reason::Ok) ? Reason::Ok : Reason::UnsupportedAlgorithm;
++ return Reason::Ok;
+pki-x509-curve | src/se05x_pki_x509.ipp | only P-256 and P-384 named curves
+- return Reason::UnsupportedCurve;
+-   }
+-   return alg.Finish();
++ type = KeyType::EcP256;
++   }
++   return alg.Finish();
+pki-x509-uncompressed | src/se05x_pki_x509.ipp | only uncompressed EC points (RFC 5480 2.2)
+- ((key.size() != PublicKeyLength(type)) || (ec && (key[0] != 0x04U)))) {
++ (key.size() != PublicKeyLength(type))) {
+pki-x509-critical | src/se05x_pki_x509.ipp | an unknown critical extension is refused (RFC 5280 4.2)
+- if ((r == Reason::Ok) && !known && critical) {
++ if (false) {
+pki-x509-duplicate | src/se05x_pki_x509.ipp | an extension appears once (RFC 5280 4.2)
+- r = der::SameBytes(seen[k], id) ? Reason::DuplicateExtension : r;
++ r = false ? Reason::DuplicateExtension : r;
+pki-x509-default-false | src/se05x_pki_x509.ipp | critical FALSE is not written out in DER
+- if ((r == Reason::Ok) && !critical) {
++ if (false) {
+pki-x509-path-ca | src/se05x_pki_x509.ipp | a pathLenConstraint only on a CA (4.2.1.9)
+- if (!ca || (seq.Next(e) != Reason::Ok) || (der::ParseSmall(e.value, 254U, v) != Reason::Ok)) {
++ if ((seq.Next(e) != Reason::Ok) || (der::ParseSmall(e.value, 254U, v) != Reason::Ok)) {
+pki-x509-ca-false | src/se05x_pki_x509.ipp | cA FALSE is not written out in DER
+- if ((seq.Next(e) != Reason::Ok) || (der::ParseBoolean(e.value, ca) != Reason::Ok) || !ca) {
++ if ((seq.Next(e) != Reason::Ok) || (der::ParseBoolean(e.value, ca) != Reason::Ok)) {
+pki-x509-validity-order | src/se05x_pki_x509.ipp | notAfter is not before notBefore
+- if ((r == Reason::Ok) && (Compare(times[0], times[1]) > 0)) {
++ if (false) {
+pki-x509-time-form | src/se05x_pki_x509.ipp | UTCTime through 2049, GeneralizedTime from 2050 (4.1.2.5)
+- if ((r == Reason::Ok) && (generalized != (times[i].year >= kGeneralizedFrom))) {
++ if (false) {
+pki-x509-empty-issuer | src/se05x_pki_x509.ipp | the issuer is not empty (4.1.2.4)
+- r = Reason::BadName; // RFC 5280 4.1.2.4: the issuer is not empty
++ r = Reason::Ok;
+pki-x509-empty-subject | src/se05x_pki_x509.ipp | an empty subject needs a critical SAN (4.1.2.6)
+- r = Reason::BadName; // RFC 5280 4.1.2.6: an empty subject needs a critical subjectAltName
++ r = Reason::Ok;
+pki-x509-unique-id | src/se05x_pki_x509.ipp | unique identifiers are refused
+- if ((r == Reason::Ok) && HasUniqueId(tbs)) {
++ if (false) {
+pki-x509-ip-length | src/se05x_pki_x509.ipp | an iPAddress is 4 or 16 bytes
+- ((e.value.size() != 4U) && (e.value.size() != 16U)))) {
++ (e.value.empty()))) {
+pki-x509-key-usage-bits | src/se05x_pki_x509.ipp | no key usage bit beyond decipherOnly
+- & ~static_cast<uint32_t>(key_usage::kAll)) == 0U))
++ & 0U) == 0U))
+pki-x509-string-type | src/se05x_pki_x509.ipp | only UTF8String, PrintableString and IA5String values
+- return Reason::BadString; // TeletexString, BMPString, UniversalString, ...: not accepted
++ return Reason::Ok;
+pki-verify-name | inc/se05x_pki_verify.hpp | the issuer is the subject above (RFC 5280 6.1.3 (a)(4))
+- Reason r = der::SameBytes(cert.issuer, issuer.name) ? Reason::Ok : Reason::NameMismatch;
++ Reason r = Reason::Ok;
+pki-verify-not-before | inc/se05x_pki_verify.hpp | notBefore is inclusive
+- if (now < ToUnixSeconds(cert.not_before)) {
++ if (now < (ToUnixSeconds(cert.not_before) - 1U)) {
+pki-verify-not-after | inc/se05x_pki_verify.hpp | notAfter is inclusive
+- if (now > ToUnixSeconds(cert.not_after)) {
++ if (now > (ToUnixSeconds(cert.not_after) + 1U)) {
+pki-verify-ca | inc/se05x_pki_verify.hpp | an issuer has cA TRUE (6.1.4 (k))
+- if (!cert.has_basic_constraints || !cert.is_ca) {
++ if (!cert.has_basic_constraints) {
+pki-verify-key-cert-sign | inc/se05x_pki_verify.hpp | an issuer with a keyUsage has keyCertSign (6.1.4 (n))
+-     return Reason::KeyCertSignMissing;
+-   }
+-   if (issuer.max_path == 0U) {
++     return Reason::Ok;
++   }
++   if (issuer.max_path == 0U) {
+pki-verify-path-zero | inc/se05x_pki_verify.hpp | no intermediate once the path length is used up (6.1.4 (l))
+- if (issuer.max_path == 0U) {
++ if (false) {
+pki-verify-path-min | inc/se05x_pki_verify.hpp | a pathLenConstraint lowers the path length (6.1.4 (m))
+- if ((cert.path_length != kNoPathLength) && (cert.path_length < left)) {
++ if (false) {
+pki-verify-anchor-path | inc/se05x_pki_verify.hpp | the anchor's path length applies
+- (anchor.path_length == kNoPathLength) ? kMaxChain : anchor.path_length;
++ kMaxChain;
+pki-verify-leaf-ca | inc/se05x_pki_verify.hpp | a CA end entity is refused unless allowed
+- if (cert.is_ca && !options.allow_ca_leaf) {
++ if (false) {
+pki-verify-leaf-usage | inc/se05x_pki_verify.hpp | the end entity has the key usage the caller needs
+- if ((need != 0U) && (!cert.has_key_usage || !HasBits(cert.key_usage, need))) {
++ if ((need != 0U) && !cert.has_key_usage) {
+pki-verify-pair | inc/se05x_pki_verify.hpp | key and hash pair (RFC 5480 4)
+- if (AlgorithmFor(key.type) != algorithm) {
++ if (false) {
+pki-verify-supports | inc/se05x_pki_verify.hpp | a curve the verifier cannot verify is refused
+- if (!verifier.Supports(key.type)) {
++ if (false) {
+pki-verify-key-length | inc/se05x_pki_verify.hpp | a verifier gets a key of its type's length
+- if (key.bytes.size() != PublicKeyLength(key.type)) {
++ if (false) {
+pki-verify-mismatch | inc/se05x_pki_verify.hpp | an invalid signature is SignatureInvalid
+-     out = Reason::SignatureInvalid;
++     out = Reason::Ok;
+pki-verify-no-time | inc/se05x_pki_verify.hpp | the time check is never skipped
+- } else if (options.now_unix == 0U) {
++ } else if (false) {
+pki-verify-chain-limit | inc/se05x_pki_verify.hpp | at most kMaxChain certificates
+- } else if (chain.size() > kMaxChain) {
++ } else if (chain.size() > (kMaxChain + 1U)) {
+pki-verify-anchor-name | inc/se05x_pki_verify.hpp | only anchors named by the top issuer are tried
+- if (der::SameBytes(anchors[i].subject, top.value.issuer)) {
++ if (true) {
+pki-csr-country | inc/se05x_pki_csr.hpp | countryName is two upper-case letters
+- r = std::all_of(value.begin(), value.end(), upper) ? Reason::Ok : Reason::InvalidInput;
++ r = Reason::Ok;
+pki-csr-length | inc/se05x_pki_csr.hpp | attribute values within their upper bound
+- if (value.empty() || (value.size() > max)) {
++ if (value.empty()) {
+pki-csr-capacity | inc/se05x_pki_csr.hpp | at most kMaxNameAttributes
+- if (count_ >= entries_.size()) {
+-       fail(Reason::TooManyEntries);
+-       return nullptr;
++ if (count_ > entries_.size()) {
++       fail(Reason::TooManyEntries);
++       return nullptr;
+pki-csr-ip | inc/se05x_pki_csr.hpp | an iPAddress is 4 or 16 bytes
+- return ((value.size() == 4U) || (value.size() == 16U)) ? Reason::Ok : Reason::InvalidInput;
++ return Reason::Ok;
+pki-csr-pair | inc/se05x_pki_csr.hpp | the key pairs with the signer's algorithm
+- } else if (AlgorithmFor(request.key.type) != algorithm) {
++ } else if (false) {
+pki-csr-key-form | inc/se05x_pki_csr.hpp | an EC key is an uncompressed point
+- ((request.key.type != KeyType::Ed25519) && (request.key.bytes[0] != 0x04U))) {
++ (false)) {
+pki-csr-empty | inc/se05x_pki_csr.hpp | a request names its subject or its alternative names
+- } else if ((request.subject->Count() == 0U) && !alt) {
++ } else if (false) {
+pki-csr-signer-output | inc/se05x_pki_csr.hpp | the signer's signature parses before it is written
+-       (CheckSignatureValue(algorithm, ByteSpan{signature}.first(s.value)) != Reason::Ok)) {
++       false) {
+pki-csr-san-critical | inc/se05x_pki_csr.hpp | the SAN is critical when the subject is empty (4.2.1.6)
+- if (no_subject) {
++ if (false) {
+pki-csr-wipe | inc/se05x_pki_csr.hpp | a failed request leaves a zeroed buffer
+- std::fill(out.begin(), out.end(), uint8_t{0});
++ static_cast<void>(out);
+pki-store-write | inc/se05x_pki_device.hpp | no storage policy grants Write
+- if (((header & write) != 0U) || ((auth == 0U) && ((header & remove) != 0U))) {
++ if ((auth == 0U) && ((header & remove) != 0U)) {
+pki-store-delete | inc/se05x_pki_device.hpp | nobody-in-particular may not delete a stored certificate
+- if (((header & write) != 0U) || ((auth == 0U) && ((header & remove) != 0U))) {
++ if ((header & write) != 0U) {
+pki-store-exists | inc/se05x_pki_device.hpp | an existing object is never overwritten
+- if (!exists.ok() || exists.value) {
++ if (!exists.ok()) {
+pki-store-size | inc/se05x_pki_device.hpp | a certificate fits one WriteBinary or is refused unsent
+- if ((r == Reason::Ok) && (der.size() > MaxStoredCertificate(policy))) {
++ if (false) {
+pki-store-read-back | inc/se05x_pki_device.hpp | the read-back must equal what was written
+- return same ? Result<void>::Success() : Fail<void>(Reason::ReadBackMismatch);
++ return Result<void>::Success();
+pki-store-single-element | inc/se05x_pki_device.hpp | a stored object is exactly one DER element
+- if ((reader.Expect(der::kSequence, element) != Reason::Ok) || (reader.Finish() != Reason::Ok)) {
++ if (false) {
+pki-device-key-prefix | inc/se05x_pki_device.hpp | a read EC public key is an uncompressed point
+- if ((bytes.size() != length) || ((type != KeyType::Ed25519) && (bytes[0] != 0x04U))) {
++ if (bytes.size() != length) {
+pki-device-digest-length | inc/se05x_pki_device.hpp | the chip signs a digest of the algorithm's length
+- if (input.size() != DigestLength(algorithm)) {
++ if (false) {
+pki-device-sha384 | inc/se05x_pki_device.hpp | a P-384 key signs with ECDSA SHA-384
+- (algorithm == SignatureAlgorithm::EcdsaSha384) ? EcSignAlgo::Sha384 : EcSignAlgo::Sha256;
++ EcSignAlgo::Sha256;

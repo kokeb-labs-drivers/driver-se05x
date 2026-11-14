@@ -1,0 +1,18 @@
+{
+  "nxp": {
+    "nad_out": 90,
+    "nad_in": 165,
+    "len_bytes": 1,
+    "max_inf": 254
+  },
+  "gp": {
+    "nad_out": 33,
+    "nad_in": 18,
+    "len_bytes": 2,
+    "max_inf": 4089
+  },
+  "gp_crc": 48548,
+  "sources": [
+    "inc/se05x_wire.hpp:kUm11225Frame, kGpFrame, kGpExampleCrc"
+  ]
+}

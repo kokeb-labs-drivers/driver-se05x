@@ -1,0 +1,193 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# Secure channels, sessions, crypto port, PERSO and the card manager: the full list.
+scp-M1 | inc/se05x_secret.hpp | ct::Equal length check
+-   if (a.size() != b.size()) {
++   if (a.size() < b.size()) {
+scp-M2 | inc/se05x_secret.hpp | ct::Equal accumulation
+- difference = static_cast<uint8_t>(difference | static_cast<uint8_t>(a[i] ^ b[i]));
++ difference = static_cast<uint8_t>(difference & static_cast<uint8_t>(a[i] ^ b[i]));
+scp-M3 | inc/se05x_secret.hpp | Zeroize store removed
+-     target[i] = static_cast<uint8_t>(0U);
++     target[i] = target[i];
+scp-M4 | inc/se05x_secret.hpp | attempt limit off by one
+- return failures_ >= limit_;
++ return failures_ > limit_;
+scp-M5 | inc/se05x_secret.hpp | infinite UserID attempts accepted
+-   if (max_attempts == 0U) {
++   if (max_attempts == 255U) {
+scp-M6 | inc/se05x_scp03.hpp | counter increment removed
+-   next = counter + 1U;
++   next = counter;
+scp-M7 | src/se05x_scp03.ipp | JOS.2 rule inverted
+- (rule_ == CounterRule::EveryCommand) || last_had_data_, counter_);
++ (rule_ == CounterRule::EveryCommand) || !last_had_data_, counter_);
+scp-M8 | src/se05x_scp03.ipp | JOS.2 response ICV
+- value = counter_ - 1U; // JOS.2
++ value = counter_; // JOS.2
+scp-M9 | src/se05x_scp03.ipp | response ICV prefix
+-     icv[0] = 0x80U;
++     icv[0] = 0x00U;
+scp-M10 | src/se05x_scp03.ipp | R-MAC compare skipped
+-   if (!ct::Equal(ByteSpan{mac.data(), kMacBytes}, ByteSpan{received})) {
++   if (ct::Equal(ByteSpan{}, ByteSpan{mac.data(), 1U})) {
+scp-M11 | src/se05x_scp03.ipp | data in front of an error SW accepted
+-     return (length == 2U) ? Result<std::size_t>::Success(std::size_t{0})
++     return (length >= 2U) ? Result<std::size_t>::Success(std::size_t{0})
+scp-M12 | src/se05x_scp03.ipp | short R-MAC response guard (the v04.08.02 defect)
+-   if (length < (2U + kMacBytes)) {
+-     return Result<std::size_t>::Failure(Error::SecureChannelError);
+-   }
+-   const MutableByteSpan rsp = buffer.subspan(kHeadroom, length);
+-   const std::size_t body
++   if (length < 2U) {
++     return Result<std::size_t>::Failure(Error::SecureChannelError);
++   }
++   const MutableByteSpan rsp = buffer.subspan(kHeadroom, length);
++   const std::size_t body
+scp-M13 | src/se05x_scp03.ipp | MAC chaining value not updated
+-   mcv_ = mac;
+-
++
++
+scp-M15 | src/se05x_scp03.ipp | KDF separator
+-   dd[12] = 0x00U; // separation indicator
++   dd[12] = 0x01U; // separation indicator
+scp-M16 | src/se05x_scp03.ipp | KDF L high byte (AES-256)
+-   dd[13] = static_cast<uint8_t>(bits >> 8U);
++   dd[13] = 0U;
+scp-M17 | src/se05x_scp03.ipp | card cryptogram check skipped
+-   if (!ct::Equal(ByteSpan{expected}, ByteSpan{hs.card_cryptogram})) {
++   if (ct::Equal(ByteSpan{}, ByteSpan{expected})) {
+scp-M18 | src/se05x_scp03.ipp | host cryptogram constant
+- detail::Kdf(crypto, hs.keys.mac, kDdHostCryptogram,
++ detail::Kdf(crypto, hs.keys.mac, kDdCardCryptogram,
+scp-M19 | src/se05x_scp03.ipp | command padding byte
+-   field[n] = 0x80U;
++   field[n] = 0x00U;
+scp-M20 | src/se05x_scp03.ipp | extended form with Le
+- const bool extended = parts.has_le || ((worst + kMacBytes) > 255U);
++ const bool extended = ((worst + kMacBytes) > 255U);
+scp-M21 | src/se05x_scp03.ipp | response padding check
+- (body[end - 1U] != 0x80U)
++ (body[end - 1U] == 0x01U)
+scp-M22 | src/se05x_scp03.ipp | lost response keeps the channel
+-   if (!got.ok()) {
+-     sm_.Stop();
+-     Zeroize(rx);
++   if (!got.ok()) {
++     Zeroize(rx);
+scp-M23 | src/se05x_scp03.ipp | channel attempts not counted
+-     if (counted) {
+-       attempts_.RecordFailure();
+-     }
++     if (counted) {
++     }
+scp-M24 | src/se05x_eckey.ipp | ECKey receipt check skipped
+-     if (!ct::Equal(ByteSpan{expected}, ByteSpan{receipt})) {
++     if (ct::Equal(ByteSpan{}, ByteSpan{expected})) {
+scp-M25 | src/se05x_eckey.ipp | ECKey KDF counter
+-   in[i++] = 0x01U;
+-   for (const uint8_t b : shared) {
++   in[i++] = 0x02U;
++   for (const uint8_t b : shared) {
+scp-M26 | src/se05x_eckey.ipp | ECKey initial MCV constant
+- scp03::kDdInitialMcv
++ scp03::kDdSMac
+scp-M27 | src/se05x_eckey.ipp | ephemeral key not released
+-   static_cast<void>(crypto.ReleaseKey(ephemeral)); // ephemeral
++   // ephemeral
+scp-M28 | inc/se05x_eckey.hpp | feature flag gate inverted
+- if constexpr (!kEcKeySessionEnabled) {
++ if constexpr (kEcKeySessionEnabled) {
+scp-M29 | src/se05x_perso.ipp | unknown PERSO tag sent
+- if ((!IsKnownTag(raw)) || out.empty()) {
++ if (out.empty()) {
+scp-M31 | src/se05x_gp.ipp | GET DATA without selection
+-   if (!selected_) {
++   if (false) {
+scp-M32 | src/se05x_crypto_aes.ipp | CMAC subkey constant
+- (0x87U & (0U - msb))
++ (0x86U & (0U - msb))
+scp-M33 | src/se05x_crypto_aes.ipp | masked S-box select
+- const uint32_t equal = ((diff - 1U) >> 8U) & 1U;
++ const uint32_t equal = ((diff + 1U) >> 8U) & 1U;
+scp-M34 | src/se05x_crypto_p256.ipp | on-curve check of a peer point
+-   if (!IsZero(diff)) {
+-     return false;
+-   }
+-   out = Point
++   if (false) {
++     return false;
++   }
++   out = Point
+scp-M35 | src/se05x_crypto.ipp | stale handle generation
+- slot->generation = (slot->generation + 1U) & 0x00FFFFFFU;
++ slot->generation = slot->generation;
+scp-M36 | src/se05x_scp03.ipp | UserID attempts not counted
+-     if (e == Error::AuthFailed) {
+-       attempts_.RecordFailure();
+-     }
++     if (e == Error::AuthFailed) {
++     }
+scp-M37 | src/se05x_scp03.ipp | session id length
+- (value.value.size() != kSessionIdBytes)
++ (value.value.size() == 0U)
+scp-M38 | src/se05x_scp03.ipp | ProcessSessionCmd Le
+-   out[i++] = 0x00U; // Le
+-   if (extended) {
+-     out[i++] = 0x00U;
+-   }
+-   return Result<ByteSpan>
++   if (extended) {
++     out[i++] = 0x00U;
++   }
++   return Result<ByteSpan>
+scp-M39 | src/se05x_scp03.ipp | response buffer bound
+-   if (out.size() < (plain.value + 2U)) {
++   if (out.size() < plain.value) {
+scp-M40 | src/se05x_scp03.ipp | session keys not released at Stop
+-         static_cast<void>(crypto_->ReleaseKey(key));
++         // released
+scp-M41 | src/se05x_crypto.ipp | ReleaseKey does not wipe
+-   slot->key.Wipe();
+-
++
++
+scp-M42 | src/se05x_scp03.ipp | R-MAC level ignored
+-   if ((static_cast<uint32_t>(level_) & kLevelRMac) == 0U) {
+-     return Result<std::size_t>::Success(length - 2U);
++   if ((static_cast<uint32_t>(level_) & 0x00U) == 0U) {
++     return Result<std::size_t>::Success(length - 2U);
+scp-M43 | src/se05x_eckey.ipp | SE key prefix check
+-       (params.se_public_key.size() != 65U) || (params.se_public_key[0] != 0x04U) ||
++       (params.se_public_key.size() != 65U) ||
+scp-counter-wrap | inc/se05x_scp03.hpp | the encryption counter never wraps back to a used value (S-16)
+-   if (counter == 0xFFFFFFFFU) {
++   if (false) {
+scp-counter-wrap-next | inc/se05x_scp03.hpp | a refused advance leaves the counter as it was
+-   next = counter;
+-   if (!advances) {
++   next = 0U;
++   if (!advances) {
+scp-id-check | src/se05x_scp03.ipp | INITIALIZE UPDATE must name SCP03
+- (answer[11] != kScp03Id) ||
++ (answer[11] == 0xEEU) ||
+scp-bare-end | src/se05x_scp03.ipp | a bare 9000 is accepted only for a command that ends the session
+- if (success && (length == 2U) && expect_end) {
++ if (success && (length == 2U)) {
+scp-bare-end-stop | src/se05x_scp03.ipp | the engine stops with the session the command ended
+= the device tears the session down itself after every ReplyEndsSession answer (Device::run, teardown), and an engine left active refuses the next unwrapped answer: fails closed either way
+-   out[1] = 0x00U;
+-   active_ = false;
++   out[1] = 0x00U;
+scp-kdf-wipe | src/se05x_scp03.ipp | a failed KDF wipes its partial output
+= every caller derives into a SecretBuffer that wipes itself on every path (deriveKeys, the cryptograms, the ECKey KDF), so the partial bytes never outlive the call; the wipe in Kdf is a second line
+-       Zeroize(out);
+-       return Error::CryptoFailure;
++       return Error::CryptoFailure;
+scp-bare-end-once | src/se05x_scp03.ipp | the bare-9000 permission is spent by any answer
+-   const bool expect_end = expect_end_;
+-   expect_end_ = false;
++   const bool expect_end = expect_end_;

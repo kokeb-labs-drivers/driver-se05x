@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="992" viewBox="0 0 1200 992" role="img" aria-labelledby="recovery-ladder-title recovery-ladder-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="recovery-ladder-title">The recovery ladder</title>
+<desc id="recovery-ladder-desc">Six rungs from top to bottom: resend the block, resync, interface soft reset, reselect the applet, chip reset and power cycle, each with what it costs.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="991" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">TRANSPORT</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">The recovery ladder</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Climbed in order, each rung bounded; past the first, sessions are gone and the caller re-authenticates.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M179.6 229.8 L179.6 240.9 Q179.6 242.8 177.7 242.8 L177.7 242.8 Q175.8 242.8 175.8 244.7 L175.8 255.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M219.6 351.8 L219.6 362.9 Q219.6 364.8 217.7 364.8 L217.7 364.8 Q215.8 364.8 215.8 366.7 L215.8 377.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M259.6 473.8 L259.6 484.9 Q259.6 486.8 257.7 486.8 L257.7 486.8 Q255.8 486.8 255.8 488.7 L255.8 499.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M299.6 595.8 L299.6 606.9 Q299.6 608.8 297.7 608.8 L297.7 608.8 Q295.8 608.8 295.8 610.7 L295.8 621.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M339.6 717.8 L339.6 728.9 Q339.6 730.8 337.7 730.8 L337.7 730.8 Q335.8 730.8 335.8 732.7 L335.8 743.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="92" y="137.8" width="876" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="92" y="145.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="132" y="259.8" width="876" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="132" y="267.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="172" y="381.8" width="876" height="88" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="172" y="389.8" width="4" height="72" rx="2" fill="#FBBF24"/>
+<rect x="212" y="503.8" width="876" height="88" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="212" y="511.8" width="4" height="72" rx="2" fill="#FBBF24"/>
+<rect x="252" y="625.8" width="876" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="252" y="633.8" width="4" height="72" rx="2" fill="#FB7185"/>
+<rect x="292" y="747.8" width="876" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="292" y="755.8" width="4" height="72" rx="2" fill="#FB7185"/>
+<rect x="32" y="869.8" width="1136" height="60.5" rx="10" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="112" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">1. ResendBlock</text>
+<text x="112" y="189.4" font-size="13" fill="#D2DAE4">R-block NAK, resend the last block</text>
+<text x="112" y="208.2" font-size="13" fill="#D2DAE4">keeps everything</text>
+<text x="152" y="286.6" font-size="15" font-weight="700" fill="#A7F3E6">2. Resync</text>
+<text x="152" y="311.4" font-size="13" fill="#D2DAE4">S(RESYNC) C0</text>
+<text x="152" y="330.2" font-size="13" fill="#D2DAE4">the exchange in progress is lost</text>
+<rect x="141" y="232.8" width="73.4" height="20" rx="10" fill="#0E131A"/>
+<text x="177.7" y="247.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">still failing</text>
+<text x="192" y="408.6" font-size="15" font-weight="700" fill="#FDE68A">3. InterfaceReset</text>
+<text x="192" y="433.4" font-size="13" fill="#D2DAE4">S(interface soft reset) CF</text>
+<text x="192" y="452.3" font-size="13" fill="#D2DAE4">protocol context reset; lines high 1 ms</text>
+<rect x="181" y="354.8" width="73.4" height="20" rx="10" fill="#0E131A"/>
+<text x="217.7" y="369.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">still failing</text>
+<text x="232" y="530.5" font-size="15" font-weight="700" fill="#FDE68A">4. Reselect</text>
+<text x="232" y="555.4" font-size="13" fill="#D2DAE4">SELECT the IoT applet again</text>
+<text x="232" y="574.2" font-size="13" fill="#D2DAE4">applet sessions closed</text>
+<rect x="221" y="476.8" width="73.4" height="20" rx="10" fill="#0E131A"/>
+<text x="257.7" y="491.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">still failing</text>
+<text x="272" y="652.5" font-size="15" font-weight="700" fill="#FECDD3">5. ChipReset</text>
+<text x="272" y="677.4" font-size="13" fill="#D2DAE4">chip reset: S(0xC6) NXP, reset port GP</text>
+<text x="272" y="696.2" font-size="13" fill="#D2DAE4">sessions and transient objects lost; ends 0x66A6</text>
+<rect x="261" y="598.8" width="73.4" height="20" rx="10" fill="#0E131A"/>
+<text x="297.7" y="613.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">still failing</text>
+<text x="312" y="774.5" font-size="15" font-weight="700" fill="#FECDD3">6. PowerCycle</text>
+<text x="312" y="799.4" font-size="13" fill="#D2DAE4">reset port: supply or ENA off and on</text>
+<text x="312" y="818.2" font-size="13" fill="#D2DAE4">needs a ResetPort; clears I2C.1</text>
+<rect x="301" y="720.8" width="73.4" height="20" rx="10" fill="#0E131A"/>
+<text x="337.7" y="735.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">still failing</text>
+<text x="46" y="896.5" font-size="15" font-weight="700" fill="#FECDD3">The end</text>
+<text x="46" y="914.3" font-size="13" fill="#FECDD3">Ladder spent: Error::TransportDead and the link is Dead. A rung that needs a port you did not give is skipped: without a ResetPort the ladder ends at the chip reset.</text>
+<rect x="32" y="945.7" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="54" y="957.3" font-size="12.5" fill="#9AA6B5">state kept</text>
+<rect x="140" y="945.7" width="14" height="14" rx="4" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<text x="162" y="957.3" font-size="12.5" fill="#9AA6B5">sessions lost</text>
+<rect x="266.9" y="945.7" width="14" height="14" rx="4" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<text x="288.9" y="957.3" font-size="12.5" fill="#9AA6B5">chip reset</text>
+</svg>

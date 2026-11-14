@@ -1,0 +1,13 @@
+{
+  "rungs": [
+    "ResendBlock",
+    "Resync",
+    "InterfaceReset",
+    "Reselect",
+    "ChipReset",
+    "PowerCycle"
+  ],
+  "sources": [
+    "inc/se05x_t1.hpp:Rung"
+  ]
+}

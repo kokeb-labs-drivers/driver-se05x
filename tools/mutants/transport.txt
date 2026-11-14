@@ -1,0 +1,438 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# Transport (t1::Link, CRC, ATR and CIP): the full list.
+# CRC
+t1-M01 | inc/se05x_t1_crc.hpp | CRC init 0xFFFF -> 0x0000
+- inline constexpr uint16_t kCrcInit = 0xFFFFU;
++ inline constexpr uint16_t kCrcInit = 0x0000U;
+t1-M02 | inc/se05x_t1_crc.hpp | CRC polynomial 8408 -> 1021 (unreflected)
+- inline constexpr uint16_t kCrcPolyReflected = 0x8408U;
++ inline constexpr uint16_t kCrcPolyReflected = 0x1021U;
+t1-M03 | inc/se05x_t1_crc.hpp | no final XOR
+- inline constexpr uint16_t kCrcXorOut = 0xFFFFU;
++ inline constexpr uint16_t kCrcXorOut = 0x0000U;
+t1-M04 | inc/se05x_t1_crc.hpp | 7 bits per byte
+-     for (uint32_t bit = 0U; bit < 8U; ++bit) {
++     for (uint32_t bit = 0U; bit < 7U; ++bit) {
+# Frame building and checking
+t1-M05 | src/se05x_t1.ipp | GP CRC sent LSB first
+-   const bool msb_first = gp || !crc_lsb_first_;
++   const bool msb_first = !crc_lsb_first_;
+t1-M06 | src/se05x_t1.ipp | GP accepts the LSB order too
+-     return crc == msb; // GPC_SPE_172 section 4.2, p. 33
++     return (crc == msb) || (crc == lsb); // GPC_SPE_172 section 4.2, p. 33
+t1-M07 | src/se05x_t1.ipp | NXP order never fixed (accepts both forever)
+-   if (crc_fixed_) {
++   if (false) {
+t1-M08 | src/se05x_t1.ipp | NAD check removed
+- if ((nad == seNad(flavour_)) || gp_alias) {
++ if (true) {
+t1-M09 | src/se05x_t1.ipp | LEN limit check removed
+-   if (len > rxLimit()) { // GPC_SPE_172 section 4.2.3; the overlong-LEN class of the middleware
++   if (len > detail::kMaxInf) { // GPC_SPE_172 section 4.2.3; the overlong-LEN class of the middleware
+t1-M10 | src/se05x_t1.ipp | idle byte accepted as data
+-       if (!first || (static_cast<uint32_t>(dst[0]) != wire::kIdleByte)) {
++       if (true) {
+t1-M11 | src/se05x_t1.ipp | short read accepted
+-       if (r.count != count) {
++       if (false) {
+t1-M12 | src/se05x_t1.ipp | pending cleared before the CRC check (I2C.1 after a bad LEN)
+-   ++counters_.frames_received;
++   ++counters_.frames_received;
++   pending_ = false;
+t1-M13 | src/se05x_t1.ipp | drain not done before a write
+- const BusStatus drained = probed ? drain() : BusStatus::Nack;
++ const BusStatus drained = BusStatus::Nack;
+t1-M14 | src/se05x_t1.ipp | write even when the drain failed
+-     if ((drained == BusStatus::Ok) || (drained == BusStatus::Nack)) {
++     if (true) {
+t1-M15 | src/se05x_t1.ipp | drain only one read
+-   for (uint32_t i = 0U; i < detail::kGpDrainReads; ++i) {
++   for (uint32_t i = 0U; i < 1U; ++i) {
+# Block coding and sequence numbers
+t1-M16 | src/se05x_t1.ipp | N(S) never toggled
+-     ns_ = detail::Toggle(ns_);
++     ns_ = ns_;
+t1-M17 | src/se05x_t1.ipp | N(R) never toggled
+-     nr_ = detail::Toggle(nr_);
++     nr_ = nr_;
+t1-M18 | src/se05x_t1.ipp | chaining bit never set
+-         (static_cast<uint32_t>(ns_) << detail::kINsShift) | (more ? detail::kIMore : 0U);
++         (static_cast<uint32_t>(ns_) << detail::kINsShift) | (more ? 0U : 0U);
+t1-M19 | src/se05x_t1.ipp | M bit of the answer ignored
+-     if ((static_cast<uint32_t>(b.pcb) & detail::kIMore) == 0U) {
++     if (true) {
+t1-M20 | src/se05x_t1.ipp | R-ack N(R) not shifted
+-     const uint32_t ack = detail::kRType | (static_cast<uint32_t>(nr_) << detail::kRNrShift);
++     const uint32_t ack = detail::kRType | static_cast<uint32_t>(nr_);
+t1-M21 | src/se05x_t1.ipp | I-block N(S) check removed
+-   if (((pcb >> detail::kINsShift) & 1U) == static_cast<uint32_t>(nr_)) {
++   if (true) {
+t1-M22 | src/se05x_t1.ipp | I-block reserved bits not checked
+- if (((pcb & detail::kIReserved) != 0U) || (more && (b.len == 0U)) ||
++ if ((more && (b.len == 0U)) ||
+t1-M23 | src/se05x_t1.ipp | R-block ack accepted with N(R) equal to N(S)
+-     if (!asks_again && ((pcb & detail::kRError) == 0U)) {
++     if ((pcb & detail::kRError) == 0U) {
+t1-M24 | src/se05x_t1.ipp | R-block asking again in FirstI answered by NAK instead of resend
+-   if (want == detail::Want::FirstI) {
+-     return asks_again ? detail::Verdict::Resend : detail::Verdict::Nak;
++   if (want == detail::Want::FirstI) {
++     return detail::Verdict::Nak;
+t1-M25 | src/se05x_t1.ipp | NAK error code always other
+-   const uint32_t code = (why == Error::Crc) ? detail::kRCrcError : detail::kROtherError;
++   const uint32_t code = detail::kROtherError;
+t1-M26 | src/se05x_t1.ipp | S-exchange accepts any S-block
+-       if ((e == Error::Ok) && (out.pcb == response)) {
++       if (e == Error::Ok) {
+# Retries and timing
+t1-M27 | src/se05x_t1.ipp | one retry fewer (awaitExpected)
+-     if (attempt == config_.frame_retries) {
+-       return (e == Error::Ok) ? Error::FrameError : e;
++     if ((attempt + 1U) == config_.frame_retries) {
++       return (e == Error::Ok) ? Error::FrameError : e;
+t1-M28 | src/se05x_t1.ipp | one retry more (awaitExpected)
+= the loop bound is never reached: the return at attempt == frame_retries leaves the loop first
+-   for (uint32_t attempt = 0U; attempt <= config_.frame_retries; ++attempt) {
+-     detail::Verdict verdict = detail::Verdict::Nak;
++   for (uint32_t attempt = 0U; attempt <= (config_.frame_retries + 1U); ++attempt) {
++     detail::Verdict verdict = detail::Verdict::Nak;
+t1-M29 | src/se05x_t1.ipp | sExchange one retry fewer
+-     if (hard(e) || (attempt == config_.frame_retries)) {
++     if (hard(e) || ((attempt + 1U) == config_.frame_retries)) {
+t1-M30 | src/se05x_t1.ipp | WTX count cap off by one
+-   if (wtx_count_ > config_.wtx_limit) {
+-     return Error::Timeout; // S-05: the WTX budget of one command
++   if (wtx_count_ > (config_.wtx_limit + 1U)) {
++     return Error::Timeout; // S-05: the WTX budget of one command
+t1-M31 | src/se05x_t1.ipp | WTX 4 s floor removed
+-                         wire::kMinWtxHostTimeoutMs),
++                         0U),
+t1-M32 | src/se05x_t1.ipp | WTX multiplier ignored
+- std::min(std::max(static_cast<uint32_t>(sinf_[0]) * static_cast<uint32_t>(params_.bwt_ms),
++ std::min(std::max(static_cast<uint32_t>(params_.bwt_ms),
+t1-M33 | src/se05x_t1.ipp | WTX response INF not echoed
+-   sinf_[0] = rx_[h];
+-   const uint32_t extension_ms
++   sinf_[0] = 1U;
++   const uint32_t extension_ms
+t1-M34 | src/se05x_t1.ipp | a WTX extends the command deadline to at least 4 s (AN13904 8.3)
+-   deadline_ = std::max(deadline_, until);
++   deadline_ = std::min(deadline_, until);
+t1-M35 | src/se05x_t1.ipp | block deadline not bounded by the operation deadline
+-   return detail::Earlier(deadline_, nowUs() + (static_cast<uint64_t>(params_.bwt_ms) * 1000U));
++   return nowUs() + (static_cast<uint64_t>(params_.bwt_ms) * 1000U);
+t1-M36 | src/se05x_t1.ipp | hard() ignores the deadline
+-   return (e != Error::Ok) && (nowUs() >= deadline_);
++   return false;
+t1-M37 | src/se05x_t1.ipp | poll loop ignores the deadline
+-     if (nowUs() >= deadline) {
+-       return Error::Timeout;
+-     }
+-     waitUs(pollUs());
++     waitUs(pollUs());
+t1-M38 | src/se05x_t1.ipp | iteration cap removed (frozen clock)
+-   const uint64_t polls = (span / static_cast<uint64_t>(pollUs())) + 2U;
++   const uint64_t polls = 0xFFFF'FFFFU;
+t1-M39 | src/se05x_t1.ipp | poll interval below MPOT
+-   return std::max(config_.poll_interval_us, static_cast<uint32_t>(params_.min_poll_us));
++   return config_.poll_interval_us;
+t1-M40 | src/se05x_t1.ipp | Auto: the NXP probe gets only half the budget
+= not observable in the model: a chip that does not answer the NXP probe ends it at its first silent block, long before half the budget (the test that checks the GP chip opens within half the budget passes with and without the split); the split only bounds a chip that would keep the NXP probe busy, which the model cannot make
+-   deadline_ = now + ((end > now) ? ((end - now) / 2U) : 0U);
++   deadline_ = end;
+# Ladder and resets
+t1-M41 | src/se05x_t1.ipp | Close sends C6 in NXP
+-       (flavour_ == TransportFlavour::Gp) ? wire::kGpRelease : wire::kUmEndOfApduSession;
++       (flavour_ == TransportFlavour::Gp) ? wire::kGpRelease : wire::kUmChipReset;
+t1-M42 | src/se05x_t1.ipp | GP chip reset rung sends 0xC6
+-     return (flavour_ == TransportFlavour::Gp) ? doPortReset(ResetKind::Reset) : doChipReset();
++     return doChipReset();
+t1-M43 | src/se05x_t1.ipp | Reset(Cold) allowed in GP
+-     if (flavour_ == TransportFlavour::Gp) {
+-       return Error::Unsupported; // no published chip-reset S-block in GPC_SPE_172
++     if (false) {
++       return Error::Unsupported; // no published chip-reset S-block in GPC_SPE_172
+t1-M44 | src/se05x_t1.ipp | stuck bus does not skip to the power cycle
+-     stuck = stuck || (e == Error::BusStuck);
++     stuck = false;
+t1-M45 | src/se05x_t1.ipp | Reselect rung not skipped from below
+-     return (from == Rung::Reselect) ? Error::Ok : Error::Unsupported;
++     return Error::Ok;
+t1-M46 | src/se05x_t1.ipp | resync success reported Resynced even with a reset pending
+-         return reselect_ ? Error::NeedsReselect : Error::Resynced;
++         return Error::Resynced;
+t1-M47 | src/se05x_t1.ipp | needs_resync not set after a deadline timeout
+-     needs_resync_ = true; // the chip may still answer: the next command resynchronises first
++     needs_resync_ = false; // the chip may still answer: the next command resynchronises first
+t1-M48 | src/se05x_t1.ipp | soft reset does not restore the IFS for the ATR
+-     params_.ifsd = static_cast<uint16_t>(detail::kMaxInf);
++     params_.ifsd = params_.ifsd;
+t1-M49 | src/se05x_t1.ipp | ATR of the soft reset not applied
+-   params_ = atr.value;
++   static_cast<void>(atr.value);
+t1-M50 | src/se05x_t1.ipp | flushStale skipped
+-     flushStale();
++     detect_ = true;
+t1-M51 | src/se05x_t1.ipp | ENA not driven high at Open
+-       static_cast<void>(ports_->GetReset().SetEnable(true)); // leave an ENA deep power-down
++       // removed
+t1-M52 | src/se05x_t1.ipp | deep power-down by ENA ignored
+-     e = ports_->GetReset().SetEnable(false) ? Error::Ok : Error::Unsupported; // ENA low
++     e = Error::Unsupported; // ENA low
+t1-M53 | src/se05x_t1.ipp | deep power-down Unsupported closes the link
+-   if (e != Error::Unsupported) {
+-     open_ = false; // acts first
++   if (true) {
++     open_ = false; // acts first
+# Results and arguments
+t1-M54 | src/se05x_t1.ipp | failed answer not wiped
+-   Zeroize(response.first(got.copied)); // S-01: no part of a failed answer stays behind
++   // removed
+t1-M55 | src/se05x_t1.ipp | answer over 1024 accepted
+-   if ((got.total + b.len) > kMaxResponse) {
++   if ((got.total + b.len) > (kMaxResponse + 8U)) {
+t1-M56 | src/se05x_t1.ipp | overflow not reported
+-   const Error complete = got.overflow ? Error::BufferTooSmall : short_answer;
++   const Error complete = short_answer;
+t1-M57 | src/se05x_t1.ipp | answer under 2 bytes accepted
+-   const Error short_answer = (got.total < 2U) ? Error::FrameError : Error::Ok;
++   const Error short_answer = (got.total < 1U) ? Error::FrameError : Error::Ok;
+t1-M58 | src/se05x_t1.ipp | empty command accepted
+-   } else if (command.empty() || (command.size() > kMaxCommandApdu) ||
++   } else if ((command.size() > kMaxCommandApdu) ||
+t1-M59 | src/se05x_t1.ipp | oversized command accepted
+-   } else if (command.empty() || (command.size() > kMaxCommandApdu) ||
++   } else if (command.empty() || (command.size() > (kMaxCommandApdu + 1U)) ||
+t1-M60 | src/se05x_t1.ipp | class not checked
+-              !se05x::detail::IsEnumerator(command_class)) {
++              false) {
+t1-M61 | src/se05x_t1.ipp | short response buffer accepted
+-   } else if (response.size() < 2U) {
++   } else if (response.size() < 1U) {
+t1-M62 | src/se05x_t1.ipp | Dead link still sends
+-   } else if (state_ == LinkState::Dead) {
+-     early = Error::TransportDead;
++   } else if (false) {
++     early = Error::TransportDead;
+t1-M63 | src/se05x_t1.ipp | Open does not validate the configuration
+-   if (Validate(config_) != Error::Ok) {
++   if (false) {
+t1-M64 | src/se05x_t1.ipp | reselect not cleared by a successful command
+-     reselect_ = false;
+-     return Result<std::size_t>::Success(got.total);
++     return Result<std::size_t>::Success(got.total);
+t1-M65 | src/se05x_t1.ipp | Close refused when dead
+-   if (state_ == LinkState::Closed) {
+-     return Result<void>::Success();
+-   }
++   if ((state_ == LinkState::Closed) || (state_ == LinkState::Dead)) {
++     return Result<void>::Success();
++   }
+t1-M66 | src/se05x_t1.ipp | IFS request value not applied
+-     params_.ifsc = static_cast<uint16_t>(value);
++     params_.ifsc = params_.ifsc;
+t1-M67 | src/se05x_t1.ipp | chain size from IFSC ignored
+-   const std::size_t chunk = std::min(static_cast<std::size_t>(params_.ifsc), detail::kMaxInf);
++   const std::size_t chunk = detail::kMaxInf;
+# ATR and CIP
+t1-M68 | inc/se05x_atr.hpp | ATR PLID not checked
+-   ok = ok && (c.U8() == detail::kPlidI2c);
+-   ok = ok && detail::ReadAtrPlp(c, p);
++   ok = ok && (c.U8() == c.U8() + 0U);
++   ok = ok && detail::ReadAtrPlp(c, p);
+t1-M69 | inc/se05x_atr.hpp | trailing bytes accepted
+-   if (!ok || !c.Complete()) {
+-     return detail::Fail<LinkParams>(Error::FrameError);
+-   }
+-   p.ifsd = p.ifsc;
++   if (!ok || !c.Ok()) {
++     return detail::Fail<LinkParams>(Error::FrameError);
++   }
++   p.ifsd = p.ifsc;
+t1-M70 | inc/se05x_atr.hpp | BWT 0 accepted
+-   return (p.bwt_ms != 0U) && (p.bwt_ms <= kMaxBwtMs) && (p.ifsc != 0U) && (p.ifsc <= max_ifsc);
++   return (p.bwt_ms <= kMaxBwtMs) && (p.ifsc != 0U) && (p.ifsc <= max_ifsc);
+t1-M71 | inc/se05x_atr.hpp | IFSC max off by one
+-   return (p.bwt_ms != 0U) && (p.bwt_ms <= kMaxBwtMs) && (p.ifsc != 0U) && (p.ifsc <= max_ifsc);
++   return (p.bwt_ms != 0U) && (p.bwt_ms <= kMaxBwtMs) && (p.ifsc != 0U) && (p.ifsc <= (max_ifsc + 1U));
+t1-M72 | inc/se05x_atr.hpp | MPOT limit off by one
+-   if (ms > kMaxMsInUs16) {
++   if (ms > (kMaxMsInUs16 + 1U)) {
+t1-M73 | inc/se05x_atr.hpp | ATR high-speed bit wrong
+- inline constexpr uint32_t kAtrHighSpeedBit = 0x08U;
++ inline constexpr uint32_t kAtrHighSpeedBit = 0x10U;
+t1-M74 | inc/se05x_atr.hpp | CIP size limit off
+- inline constexpr std::size_t kMaxCipBytes = 64U;
++ inline constexpr std::size_t kMaxCipBytes = 65U;
+t1-M75 | inc/se05x_atr.hpp | CIP IIN 5 accepted
+-   bool ok = (cip.size() <= detail::kMaxCipBytes) && (pver != 0U) && (iin >= 3U) && (iin <= 4U);
++   bool ok = (cip.size() <= detail::kMaxCipBytes) && (pver != 0U) && (iin >= 3U) && (iin <= 5U);
+t1-M76 | inc/se05x_atr.hpp | CIP history 33 accepted
+- inline constexpr std::size_t kMaxCipHistory = 32U;
++ inline constexpr std::size_t kMaxCipHistory = 33U;
+t1-M77 | inc/se05x_atr.hpp | CIP MPOT unit wrong (ms instead of 100 us)
+-   p.min_poll_us = static_cast<uint16_t>(static_cast<uint32_t>(c.U8()) * 100U);
++   p.min_poll_us = static_cast<uint16_t>(static_cast<uint32_t>(c.U8()) * 1000U);
+t1-M78 | inc/se05x_atr.hpp | CIP IFSD not the GP default
+-   p.ifsd = detail::kGpIfsd;
++   p.ifsd = p.ifsc;
+t1-M79 | inc/se05x_atr.hpp | ATR SEGT and WUT swapped
+-   p.guard_us = c.U16();
+-   p.wakeup_us = c.U16();
++   p.wakeup_us = c.U16();
++   p.guard_us = c.U16();
+t1-M80 | inc/se05x_atr.hpp | ATR PVER 0 accepted
+-   bool ok = (pver != 0U) && detail::ReadDllp(c, detail::kUmMaxIfs, p);
++   bool ok = detail::ReadDllp(c, detail::kUmMaxIfs, p);
+# Added after the first runs
+t1-M81 | src/se05x_t1.ipp | Open starts with pending cleared (stale frame not read out)
+-   pending_ = true;             // unknown at host start: the first write reads out whatever is left
++   pending_ = false;            // unknown at host start: the first write reads out whatever is left
+t1-M82 | src/se05x_t1.ipp | IFS request: IFSD not kept in step in the NXP flavour
+-       params_.ifsd = params_.ifsc; // IFSC and IFSD stay in step (UM11225 section 2.1.2.1)
++       // removed
+t1-M83 | src/se05x_t1.ipp | deep power-down: a refused S-block not reported Unsupported
+-     e = (e == Error::FrameError) ? Error::Unsupported : e;
++     e = e;
+t1-M84 | src/se05x_t1.ipp | WTX multiplier 0 accepted
+-   if ((b.len != 1U) || (rx_[h] == 0U)) {
++   if (b.len != 1U) {
+t1-M85 | src/se05x_t1.ipp | stale frame of the other flavour not adopted
+-     if (adopt_) {
++     if (false) {
+t1-M86 | src/se05x_t1.ipp | stale-frame hint ignored
+-   if (hint_ || (config_.flavour != TransportFlavour::Auto)) {
++   if (config_.flavour != TransportFlavour::Auto) {
+t1-M87 | src/se05x_t1.ipp | a failing reset port is ignored
+-     if (!done) {
++     if (false) {
+t1-M88 | src/se05x_t1.ipp | a reset rung does not mark NeedsReselect
+-       reselect_ = true;
+-       return Error::NeedsReselect;
++       return Error::NeedsReselect;
+t1-M89 | src/se05x_t1.ipp | NeedsReselect refuses commands
+-   } else if (state_ == LinkState::Dead) {
++   } else if ((state_ == LinkState::Dead) || (state_ == LinkState::NeedsReselect)) {
+t1-M90 | src/se05x_t1.ipp | WTX response PCB is the request code
+-       sendBlock(static_cast<uint8_t>(wire::kSWtx | wire::kSResponseBit), ByteSpan{sinf_}.first(1U));
++       sendBlock(static_cast<uint8_t>(wire::kSWtx), ByteSpan{sinf_}.first(1U));
+t1-M91 | src/se05x_t1.ipp | answer copied from a fixed 3-byte prologue
+-     const auto src = ByteSpan{rx_}.subspan(prologue(), b.len);
++     const auto src = ByteSpan{rx_}.subspan(3U, b.len);
+t1-M92 | src/se05x_t1.ipp | ATR parsed from the wrong offset after a soft reset
+-   const Result<LinkParams> atr = ParseAtr(ByteSpan{rx_}.subspan(prologue(), b.len));
++   const Result<LinkParams> atr = ParseAtr(ByteSpan{rx_}.subspan(2U, b.len));
+t1-M93 | src/se05x_t1.ipp | chip reset waits no boot time
+-   pending_ = false;
+-   waitUs(bootUs());
+-   startDeadline(rungMs());
+-   return handshake();
+- }
++   pending_ = false;
++   startDeadline(rungMs());
++   return handshake();
++ }
+t1-M94 | src/se05x_t1.ipp | ENA not raised at Open after an ENA power-down
+-       static_cast<void>(ports_->GetReset().SetEnable(true)); // leave an ENA deep power-down
++       static_cast<void>(ports_->GetReset().SetEnable(false)); // leave an ENA deep power-down
+t1-M95 | src/se05x_t1.ipp | Close leaves the link open
+-   const Error e = sExchange(code, b, 0U);
+-   open_ = false;
++   const Error e = sExchange(code, b, 0U);
+t1-M96 | src/se05x_t1.ipp | after a failed Reset the link is not Dead
+-   } else if (e != Error::Unsupported) {
+-     dead_ = true;
++   } else if (e != Error::Unsupported) {
++     dead_ = false;
+t1-M97 | src/se05x_t1.ipp | the response buffer wipe covers nothing on overflow
+-     got.copied = got.total + b.len;
++     got.copied = 0U;
+t1-M98 | inc/se05x_t1_crc.hpp | CRC ignores bit 7 of each byte
+-     crc ^= static_cast<uint32_t>(byte);
++     crc ^= static_cast<uint32_t>(byte) & 0x7FU;
+t1-M99 | src/se05x_t1.ipp | iteration cap far above the deadline
+-   const uint64_t polls = (span / static_cast<uint64_t>(pollUs())) + 2U;
++   const uint64_t polls = (span / static_cast<uint64_t>(pollUs())) + 200000U;
+t1-M100 | src/se05x_t1.ipp | a NACKed write is not polled again
+-   const ByteSpan frame = ByteSpan{tx_}.first(length);
+-   const uint32_t polls = pollBudget(deadline_);
++   const ByteSpan frame = ByteSpan{tx_}.first(length);
++   const uint32_t polls = 1U;
+t1-M101 | src/se05x_t1.ipp | Open refused on an open link
+-   if (state_ == LinkState::InFlight) {
+-     return detail::Fail<void>(Error::Busy);
+-   }
+-   if (Validate(config_) != Error::Ok) {
++   if (state_ != LinkState::Closed) {
++     return detail::Fail<void>(Error::Busy);
++   }
++   if (Validate(config_) != Error::Ok) {
+t1-M102 | src/se05x_t1.ipp | NXP frames start with the CRC MSB first
+-   crc_lsb_first_ = true;
+-   ns_ = 0U;
++   crc_lsb_first_ = false;
++   ns_ = 0U;
+t1-M103 | src/se05x_t1.ipp | Auto tries the NXP flavour first (A17)
+-   setFlavour(TransportFlavour::Um11225);
+-   deadline_ = now
++   setFlavour(TransportFlavour::Gp);
++   deadline_ = now
+t1-M104 | inc/se05x_t1.hpp | deep power-down S-block code wrong
+- inline constexpr uint8_t kSDeepPowerDown = 0xDFU;
++ inline constexpr uint8_t kSDeepPowerDown = 0xDEU;
+t1-M105 | src/se05x_t1.ipp | an S-block request is never sent again
+-     e = resendProtocol();
+-   }
+-   return e;
++     e = Error::Timeout;
++   }
++   return e;
+t1-M106 | src/se05x_t1.ipp | a failed handshake in the soft reset is not repeated within the budget
+-     if (hard(e) || (attempt == config_.frame_retries)) {
++     if (hard(e) || (attempt == 0U)) {
+t1-M107 | src/se05x_t1.ipp | Auto tries the GP flavour after the NXP probe fails
+- if ((e != Error::Ok) && (flavour_ == TransportFlavour::Um11225)) {
++ if (false) {
+t1-gp-nad-alias | src/se05x_t1.ipp | the GP flavour accepts the NXP NAD 0xA5 from the chip
+-   const bool gp_alias =
+-       (flavour_ == TransportFlavour::Gp) && (nad == seNad(TransportFlavour::Um11225));
++   const bool gp_alias = false;
+t1-wtx-own-deadline | src/se05x_t1.ipp | a WTX extends the command deadline too, at least 4 s
+-   deadline_ = std::max(deadline_, until);
++   // the command deadline is left alone
+t1-wtx-local-deadline | src/se05x_t1.ipp | a WTX restarts the wait for the answer
+-   deadline = until;
+-   return Error::Ok;
++   return Error::Ok;
+t1-guard-read | src/se05x_t1.ipp | the guard time before every read (R3 m guard)
+-     guardAfterRead();
+-     const BusRead r = ports_->GetBus().Read(config_.i2c_address, dst);
++     const BusRead r = ports_->GetBus().Read(config_.i2c_address, dst);
+t1-guard-write | src/se05x_t1.ipp | the guard time before a write
+-       if (!probed || (drained == BusStatus::Ok)) {
+-         guardAfterRead();
+-       }
++
+t1-guard-after-nack | src/se05x_t1.ipp | no guard wait right after a NACKed drain probe (errata I2C.1)
+- if (!probed || (drained == BusStatus::Ok)) {
++ if (true) {
+t1-guard-floor | src/se05x_t1.ipp | the guard time is never below the default SEGT
+- std::max(static_cast<uint32_t>(params_.guard_us), wire::kUmDefaultSegtUs);
++ static_cast<uint32_t>(params_.guard_us);
+t1-dpd-quiet | src/se05x_t1.ipp | nothing touches the bus for tDPD after a deep power-down by S-block (SE052 p. 22)
+-       quiet_until_us_ = nowUs() + wire::kSe052DeepPowerDownUs;
++       quiet_until_us_ = 0U;
+t1-ifs-range | src/se05x_t1.ipp | an IFS above the flavour maximum is refused
+- if ((value == 0U) || (value > max)) {
++ if (value == 0U) {
+t1-bwt-cap | inc/se05x_atr.hpp | a BWT above 10 s is refused
+- (p.bwt_ms <= kMaxBwtMs) && 
++
+t1-wtx-each-cap | src/se05x_t1.ipp | one WTX grants at most 30 s
+-                detail::kMaxWtxWaitMs);
++                0xFFFFFFFFU);
+t1-wtx-total-cap | src/se05x_t1.ipp | the WTX of one command grant at most 180 s
+- if (extension_ms > (detail::kMaxWtxTotalMs - wtx_wait_ms_)) {
++ if (false) {

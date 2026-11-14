@@ -1,0 +1,13 @@
+{
+  "states": [
+    "Closed",
+    "Idle",
+    "InFlight",
+    "NeedsReselect",
+    "Dead"
+  ],
+  "sources": [
+    "inc/se05x_t1.hpp:LinkState",
+    "inc/se05x_wire.hpp:S-block codes"
+  ]
+}

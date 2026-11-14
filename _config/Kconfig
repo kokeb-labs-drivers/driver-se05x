@@ -1,0 +1,61 @@
+# Kconfig for the SE05X driver. The root CMakeLists.txt registers it with ESP-IDF
+# (idf_component_register(... KCONFIG _config/Kconfig)), so `idf.py menuconfig` shows
+# "SE05X secure element". The values reach the code through inc/se05x_kconfig.hpp, and the
+# irreversible-operations switch through the SE05X_ENABLE_IRREVERSIBLE compile definition set by the
+# root CMakeLists.txt; no public driver signature uses them.
+menuconfig SE05X
+    bool "SE05X secure element"
+    default y
+    help
+      Defaults for se05x::KconfigDefaults(). The driver itself does not
+      need Kconfig; outside ESP-IDF the same defaults come from Config{}.
+
+if SE05X
+
+config SE05X_BOOT_WAIT_MS
+    int "Wait after power-up before the first frame (ms)"
+    range 1 1000
+    default 20
+
+config SE05X_ATR_POLL_BUDGET_MS
+    int "Longest wait for the ATR after boot (ms)"
+    range 10 10000
+    default 1000
+
+config SE05X_FRAME_RETRIES
+    int "Block resends before a resynchronisation"
+    range 1 8
+    default 3
+
+choice SE05X_SCP_POLICY
+    prompt "Platform SCP03 use"
+    default SE05X_SCP_AUTO
+    help
+      Auto opens a channel when the chip requires one. Require always opens one.
+      Off never opens one and fails on a chip that requires it.
+
+config SE05X_SCP_AUTO
+    bool "Auto"
+config SE05X_SCP_REQUIRE
+    bool "Require"
+config SE05X_SCP_OFF
+    bool "Off"
+
+endchoice
+
+config SE05X_PROBE_DISABLE
+    bool "Skip the capability probes at open"
+    default n
+    help
+      Skips the digest-support and curve-list probes. The chip then keeps the conservative
+      capability set derived from the applet version alone.
+
+config SE05X_ENABLE_IRREVERSIBLE
+    bool "Compile the irreversible operations (lifecycle locks, key lock, transport lock)"
+    default n
+    help
+      Off by default. When on, the Confirmation/Plan operations that cannot be undone exist in the
+      build; each still needs its own confirmation phrase at run time. Never enable this in a
+      firmware that has not been through a bench rehearsal on a spare chip.
+
+endif

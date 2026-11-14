@@ -1,0 +1,324 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# Facade, irreversible operations and the verified attested read.
+hrot-admit-open | src/se05x_hrot.ipp | a closed device refuses every facade call
+- if (!device_->IsOpen()) {
+-     return Error::NotInitialized;
++ if (false) {
++     return Error::NotInitialized;
+hrot-admit-budget | src/se05x_hrot.ipp | a call past the APDU ceiling is refused before sending (S-17)
+- if (!Budget().Allows(cost)) {
++ if (false) {
+hrot-admit-secure | src/se05x_hrot.ipp | results the caller acts on need authenticated answers (S-14)
+- if ((need == detail::Need::Authentic) && !device_->AnswersAuthenticated()) {
++ if (false) {
+hrot-budget-used | inc/se05x_hrot.hpp | the persisted window count is what the budget checks
+- return persistent_counter_known ? issued_in_window : issued_by_device;
++ return issued_by_device;
+hrot-budget-applies | inc/se05x_hrot.hpp | the budget applies only where the chip has the limit
+- if (!applies) {
++ if (true) {
+hrot-budget-used-bound | inc/se05x_hrot.hpp | a count already past the ceiling allows nothing
+- return (used <= limit) && (cost <= (limit - used));
++ return (cost <= (limit - used));
+hrot-window-base | src/se05x_hrot.ipp | the persisted count is kept as the window's base
+- window_base_ = (issued_in_window > sent) ? (issued_in_window - sent) : 0U;
++ window_base_ = 0U;
+hrot-cost-store | src/se05x_hrot.ipp | a chunked write is budgeted whole, with its existence check, marker and cleanup
+- admit(cost::kStoreBase + detail::Chunks(data.size()),
++ admit(cost::kStoreBase - 1U + detail::Chunks(data.size()),
+hrot-chunks-round | src/se05x_hrot.ipp | the chunk count rounds up
+- return static_cast<uint32_t>((bytes + (kChunkBytes - 1U)) / kChunkBytes);
++ return static_cast<uint32_t>(bytes / kChunkBytes);
+hrot-provision-exists | src/se05x_hrot.ipp | Provision never regenerates an occupied slot
+-   if (exists.value) {
+-     return Result<void>::Failure(Error::ObjectExists, detail::HrotDetail(detail::Step::Argument));
+-   }
+-   return device_->GenerateEcKey(id, policy, EcCurve::NistP256);
++   return device_->GenerateEcKey(id, policy, EcCurve::NistP256);
+hrot-store-exists | src/se05x_hrot.ipp | Store never overwrites an occupied slot
+-   if (exists.value) {
+-     return Result<void>::Failure(Error::ObjectExists, detail::HrotDetail(detail::Step::Argument));
+-   }
+-   // The object is one byte longer
++   // The object is one byte longer
+hrot-counter-exists | src/se05x_hrot.ipp | CreateCounter never replaces a counter
+-   if (exists.value) {
+-     // Only a counter the facade made
++   if (false) {
++     // Only a counter the facade made
+hrot-sign-handle | src/se05x_hrot.ipp | a forged (invalid) key handle is refused before sending
+- Result<Signature> Device<P>::Sign(const SignKey& key, Digest digest) noexcept {
+-   if (!key.IsValid()) {
++ Result<Signature> Device<P>::Sign(const SignKey& key, Digest digest) noexcept {
++   if (false) {
+hrot-verify-closed | src/se05x_hrot.ipp | VerifySignature fails closed on an invalid signature
+-   if (!r.value) {
+-     return Result<void>::Failure(Error::AttestationInvalid,
++   if (false) {
++     return Result<void>::Failure(Error::AttestationInvalid,
+hrot-agree-wipe | src/se05x_hrot.ipp | Agree wipes the output before it checks anything
+-   shared.Wipe();
+-   // The peer must be a point
++   // The peer must be a point
+hrot-attest-uid | src/se05x_hrot.ipp | an attestation signed by another chip is Counterfeit (S-09)
+- if (!ct::Equal(ByteSpan{checked.value.unique_id}, ByteSpan{unique_id_})) {
++ if (false) {
+hrot-floor-compare | src/se05x_hrot.ipp | a version equal to the floor passes, one below fails
+- if (version < value.value) {
++ if (version <= value.value) {
+hrot-floor-direction | src/se05x_hrot.ipp | the floor refuses older versions, not newer ones
+- if (version < value.value) {
++ if (value.value < version) {
+hrot-floor-off | src/se05x_hrot.ipp | the floor check fails closed
+- if (version < value.value) {
++ if (false) {
+hrot-load-bound | src/se05x_hrot.ipp | Load refuses a buffer smaller than the object
+- if (total > out.size()) {
++ if (total > (out.size() + 1U)) {
+hrot-chunk-step | src/se05x_hrot.ipp | Store writes every chunk
+- for (std::size_t at = 0U; (at < data.size()) && written.ok(); at += kChunkBytes) {
++ for (std::size_t at = 0U; (at < data.size()) && written.ok(); at += kChunkBytes + 1U) {
+hrot-random-bound | src/se05x_hrot.ipp | Random refuses more than 1024 bytes
+- if (out.empty() || (out.size() > kMaxApduPayload)) {
++ if (out.empty() || (out.size() > (kMaxApduPayload + 1U))) {
+hrot-trust-point | inc/se05x_hrot.hpp | a trusted attestation key is an uncompressed point
+- if ((id.value == 0U) || (trusted.point[0] != 0x04U)) {
++ if (id.value == 0U) {
+hrot-slot-object | inc/se05x_hrot.hpp | each slot kind has its own id range
+- return ObjectId{kObjectBase | (static_cast<uint32_t>(K) << 8U) | static_cast<uint32_t>(index_)};
++ return ObjectId{kObjectBase | static_cast<uint32_t>(index_)};
+hrot-key-policy-sm | src/se05x_hrot.ipp | facade keys require secure messaging (S-03)
+- static_cast<void>(b.template Allow<Rule::Read>().RequireSecureMessaging());
++ static_cast<void>(b.template Allow<Rule::Read>());
+irr-owner | src/se05x_irreversible.ipp | a plan prepared for another device is refused
+- (plan.owner_ != static_cast<const void*>(device_))) {
++ false) {
+irr-confirmed | src/se05x_irreversible.ipp | Apply checks the phrase itself (the creating commands have no confirmation)
+- if (!plan.IsPrepared() || !confirmation.IsConfirmed() ||
++ if (!plan.IsPrepared() ||
+irr-lock-state | src/se05x_irreversible.ipp | a lock that is set is not planned again
+- if (device_->IsOpen() && device_->GetCapabilities().applet_locked) {
++ if (false) {
+irr-scp-state | src/se05x_irreversible.ipp | a platform SCP requirement that is set is not planned again
+- if (device_->IsOpen() && device_->GetCapabilities().platform_scp_required) {
++ if (false) {
+irr-plan-admit | src/se05x_irreversible.ipp | a plan checks state, gate and role before it exists
+- if (admitted != Error::Ok) {
+-     return Result<Plan<Op>>::Failure(admitted, se05x::detail::DeviceDetail(command, 0U, 0U));
++ if (false) {
++     return Result<Plan<Op>>::Failure(admitted, se05x::detail::DeviceDetail(command, 0U, 0U));
+irr-immutable-policy | src/se05x_irreversible.ipp | an "immutable" object needs a policy without write and delete
+-       !policy::IsImmutable(policy)) {
++       false) {
+irr-immutable-header | inc/se05x_policy.hpp | the policy check reads write and delete of every entry
+- if ((header & mask) != 0U) {
++ if (false) {
+irr-finite-credential | src/se05x_irreversible.ipp | a finite authentication object needs an attempt limit (S-14)
+- if (credential != Error::Ok) {
++ if (false) {
+irr-features-empty | src/se05x_irreversible.ipp | a feature change sets at least one bit
+- if ((args.applet_config == 0U) && !(args.has_ext && ext_set)) {
++ if (false) {
+irr-restrict-mode | src/se05x_irreversible.ipp | the restriction mode is an enumerator
+- if (!se05x::detail::IsEnumerator(mode)) {
++ if (false) {
+device-attest-shortest | src/se05x_device_crypto.ipp | under secure messaging the hashed command is the unwrapped form
+- if (SecureMessagingActive()) {
+-     MutableByteSpan echoed{answer.echoed_command.bytes};
++ if (false) {
++     MutableByteSpan echoed{answer.echoed_command.bytes};
+device-shortest-lc | inc/se05x_device_stage.hpp | the shortest form writes the one-byte Lc
+- out[4] = static_cast<uint8_t>(lc);
++ out[4] = 0U;
+hrot-admit-confidential | src/se05x_hrot.ipp | secrets need encrypted traffic both ways (S-14)
+- if ((need == detail::Need::Confidential) && !device_->TrafficConfidential()) {
++ if (false) {
+hrot-agree-confidential | src/se05x_hrot.ipp | ECDH needs encrypted traffic
+- admit(cost::kAgree, detail::Need::Confidential)
++ admit(cost::kAgree, detail::Need::Authentic)
+hrot-store-secret-confidential | src/se05x_hrot.ipp | secret data is stored only over encrypted traffic
+-             (protection == Protection::Secret) ? detail::Need::Confidential : detail::Need::None);
+-   if (admitted != Error::Ok) {
+-     return refuse<void>(admitted);
+-   }
+-   const Result<Policy> policy = dataPolicy(protection);
++             (protection == Protection::Secret) ? detail::Need::Authentic : detail::Need::None);
++   if (admitted != Error::Ok) {
++     return refuse<void>(admitted);
++   }
++   const Result<Policy> policy = dataPolicy(protection);
+hrot-counter-raise | src/se05x_hrot.ipp | an existing counter below the asked floor is raised
+- if (current.value < initial) {
++ if (false) {
+hrot-counter-one-apdu | src/se05x_hrot.ipp | a counter is created with its value in one command
+-   args.set_value = true;
+-   const auto created
++   args.set_value = false;
++   const auto created
+hrot-counter-nodelete | src/se05x_hrot.ipp | a counter policy grants no delete
+- ObjectClass::Counter>(true, false,
++ ObjectClass::Counter>(true, true,
+hrot-key-policy-session | src/se05x_hrot.ipp | a key policy names the applet session in use (A20)
+-   if (session != 0U) {
+-     KeyRules<U>
++   if (false) {
++     KeyRules<U>
+hrot-data-policy-session | src/se05x_hrot.ipp | a data or counter policy names the applet session in use (A20)
+-   if (session != 0U) {
+-     DataRules
++   if (false) {
++     DataRules
+hrot-sync-open | src/se05x_hrot.ipp | the unique id is read again after a reopen
+-     seen_open_ = device_->OpenCount();
+-     id_known_ = false;
++     seen_open_ = device_->OpenCount();
+hrot-store-cleanup | src/se05x_hrot.ipp | a store that fails after the create deletes the object
+-       static_cast<void>(device_->DeleteObject(id));
++       static_cast<void>(id);
+hrot-load-short | src/se05x_hrot.ipp | a short Load chunk fails
+-     if (r.value.length != n) {
++     if (false) {
+hrot-load-zeroize-failed | src/se05x_hrot.ipp | a refused Load chunk wipes what was read
+-     if (!r.ok()) {
+-       Zeroize(out.first(total));
++     if (!r.ok()) {
+hrot-load-zeroize-short | src/se05x_hrot.ipp | a short Load chunk wipes what was read
+-     if (r.value.length != n) {
+-       Zeroize(out.first(total));
++     if (r.value.length != n) {
+hrot-load-size | src/se05x_hrot.ipp | a stored size above the limit is refused
+- (size.value.value > (kMaxStoredBytes + 1U))
++ false
+hrot-ecdh-length | src/se05x_hrot.ipp | a short ECDH secret fails
+- if (!r.ok() || (r.value.length != 32U)) {
++ if (!r.ok()) {
+hrot-peer-point | src/se05x_hrot.ipp | an ECDH peer must be a point on P-256, checked before sending
+- if (!key.IsValid() || !refcrypto::P256OnCurve(std::span<const uint8_t, 65>{peer.point})) {
++ if (!key.IsValid() || (peer.point[0] != 0x04U)) {
+hrot-pub-length | src/se05x_hrot.ipp | a public key of the wrong length is refused
+- if ((read.value != kPointLength) || (out.point[0] != 0x04U)) {
++ if (out.point[0] != 0x04U) {
+hrot-pub-prefix | src/se05x_hrot.ipp | a public key without the 0x04 prefix is refused
+- if ((read.value != kPointLength) || (out.point[0] != 0x04U)) {
++ if (read.value != kPointLength) {
+hrot-uid-length | src/se05x_hrot.ipp | a unique id of the wrong length is refused
+- if (r.value.length != kUniqueIdLength) {
++ if (false) {
+hrot-counter-width | src/se05x_hrot.ipp | a counter that is not 4 bytes is refused
+- if (r.value != kCounterBytes) {
++ if (false) {
+hrot-window-saturate | src/se05x_hrot.ipp | the window count saturates instead of wrapping
+- se05x::detail::SaturatingAdd(window_base_, budget.issued_by_device);
++ window_base_ + budget.issued_by_device;
+hrot-raise-authentic | src/se05x_hrot.ipp | RaiseCounterTo needs authenticated answers
+- admit(cost::kRaiseCounterTo, detail::Need::Authentic)
++ admit(cost::kRaiseCounterTo, detail::Need::None)
+hrot-sign-authentic | src/se05x_hrot.ipp | signing needs authenticated answers
+- admit(cost::kSign, detail::Need::Authentic)
++ admit(cost::kSign, detail::Need::None)
+hrot-load-zero | src/se05x_hrot.ipp | a stored size without room for data and the marker is refused
+- (size.value.value < 2U)
++ (size.value.value < 1U)
+hrot-find-adopt | src/se05x_hrot.ipp | Find adopts only what the facade could have made
+-   if (!adopt.ok()) {
+-     return Result<Key<U>>::Failure
++   if (false) {
++     return Result<Key<U>>::Failure
+hrot-adopt-class | src/se05x_hrot.ipp | an adopted object has the expected class
+- if ((a.object_class != object_class) || (a.origin != origin) ||
++ if ((a.origin != origin) ||
+hrot-adopt-origin | src/se05x_hrot.ipp | an adopted object has the expected origin
+- if ((a.object_class != object_class) || (a.origin != origin) ||
++ if ((a.object_class != object_class) ||
+hrot-adopt-policy | src/se05x_hrot.ipp | an adopted object has the facade's exact policy
+- || !same_policy) {
++ ) {
+hrot-counter-adopt | src/se05x_hrot.ipp | CreateCounter adopts only a facade counter
+-     if (!adopt.ok()) {
+-       return adopt;
++     if (false) {
++       return adopt;
+hrot-store-first-cleanup | src/se05x_hrot.ipp | a failed first chunk is cleaned up too
+-     if (!written.ok()) {
+-       // A partly
++     if (!written.ok() && !first) {
++       // A partly
+hrot-anchor-point | src/se05x_hrot.ipp | a trust anchor must be a point on P-256
+- if (!refcrypto::P256OnCurve(std::span<const uint8_t, 65>{trusted.point})) {
++ if (trusted.point[0] != 0x04U) {
+hrot-adopt-lifetime | src/se05x_hrot.ipp | an adopted object is persistent (a transient counter would reset)
+- if (type.value.lifetime != Lifetime::Persistent) {
++ if (false) {
+hrot-find-cost | inc/se05x_hrot.hpp | Find is admitted on its three APDUs
+- inline constexpr uint32_t kFind = 3U;
++ inline constexpr uint32_t kFind = 2U;
+hrot-store-marker | src/se05x_hrot.ipp | Store writes the completion marker last
+-   if (written.ok()) {
+-     const std::array<uint8_t, 1> marker{detail::kStoreComplete};
++   if (false) {
++     const std::array<uint8_t, 1> marker{detail::kStoreComplete};
+hrot-load-marker | src/se05x_hrot.ipp | Load refuses an object without its completion marker
+- (marker[0] != detail::kStoreComplete)
++ false
+hrot-attest-marker | src/se05x_hrot.ipp | an attested data object without its completion marker is refused
+- (value.data.bytes[whole - 1U] != kStoreComplete)
++ false
+hrot-attest-whole | src/se05x_hrot.ipp | an attested data object read in part is refused
+= the facade reads without offset or length, so an answer whose signature verifies with the trusted key holds the whole object; one larger than the data buffer is BufferTooSmall in the device, and bytes past a short answer stay 0x00 from the value initialisation, which the marker comparison refuses; the check stays as the bound on the index
+- (value.data.length != whole) ||
++
+hrot-attest-min | src/se05x_hrot.ipp | an attested data object of one byte (the marker alone, or nothing) is refused
+- (whole < 2U)
++ (whole < 1U)
+hrot-cost-create-counter | inc/se05x_hrot.hpp | CreateCounter is admitted on its five-APDU adoption path
+- inline constexpr uint32_t kCreateCounter = 5U;
++ inline constexpr uint32_t kCreateCounter = 4U;
+hrot-cost-load | inc/se05x_hrot.hpp | Load is admitted with its size and marker reads
+- inline constexpr uint32_t kLoadBase = 2U;
++ inline constexpr uint32_t kLoadBase = 1U;
+hrot-cost-attest | inc/se05x_hrot.hpp | the first Attest after an open is admitted with its unique id read
+- inline constexpr uint32_t kAttest = 2U;
++ inline constexpr uint32_t kAttest = 1U;
+hrot-cost-increment | inc/se05x_hrot.hpp | CounterIncrement is admitted on its two APDUs
+- inline constexpr uint32_t kCounterIncrement = 2U;
++ inline constexpr uint32_t kCounterIncrement = 1U;
+hrot-load-most | src/se05x_hrot.ipp | Load is admitted on the chunks of the largest object the buffer takes
+- admit(cost::kLoadBase + detail::Chunks(most), need)
++ admit(cost::kLoadBase + detail::Chunks(0U), need)
+hrot-load-marker-fail | src/se05x_hrot.ipp | a failed marker read ends Load with the error
+- if (!end.ok()) {
+-     return Result<std::size_t>::Failure(end.error, end.detail);
++ if (false) {
++     return Result<std::size_t>::Failure(end.error, end.detail);
+hrot-load-marker-len | src/se05x_hrot.ipp | a short marker read is refused
+= the marker buffer starts at 0x00 and an answer longer than the one-byte buffer is BufferTooSmall in DecodeTag1Into, so a read that returns no byte leaves 0x00, which the marker comparison refuses; the length check is a second line
+- (end.value.length != 1U) || 
++
+hrot-adopt-type-fail | src/se05x_hrot.ipp | a failed ReadType ends adoption with the error
+- if (!type.ok()) {
+-     return Result<void>::Failure(type.error, type.detail);
++ if (false) {
++     return Result<void>::Failure(type.error, type.detail);
+hrot-adopt-raise-fail | src/se05x_hrot.ipp | a failed raise of an adopted counter ends CreateCounter with the error
+- if (!raised.ok()) {
+-         return raised;
++ if (false) {
++         return raised;
+hrot-admit-v7 | src/se05x_hrot.ipp | every facade call refuses applet 3.x before sending
+- if (device_->GetCapabilities().generation != AppletGeneration::V7) {
+-     return Error::Unsupported;
++ if (false) {
++     return Error::Unsupported;
+hrot-plan-v7 | src/se05x_hrot.ipp | CheckPlan refuses applet 3.x
+- if (caps.generation != AppletGeneration::V7) {
+-     return Result<void>::Failure(Error::Unsupported, detail::HrotDetail(detail::Step::Admit));
++ if (false) {
++     return Result<void>::Failure(Error::Unsupported, detail::HrotDetail(detail::Step::Admit));
+p256-decode-x-range | src/se05x_crypto_p256.ipp | a point with x at or above p is refused
+- if ((!Less(x, kP.m)) || (!Less(y, kP.m))) {
++ if (!Less(y, kP.m)) {
+p256-decode-y-range | src/se05x_crypto_p256.ipp | a point with y at or above p is refused
+- if ((!Less(x, kP.m)) || (!Less(y, kP.m))) {
++ if (!Less(x, kP.m)) {

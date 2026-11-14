@@ -1,0 +1,143 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# Device layer: admission, the stack, recovery, sessions, the lifecycle commands.
+device-role-check | src/se05x_device_core.ipp | a lifecycle command needs its reserved session role (S-10)
+- if ((needed != AuthRole::None) && (role_ != needed)) {
++ if (false) {
+device-policy-generation | src/se05x_device_core.ipp | a policy of another applet generation is refused
+- if ((policy != nullptr) && !policy->IsEmpty() && (policy->Generation() != caps_.generation)) {
++ if (false) {
+device-throttle-rung | src/se05x_device_core.ipp | 0x66A6 climbs to the chip reset rung
+- const Result<void> reset = link_.Recover(t1::Rung::ChipReset);
++ const Result<void> reset = link_.Recover(t1::Rung::Reselect);
+device-throttle-sw | src/se05x_device_core.ipp | SW 0x66A6 runs the reset ladder (S-17)
+- if (last_sw_ == detail::kSwThroughputLimited) {
++ if (false) {
+device-teardown-block | src/se05x_device_core.ipp | teardown sends no CloseSession (errata APP.2)
+- applet_.Block(true);
++ applet_.Block(false);
+device-secured-loss | src/se05x_device_core.ipp | a transport loss under a session ends the stack (S-07)
+- } else if (secured || (failed.error == Error::NeedsReselect) ||
++ } else if ((failed.error == Error::NeedsReselect) ||
+device-plain-loss | src/se05x_device_core.ipp | a plain timeout keeps the device Ready
+- // A plain command without a session: the link resynchronises before the next one.
++ teardown();
++ state_ = DeviceState::NeedsReopen;
+device-dead | src/se05x_device_core.ipp | an exhausted ladder makes the device Dead
+- teardown();
+-     state_ = DeviceState::Dead;
+-   } else if (secured
++ teardown();
++     state_ = DeviceState::NeedsReopen;
++   } else if (secured
+device-reselect-version | src/se05x_device_core.ipp | the reselected applet must be the one opened
+- if ((sel.value.version.Packed() != caps_.applet.Packed()) ||
+-       (sel.value.applet_config != caps_.applet_config)) {
++ if (false) {
+device-platform-required | src/se05x_device_core.ipp | platform SCP03 is required from Open on (S-13)
+- applet_.RequirePlatform(true);
+-   caps_.platform_scp_active = true;
++ caps_.platform_scp_active = true;
+device-stage-downgrade | inc/se05x_device_stage.hpp | no plain fall-back while platform SCP03 is closed
+- if (!platform_->IsOpen()) {
++ if (false) {
+device-stage-block | inc/se05x_device_stage.hpp | the blocked stage sends nothing
+- if (blocked_) {
++ if (false) {
+device-eddsa-userid | src/se05x_device_objects.ipp | EdDSA input 919 bytes in a UserID session
+- if (args.input.size() > wire::EddsaInputMax(session_ == SessionKind::UserId)) {
++ if (args.input.size() > wire::EddsaInputMax(false)) {
+device-userid-credential | src/se05x_device_objects.ipp | UserID objects need a finite counter (S-14)
+-     if (credential != Error::Ok) {
+-       return credential;
+-     }
++     static_cast<void>(credential);
+device-curve-gate | src/se05x_device_objects.ipp | the curve gate before an EC key is created
+- return gate::CurveAllowed(caps_, args.curve);
++ return Error::Ok;
+device-deleteall-ends | src/se05x_device_objects.ipp | DeleteAll ends the session with its answer
+- if (ReplyEndsSession(C)) {
++ if (false) {
+device-lock-state | src/se05x_device_objects.ipp | a persistent lock that is set is not sent again
+- if ((args.state == LockStateValue::Locked) && caps_.applet_locked) {
++ if (false) {
+device-scp-state | src/se05x_device_objects.ipp | the platform SCP requirement is remembered for the gate
+- caps_.platform_scp_required = args.requirement == ScpRequirement::Required;
++ caps_.platform_scp_required = false;
+device-nonce | src/se05x_device_objects.ipp | every attested read gets a fresh host nonce (S-09)
+- return Execute<Command::ReadObjectAttested>(fresh);
++ return Execute<Command::ReadObjectAttested>(args);
+device-card-manager-state | src/se05x_device_objects.ipp | the card manager route only on a plain bus without a session
+- if ((session_ != SessionKind::None) || applet_.PlatformRequired()) {
++ if (false) {
+device-half-open | src/se05x_device_crypto.ipp | a failed handshake selects the applet again (S-07)
+- state_ = reselect().ok() ? DeviceState::Ready : DeviceState::NeedsReopen;
+-   if (link_.State() == t1::LinkState::Dead) {
+-     state_ = DeviceState::Dead;
+-   }
+-   return opened;
++ state_ = DeviceState::Ready;
++   return opened;
+device-ecka-compare | src/se05x_device_crypto.ipp | the ECKey session uses the verified ECKA key only
+- same = params.se_public_key[i] == ecka_[i];
++ same = true;
+device-ecka-verify | src/se05x_device_crypto.ipp | the ECKA key is verified by the attestation signature
+- if (!checked.ok()) {
+-     return Result<void>::Failure(checked.error, checked.detail);
++ if (false) {
++     return Result<void>::Failure(checked.error, checked.detail);
+device-receipt-config | inc/se05x_device_stage.hpp | Config::verify_eckey_receipt reaches the session (A15)
+- return config_wants || call_wants;
++ return call_wants;
+device-raw-select | src/se05x_device_crypto.ipp | ReadRaw never sends a select
+- return true; // SELECT
++ return false; // SELECT
+device-raw-lab | src/se05x_device_crypto.ipp | ReadRaw is lab only
+- if (!config_.allow_lab_override) {
++ if (false) {
+device-session-ready | src/se05x_device_crypto.ipp | one session at a time
+- if ((state_ != DeviceState::Ready) || (session_ != SessionKind::None)) {
++ if (state_ == DeviceState::NeedsReopen) {
+device-selftest-reset | src/se05x_device_crypto.ipp | a self test without an answer recovers and says Resynced
+- return Result<bool>::Failure(Error::Resynced,
++ return Result<bool>::Failure(Error::Timeout,
+device-userid-gate | src/se05x_device_objects.ipp | a UserID object is created only through the irreversible operations
+- return irreversible ? Error::Ok : Error::IrreversibleNotConfirmed;
++ return Error::Ok;
+device-immutable-gate | src/se05x_device_objects.ipp | an immutable binary file is created only through the irreversible operations
+- if (creates && !irreversible && policy::IsImmutable(*args.policy)) {
++ if (false) {
+device-nonce-random | src/se05x_device_objects.ipp | the nonce comes from the crypto port, and its failure is reported
+- if (ports_->GetCrypto().Random(MutableByteSpan{fresh.freshness}) != CryptoStatus::Ok) {
++ if (false) {
+device-apdu-reopen | src/se05x_device_core.ipp | the APDU count survives a reopen (S-17)
+-   ++opens_;
+-   caps_ = Capabilities{};
++   ++opens_;
++   apdu_count_ = 0U;
++   caps_ = Capabilities{};
+device-timestamp-reopen | src/se05x_device_core.ipp | the last accepted timestamp survives a reopen (S-09)
+-   applet_.RequirePlatform(false);
+-   const auto limit
++   applet_.RequirePlatform(false);
++   last_timestamp_ = Timestamp{};
++   const auto limit
+device-session-end-aes | src/se05x_device_core.ipp | the AESKey engine expects the bare answer of a command that ends the session
+-     aes_.ExpectSessionEnd();
++     static_cast<void>(0);
+device-signed-tlvs | src/se05x_device_crypto.ipp | the attestation is checked over the TLV bytes the chip returned
+- sent.signed_tlvs = ByteSpan{signed_.data(), signed_length_};
++ sent.signed_tlvs = ByteSpan{};
+device-apdu-saturate | inc/se05x_detail.hpp | counts saturate instead of wrapping (S-17)
+- return (a > (0xFFFF'FFFFU - b)) ? 0xFFFF'FFFFU : (a + b);
++ return a + b;
+device-session-count | src/se05x_device_crypto.ipp | a session open counts every APDU it sent
+- countApdus(applet_.Sent() - sent_before);
++ countApdus(2U);
+device-stage-count | inc/se05x_device_stage.hpp | the applet stage counts what it hands down
+-     sent_ = SaturatingAdd(sent_, 1U);
++     sent_ = sent_;
+device-shortest-lc-256 | inc/se05x_device_stage.hpp | an Lc that needs three bytes is not rewritten
+- if ((lc == 0U) || (lc > 255U) ||
++ if ((lc == 0U) ||

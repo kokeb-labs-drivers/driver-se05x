@@ -1,0 +1,56 @@
+---
+# Site navigation (mkdocs-awesome-nav): the tabs and their pages, in reading order.
+nav:
+  - Home: index.md
+  - Get started:
+      - Choose your job: jobs.md
+      - The first 15 minutes: first-15-minutes.md
+      - Quickstart: quickstart.md
+      - Getting started by job: getting-started.md
+      - Where to use it: variants.md
+      - Installation: installation.md
+      - Platforms: platforms.md
+  - Hardware:
+      - Hardware: hardware.md
+      - SE050 guide: se050.md
+      - SE051 guide: se051.md
+      - SE052 guide: se052.md
+  - Concepts:
+      - Security model: security-model.md
+      - Architecture: architecture.md
+      - Transport (T=1): transport.md
+      - Secure channels: secure-channels.md
+      - Objects and policies: objects-policies.md
+      - Lifecycle and roles: lifecycle.md
+      - Contract: contract.md
+      - Safety rules: safety.md
+      - Claims and their limits: claims.md
+      - Ambiguities: ambiguities.md
+  - Guides:
+      - Store a secret: tasks/secret-storage.md
+      - Device identity: tasks/device-identity.md
+      - CSR and certificates: tasks/certificates.md
+      - Mutual TLS: tasks/mutual-tls.md
+      - ECDH: tasks/ecdh.md
+      - Secure channel: tasks/secure-channel.md
+      - Anti-rollback: tasks/anti-rollback.md
+      - Attested reads: tasks/attestation.md
+      - Provisioning: tasks/provisioning.md
+      - HRoT cookbook: hrot-cookbook.md
+      - Certificates (PKI): pki.md
+      - Irreversible operations: irreversible.md
+      - API guide: api-guide.md
+      - Configuration: configuration.md
+      - Porting: porting.md
+      - Porting to ESP-IDF: porting-esp-idf.md
+      - Examples: examples.md
+      - Troubleshooting: troubleshooting.md
+  - Reference:
+      - Errors and status words: status-words.md
+      - API reference: api-reference.md
+      - Datasheet map: datasheet.md
+      - Limitations: limitations.md
+      - Testing and CI: testing.md
+      - Figures: diagrams/index.md
+      - Changelog: changelog.md
+      - Repository setup: repo-setup.md

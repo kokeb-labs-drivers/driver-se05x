@@ -1,0 +1,34 @@
+# Documentation site on the shared MkDocs platform: theme, plugin and toolchain come from the
+# kokeb-mkdocs-theme package in kokeb-labs/ci-tools. This file lives in _config/ with the other
+# tool configuration; the pages are in ../docs. From the repository root:
+#
+#   pip install "git+https://github.com/kokeb-labs/ci-tools@v1\
+#   #subdirectory=packages/kokeb-mkdocs-theme"      (one line, without the backslash)
+#   mkdocs serve -f _config/mkdocs.yml               http://127.0.0.1:8000
+#   mkdocs build -f _config/mkdocs.yml --strict      what CI runs
+#   kokeb-docs figures && kokeb-docs gen         refresh figures and generated regions
+#   kokeb-docs check                               what CI checks before the build
+#
+# kokeb-docs finds this file on its own. Pages: docs/, order: docs/.nav.yml, rules:
+# docs/DOCS-STYLE-GUIDE.md in kokeb-labs/ci-tools.
+site_name: SE05X Driver
+site_description: >-
+  C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.
+repo_url: https://github.com/kokeb-labs-drivers/driver-se05x
+copyright: Copyright (c) 2026 The driver-se05x authors
+docs_dir: ../docs
+# Repository knowledge pages, managed by the template: read in the repository, linked from the skills, never
+# published (exclude_docs keeps them out of the built site, not only out of the navigation).
+exclude_docs: |
+  /knowledge-index.md
+  /mechanization-policy.md
+  /recurring-defects.md
+site_dir: ../site
+
+theme:
+  name: kokeb
+
+plugins:
+  - kokeb
+  - search
+  - awesome-nav

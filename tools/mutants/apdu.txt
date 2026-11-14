@@ -1,0 +1,103 @@
+# One-edit mutants, one block each: "id | file | what the edit removes", an optional "= reason" line (an
+# equivalent mutant, listed and not run), then the old text ("- " lines) and the new text ("+ " lines); a bare
+# "-" or "+" is an empty line. tools/mutants/mutants.py --catalogue <this file> runs them.
+# APDU layer, policy, gate and attestation: the full list.
+apdu-freshness | src/se05x_attest.ipp | format 1 freshness echo compare (S-09)
+- return ct::Equal(ByteSpan{in.answer.freshness}, ByteSpan{in.sent.nonce});
++ return true;
+apdu-echoed-command | src/se05x_attest.ipp | format 2 echoed-command compare (S-09)
+- (in.answer.echoed_command.length == 0U) ||
+-          ct::Equal
++ (in.answer.echoed_command.length != 0U) ||
++          ct::Equal
+apdu-timestamp-order | inc/se05x_attest.hpp | timestamp not older than the last one (S-09)
+- return now[i] > last[i];
++ return now[i] < last[i];
+apdu-v2-without-le | src/se05x_attest.ipp | format 2 hashes the command without Le
+- keep = 5U + lc;
++ keep = 6U + lc;
+apdu-v2-optional-attrs | src/se05x_attest.ipp | format 2 T3 only when attributes are present
+- if (in.answer.attributes.length != 0U) {
++ if (true) {
+apdu-policy-rule-class | inc/se05x_policy.hpp | a rule invalid for the class is refused
+- rules |= v7 ? kV7Asymmetric : kV3Asymmetric;
++ rules |= v7 ? kV7Symmetric : kV3Asymmetric;
+apdu-policy-v7-read-all | inc/se05x_policy.hpp | READ valid for every 7.x class (AN12543 Table 15)
+- Bit(Rule::ForbidAll) | Bit(Rule::Read) | Bit(Rule::Write) |
++ Bit(Rule::ForbidAll) | Bit(Rule::Write) |
+apdu-policy-strict-lifecycle | inc/se05x_policy.hpp | Strict profile forbids lifecycle rules explicitly
+- if (key && ((e.forbid & lifecycle) != lifecycle)) {
++ if (key && ((e.forbid & lifecycle) == 0U)) {
+apdu-policy-strict-sm | inc/se05x_policy.hpp | Strict profile requires secure messaging
+- (((e.allow & Bit(Rule::RequireSecureMessaging)) == 0U) ||
++ (false ||
+apdu-gate-version | inc/se05x_gate.hpp | the gate maps 6.x to its own generation
+- return (generation == AppletGeneration::V6) ? kGenV6 : kGenV3;
++ return (generation == AppletGeneration::V6) ? kGenV7 : kGenV3;
+apdu-gate-version-v3 | inc/se05x_gate.hpp | the gate maps 6.x to its own generation (3.x form)
+= every 3.x-only command also needs a feature derived only for 3.x
+- return (generation == AppletGeneration::V6) ? kGenV6 : kGenV3;
++ return kGenV3;
+apdu-gate-ext-bit | inc/se05x_gate.hpp | 7.x features need the extended-feature bit
+- ((caps.generation != AppletGeneration::V7) || ExtBit(caps.ext, byte, mask));
++ (true);
+apdu-gate-se052-des | inc/se05x_gate.hpp | SE052F has no DES
+- f.des = !se052 && Enabled
++ f.des = Enabled
+apdu-gate-oef-se052 | inc/se05x_gate.hpp | OEF B501 is the SE052F
+- {.oef = 0xB501U, .family = Family::Se052F,
++ {.oef = 0xB502U, .family = Family::Se052F,
+apdu-sw-map | inc/se05x_apdu.hpp | StatusToError maps 0x66A6 to ThroughputLimited
+- {.sw = 0x66A6U, .error = Error::ThroughputLimited},
++ {.sw = 0x66A7U, .error = Error::ThroughputLimited},
+apdu-sw-63cx | inc/se05x_apdu.hpp | 63Cx is matched on its high 12 bits
+- (static_cast<uint32_t>(sw) & 0xFFF0U) == 0x63C0U
++ (static_cast<uint32_t>(sw) & 0xFFFFU) == 0x63C0U
+apdu-tlv-81-form | inc/se05x_apdu.hpp | one-byte TLV length below 0x80
+- if (length < 0x80U) {
++ if (length <= 0x80U) {
+apdu-tlv-reader-82 | inc/se05x_apdu.hpp | the reader takes the 82 xx xx length form
+- } else if (first == 0x82U) {
++ } else if (first == 0x83U) {
+apdu-tlv-overrun | inc/se05x_apdu.hpp | a TLV running past the body is refused
+- if (length > (left - header)) {
++ if (length > (left - header + 1U)) {
+apdu-short-lc-max | inc/se05x_apdu.hpp | short Lc at most 255
+- kShortLcMax = 255U;
++ kShortLcMax = 256U;
+apdu-short-le-max | inc/se05x_apdu.hpp | short Le at most 256
+- kShortLeMax = 256U;
++ kShortLeMax = 255U;
+apdu-apdu-limit | inc/se05x_apdu.hpp | a data field above the 1024-byte internal buffer is refused
+- (body > kMaxApduPayload)
++ (body >= kMaxApduPayload)
+apdu-aead-888 | inc/se05x_apdu_crypto.hpp | AEAD one-shot limit 888 (AN12543 p. 125)
+- (apdu + up16(aad) + up16(data)) <= wire::kAeadOneShotMax
++ (apdu + up16(aad) + up16(data)) < wire::kAeadOneShotMax
+apdu-ed-swap | inc/se05x_apdu_base.hpp | EdDSA s reversed on the wire
+- out[kHalf + i] = in[(2U * kHalf) - 1U - i];
++ out[kHalf + i] = in[kHalf + i];
+apdu-mont-detect | inc/se05x_apdu_base.hpp | 56-byte keys are Montgomery (X448)
+- return (public_key.size() == 32U) || (public_key.size() == 56U);
++ return (public_key.size() == 32U);
+apdu-ec-priv-reverse | inc/se05x_apdu_objects.hpp | Montgomery private key reversed
+- w.TlvReversed(apdu::kTag3, args.private_key);
++ w.Tlv(apdu::kTag3, args.private_key);
+apdu-ecdh-secret-reverse | inc/se05x_apdu_crypto.hpp | Montgomery shared secret reversed
+- wire::ReverseBytes(args.secret.first(reply.length));
++ static_cast<void>(0);
+apdu-df-p2-first1 | inc/se05x_apdu_consts.hpp | DESFire first auth part 1 is P2 0x53
+- kP2AuthFirstPart1 = 0x53U;
++ kP2AuthFirstPart1 = 0x52U;
+apdu-df-p2-nonfirst1 | inc/se05x_apdu_consts.hpp | DESFire non-first auth part 1 is P2 0x54
+- kP2AuthNonFirstPart1 = 0x54U;
++ kP2AuthNonFirstPart1 = 0x55U;
+apdu-max-random | inc/se05x_apdu_base.hpp | GetRandom size within kMaxResponse
+- kMaxRandom = kMaxResponse - 6U;
++ kMaxRandom = kMaxResponse - 5U;
+apdu-i2cm-configure-first | inc/se05x_apdu_base.hpp | CONFIGURE must be the first item of an I2C controller set (AN12543 p. 146, A25)
+-       (length > (commands.size() - pos - 3U)) || ((item == 0U) != (tag == 0x01U))) {
++       (length > (commands.size() - pos - 3U))) {
+apdu-i2cm-clock | inc/se05x_apdu_base.hpp | the CONFIGURE clock byte is 0x00 or 0x01 (AN12543 Table 311)
+- return (tag != 0x01U) || (commands[pos + 4U] <= 0x01U);
++ return true;

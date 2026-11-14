@@ -1,0 +1,15 @@
+{
+  "roles": [
+    "None",
+    "User",
+    "Transport",
+    "PlatformScp",
+    "Feature",
+    "FactoryReset",
+    "Restrict"
+  ],
+  "sources": [
+    "inc/se05x_lifecycle.hpp:AuthRole",
+    "inc/se05x_lifecycle.hpp:RequiredRole"
+  ]
+}

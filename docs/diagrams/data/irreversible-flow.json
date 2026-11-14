@@ -1,0 +1,20 @@
+{
+  "ops": [
+    "SetLockStatePersistent",
+    "RequirePlatformScp",
+    "ReplacePlatformKeys",
+    "ChangeAppletFeatures",
+    "DeleteAllObjects",
+    "DisableObjectCreation",
+    "CreateImmutableObject",
+    "CreateFiniteAuthObject",
+    "ChangeI2cAddress",
+    "ApplyAppletUpdate",
+    "WritePersoSetting",
+    "DeletePersoModule",
+    "ReplaceEcKeyCredential"
+  ],
+  "sources": [
+    "inc/se05x_confirm.hpp:operation tags"
+  ]
+}

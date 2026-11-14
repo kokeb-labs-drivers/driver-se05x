@@ -1,0 +1,63 @@
+{
+  "classes": [
+    "EcKeyPair",
+    "EcPrivKey",
+    "EcPubKey",
+    "RsaKeyPair",
+    "RsaPrivKey",
+    "RsaPubKey",
+    "AesKey",
+    "DesKey",
+    "HmacKey",
+    "BinaryFile",
+    "UserId",
+    "Counter",
+    "Pcr",
+    "Curve"
+  ],
+  "origins": [
+    "External",
+    "Internal",
+    "Provisioned"
+  ],
+  "lifetimes": [
+    "Persistent",
+    "TransientReset",
+    "TransientDeselect"
+  ],
+  "rules": [
+    "ForbidAll",
+    "Sign",
+    "Verify",
+    "KeyAgreement",
+    "Encrypt",
+    "Decrypt",
+    "Kdf",
+    "Wrap",
+    "Read",
+    "Write",
+    "Gen",
+    "Delete",
+    "12",
+    "RequirePcrValue",
+    "Attestation",
+    "DesfireAuthentication",
+    "DesfireDumpSessionKeys",
+    "ImportExport",
+    "ForbidDerivedOutput",
+    "KdfExtRandom",
+    "TlsKdf",
+    "TlsPms",
+    "Hkdf",
+    "DesfireChangeKey",
+    "DerivedInput",
+    "Pbkdf",
+    "DesfireKdf",
+    "ForbidExternalIv",
+    "UsageAsHmacPepper"
+  ],
+  "sources": [
+    "inc/se05x_ids.hpp:ObjectClass, Origin, Lifetime",
+    "inc/se05x_policy_types.hpp:Rule"
+  ]
+}

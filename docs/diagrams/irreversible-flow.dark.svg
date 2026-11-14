@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="523" viewBox="0 0 1200 523" role="img" aria-labelledby="irreversible-flow-title irreversible-flow-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="irreversible-flow-title">Irreversible operations: plan, confirm, apply</title>
+<desc id="irreversible-flow-desc">Four steps: build flag, Plan (no I/O), Confirmation from the operation's phrase, Apply; and the list of the operations that need them.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="522" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">SAFETY</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">Irreversible operations: plan, confirm, apply</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Nothing irreversible is one call away.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<rect x="32" y="265.8" width="1136" height="196" rx="14" fill="#321820" stroke="#6E3141" stroke-width="1.2"/>
+<path d="M290 181.8 L322 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M584 181.8 L616 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M878 181.8 L910 181.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="137.8" width="254" height="88" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="72" rx="2" fill="#94A3B8"/>
+<rect x="326" y="137.8" width="254" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="326" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="620" y="137.8" width="254" height="88" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="620" y="145.8" width="4" height="72" rx="2" fill="#F4B942"/>
+<rect x="914" y="137.8" width="254" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="914" y="145.8" width="4" height="72" rx="2" fill="#FB7185"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#E2E8F0">1. Build flag</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">SE05X_ENABLE_IRREVERSIBLE</text>
+<text x="52" y="208.2" font-size="13" fill="#D2DAE4">off by default</text>
+<text x="346" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">2. Plan&lt;Op&gt;</text>
+<text x="346" y="189.4" font-size="13" fill="#D2DAE4">Operations::Plan...()</text>
+<text x="346" y="208.2" font-size="13" fill="#D2DAE4">checks, says what changes</text>
+<text x="640" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">3. Confirmation&lt;Op&gt;</text>
+<text x="640" y="189.4" font-size="13" fill="#D2DAE4">built from Op::kPhrase</text>
+<text x="640" y="208.2" font-size="13" fill="#D2DAE4">a person reads the Plan</text>
+<text x="934" y="164.6" font-size="15" font-weight="700" fill="#FECDD3">4. Apply</text>
+<text x="934" y="189.4" font-size="13" fill="#D2DAE4">Apply(plan, confirmation)</text>
+<text x="934" y="208.2" font-size="13" fill="#D2DAE4">the only call that sends</text>
+<text x="48" y="290.8" font-size="13" font-weight="700" fill="#FECDD3">13 OPERATIONS</text>
+<rect x="48" y="306.8" width="156.4" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="56" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">SetLockStatePersistent</text>
+<rect x="212.4" y="306.8" width="136.1" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="220.4" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">RequirePlatformScp</text>
+<rect x="356.5" y="306.8" width="145.1" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="364.5" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">ReplacePlatformKeys</text>
+<rect x="509.6" y="306.8" width="154.3" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="517.6" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">ChangeAppletFeatures</text>
+<rect x="672" y="306.8" width="116.2" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="680" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">DeleteAllObjects</text>
+<rect x="796.1" y="306.8" width="150.7" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="804.1" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">DisableObjectCreation</text>
+<rect x="954.8" y="306.8" width="158.4" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="962.8" y="321.2" font-size="11.5" font-weight="700" fill="#FECDD3">CreateImmutableObject</text>
+<rect x="48" y="336.3" width="157.1" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="56" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">CreateFiniteAuthObject</text>
+<rect x="213.1" y="336.3" width="130.9" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="221.1" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">ChangeI2cAddress</text>
+<rect x="352" y="336.3" width="133.7" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="360" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">ApplyAppletUpdate</text>
+<rect x="493.7" y="336.3" width="125.8" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="501.7" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">WritePersoSetting</text>
+<rect x="627.5" y="336.3" width="133.5" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="635.5" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">DeletePersoModule</text>
+<rect x="769" y="336.3" width="163.6" height="21.5" rx="10.8" fill="#321820" stroke="#6E3141" stroke-width="1"/>
+<text x="777" y="350.7" font-size="11.5" font-weight="700" fill="#FECDD3">ReplaceEcKeyCredential</text>
+<rect x="32" y="477.2" width="14" height="14" rx="4" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<text x="54" y="488.8" font-size="12.5" fill="#9AA6B5">build time</text>
+<rect x="139.1" y="477.2" width="14" height="14" rx="4" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<text x="161.1" y="488.8" font-size="12.5" fill="#9AA6B5">no I/O</text>
+<rect x="223" y="477.2" width="14" height="14" rx="4" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<text x="245" y="488.8" font-size="12.5" fill="#9AA6B5">sends</text>
+</svg>

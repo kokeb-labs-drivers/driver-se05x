@@ -1,0 +1,294 @@
+{
+  "chip-blocks": {
+    "title": "Inside the SE05x",
+    "alt": "Block diagram of the SE05x: its function blocks, how they connect and which package pins reach each block.",
+    "description": "The SE05x's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-capabilities": {
+    "title": "What the SE05x does",
+    "alt": "Capability map of the SE05x: Key generation (supported): Generates EC key pairs inside the chip under a policy; the private key never leaves it; Signatures and key agreement (supported): ECDSA signatures and verification and ECDH shared secrets with keys held in the chip; Attestation (supported): Proves a key or a value comes from this chip: a signed, fresh read with the chip's unique ID; Secure storage (supported): Binary objects for secrets such as a Wi-Fi passphrase or a token, read only as their policy allows; Certificates and CSR (supported): Stores and reads certificates, builds a certificate request for a chip key and checks a chain; Monotonic counters (supported): Counters that only count up, for an anti-rollback floor on the firmware version; Secure channels (supported): Platform SCP03 encrypts the bus; AESKey, ECKey and UserID sessions authenticate the caller; Lifecycle and locks (guarded): Transport lock, a platform SCP03 requirement and factory reset: one-way changes to the chip; Contactless and ISO 7816 (not covered): The ISO 14443 antenna and ISO 7816 interfaces; the host cannot reach them over I2C.",
+    "description": "Each card is one function of the SE05x: an icon, its name and what it does for the application. The filled pill says how this driver covers it (legend below); the outlined pills are the chip registers behind it. The coverage table in the README gives the driver calls and the datasheet section of each card.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-circuit-minimal": {
+    "title": "SE05x: Minimal application, no power cycle (SE050, SE051)",
+    "alt": "Schematic of the SE05x minimal application, no power cycle (se050, se051): the chip with U2 MCU, C1 capacitor 100 nF, R1 resistor 3.3 kΩ, R2 resistor 3.3 kΩ; the MCU wires carry the port hooks SetEnable() / PowerCycle(), Write() / Read().",
+    "description": "A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.",
+    "profile": "detail",
+    "width": 920,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-circuit-typical": {
+    "title": "SE05x: Recommended application (SE050, SE051)",
+    "alt": "Schematic of the SE05x recommended application (se050, se051): the chip with U2 MCU, C1 capacitor 100 nF, R1 resistor 3.3 kΩ, R2 resistor 3.3 kΩ; the MCU wires carry the port hooks SetEnable() / PowerCycle(), Write() / Read().",
+    "description": "A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.",
+    "profile": "detail",
+    "width": 1000,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-frame-t1-rblock": {
+    "title": "SE05x: T=1 R-block (acknowledgement)",
+    "alt": "T=1 R-block (acknowledgement) of the SE05x, 40 bits, most significant bit first. Host to chip: DAD (bits 39 to 36), SAD (bits 35 to 32), PCB (bits 31 to 24), LEN 0x00 (bits 23 to 16), CRC16 (bits 15 to 0); Chip to host: DAD (bits 39 to 36), SAD (bits 35 to 32), PCB (bits 31 to 24), LEN 0x00 (bits 23 to 16), CRC16 (bits 15 to 0). The PCB field of the Host to chip row: bit 7 1 (R-block), bit 6 0 (R-block), bit 5 0 (reserved), bit 4 N(R), bit 3 0 (reserved), bit 2 0 (reserved), bit 1 error code, high, bit 0 error code, low.",
+    "description": "One T=1 R-block (acknowledgement) of the SE05x, 40 bits in a row from the most significant (left, sent first) to the least significant (right). Each row is one kind of frame; each coloured box a field, with its first and last bit number under it. The table at the bottom names each bit of the PCB field.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-hero": {
+    "title": "SE05x",
+    "alt": "Overview of the SE05x, a family of secure elements (SE050, SE051, SE052) that hold keys and credentials isolated from the host, sign, agree keys and attest with them inside the chip, and talk to the host over I2C with T=1 framing and an encrypted SCP03 channel. A MCU talks to it over I2C, T=1; it drives Sensor or actuator. Headline figures: EAL 6+ Common Criteria, hardware and OS (SE051 2.2, p. 3; SE052 3.1, p. 3); 0x48 I2C target address, T=1 framing (SE052: Table 12, p. 18); 1.62 to 3.6 V VIN and VCC, SE050 and SE051; 3 x 3 mm HX2QFN20, SE050 and SE051; 4 x 4 mm HVQFN20, SE052.",
+    "description": "The SE05x in the middle, drawn as its HX2QFN20 package. On the left the MCU that runs the driver, joined to it by I2C, T=1. To the right, what the chip drives, in the order the power flows. The tiles at the bottom are the headline numbers, each with the datasheet section and page it comes from.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-outline": {
+    "title": "SE05x package, HX2QFN20",
+    "alt": "Outline of the SE05x in HX2QFN20 drawn to scale from above: body 3.0 x 3.0 x 0.32 mm, pitch 0.4 mm, 20 pins and an exposed pad.",
+    "description": "The SE05x package seen from the top and, when the height is known, from the side, drawn to scale: 3.0 x 3.0 x 0.32 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side at the stated pitch; the datasheet's land pattern is the reference for a board.",
+    "profile": "detail",
+    "width": 983,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-pinout": {
+    "title": "SE05x pinout, HX2QFN20",
+    "alt": "Pinout of the SE05x in HX2QFN20, top view: 20 pins and an exposed pad, each with its name, its electrical type as a colour and the driver hook that uses it.",
+    "description": "The SE05x seen from the top, in its HX2QFN20 package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver. The dashed square is the exposed pad.",
+    "profile": "detail",
+    "width": 1020,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-wiring-minimal": {
+    "title": "Wiring: Minimal application, no power cycle (SE050, SE051)",
+    "alt": "Wiring of the SE05x for the Minimal application, no power cycle (SE050, SE051): MCU I2C SDA to SDA (Write() / Read()); MCU I2C SCL to SCL (Write() / Read()). Supplies, grounds and the support parts are listed under the drawing.",
+    "description": "The MCU on the left, the SE05x in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "chip-wiring-typical": {
+    "title": "Wiring: Recommended application (SE050, SE051)",
+    "alt": "Wiring of the SE05x for the Recommended application (SE050, SE051): MCU I2C SDA to SDA (Write() / Read()); MCU I2C SCL to SCL (Write() / Read()); MCU GPIO to ENA (SetEnable() / PowerCycle()). Supplies, grounds and the support parts are listed under the drawing.",
+    "description": "The MCU on the left, the SE05x in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/hardware.yml",
+    "sources": [
+      "docs/hardware.yml",
+      "inc/se05x_ports.hpp"
+    ]
+  },
+  "driver-layers": {
+    "title": "The layers",
+    "alt": "Layer diagram: your application calls the Device library, which has no platform code.",
+    "description": "Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.",
+    "profile": "overview",
+    "width": 1200,
+    "source": "docs/diagrams/figures/driver-layers.py",
+    "sources": [
+      "inc/se05x_device.hpp:public calls"
+    ]
+  },
+  "eckey-session": {
+    "title": "ECKey session: opening it",
+    "alt": "Sequence diagram: attested read of the chip ECKA key, ephemeral key in the crypto port, ECKeySessionInternalAuthenticate, challenge and receipt, receipt check, session keys, wipe.",
+    "description": "The driver's eckey layer, the crypto port and the IoT applet. The driver first reads the chip's ECKA public key with an attested ReadObject and verifies the attestation. The crypto port makes a fresh ephemeral P-256 key pair for this session only and signs the request with the host's long-term key, whose public half is the ECKey authentication object on the chip. ECKeySessionInternalAuthenticate (84 88) carries the parameters (tag A6), the ephemeral public key (tag 7F49) and the signature (tag 5F37). The chip answers a 16-byte challenge and a 16-byte receipt. The host computes the shared secret, derives the master key (the first 16 bytes of SHA-256 over a counter, the secret, the chip's random and the parameters) and the session keys by CMAC, and checks the receipt in constant time before it trusts the session. The ephemeral private key and the master key are wiped. AN12543 pp. 22-23, 33-34, 72-73; no vector confirms the derivation yet, so it is built behind a flag.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/eckey-session.py",
+    "sources": [
+      "inc/se05x_eckey.hpp"
+    ]
+  },
+  "irreversible-flow": {
+    "title": "Irreversible operations: plan, confirm, apply",
+    "alt": "Four steps: build flag, Plan (no I/O), Confirmation from the operation's phrase, Apply; and the list of the operations that need them.",
+    "description": "Left to right. The build must define SE05X_ENABLE_IRREVERSIBLE, or none of these calls exists. The caller asks irreversible::Operations for a Plan of one operation: the Plan sends nothing, checks the arguments, the capabilities and the role, and says what will change. The caller shows the Plan to a person and builds a Confirmation of the same operation from its phrase. Apply() takes both; a Plan of another operation, a phrase of another operation or a Plan that was not prepared is refused before any byte is sent (Error::IrreversibleNotConfirmed). The operation tags are read from inc/se05x_confirm.hpp; the two PERSO operations live on perso::Perso and follow the same flow.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/irreversible-flow.py",
+    "sources": [
+      "inc/se05x_confirm.hpp:operation tags"
+    ]
+  },
+  "lifecycle": {
+    "title": "Lifecycle settings and the roles that change them",
+    "alt": "Central card: the chip in normal use. Around it: transport locked, platform SCP required, object creation restricted, applet features changed and factory reset, each reached by one command from one reserved role; irreversible ones in red.",
+    "description": "The device-wide settings of the IoT applet, each changed by one command that the chip accepts only in a session opened with one reserved authentication object (the AuthRole of inc/se05x_lifecycle.hpp, checked by RequiredRole() before anything is sent). Transport lock: SetLockState from a Transport session; while locked the chip answers only GetVersion, ReadState, the read of the unique id, GetRandom and CreateSession (AN12543 Table 19); the persistent lock survives resets and is lifted only from a Transport session again. Platform SCP required: SetPlatformSCPRequest from a PlatformScp session; from then on every command needs full platform SCP03. Restricted object creation: DisableObjectCreation; the persistent form cannot be undone. Applet features: SetAppletFeatures from a Feature (ECKey) session. Factory reset: DeleteAll from a FactoryReset session removes every object except the provisioned ones; its reply is not wrapped and the session ends. ReadState reads the first three at any time. Red arrows are the operations the driver treats as irreversible: they exist only with SE05X_ENABLE_IRREVERSIBLE and need a Plan and a Confirmation.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/lifecycle.py",
+    "sources": [
+      "inc/se05x_lifecycle.hpp:AuthRole",
+      "inc/se05x_lifecycle.hpp:RequiredRole"
+    ]
+  },
+  "object-policy": {
+    "title": "Objects, policies and sessions",
+    "alt": "An authentication object opens a session; a policy of an object names that authentication object and the rules it allows; the chip checks the policy on every command.",
+    "description": "Every key or data item on the chip is a secure object: a 4-byte identifier, a class (ObjectClass of inc/se05x_ids.hpp), a lifetime (persistent, or transient: the content is lost at reset or deselect) and an origin (generated inside, written from outside, or provisioned by the vendor; attestation reports it). At creation the object gets a policy set: each policy names one authentication object and the operations it may do (the Rule enumeration of inc/se05x_policy_types.hpp, 9 to 53 bytes per policy; AN12543 Table 63). An authentication object is itself a secure object (a UserID, an AES key or an EC key); a session opened with it (at most 2 at a time) is what a policy checks. The policy builder only builds rules valid for the class and generation, and the facade uses the strict profile only.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/object-policy.py",
+    "sources": [
+      "inc/se05x_ids.hpp:ObjectClass, Origin, Lifetime",
+      "inc/se05x_policy_types.hpp:Rule"
+    ]
+  },
+  "pki-provisioning": {
+    "title": "Device certificates: provision once, verify at boot",
+    "alt": "Factory row: generate the key in the chip, build and sign the CSR on the chip, the CA outside issues the certificate, store it and the trust anchor read-only. Boot row: read both back and verify the chain with the caller's time.",
+    "description": "Left to right, top row once in the factory, bottom row at every boot. 1. The chip generates the key pair; only the public key comes out (ReadPublicKey). 2. BuildCsr writes the request and the chip signs its digest (DeviceSigner); VerifyCsr checks it against its own key. 3. The CA, outside the driver, issues the certificate. 4. StoreCertificate writes the certificate and the CA certificate (the trust anchor) into new binary objects with read-only policies, in one WriteBinary each, and reads them back. At boot: ReadCertificate and LoadTrustAnchor read them, VerifyChain checks signature, names, time, constraints and path length with the caller's clock, and the verified key is the chip's own. The CA, revocation and TLS are outside the driver.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/pki-provisioning.py",
+    "sources": [
+      "inc/se05x_pki_csr.hpp",
+      "inc/se05x_pki_device.hpp",
+      "inc/se05x_pki_verify.hpp"
+    ]
+  },
+  "recovery-ladder": {
+    "title": "The recovery ladder",
+    "alt": "Six rungs from top to bottom: resend the block, resync, interface soft reset, reselect the applet, chip reset and power cycle, each with what it costs.",
+    "description": "When an exchange fails the link climbs these rungs in order, read from the Rung enumeration in inc/se05x_t1.hpp, and stops at the first that works. Each rung is bounded and is never repeated without limit. Resending the last block keeps everything. A resync and an interface soft reset keep the chip's state but drop the exchange in progress. Selecting the applet again closes the applet sessions. The chip reset (the NXP-flavour S-block 0xC6, or the reset port in the GP flavour, where 0xC6 means RELEASE) also clears transient objects, and is the only answer to SW 0x66A6. The power cycle needs the reset port (ENA with VOUT wired to VCC on the SE050 and SE051) and is the only cure for errata I2C.1. After any rung past the resend, the driver forgets every session and the caller authenticates again (Error::Resynced).",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/recovery-ladder.py",
+    "sources": [
+      "inc/se05x_t1.hpp:Rung"
+    ]
+  },
+  "scp03-session": {
+    "title": "Platform SCP03: opening the channel",
+    "alt": "Sequence diagram: INITIALIZE UPDATE, card cryptogram check in the crypto port, EXTERNAL AUTHENTICATE, then wrapped commands with MAC and encryption both ways.",
+    "description": "Three parties, left to right: the driver's scp03 layer, the crypto port that holds the static platform keys as handles, and the chip's card manager. The driver sends INITIALIZE UPDATE with a host challenge; the chip answers with its challenge and card cryptogram. The crypto port derives the session keys from the static keys (the driver never sees them) and the driver checks the card cryptogram in constant time. EXTERNAL AUTHENTICATE carries the host cryptogram and the security level; when platform SCP is required the level must be full C-MAC, C-ENC, R-MAC and R-ENC (AN12543 SetPlatformSCPRequest, p. 75). Every later APDU is wrapped (C-MAC, C-ENC) and every reply checked (R-MAC, R-ENC); a failed check closes the channel and wipes the keys. The normative SCP03 text is the GlobalPlatform SCP03 amendment, which is not in this driver's source set: the byte detail follows AN12543 p. 72 and the middleware oracle.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/scp03-session.py",
+    "sources": [
+      "inc/se05x_scp03.hpp:SecurityLevel"
+    ]
+  },
+  "se052-outline": {
+    "title": "SE052 package outline, HVQFN20",
+    "alt": "Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high.",
+    "description": "The SE052 body from above and from the side, to one scale: 4.0 x 4.0 mm, 0.85 mm high, 20 pins at a 0.5 mm pitch, five on each side, pin 1 at the top of the left side (SE052 data sheet section 6, p. 5, and the pin order of Table 2, p. 4). The terminal and exposed-pad dimensions are in the package drawing SOT917-7, not in the data sheet, so the pins are drawn as position marks only. The SE050 and SE051 come in the smaller HX2QFN20 (3.0 x 3.0 x 0.32 mm, 0.4 mm pitch).",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/se052-outline.py",
+    "sources": [
+      "docs/diagrams/figures/_se052.py"
+    ]
+  },
+  "se052-pinout": {
+    "title": "SE052 pinout, HVQFN20",
+    "alt": "Pinout of the SE052 in HVQFN20, top view: 20 pins with their names, coloured by type; SDA on 11, SCL on 10, RST_N on 14, VIN on 12, VDD on 18, no ENA pin.",
+    "description": "The SE052 seen from the top in its HVQFN20 package (4 x 4 x 0.85 mm, 0.5 mm pitch, SOT917-7 in the data sheet). Pin 1 is at the top of the left side and the numbers run counter-clockwise: 1 to 5 down the left side, 6 to 10 along the bottom, 11 to 15 up the right side and 16 to 20 along the top. Each pin card is coloured by the pin's type as in the HX2QFN20 pinout. The driver uses SDA (11) and SCL (10) for the bus and RST_N (14) through the reset port; the SE052 has no ENA pin, so deep power-down is a T=1 S-block (0xDF) and the next I2C access wakes it. The table is SE052 Table 2 (p. 4).",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/se052-pinout.py",
+    "sources": [
+      "docs/diagrams/figures/_se052.py"
+    ]
+  },
+  "se052-wiring": {
+    "title": "Wiring the SE052",
+    "alt": "Schematic in boxes: MCU I2C SDA and SCL with pull-ups to the 1.65 V to 3.6 V bus supply, VIN on that supply, VOUT to VDD, RST_N on a GPIO, optional 22 nF on VIN and VOUT.",
+    "description": "The SE052 on an MCU's I2C bus. SDA (pin 11) and SCL (pin 10) go to the MCU with pull-ups to the bus supply of 1.65 V to 3.6 V, which also feeds VIN (pin 12). VOUT (pin 15) goes to VDD (pin 18) on the board, as Table 2 asks; Figure 1 shows an optional 22 nF on VIN and an optional 22 nF (or nothing) on VOUT. RST_N (pin 14) goes to a GPIO the reset port drives low to reset the chip. There is no ENA pin: deep power-down is the S-block 0xDF, and the next I2C access wakes the chip. CLK (13) is left open or tied to ground, LA and LB are left open, IO1 and IO2 are the chip's own I2C controller and stay open when it is not used. The pull-up value is not in the data sheet.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/se052-wiring.py",
+    "sources": [
+      "docs/diagrams/figures/_se052.py"
+    ]
+  },
+  "t1-frame": {
+    "title": "One T=1 block on the bus",
+    "alt": "Two rows of fields: the NXP flavour NAD, PCB, one-byte LEN, INF up to 254 bytes, CRC; the GP flavour NAD, PCB, two-byte LEN, INF up to 4089 bytes, CRC; and the three PCB forms.",
+    "description": "One block on the I2C bus, in the order its bytes are sent, for each flavour the driver speaks. The NXP flavour (UM11225) has NAD 0x5A from the host and 0xA5 from the chip, a one-byte LEN and at most 254 bytes of INF. The GlobalPlatform flavour (GPC_SPE_172) has NAD 0x21 and 0x12, a two-byte big-endian LEN and up to 4089 bytes of INF. Both end with a CRC-16 over NAD to INF; in the GP flavour it is CRC-16/X-25 sent most significant byte first (the document's example block ends in BDA4); UM11225 gives neither the polynomial's byte order nor an example, so the link tries both orders and keeps the first that checks. The PCB byte tells the three kinds of block apart. Every number is read from inc/se05x_wire.hpp.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/t1-frame.py",
+    "sources": [
+      "inc/se05x_wire.hpp:kUm11225Frame, kGpFrame, kGpExampleCrc"
+    ]
+  },
+  "t1-states": {
+    "title": "The T=1 link: states and S-blocks",
+    "alt": "State diagram of t1::Link: Closed, Idle, InFlight, NeedsReselect and Dead, with the S-blocks handled while a command is in flight.",
+    "description": "Each box is a LinkState of t1::Link, read from inc/se05x_t1.hpp. Open() reads the ATR or CIP and selects the applet, leaving the link Idle. A command makes it InFlight: one I-block per I2C write (chained when the APDU is longer than IFSC, each part acknowledged by an R-block), then the reply is polled. While in flight the chip may ask for more time with S(WTX request), which the link answers with S(WTX response), counted against Config::wtx_limit; a bad block gets an R-block and is resent at most Config::frame_retries times. A reply returns the link to Idle. A rung of the recovery ladder that resets the chip's context leaves NeedsReselect, which selecting the applet again ends; when the ladder is spent the link is Dead and only Close() and Open() start it again. The S-block codes are the ones of inc/se05x_wire.hpp; 0xC6 is a chip reset in the NXP flavour and RELEASE in the GP one.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/t1-states.py",
+    "sources": [
+      "inc/se05x_t1.hpp:LinkState",
+      "inc/se05x_wire.hpp:S-block codes"
+    ]
+  },
+  "trust-boundaries": {
+    "title": "Trust boundaries",
+    "alt": "Zones: remote verifier, host MCU with the driver and crypto port, the I2C bus, and the chip with keys, policies, counters and RNG; arrows show attestations, signatures and wrapped APDUs crossing.",
+    "description": "Three zones from right to left. Inside the chip: the private keys, the policies, the counters, the RNG and the attestation key; the chip enforces every access rule. The bus between host and chip carries APDUs in clear unless a secure channel (platform SCP03, an AESKey or an ECKey session) wraps them; anyone with a probe on SDA and SCL sees and can inject plain traffic. The host MCU runs this driver, which is a courier: it holds no long-term secret except the platform SCP03 keys, and those only as handles in the crypto port. The verifier, far left, checks attestations and signatures with public keys only. Each arrow says what crosses the boundary.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/trust-boundaries.py",
+    "sources": [
+      "inc/se05x_ports.hpp",
+      "inc/se05x_secret.hpp"
+    ]
+  },
+  "variant-decision": {
+    "title": "Choosing a variant, an applet and an authentication",
+    "alt": "Decision tree: FIPS 140-3 leads to SE052F, FIPS 140-2 to SE050F, NFC and Matter to SE051H, UWB to SE051W, field updates to SE051A or C, else SE050E, C, A, B or D by algorithms; then platform SCP03, ECKey or UserID sessions.",
+    "description": "Read top to bottom; take the first question you answer yes. Certification needs come first: FIPS 140-3 Level 3 is the SE052F; FIPS 140-2 with SCP03 mandatory is the SE050F. Then interfaces: NFC commissioning and Matter (PAKE) is the SE051H, UWB the SE051W. Field update of the applet (SEMS Lite) is the SE051A or C. Otherwise the SE050 by algorithm set: E for AES-GCM and CCM and Curve448 (applet 7.x), C for ECC and RSA, A for ECC only, B for RSA only, D for ECC with MIFARE DESFire. The SE051P runs a customer applet and has no IoT applet, so this driver does not apply. The bottom row is the authentication choice: platform SCP03 whenever the bus can be probed, an ECKey session to bind a host, a UserID session only under a trusted host OS, since it has no secure messaging. The driver reads the real capabilities at Open() and never trusts the part name.",
+    "profile": "detail",
+    "width": 1200,
+    "source": "docs/diagrams/figures/variant-decision.py",
+    "sources": [
+      "inc/se05x_types.hpp",
+      "inc/se05x_caps.hpp"
+    ]
+  }
+}

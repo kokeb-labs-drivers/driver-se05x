@@ -1,0 +1,62 @@
+---
+# SE05X ESP32 examples: the app matrix read by the build scripts, the CI and the docs Examples page.
+version: "1.0"
+
+metadata:
+  project: "ESP32 SE05X Driver Examples"
+  default_app: "se05x_basic_example"
+  target: "esp32c6"
+  idf_versions: ["release/v5.5"]
+  build_types: [["Debug", "Release"]]
+
+apps:
+  se05x_basic_example:
+    description: "Open the SE05x from menuconfig values, log the result and close it"
+    source_file: "se05x_basic_example.cpp"
+    category: "example"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+    hardware_required: true
+    features:
+      - "ESP-IDF i2c_master bus, clock and reset ports"
+      - "Config from Kconfig (menuconfig) through se05x_kconfig.hpp"
+      - "Every Result checked and logged by name"
+
+  se05x_hrot_example:
+    description: "The root-of-trust facade: platform SCP03 with the PSA crypto port, identity, device key, sign, firmware floor"
+    source_file: "se05x_hrot_example.cpp"
+    category: "example"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+    hardware_required: true
+    features:
+      - "hrot::Device: typed slots and keys, results checked"
+      - "PSA crypto port (mbedTLS) instead of the reference crypto"
+      - "Platform keys from a key store, never in the source"
+
+build_config:
+  build_types:
+    Debug:
+      description: "Debug build"
+      cmake_build_type: "Debug"
+      optimization: "-O0"
+      debug_level: "-g3"
+      defines: ["DEBUG"]
+    Release:
+      description: "Release build"
+      cmake_build_type: "Release"
+      optimization: "-O2"
+      debug_level: "-g0"
+      defines: ["NDEBUG"]
+  build_directory_pattern: "build-app-{app_type}-type-{build_type}-target-{target}-idf-{idf_version}"
+  project_name_pattern: "esp32_se05x_{app_type}_app"
+
+ci_config:
+  timeout_minutes: 30
+  fail_fast: false
+  exclude_combinations: []
+  special_apps: []

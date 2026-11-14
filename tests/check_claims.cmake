@@ -1,0 +1,28 @@
+# Every test named in the last column of docs/claims.md exists as a TEST_CASE in tests/, so a documented claim
+# cannot outlive the test that checks it.
+#   cmake -DDOC=<docs/claims.md> -DTESTS=<tests dir> -P check_claims.cmake
+file(READ "${DOC}" doc)
+file(GLOB sources "${TESTS}/*.cpp")
+set(all "")
+foreach(f ${sources})
+  file(READ "${f}" text)
+  string(APPEND all "${text}")
+endforeach()
+# A claim row must not hold a semicolon: CMake lists split on it.
+string(REGEX MATCHALL "\\| C[0-9]+ \\|[^\n;]*" rows "${doc}")
+list(LENGTH rows count)
+if(count EQUAL 0)
+  message(FATAL_ERROR "no claim rows in ${DOC}")
+endif()
+foreach(row ${rows})
+  string(REGEX MATCH "`([^`]*)` \\|$" m "${row}")
+  if(NOT m)
+    message(FATAL_ERROR "claim row without a test: ${row}")
+  endif()
+  set(name "${CMAKE_MATCH_1}")
+  string(FIND "${all}" "\"${name}\")" at) # TEST_CASE("name") or TEST_CASE(\n "name")
+  if(at EQUAL -1)
+    message(FATAL_ERROR "docs/claims.md names a test that does not exist: ${name}")
+  endif()
+endforeach()
+message(STATUS "${count} claims, each with its test")

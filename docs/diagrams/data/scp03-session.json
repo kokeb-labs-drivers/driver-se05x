@@ -1,0 +1,11 @@
+{
+  "levels": [
+    "CMac",
+    "CMacCDecrypt",
+    "CMacRMac",
+    "Full"
+  ],
+  "sources": [
+    "inc/se05x_scp03.hpp:SecurityLevel"
+  ]
+}
