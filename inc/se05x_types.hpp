@@ -61,7 +61,7 @@ struct FixedBytes {
   std::size_t length{0};          ///< Number of valid bytes, at most `N`.
 
   /** @return A view of the valid bytes. */
-  [[nodiscard]] constexpr ByteSpan View() const& noexcept {
+  [[nodiscard]] constexpr std::span<const uint8_t> View() const& noexcept {
     return ByteSpan{bytes.data(), length};
   }
   /** @brief Not on a temporary: the view would dangle (KB-CPP20-044). */

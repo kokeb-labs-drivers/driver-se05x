@@ -27,22 +27,26 @@ constexpr uint32_t Rotl32(uint32_t x, uint32_t n) noexcept {
 constexpr uint64_t Rotr64(uint64_t x, uint32_t n) noexcept {
   return (x >> n) | (x << (64U - n));
 }
-constexpr uint32_t Load32(const uint8_t* p) noexcept {
-  return (static_cast<uint32_t>(p[0]) << 24U) | (static_cast<uint32_t>(p[1]) << 16U) |
-         (static_cast<uint32_t>(p[2]) << 8U) | static_cast<uint32_t>(p[3]);
+/// The big-endian word at `b[at]` to `b[at + 3]` (indices, no pointer arithmetic: Rule 8.7.1).
+constexpr uint32_t Load32(ByteSpan b, std::size_t at) noexcept {
+  return (static_cast<uint32_t>(b[at]) << 24U) | (static_cast<uint32_t>(b[at + 1U]) << 16U) |
+         (static_cast<uint32_t>(b[at + 2U]) << 8U) | static_cast<uint32_t>(b[at + 3U]);
 }
-constexpr uint64_t Load64(const uint8_t* p) noexcept {
-  return (static_cast<uint64_t>(Load32(p)) << 32U) | static_cast<uint64_t>(Load32(&p[4]));
+/// The big-endian double word at `b[at]` to `b[at + 7]`.
+constexpr uint64_t Load64(ByteSpan b, std::size_t at) noexcept {
+  return (static_cast<uint64_t>(Load32(b, at)) << 32U) | static_cast<uint64_t>(Load32(b, at + 4U));
 }
-constexpr void Store32(uint32_t v, uint8_t* p) noexcept {
-  p[0] = static_cast<uint8_t>(v >> 24U);
-  p[1] = static_cast<uint8_t>((v >> 16U) & 0xFFU);
-  p[2] = static_cast<uint8_t>((v >> 8U) & 0xFFU);
-  p[3] = static_cast<uint8_t>(v & 0xFFU);
+/// Write `v` big-endian to `b[at]` to `b[at + 3]`.
+constexpr void Store32(uint32_t v, MutableByteSpan b, std::size_t at) noexcept {
+  b[at] = static_cast<uint8_t>(v >> 24U);
+  b[at + 1U] = static_cast<uint8_t>((v >> 16U) & 0xFFU);
+  b[at + 2U] = static_cast<uint8_t>((v >> 8U) & 0xFFU);
+  b[at + 3U] = static_cast<uint8_t>(v & 0xFFU);
 }
-constexpr void Store64(uint64_t v, uint8_t* p) noexcept {
-  Store32(static_cast<uint32_t>(v >> 32U), p);
-  Store32(static_cast<uint32_t>(v & 0xFFFFFFFFU), &p[4]);
+/// Write `v` big-endian to `b[at]` to `b[at + 7]`.
+constexpr void Store64(uint64_t v, MutableByteSpan b, std::size_t at) noexcept {
+  Store32(static_cast<uint32_t>(v >> 32U), b, at);
+  Store32(static_cast<uint32_t>(v & 0xFFFFFFFFU), b, at + 4U);
 }
 
 /// FIPS 180-4 4.2.2.
@@ -108,7 +112,7 @@ inline void Sha256::compress() noexcept {
   using namespace sha_detail;
   std::array<uint32_t, 64> w{};
   for (std::size_t t = 0U; t < 16U; ++t) {
-    w[t] = Load32(&buffer_[4U * t]);
+    w[t] = Load32(ByteSpan{buffer_}, 4U * t);
   }
   for (std::size_t t = 16U; t < 64U; ++t) {
     const uint32_t s0 = Rotr32(w[t - 15U], 7U) ^ Rotr32(w[t - 15U], 18U) ^ (w[t - 15U] >> 3U);
@@ -156,11 +160,11 @@ inline std::size_t Sha256::Final(MutableByteSpan digest) noexcept {
     Update(ByteSpan{zero});
   }
   std::array<uint8_t, 8> len{};
-  sha_detail::Store64(bits, len.data());
+  sha_detail::Store64(bits, MutableByteSpan{len}, 0U);
   Update(ByteSpan{len});
   std::array<uint8_t, 32> out{};
   for (std::size_t i = 0U; i < 8U; ++i) {
-    sha_detail::Store32(h_[i], &out[4U * i]);
+    sha_detail::Store32(h_[i], MutableByteSpan{out}, 4U * i);
   }
   for (std::size_t i = 0U; i < length; ++i) {
     digest[i] = out[i];
@@ -195,7 +199,7 @@ inline void Sha512::compress() noexcept {
   using namespace sha_detail;
   std::array<uint64_t, 80> w{};
   for (std::size_t t = 0U; t < 16U; ++t) {
-    w[t] = Load64(&buffer_[8U * t]);
+    w[t] = Load64(ByteSpan{buffer_}, 8U * t);
   }
   for (std::size_t t = 16U; t < 80U; ++t) {
     const uint64_t s0 = Rotr64(w[t - 15U], 1U) ^ Rotr64(w[t - 15U], 8U) ^ (w[t - 15U] >> 7U);
@@ -243,11 +247,11 @@ inline std::size_t Sha512::Final(MutableByteSpan digest) noexcept {
     Update(ByteSpan{zero});
   }
   std::array<uint8_t, 16> len{}; // the high 64 bits of the 128-bit length are zero
-  sha_detail::Store64(bits, &len[8]);
+  sha_detail::Store64(bits, MutableByteSpan{len}, 8U);
   Update(ByteSpan{len});
   std::array<uint8_t, 64> out{};
   for (std::size_t i = 0U; i < 8U; ++i) {
-    sha_detail::Store64(h_[i], &out[8U * i]);
+    sha_detail::Store64(h_[i], MutableByteSpan{out}, 8U * i);
   }
   for (std::size_t i = 0U; i < length; ++i) {
     digest[i] = out[i];
@@ -273,7 +277,7 @@ inline void Sha1::compress() noexcept {
   using namespace sha_detail;
   std::array<uint32_t, 80> w{};
   for (std::size_t t = 0U; t < 16U; ++t) {
-    w[t] = Load32(&buffer_[4U * t]);
+    w[t] = Load32(ByteSpan{buffer_}, 4U * t);
   }
   for (std::size_t t = 16U; t < 80U; ++t) {
     w[t] = Rotl32(w[t - 3U] ^ w[t - 8U] ^ w[t - 14U] ^ w[t - 16U], 1U);
@@ -327,10 +331,10 @@ inline std::size_t Sha1::Final(MutableByteSpan digest) noexcept {
     Update(ByteSpan{zero});
   }
   std::array<uint8_t, 8> len{};
-  sha_detail::Store64(bits, len.data());
+  sha_detail::Store64(bits, MutableByteSpan{len}, 0U);
   Update(ByteSpan{len});
   for (std::size_t i = 0U; i < 5U; ++i) {
-    sha_detail::Store32(h_[i], &digest[4U * i]);
+    sha_detail::Store32(h_[i], digest, 4U * i);
   }
   Reset();
   return 20U;

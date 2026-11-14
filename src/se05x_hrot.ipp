@@ -517,7 +517,7 @@ Result<Signature> Device<P>::signDigest(ObjectId id, Digest digest) noexcept {
 }
 
 template <PortSet P>
-Result<Signature> Device<P>::Sign(const SignKey& key, Digest digest) noexcept {
+Result<Signature> Device<P>::Sign(const Key<KeyUse::Sign>& key, Digest digest) noexcept {
   if (!key.IsValid()) {
     return Result<Signature>::Failure(Error::InvalidArgument,
                                       detail::HrotDetail(detail::Step::Argument));
@@ -526,7 +526,7 @@ Result<Signature> Device<P>::Sign(const SignKey& key, Digest digest) noexcept {
 }
 
 template <PortSet P>
-Result<Signature> Device<P>::TlsSign(const TlsKey& key, Digest digest) noexcept {
+Result<Signature> Device<P>::TlsSign(const Key<KeyUse::TlsClient>& key, Digest digest) noexcept {
   if (!key.IsValid()) {
     return Result<Signature>::Failure(Error::InvalidArgument,
                                       detail::HrotDetail(detail::Step::Argument));
@@ -560,7 +560,7 @@ Result<void> Device<P>::VerifySignature(const Key<U>& key, Digest digest,
 }
 
 template <PortSet P>
-Result<void> Device<P>::Agree(const AgreeKey& key, const EcPublicKey& peer,
+Result<void> Device<P>::Agree(const Key<KeyUse::Agree>& key, const EcPublicKey& peer,
                               SecretBuffer<32>& shared) noexcept {
   shared.Wipe();
   // The peer must be a point of NIST P-256 (prefix 04, coordinates below p, on the curve): an
@@ -795,12 +795,13 @@ Result<void> Device<P>::eraseObject(ObjectId id) noexcept {
 }
 
 template <PortSet P>
-Result<void> Device<P>::Store(DataSlot slot, ByteSpan data, Protection protection) noexcept {
+Result<void> Device<P>::Store(SlotOf<SlotKind::Data> slot, ByteSpan data,
+                              Protection protection) noexcept {
   return storeBytes(slot.Object(), data, protection);
 }
 
 template <PortSet P>
-Result<std::size_t> Device<P>::Load(DataSlot slot, MutableByteSpan out,
+Result<std::size_t> Device<P>::Load(SlotOf<SlotKind::Data> slot, MutableByteSpan out,
                                     Protection protection) noexcept {
   return loadBytes(
       slot.Object(), out,
@@ -808,29 +809,31 @@ Result<std::size_t> Device<P>::Load(DataSlot slot, MutableByteSpan out,
 }
 
 template <PortSet P>
-Result<void> Device<P>::Erase(DataSlot slot) noexcept {
+Result<void> Device<P>::Erase(SlotOf<SlotKind::Data> slot) noexcept {
   return eraseObject(slot.Object());
 }
 
 template <PortSet P>
-Result<void> Device<P>::StoreCertificate(CertSlot slot, ByteSpan der) noexcept {
+Result<void> Device<P>::StoreCertificate(SlotOf<SlotKind::Certificate> slot,
+                                         ByteSpan der) noexcept {
   return storeBytes(slot.Object(), der, Protection::Public);
 }
 
 template <PortSet P>
-Result<std::size_t> Device<P>::LoadCertificate(CertSlot slot, MutableByteSpan out) noexcept {
+Result<std::size_t> Device<P>::LoadCertificate(SlotOf<SlotKind::Certificate> slot,
+                                               MutableByteSpan out) noexcept {
   return loadBytes(slot.Object(), out, detail::Need::None);
 }
 
 template <PortSet P>
-Result<void> Device<P>::EraseCertificate(CertSlot slot) noexcept {
+Result<void> Device<P>::EraseCertificate(SlotOf<SlotKind::Certificate> slot) noexcept {
   return eraseObject(slot.Object());
 }
 
 // --- Counters ----------------------------------------------------------------------------------
 
 template <PortSet P>
-Result<void> Device<P>::CreateCounter(CounterSlot slot, uint32_t initial) noexcept {
+Result<void> Device<P>::CreateCounter(SlotOf<SlotKind::Counter> slot, uint32_t initial) noexcept {
   const Error admitted = admit(cost::kCreateCounter, detail::Need::Authentic);
   if (admitted != Error::Ok) {
     return refuse<void>(admitted);
@@ -879,7 +882,7 @@ Result<void> Device<P>::CreateCounter(CounterSlot slot, uint32_t initial) noexce
 }
 
 template <PortSet P>
-Result<uint32_t> Device<P>::CounterValue(CounterSlot slot) noexcept {
+Result<uint32_t> Device<P>::CounterValue(SlotOf<SlotKind::Counter> slot) noexcept {
   const Error admitted = admit(cost::kCounterValue, detail::Need::Authentic);
   if (admitted != Error::Ok) {
     return refuse<uint32_t>(admitted);
@@ -896,7 +899,7 @@ Result<uint32_t> Device<P>::CounterValue(CounterSlot slot) noexcept {
 }
 
 template <PortSet P>
-Result<uint32_t> Device<P>::CounterIncrement(CounterSlot slot) noexcept {
+Result<uint32_t> Device<P>::CounterIncrement(SlotOf<SlotKind::Counter> slot) noexcept {
   const Error admitted = admit(cost::kCounterIncrement, detail::Need::Authentic);
   if (admitted != Error::Ok) {
     return refuse<uint32_t>(admitted);
@@ -909,7 +912,7 @@ Result<uint32_t> Device<P>::CounterIncrement(CounterSlot slot) noexcept {
 }
 
 template <PortSet P>
-Result<void> Device<P>::RaiseCounterTo(CounterSlot slot, uint32_t value) noexcept {
+Result<void> Device<P>::RaiseCounterTo(SlotOf<SlotKind::Counter> slot, uint32_t value) noexcept {
   const Error admitted = admit(cost::kRaiseCounterTo, detail::Need::Authentic);
   if (admitted != Error::Ok) {
     return refuse<void>(admitted);
@@ -924,7 +927,7 @@ Result<void> Device<P>::RaiseCounterTo(CounterSlot slot, uint32_t value) noexcep
 }
 
 template <PortSet P>
-Result<void> Device<P>::CheckFloor(CounterSlot floor, uint32_t version) noexcept {
+Result<void> Device<P>::CheckFloor(SlotOf<SlotKind::Counter> floor, uint32_t version) noexcept {
   const Result<uint32_t> value = CounterValue(floor);
   if (!value.ok()) {
     return Result<void>::Failure(value.error, value.detail);

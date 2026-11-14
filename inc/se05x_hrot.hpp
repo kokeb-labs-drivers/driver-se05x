@@ -553,7 +553,7 @@ public:
    * @return The DER signature; `InvalidArgument`; `PolicyDenied` (answers not authenticated, S-14);
    * a device error.
    */
-  Result<Signature> Sign(const SignKey& key, Digest digest) noexcept;
+  Result<Signature> Sign(const Key<KeyUse::Sign>& key, Digest digest) noexcept;
 
   /**
    * @brief Sign the digest of a TLS handshake with a `TlsKey`. One APDU.
@@ -561,7 +561,7 @@ public:
    * @param digest The handshake digest (SHA-256).
    * @return As `Sign()`.
    */
-  Result<Signature> TlsSign(const TlsKey& key, Digest digest) noexcept;
+  Result<Signature> TlsSign(const Key<KeyUse::TlsClient>& key, Digest digest) noexcept;
 
   /**
    * @brief Verify a signature on the chip. Fails closed: `Ok` only for a valid signature. One APDU.
@@ -587,7 +587,7 @@ public:
    * @return `Ok`; `InvalidArgument` (an invalid key or a point not on P-256); `PolicyDenied`
    * (traffic not encrypted both ways); a device error.
    */
-  Result<void> Agree(const AgreeKey& key, const EcPublicKey& peer,
+  Result<void> Agree(const Key<KeyUse::Agree>& key, const EcPublicKey& peer,
                      SecretBuffer<32>& shared) noexcept;
   /** @} */
 
@@ -630,7 +630,7 @@ public:
    * @return `Ok`; `ObjectExists` (use `Erase` first); `InvalidArgument`; `PolicyDenied`; a device
    * error.
    */
-  Result<void> Store(DataSlot slot, ByteSpan data, Protection protection) noexcept;
+  Result<void> Store(SlotOf<SlotKind::Data> slot, ByteSpan data, Protection protection) noexcept;
   /**
    * @brief Read a data object. Two APDUs (the size and the completion marker), plus one per
    * `kChunkBytes` of the object; the budget admits the worst case for `out` (`cost::kLoadBase`
@@ -645,13 +645,14 @@ public:
    * for secret data, nothing sent; or refused by the chip); `FrameError` (no completion marker, or
    * an impossible size); a device error.
    */
-  Result<std::size_t> Load(DataSlot slot, MutableByteSpan out, Protection protection) noexcept;
+  Result<std::size_t> Load(SlotOf<SlotKind::Data> slot, MutableByteSpan out,
+                           Protection protection) noexcept;
   /**
    * @brief Delete a data object. One APDU.
    * @param slot The slot.
    * @return `Ok`; `ObjectNotFound`; a device error.
    */
-  Result<void> Erase(DataSlot slot) noexcept;
+  Result<void> Erase(SlotOf<SlotKind::Data> slot) noexcept;
 
   /**
    * @brief Store a certificate (the bytes as given; nothing is parsed). Anyone may read it; its
@@ -660,18 +661,19 @@ public:
    * @param der 1 to `kMaxStoredBytes` bytes.
    * @return As `Store()`.
    */
-  Result<void> StoreCertificate(CertSlot slot, ByteSpan der) noexcept;
+  Result<void> StoreCertificate(SlotOf<SlotKind::Certificate> slot, ByteSpan der) noexcept;
   /**
    * @brief Read a certificate. @return As `Load()`.
    * @param slot The slot.
    * @param out The buffer.
    */
-  Result<std::size_t> LoadCertificate(CertSlot slot, MutableByteSpan out) noexcept;
+  Result<std::size_t> LoadCertificate(SlotOf<SlotKind::Certificate> slot,
+                                      MutableByteSpan out) noexcept;
   /**
    * @brief Delete a certificate. @return As `Erase()`.
    * @param slot The slot.
    */
-  Result<void> EraseCertificate(CertSlot slot) noexcept;
+  Result<void> EraseCertificate(SlotOf<SlotKind::Certificate> slot) noexcept;
   /** @} */
 
   /** @name Monotonic counters (authenticated answers needed: a forged value would defeat the
@@ -689,18 +691,18 @@ public:
    * @return `Ok`; `ObjectExists` (the counter is now at least `initial`); `PolicyDenied`; a device
    * error.
    */
-  Result<void> CreateCounter(CounterSlot slot, uint32_t initial) noexcept;
+  Result<void> CreateCounter(SlotOf<SlotKind::Counter> slot, uint32_t initial) noexcept;
   /**
    * @brief Read a counter. One APDU. @return The value or an error.
    * @param slot The slot.
    */
-  Result<uint32_t> CounterValue(CounterSlot slot) noexcept;
+  Result<uint32_t> CounterValue(SlotOf<SlotKind::Counter> slot) noexcept;
   /**
    * @brief Increment a counter by one and return the new value. Two APDUs.
    * @param slot The slot.
    * @return The value; a device error (the chip refuses past the maximum).
    */
-  Result<uint32_t> CounterIncrement(CounterSlot slot) noexcept;
+  Result<uint32_t> CounterIncrement(SlotOf<SlotKind::Counter> slot) noexcept;
   /**
    * @brief Raise a counter to `value` in one APDU (instead of a loop of increments, S-17). The
    * chip never lowers a counter.
@@ -708,7 +710,7 @@ public:
    * @param value The new value, not below the current one.
    * @return `Ok`; `InvalidArgument` (the chip refused a lower value); a device error.
    */
-  Result<void> RaiseCounterTo(CounterSlot slot, uint32_t value) noexcept;
+  Result<void> RaiseCounterTo(SlotOf<SlotKind::Counter> slot, uint32_t value) noexcept;
   /**
    * @brief The anti-rollback check: the counter is the floor. Fails closed: `Ok` only when
    * `version` is not below it. One APDU.
@@ -717,7 +719,7 @@ public:
    * @return `Ok`; `PolicyDenied` (layer `Hrot`: `version` is below the floor, a rollback); a
    * device error.
    */
-  Result<void> CheckFloor(CounterSlot floor, uint32_t version) noexcept;
+  Result<void> CheckFloor(SlotOf<SlotKind::Counter> floor, uint32_t version) noexcept;
   /** @} */
 
   /**

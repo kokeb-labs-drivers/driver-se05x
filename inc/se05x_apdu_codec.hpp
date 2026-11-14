@@ -1,10 +1,10 @@
 /**
  * @file se05x_apdu_codec.hpp
- * @brief Every `Codec<C>` specialisation: the one include the command layer needs.
+ * @brief Every command codec (`Codec<C>`): the one include the command layer needs.
  * @copyright Copyright (c) 2026 The driver-se05x authors. SPDX-License-Identifier: MIT
  *
  * @details
- * Includes the group headers so that every specialisation is visible before
+ * Includes the group headers so that every codec overload is visible before
  * `Device::Execute<>()` instantiates `Codec<C>`.
  */
 #ifndef SE05X_APDU_CODEC_HPP

@@ -1,6 +1,6 @@
 /**
  * @file se05x_apdu_identity.hpp
- * @brief The `Codec<C>` specialisations of the commands of the groups Identity, Session and
+ * @brief The codecs (`Codec<C>`) of the commands of the groups Identity, Session and
  * Management.
  * @copyright Copyright (c) 2026 The driver-se05x authors. SPDX-License-Identifier: MIT
  *
@@ -147,9 +147,10 @@ constexpr Result<std::size_t> EncodeMgmt(MutableByteSpan out, uint8_t p2, ByteSp
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `SelectApplet`: `00 A4 04 00 10 <AID> 00` (AN12543 Table 64); answer: 7-byte VersionInfo.
-template <>
-struct Codec<Command::SelectApplet> {
+struct SelectAppletCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -172,10 +173,13 @@ struct Codec<Command::SelectApplet> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::SelectApplet` (selects it for `Codec<Command::SelectApplet>`). */
+constexpr SelectAppletCodec CodecFor(CommandTag<Command::SelectApplet> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetVersion`: `80 04 00 20 00`; answer: TLV[TAG_1] with the 7-byte VersionInfo.
-template <>
-struct Codec<Command::GetVersion> {
+struct GetVersionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -201,11 +205,14 @@ struct Codec<Command::GetVersion> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetVersion` (selects it for `Codec<Command::GetVersion>`). */
+constexpr GetVersionCodec CodecFor(CommandTag<Command::GetVersion> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetExtVersion`: `80 04 00 21 00`; answer: TLV[TAG_1] with 37 bytes, the VersionInfo and the
 /// 30-byte extended feature bitmap (AN12543 4.20.1). The reply keeps the 30 bitmap bytes.
-template <>
-struct Codec<Command::GetExtVersion> {
+struct GetExtVersionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -231,12 +238,16 @@ struct Codec<Command::GetExtVersion> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetExtVersion` (selects it for `Codec<Command::GetExtVersion>`).
+ */
+constexpr GetExtVersionCodec CodecFor(CommandTag<Command::GetExtVersion> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetCardIdentification`: GP GET DATA `80 CA 00 FE 02 DF 28 00` to the card manager (derived:
 /// the command is not printed; AN13030 pp. 227-228 show the answer `FE L DF28 L {01 0C config id
 /// ...}`). The OEF id is bytes 2 and 3 of the 12-byte configuration id.
-template <>
-struct Codec<Command::GetCardIdentification> {
+struct GetCardIdentificationCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -273,11 +284,16 @@ struct Codec<Command::GetCardIdentification> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetCardIdentification` (selects it for
+ * `Codec<Command::GetCardIdentification>`). */
+constexpr GetCardIdentificationCodec CodecFor(
+    CommandTag<Command::GetCardIdentification> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetCplc`: GP GET DATA `80 CA 9F 7F 00` (derived from the GP Card Specification); answer:
 /// `9F 7F 2A <42 bytes>`.
-template <>
-struct Codec<Command::GetCplc> {
+struct GetCplcCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /// Length of the CPLC data.
@@ -304,11 +320,14 @@ struct Codec<Command::GetCplc> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetCplc` (selects it for `Codec<Command::GetCplc>`). */
+constexpr GetCplcCodec CodecFor(CommandTag<Command::GetCplc> /*tag*/) noexcept {
+  return {};
+}
 
 /// `CreateSession`: `80 04 00 1B` TLV[TAG_1] 4-byte authentication object, Le; answer:
 /// TLV[TAG_1] 8-byte session id (AN12543 Tables 67, 68).
-template <>
-struct Codec<Command::CreateSession> {
+struct CreateSessionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -330,11 +349,15 @@ struct Codec<Command::CreateSession> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CreateSession` (selects it for `Codec<Command::CreateSession>`).
+ */
+constexpr CreateSessionCodec CodecFor(CommandTag<Command::CreateSession> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ExchangeSessionData`: `80 04 00 1F` TLV[TAG_1] session policy (AN12543 Table 70); no answer
 /// body on the plain channel (an R-MAC is the secure channel's).
-template <>
-struct Codec<Command::ExchangeSessionData> {
+struct ExchangeSessionDataCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -352,22 +375,27 @@ struct Codec<Command::ExchangeSessionData> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const ExchangeSessionDataArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ExchangeSessionData` (selects it for
+ * `Codec<Command::ExchangeSessionData>`). */
+constexpr ExchangeSessionDataCodec CodecFor(
+    CommandTag<Command::ExchangeSessionData> /*tag*/) noexcept {
+  return {};
+}
 
 /// `RefreshSession`: `80 04 00 1E [TLV[TAG_POLICY] session policy]` (AN12543 Table 76).
-template <>
-struct Codec<Command::RefreshSession> {
+struct RefreshSessionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -386,23 +414,27 @@ struct Codec<Command::RefreshSession> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const RefreshSessionArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::RefreshSession` (selects it for
+ * `Codec<Command::RefreshSession>`). */
+constexpr RefreshSessionCodec CodecFor(CommandTag<Command::RefreshSession> /*tag*/) noexcept {
+  return {};
+}
 
 /// `CloseSession`: `80 04 00 1C` (ISO case 1, AN12543 Table 79). Never sent without a session
 /// (errata APP.2: that is the device's rule).
-template <>
-struct Codec<Command::CloseSession> {
+struct CloseSessionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -412,22 +444,26 @@ struct Codec<Command::CloseSession> {
                                     apdu::kP2SessionClose, 0U);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args None. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const Empty& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const Empty& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CloseSession` (selects it for `Codec<Command::CloseSession>`). */
+constexpr CloseSessionCodec CodecFor(CommandTag<Command::CloseSession> /*tag*/) noexcept {
+  return {};
+}
 
 /// `VerifySessionUserId`: `80 04 00 2C` TLV[TAG_1] UserID value, 1 to 16 bytes (AN12543 Table 82;
 /// SE050 accepts 1 to 16 bytes, SE051 4 to 16; the chip refuses a wrong length with 0x6985).
-template <>
-struct Codec<Command::VerifySessionUserId> {
+struct VerifySessionUserIdCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -443,25 +479,30 @@ struct Codec<Command::VerifySessionUserId> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const VerifyUserIdArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::VerifySessionUserId` (selects it for
+ * `Codec<Command::VerifySessionUserId>`). */
+constexpr VerifySessionUserIdCodec CodecFor(
+    CommandTag<Command::VerifySessionUserId> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ScpInitializeUpdate` (AESKey session): GP INITIALIZE UPDATE `80 50 00 00 <Lc> <host
 /// challenge> 00`, KVN 00 (AN12543 4.5.3.1); the host challenge is 8 bytes (S8) or 16 (S16). The
 /// answer is not TLV: key diversification data (10), key information (3), card challenge,
 /// card cryptogram and an optional 3-byte sequence counter; it is kept raw in the reply.
-template <>
-struct Codec<Command::ScpInitializeUpdate> {
+struct ScpInitializeUpdateCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -492,12 +533,17 @@ struct Codec<Command::ScpInitializeUpdate> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ScpInitializeUpdate` (selects it for
+ * `Codec<Command::ScpInitializeUpdate>`). */
+constexpr ScpInitializeUpdateCodec CodecFor(
+    CommandTag<Command::ScpInitializeUpdate> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ScpExternalAuthenticate` (AESKey session): GP EXTERNAL AUTHENTICATE `84 82 33 00 <Lc> <host
 /// cryptogram>`; security level 0x33 (C-MAC, C-DECRYPTION, R-MAC, R-ENCRYPTION). The secure
 /// channel appends the C-MAC and corrects Lc.
-template <>
-struct Codec<Command::ScpExternalAuthenticate> {
+struct ScpExternalAuthenticateCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /// The security level of the session (full secure messaging).
@@ -515,25 +561,30 @@ struct Codec<Command::ScpExternalAuthenticate> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const ScpExternalAuthArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ScpExternalAuthenticate` (selects it for
+ * `Codec<Command::ScpExternalAuthenticate>`). */
+constexpr ScpExternalAuthenticateCodec CodecFor(
+    CommandTag<Command::ScpExternalAuthenticate> /*tag*/) noexcept {
+  return {};
+}
 
 /// `EcKeySessionInternalAuthenticate`: `84 88 00 00 <Lc> <A6 ... 7F49 ... 5F37 ...> 00`
 /// (AN12543 Tables 85, 86). `host_data` is the whole payload, built by the ECKey layer; the
 /// middleware sends it without an outer TAG_1. The answer `85 10 <challenge> 86 10 <receipt>` is
 /// checked and kept raw in the reply.
-template <>
-struct Codec<Command::EcKeySessionInternalAuthenticate> {
+struct EcKeySessionInternalAuthenticateCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -566,12 +617,17 @@ struct Codec<Command::EcKeySessionInternalAuthenticate> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::EcKeySessionInternalAuthenticate` (selects it for
+ * `Codec<Command::EcKeySessionInternalAuthenticate>`). */
+constexpr EcKeySessionInternalAuthenticateCodec CodecFor(
+    CommandTag<Command::EcKeySessionInternalAuthenticate> /*tag*/) noexcept {
+  return {};
+}
 
 /// `EcKeySessionGetEckaPublicKey` (applet 3.x): `84 CA BF 21 06 A6 04 83 02 00 00 00`, key
 /// identifier 00 (user authentication) and key version 00 (AN12413 Tables 76, 77). The answer
 /// `7F49 ... 5F37 ...` is checked to start with 7F49 and kept raw.
-template <>
-struct Codec<Command::EcKeySessionGetEckaPublicKey> {
+struct EcKeySessionGetEckaPublicKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -600,11 +656,16 @@ struct Codec<Command::EcKeySessionGetEckaPublicKey> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::EcKeySessionGetEckaPublicKey` (selects it for
+ * `Codec<Command::EcKeySessionGetEckaPublicKey>`). */
+constexpr EcKeySessionGetEckaPublicKeyCodec CodecFor(
+    CommandTag<Command::EcKeySessionGetEckaPublicKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `SetLockState`: `80 04 00 3E` TLV[TAG_1] PERSISTENT_LOCK (02), TLV[TAG_2] LOCKED (01)
 /// (AN12543 Table 90). Irreversible: run only through `irreversible::` (S-10).
-template <>
-struct Codec<Command::SetLockState> {
+struct SetLockStateCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -620,23 +681,26 @@ struct Codec<Command::SetLockState> {
                                     ByteSpan{kState});
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const SetLockStateArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::SetLockState` (selects it for `Codec<Command::SetLockState>`). */
+constexpr SetLockStateCodec CodecFor(CommandTag<Command::SetLockState> /*tag*/) noexcept {
+  return {};
+}
 
 /// `SetPlatformScpRequest`: `80 04 00 52` TLV[TAG_1] 01 required or 02 not required (AN12543
 /// Table 96). Irreversible (S-10).
-template <>
-struct Codec<Command::SetPlatformScpRequest> {
+struct SetPlatformScpRequestCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -652,24 +716,29 @@ struct Codec<Command::SetPlatformScpRequest> {
     return apdu::detail::EncodeMgmt(out, apdu::kP2Scp, ByteSpan{value}, ByteSpan{});
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const SetPlatformScpRequestArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::SetPlatformScpRequest` (selects it for
+ * `Codec<Command::SetPlatformScpRequest>`). */
+constexpr SetPlatformScpRequestCodec CodecFor(
+    CommandTag<Command::SetPlatformScpRequest> /*tag*/) noexcept {
+  return {};
+}
 
 /// `SetAppletFeatures`: `80 04 00 3F` TLV[TAG_1] 2-byte AppletConfig, or 32 bytes with the
 /// extended feature bitmap (AN12543 Table 99; applet 3.x takes the 2-byte form only, AN12413
 /// Table 87). Irreversible (S-10).
-template <>
-struct Codec<Command::SetAppletFeatures> {
+struct SetAppletFeaturesCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -690,24 +759,28 @@ struct Codec<Command::SetAppletFeatures> {
                                     ByteSpan{});
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const SetAppletFeaturesArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::SetAppletFeatures` (selects it for
+ * `Codec<Command::SetAppletFeatures>`). */
+constexpr SetAppletFeaturesCodec CodecFor(CommandTag<Command::SetAppletFeatures> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DeleteAll`: `80 04 00 2A 00` (AN12543 Table 339 prints `Lc 0x00`; the byte is sent).
 /// Irreversible (S-10); inside a secure session the answer is not wrapped (the device closes the
 /// channel).
-template <>
-struct Codec<Command::DeleteAll> {
+struct DeleteAllCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -717,22 +790,26 @@ struct Codec<Command::DeleteAll> {
                                     apdu::kP2DeleteAll, 1U);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args None. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const Empty& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const Empty& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DeleteAll` (selects it for `Codec<Command::DeleteAll>`). */
+constexpr DeleteAllCodec CodecFor(CommandTag<Command::DeleteAll> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DisableObjCreation` (applet 7.x): `80 04 00 57` TLV[TAG_1] PERSISTENT_LOCK (02), TLV[TAG_2]
 /// RestrictMode 01 new or 02 all (AN12543 Table 93). Irreversible (S-10).
-template <>
-struct Codec<Command::DisableObjCreation> {
+struct DisableObjCreationCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -748,23 +825,28 @@ struct Codec<Command::DisableObjCreation> {
     return apdu::detail::EncodeMgmt(out, apdu::kP2Restrict, ByteSpan{kIndicator}, ByteSpan{mode});
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const DisableObjCreationArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DisableObjCreation` (selects it for
+ * `Codec<Command::DisableObjCreation>`). */
+constexpr DisableObjCreationCodec CodecFor(
+    CommandTag<Command::DisableObjCreation> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetFreeMemory`: `80 04 00 22` TLV[TAG_1] Memory, Le; answer TLV[TAG_1] of 2 bytes (SE050,
 /// SE051; 0x7FFF means 32768 or more) or 4 bytes (SE052) (AN12543 4.20.3).
-template <>
-struct Codec<Command::GetFreeMemory> {
+struct GetFreeMemoryCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -799,10 +881,14 @@ struct Codec<Command::GetFreeMemory> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetFreeMemory` (selects it for `Codec<Command::GetFreeMemory>`).
+ */
+constexpr GetFreeMemoryCodec CodecFor(CommandTag<Command::GetFreeMemory> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetTimestamp`: `80 04 00 3D 00`; answer TLV[TAG_1] 12 bytes (AN12543 4.20.2).
-template <>
-struct Codec<Command::GetTimestamp> {
+struct GetTimestampCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -828,11 +914,14 @@ struct Codec<Command::GetTimestamp> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetTimestamp` (selects it for `Codec<Command::GetTimestamp>`). */
+constexpr GetTimestampCodec CodecFor(CommandTag<Command::GetTimestamp> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetRandom`: `80 04 00 49` TLV[TAG_1] 2-byte size, Le; answer TLV[TAG_1] of exactly that many
 /// bytes (AN12543 4.20.4). The size is `out.size()`, 1 to `kMaxRandom`.
-template <>
-struct Codec<Command::GetRandom> {
+struct GetRandomCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -850,7 +939,7 @@ struct Codec<Command::GetRandom> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -867,11 +956,14 @@ struct Codec<Command::GetRandom> {
     return apdu::detail::CopyOut(v.value, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::GetRandom` (selects it for `Codec<Command::GetRandom>`). */
+constexpr GetRandomCodec CodecFor(CommandTag<Command::GetRandom> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadState` (applet 7.x): `80 02 00 5B 00`; answer TLV[TAG_1] 3 bytes: LockState,
 /// RestrictMode, PlatformSCPRequest (AN12543 4.6.7; AN13030 p. 259 sample `41 82 00 03 02 00 02`).
-template <>
-struct Codec<Command::ReadState> {
+struct ReadStateCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -892,12 +984,15 @@ struct Codec<Command::ReadState> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadState` (selects it for `Codec<Command::ReadState>`). */
+constexpr ReadStateCodec CodecFor(CommandTag<Command::ReadState> /*tag*/) noexcept {
+  return {};
+}
 
 /// `CmInvokeGarbageCollection`: GP GET DATA `80 CA 00 FE 02 DF 25 00` to the card manager
 /// (derived: AN13030 p. 262 prints only the answer `FE 03 DF 25 00`). Wears the memory and
 /// closes the session.
-template <>
-struct Codec<Command::CmInvokeGarbageCollection> {
+struct CmInvokeGarbageCollectionCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -907,24 +1002,30 @@ struct Codec<Command::CmInvokeGarbageCollection> {
     return apdu::detail::EncodeGetData(out, 0x00FEU, ByteSpan{kTag});
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     ByteSpan value{};
     return apdu::detail::UnwrapFe(data, 0xDF25U, value);
   }
   /** @brief Decode. @param args None. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const Empty& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const Empty& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CmInvokeGarbageCollection` (selects it for
+ * `Codec<Command::CmInvokeGarbageCollection>`). */
+constexpr CmInvokeGarbageCollectionCodec CodecFor(
+    CommandTag<Command::CmInvokeGarbageCollection> /*tag*/) noexcept {
+  return {};
+}
 
 /// `SendCardManagerCmd` (applet 7.x): `80 04 00 55` TLV[TAG_1] card manager APDU, Le; answer
 /// TLV[TAG_1] card manager response (AN12543 Tables 102, 103). The card manager still demands its
 /// own authentication.
-template <>
-struct Codec<Command::SendCardManagerCmd> {
+struct SendCardManagerCmdCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -942,7 +1043,7 @@ struct Codec<Command::SendCardManagerCmd> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -954,11 +1055,16 @@ struct Codec<Command::SendCardManagerCmd> {
     return apdu::detail::DecodeTag1Into(data, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::SendCardManagerCmd` (selects it for
+ * `Codec<Command::SendCardManagerCmd>`). */
+constexpr SendCardManagerCmdCodec CodecFor(
+    CommandTag<Command::SendCardManagerCmd> /*tag*/) noexcept {
+  return {};
+}
 
 /// `TriggerSelfTest` (applet 7.x): `80 04 00 58` TLV[TAG_1] 2-byte HealthCheckMode, Le; answer
 /// TLV[TAG_1] Result (AN12543 4.6.6). On a failure the chip may reset without an answer.
-template <>
-struct Codec<Command::TriggerSelfTest> {
+struct TriggerSelfTestCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -990,6 +1096,13 @@ struct Codec<Command::TriggerSelfTest> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::TriggerSelfTest` (selects it for
+ * `Codec<Command::TriggerSelfTest>`). */
+constexpr TriggerSelfTestCodec CodecFor(CommandTag<Command::TriggerSelfTest> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 } // namespace se05x
 

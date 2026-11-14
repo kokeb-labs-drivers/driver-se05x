@@ -20,9 +20,11 @@
  *
  * The status word is not the codec's: `Device` maps it with `apdu::StatusToError()` in the context
  * of the command, then calls `Decode` only for 0x9000. The primary template below is the stub:
- * every function returns `NotImplemented`. The APDU package specialises it group by group in
- * `se05x_apdu_*.hpp`; an unspecialised command keeps the stub, which is how the integration check
- * finds a command nobody wrote.
+ * every function returns `NotImplemented`. The APDU package writes each command's codec group by
+ * group in `se05x_apdu_*.hpp` as a struct in `se05x::codecs` and selects it with an overload
+ * `codecs::CodecFor(codecs::CommandTag<C>)`; the constrained `Codec<C>` below then derives from
+ * it. All specialisations of `Codec` stay in this file (MISRA C++:2023 Rule 6.2.3). A command with
+ * no overload keeps the stub, which is how the integration check finds a command nobody wrote.
  */
 #ifndef SE05X_CODEC_HPP
 #define SE05X_CODEC_HPP
@@ -42,8 +44,32 @@ namespace se05x {
  * @{
  */
 
+namespace codecs {
+
 /**
- * @brief Encoder and decoder of command `C`. Specialise per command; this is the stub.
+ * @brief The tag that names command `C` to the overloads of `CodecFor`, one per implemented
+ * command, in the group headers.
+ * @tparam C The command.
+ */
+template <Command C>
+struct CommandTag {};
+
+} // namespace codecs
+
+namespace detail {
+
+/**
+ * @brief Whether the APDU layer declares a codec for `C`: an overload `CodecFor(CommandTag<C>)`,
+ * found in `se05x::codecs` by argument-dependent lookup.
+ * @tparam C The command.
+ */
+template <Command C>
+concept HasCodec = requires { CodecFor(codecs::CommandTag<C>{}); };
+
+} // namespace detail
+
+/**
+ * @brief Encoder and decoder of command `C`; this is the stub, for a command with no codec.
  * @tparam C The command.
  */
 template <Command C>
@@ -92,6 +118,15 @@ struct Codec {
     return NotImplemented<void>(Layer::Apdu);
   }
 };
+
+/**
+ * @brief Encoder and decoder of command `C`: the codec the group header selects with
+ * `codecs::CodecFor(codecs::CommandTag<C>)`.
+ * @tparam C The command.
+ */
+template <Command C>
+  requires detail::HasCodec<C>
+struct Codec<C> : decltype(CodecFor(codecs::CommandTag<C>{})){};
 
 /** @} */
 

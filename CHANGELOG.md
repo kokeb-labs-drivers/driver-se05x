@@ -86,3 +86,19 @@ version bump (a minor bump before 1.0).
   every facade call on both generations and a test that the argument checks run first; `Attest` and `Load` are
   tested against a value cut short under a valid signature (model knob `read_truncate`), and the store-marker check
   directly, including a signed size above the 256-byte buffer.
+
+### Changed
+
+- Each command codec is a struct in `se05x::codecs`, selected by an overload `codecs::CodecFor(CommandTag<C>)`;
+  `Codec<C>` keeps its interface, and its only specialisation is in `se05x_codec.hpp` (MISRA C++:2023 Rule 6.2.3).
+  A two- or three-argument `Decode` that does not fill its reply takes it by `const` reference.
+- The `Name` and `AltNames` entries are `pki::detail::NameEntry` and `AltNameEntry`, no longer nested types.
+- The facade's key and slot parameters name `Key<U>` and `SlotOf<K>`; the aliases (`SignKey`, `DataSlot`, ...)
+  stay for callers.
+
+### Fixed
+
+- A host test read the command count in the same call that sent a command, so its result depended on the order
+  in which the compiler evaluated arguments.
+- Test code no longer passes a null pointer with a length of zero to `memcpy` or `memcmp` (`tests/model/bytes.hpp`).
+- SHA helpers index spans instead of doing pointer arithmetic (Rule 8.7.1); `checkArgs` names its unused flag.
