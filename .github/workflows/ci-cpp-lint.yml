@@ -18,6 +18,8 @@ jobs:
       pull-requests: write
     with:
       clang_version: "20"
+      # clang-tidy runs file by file over every test and header check.
+      timeout_minutes: 45
       clang_format_config: "_config/.clang-format"
       clang_tidy_config: "_config/.clang-tidy"
       extensions: "c,cpp,cc,cxx,h,hpp,ipp"
