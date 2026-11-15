@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="967" viewBox="0 0 1200 967" role="img" aria-labelledby="scp03-session-title scp03-session-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="scp03-session-title">Platform SCP03: opening the channel</title>
+<desc id="scp03-session-desc">Sequence diagram: INITIALIZE UPDATE, card cryptogram check in the crypto port, EXTERNAL AUTHENTICATE, then wrapped commands with MAC and encryption both ways.</desc>
+<defs><marker id="fk-arrow-brand-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F4B942"/></marker><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2BB3A3"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="966" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">SECURE CHANNEL</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">Platform SCP03: opening the channel</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Static keys stay behind KeyRef handles in the crypto port.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M147 210.8 L147 816.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="4 5"/>
+<path d="M600 210.8 L600 816.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="4 5"/>
+<path d="M1053 210.8 L1053 816.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="4 5"/>
+<path d="M153 266.8 L594 266.8" fill="none" stroke="#F4B942" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<path d="M153 324.8 L1047 324.8" fill="none" stroke="#F4B942" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<path d="M1047 382.8 L153 382.8" fill="none" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#fk-arrow-teal-strong)"/>
+<path d="M153 440.8 L594 440.8" fill="none" stroke="#F4B942" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<path d="M153 556.8 L1047 556.8" fill="none" stroke="#F4B942" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<path d="M1047 614.8 L153 614.8" fill="none" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#fk-arrow-teal-strong)"/>
+<path d="M153 672.8 L1047 672.8" fill="none" stroke="#F4B942" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<path d="M1047 730.8 L153 730.8" fill="none" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#fk-arrow-teal-strong)"/>
+<rect x="32" y="137.8" width="230" height="69" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="53" rx="2" fill="#F4B942"/>
+<rect x="485" y="137.8" width="230" height="69" rx="10" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="485" y="145.8" width="4" height="53" rx="2" fill="#A78BFA"/>
+<rect x="938" y="137.8" width="230" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="938" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="474.8" width="408.4" height="59.8" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<rect x="32" y="764.8" width="408.4" height="59.8" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<rect x="32" y="826.8" width="1136" height="79.3" rx="10" fill="#1B232E" stroke="#3A4656" stroke-width="1"/>
+<text x="150" y="164.6" font-size="15" font-weight="700" text-anchor="middle" fill="#F8D27A">scp03::Channel</text>
+<text x="150" y="189.4" font-size="13" text-anchor="middle" fill="#D2DAE4">the driver</text>
+<text x="603" y="164.6" font-size="15" font-weight="700" text-anchor="middle" fill="#DDD6FE">Crypto port</text>
+<text x="603" y="189.4" font-size="13" text-anchor="middle" fill="#D2DAE4">static keys as KeyRef</text>
+<text x="1056" y="164.6" font-size="15" font-weight="700" text-anchor="middle" fill="#A7F3E6">SE05x card manager</text>
+<text x="1056" y="189.4" font-size="13" text-anchor="middle" fill="#D2DAE4">ISD, platform keys</text>
+<rect x="267.6" y="240.8" width="211.9" height="20" rx="10" fill="#0E131A"/>
+<text x="373.5" y="255.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Random(): 8-byte host challenge</text>
+<rect x="483.6" y="298.8" width="232.7" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="313.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">INITIALIZE UPDATE (host challenge)</text>
+<rect x="494.7" y="356.8" width="210.6" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="371.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">card challenge, card cryptogram</text>
+<rect x="235.3" y="414.8" width="276.5" height="20" rx="10" fill="#0E131A"/>
+<text x="373.5" y="429.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">derive S-ENC, S-MAC, S-RMAC (AesCmac)</text>
+<text x="46" y="499.9" font-size="13" fill="#FDE68A">Compare the card cryptogram in constant time; a</text>
+<text x="46" y="518.7" font-size="13" fill="#FDE68A">mismatch is SecureChannelError.</text>
+<rect x="434.5" y="530.8" width="331" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="545.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">EXTERNAL AUTHENTICATE (host cryptogram, level)</text>
+<rect x="532.9" y="588.8" width="134.2" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="603.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">9000: channel open</text>
+<rect x="469.6" y="646.8" width="260.7" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="661.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">wrapped APDU: C-MAC, C-ENC, counter</text>
+<rect x="529" y="704.8" width="142.1" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="719.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">reply: R-MAC, R-ENC</text>
+<text x="46" y="789.8" font-size="13" fill="#FDE68A">Check R-MAC on every reply, short ones too; on failure</text>
+<text x="46" y="808.7" font-size="13" fill="#FDE68A">close and wipe.</text>
+<text x="46" y="853.5" font-size="15" font-weight="700" fill="#E2E8F0">Levels</text>
+<text x="46" y="871.3" font-size="13" fill="#E2E8F0">Security levels of the contract: CMac, CMacCDecrypt, CMacRMac, Full. Errata JOS.2: on applet 3.x the encryption counter does not advance for a command without</text>
+<text x="46" y="890.2" font-size="13" fill="#E2E8F0">data, so the channel adds data as the vendor does (errata section 3.13, p. 11).</text>
+<rect x="32" y="921.5" width="14" height="14" rx="4" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<text x="54" y="933.2" font-size="12.5" fill="#9AA6B5">command</text>
+<rect x="140.1" y="921.5" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="162.1" y="933.2" font-size="12.5" fill="#9AA6B5">reply</text>
+<rect x="217.6" y="921.5" width="14" height="14" rx="4" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<text x="239.6" y="933.2" font-size="12.5" fill="#9AA6B5">check that closes the channel on failure</text>
+</svg>

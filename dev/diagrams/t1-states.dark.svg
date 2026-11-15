@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="648" viewBox="0 0 1200 648" role="img" aria-labelledby="t1-states-title t1-states-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="t1-states-title">The T=1 link: states and S-blocks</title>
+<desc id="t1-states-desc">State diagram of t1::Link: Closed, Idle, InFlight, NeedsReselect and Dead, with the S-blocks handled while a command is in flight.</desc>
+<defs><marker id="fk-arrow-amber-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FBBF24"/></marker><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker><marker id="fk-arrow-rose-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FB7185"/></marker><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2BB3A3"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="647" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">TRANSPORT</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">The T=1 link: states and S-blocks</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">One command in flight at a time (errata I2C.1).</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M266 172.3 L330 172.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M568 162 L632 162" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M632 189.6 L568 189.6" fill="none" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-teal-strong)"/>
+<path d="M751 210.8 L751 323.8" fill="none" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-amber-strong)"/>
+<path d="M632 362.3 L457 362.3 Q449 362.3 449 354.3 L449 210.8" fill="none" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-amber-strong)"/>
+<path d="M751 400.8 L751 513.8" fill="none" stroke="#FB7185" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<rect x="32" y="137.8" width="230" height="69" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="53" rx="2" fill="#94A3B8"/>
+<rect x="334" y="137.8" width="230" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="334" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="636" y="137.8" width="230" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="636" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="636" y="327.8" width="230" height="69" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="636" y="335.8" width="4" height="53" rx="2" fill="#FBBF24"/>
+<rect x="636" y="517.8" width="230" height="69" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="636" y="525.8" width="4" height="53" rx="2" fill="#FB7185"/>
+<rect x="906" y="137.8" width="262" height="257" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="906" y="145.8" width="4" height="241" rx="2" fill="#F4B942"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#E2E8F0">Closed</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">before Open(), after Close()</text>
+<text x="354" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">Idle</text>
+<text x="354" y="189.4" font-size="13" fill="#D2DAE4">open, nothing in flight</text>
+<text x="656" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">InFlight</text>
+<text x="656" y="189.4" font-size="13" fill="#D2DAE4">one command exchanged</text>
+<text x="656" y="354.6" font-size="15" font-weight="700" fill="#FDE68A">NeedsReselect</text>
+<text x="656" y="379.4" font-size="13" fill="#D2DAE4">chip context was reset</text>
+<text x="656" y="544.5" font-size="15" font-weight="700" fill="#FECDD3">Dead</text>
+<text x="656" y="569.4" font-size="13" fill="#D2DAE4">ladder spent</text>
+<rect x="270.9" y="162.3" width="54.1" height="20" rx="10" fill="#0E131A"/>
+<text x="298" y="176.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Open()</text>
+<rect x="572.7" y="152" width="54.6" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="166.3" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">I-block</text>
+<rect x="578.6" y="179.6" width="42.8" height="20" rx="10" fill="#0E131A"/>
+<text x="600" y="193.9" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">reply</text>
+<rect x="713.7" y="257.3" width="74.5" height="20" rx="10" fill="#0E131A"/>
+<text x="751" y="271.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">reset rung</text>
+<rect x="419.7" y="352.3" width="90" height="20" rx="10" fill="#0E131A"/>
+<text x="464.8" y="366.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">select applet</text>
+<rect x="706.9" y="447.3" width="88.1" height="20" rx="10" fill="#0E131A"/>
+<text x="751" y="461.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">ladder spent</text>
+<text x="926" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">Handled in flight</text>
+<text x="926" y="189.4" font-size="13" fill="#D2DAE4">S(WTX) C3 answered E3, counted</text>
+<text x="926" y="208.2" font-size="13" fill="#D2DAE4">by wtx_limit</text>
+<text x="926" y="227.1" font-size="13" fill="#D2DAE4">R-block error: resend, at most</text>
+<text x="926" y="245.9" font-size="13" fill="#D2DAE4">frame_retries</text>
+<text x="926" y="264.8" font-size="13" fill="#D2DAE4">chaining: M bit, R(N(R)) per part</text>
+<text x="926" y="283.6" font-size="13" fill="#D2DAE4">S(IFS) C1, S(ABORT) C2,</text>
+<text x="926" y="302.5" font-size="13" fill="#D2DAE4">S(RESYNC) C0</text>
+<text x="926" y="321.3" font-size="13" fill="#D2DAE4">interface soft reset CF: context</text>
+<text x="926" y="340.2" font-size="13" fill="#D2DAE4">reset</text>
+<text x="926" y="359" font-size="13" fill="#D2DAE4">0xC6: chip reset (NXP), RELEASE</text>
+<text x="926" y="377.9" font-size="13" fill="#D2DAE4">(GP)</text>
+<rect x="32" y="602.2" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="54" y="613.8" font-size="12.5" fill="#9AA6B5">normal path</text>
+<rect x="152.5" y="602.2" width="14" height="14" rx="4" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<text x="174.5" y="613.8" font-size="12.5" fill="#9AA6B5">recovery</text>
+<rect x="254.3" y="602.2" width="14" height="14" rx="4" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<text x="276.3" y="613.8" font-size="12.5" fill="#9AA6B5">stopped</text>
+</svg>

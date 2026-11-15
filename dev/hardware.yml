@@ -1,0 +1,336 @@
+---
+# The chip's hardware in one file: package, pins, the driver hook of each pin, the blocks inside and the reference
+# circuits. `kokeb-docs figures` draws the pinout, the package outline, the block diagram and the circuits from it,
+# `kokeb-docs gen` writes the chip card of the README and the tables of docs/hardware.md, and
+# `kokeb-docs hardware --check` validates it.
+#
+# The family has two packages. This file describes the HX2QFN20 of the SE050 and SE051 (their pin tables are the
+# same: SE050 Table 5, SE051 Table 3). The HVQFN20 of the SE052 has another pin table (no ENA pin, SDA and SCL on
+# pins 11 and 10, VDD in place of VCC); it is drawn by docs/diagrams/figures/se052-pinout.py and se052-wiring.py
+# from docs/diagrams/figures/_se052.py, which cites SE052 Table 2. `chip` names the family, so the figures drawn from
+# this file say "the SE05x in HX2QFN20"; docs/variants.md says which variant is in which package.
+#
+# RST_N is not a hook: on the SE050 and SE051 it is the ISO 7816 reset and has no effect when only I2C is enabled
+# (SE050 section 4.2, p. 9; SE051 section 4.2, p. 10). The driver's power-cycle rung uses ENA with VOUT wired to VCC.
+schema: 1
+chip: SE05x
+
+refs:
+  pins: {doc: se050, section: "Table 5 Pin description HX2QFN20", page: 11}
+  pins_cont: {doc: se050, section: "Table 5 Pin description HX2QFN20, continued", page: 12}
+  pins51: {doc: se051, section: "Table 3 Pin description HX2QFN20", page: 12}
+  pins52: {doc: se052, section: "Table 2 Pin description for SE052", page: 4}
+  package: {doc: se050, section: "8 Package", page: 12}
+  supply: {doc: se050, section: "Table 9 Recommended operating conditions", page: 13}
+  startup: {doc: se050, section: "3.4 Startup behavior", page: 8}
+  rst: {doc: se050, section: "4.2 ISO7816 and ISO14443 interface", page: 9}
+  dpd: {doc: se050, section: "5.2 Deep Power-down mode", page: 10}
+  ac: {doc: se050, section: "Table 14 AC characteristics", page: 18}
+  functions: {doc: se050, section: "3 Functional description", page: 6}
+  kit: {doc: an13539, section: "Table 9 and the jumper tables (J37, J38)", page: 15}
+  intro: {doc: se050, section: "SE050 1 Introduction", page: 1}
+  uses: {doc: se050, section: "SE050 1.1 SE050 use cases", page: 1}
+  apps: {doc: se050, section: "SE050 1.2 SE050 target applications", page: 2}
+  apps52: {doc: se052, section: "SE052 1.2 Applications", page: 1}
+  solution: {doc: se050, section: "SE050 Figure 1 SE050 solution block diagram", page: 2}
+  features: {doc: se050, section: "SE050 2.2 Key features", page: 3}
+  addr: {doc: se050, section: "SE050 4.1 I2C interfaces, Figure 3", page: 8}
+  package52: {doc: se052, section: "SE052 6 Package", page: 5}
+  wifi: {doc: an12661, section: "AN12661 2 Wi-Fi credential protection", page: 4}
+  a_counter: {doc: an12543, section: "AN12543 3.2.1.7 Counter", page: 7}
+  a_attest: {doc: an12543, section: "AN12543 3.2.7.2 Reading with attestation", page: 19}
+  a_scp: {doc: an12543, section: "AN12543 3.5 Secure Channel Protocols", page: 27}
+  a_lifecycle: {doc: an12543, section: "AN12543 3.8 Lifecycle management", page: 42}
+  a_keys: {doc: an12543, section: "AN12543 4.7.1.1 WriteECKey", page: 80}
+  a_binary: {doc: an12543, section: "AN12543 4.7.1.4 WriteBinary", page: 84}
+  a_sign: {doc: an12543, section: "AN12543 4.10 Crypto operations EC", page: 101}
+  t1_frame: {doc: um11225, section: "UM11225 2.1 T=1 Block Frame Format, Tables 1 to 4", page: 5}
+  iso: {doc: se050, section: "SE050 4.2 ISO7816 and ISO14443 interface", page: 9}
+  s_supply: {doc: se050, section: "SE050 Table 9 Recommended operating conditions", page: 13}
+  s_package: {doc: se050, section: "SE050 8 Package", page: 12}
+  t1_rblock: {doc: um11225, section: "UM11225 Table 6 Coding of R-Block PCB", page: 6}
+
+package:
+  type: HX2QFN20
+  pins: 20
+  layout: quad
+  exposed_pad: true
+  ref: pins
+  outline: {length_mm: 3.0, width_mm: 3.0, height_mm: 0.32, pitch_mm: 0.4, ref: package}
+  variants:
+    - {id: hvqfn20, type: HVQFN20, pins: 20, size: "4.0 x 4.0 x 0.85 mm", ordering: "SE052",
+       note: "0.5 mm pitch; no ENA pin; SCL on pin 10, SDA on pin 11, VDD on pin 18; the data sheet names SOT917-7
+       (section 6, p. 5), AN14028 SOT917-6 (ambiguity A2)", ref: pins52}
+
+supply:
+  - {name: VIN, min_v: 1.62, max_v: 3.6, ref: supply}
+  - {name: VCC, min_v: 1.62, max_v: 3.6, ref: supply}
+
+# The chip-first README: what the family is and does, where it is used, how the driver covers it and what one T=1
+# block carries. `kokeb-docs figures` draws chip-hero, chip-capabilities and chip-frame-t1-rblock from it,
+# `kokeb-docs gen` the README's chip-summary, chip-uses and chip-coverage regions. Everything here holds for the
+# whole family (SE050, SE051, SE052); what differs between the variants is on docs/variants.md. The hero draws the
+# HX2QFN20 of the SE050 and SE051; its tiles give both packages.
+# The applet has no register map: the `registers` of a capability are the IoT applet commands as AN12543 names
+# them, each with its `Command` enumerator in inc/se05x_commands.hpp (`header`). Every command also runs through
+# `Device::Execute<C>()`, behind the capability gate.
+overview:
+  summary: >-
+    a family of secure elements (SE050, SE051, SE052) that hold keys and credentials isolated from the host, sign,
+    agree keys and attest with them inside the chip, and talk to the host over I2C with T=1 framing and an
+    encrypted SCP03 channel
+  category: Secure element, IoT root of trust
+  ref: intro
+  applications_ref: uses
+  applications:
+    - Secure connection to public and private clouds and edge platforms
+    - Device-to-device authentication
+    - {label: Protection of data such as sensor data, ref: intro}
+    - {label: Wi-Fi credential protection, detail: "a device key for WPA-EAP-TLS", ref: wifi}
+    - Secure commissioning, key storage and credential provisioning
+    - Ecosystem protection
+    - {label: "Smart industry, smart home, smart cities and smart supply chains", ref: apps}
+    - {label: Healthcare (SE052), ref: apps52}
+  specs:
+    - {value: "EAL 6+", label: "Common Criteria, hardware and OS (SE051 2.2, p. 3; SE052 3.1, p. 3)",
+       ref: features}
+    - {value: "0x48", label: "I2C target address, T=1 framing (SE052: Table 12, p. 18)", ref: addr}
+    - {value: "1.62 to 3.6 V", label: "VIN and VCC, SE050 and SE051", ref: s_supply}
+    - {value: "3 x 3 mm", label: "HX2QFN20, SE050 and SE051", ref: s_package}
+    - {value: "4 x 4 mm", label: "HVQFN20, SE052", ref: package52}
+  system:
+    host: MCU
+    bus: I2C, T=1
+    drives:
+      - {label: Sensor or actuator, detail: "optional, on the chip's own I2C controller", ref: solution}
+
+# Headers the capability `api` and `registers` names are checked against: the facade, the command layer, the
+# optional PKI layer and the irreversible operations; the applet commands.
+driver:
+  api: [inc/se05x_hrot.hpp, inc/se05x_device.hpp, inc/se05x_pki_csr.hpp, inc/se05x_pki_verify.hpp,
+        inc/se05x_pki_device.hpp, inc/se05x_irreversible.hpp]
+  registers: [inc/se05x_commands.hpp]
+
+capabilities:
+  - {id: keys, title: Key generation, icon: key, status: supported, ref: a_keys, docs: tasks/provisioning.md,
+     what: "Generates EC key pairs inside the chip under a policy; the private key never leaves it",
+     note: "the facade needs applet 7.x; Device also serves 3.x (AN12413 4.7.1.1, p. 58)",
+     api: [Provision, GenerateEcKey, Execute],
+     registers: [{name: WriteECKey, header: WriteEcKey}, WriteSymmKey]}
+  - {id: sign, title: Signatures and key agreement, icon: check, status: supported, ref: a_sign,
+     docs: getting-started.md#sign-and-verify,
+     what: "ECDSA signatures and verification and ECDH shared secrets with keys held in the chip",
+     api: [Sign, TlsSign, VerifySignature, Agree, EcdsaSign, EcdsaVerify],
+     registers: [{name: ECDSASign, header: EcdsaSign}, {name: ECDSAVerify, header: EcdsaVerify},
+                 {name: ECDHGenerateSharedSecret, header: EcdhGenerateSharedSecret}]}
+  - {id: attest, title: Attestation, icon: tag, status: supported, ref: a_attest, docs: tasks/attestation.md,
+     what: "Proves a key or a value comes from this chip: a signed, fresh read with the chip's unique ID",
+     note: "the facade needs applet 7.x; Device also serves 3.x (AN12413 3.2.7.2, p. 13)",
+     api: [Attest, ReadAttested],
+     registers: [{name: ReadObject with attestation, header: ReadObjectAttested}]}
+  - {id: storage, title: Secure storage, icon: lock, status: supported, ref: a_binary, docs: tasks/secret-storage.md,
+     what: "Binary objects for secrets such as a Wi-Fi passphrase or a token, read only as their policy allows",
+     note: "the facade needs applet 7.x; Device also serves 3.x (AN12413 4.7.1.4, p. 61)",
+     api: [Store, Load, WriteBinary, ReadObject],
+     registers: [WriteBinary, ReadObject]}
+  - {id: certs, title: Certificates and CSR, icon: chain, status: supported, ref: a_binary, docs: pki.md,
+     what: "Stores and reads certificates, builds a certificate request for a chip key and checks a chain",
+     note: "requests and chains in the optional PKI layer",
+     api: [StoreCertificate, LoadCertificate, BuildCsr, VerifyChain],
+     registers: [WriteBinary, ReadObject]}
+  - {id: counters, title: Monotonic counters, icon: steps, status: supported, ref: a_counter,
+     docs: tasks/anti-rollback.md,
+     what: "Counters that only count up, for an anti-rollback floor on the firmware version",
+     note: "the facade needs applet 7.x; Device also serves 3.x (AN12413 3.2.1.7, p. 8)",
+     api: [CreateCounter, RaiseCounterTo, CheckFloor, IncrementCounter],
+     registers: [WriteCounter]}
+  - {id: channels, title: Secure channels, icon: shield, status: supported, ref: a_scp, docs: secure-channels.md,
+     what: "Platform SCP03 encrypts the bus; AESKey, ECKey and UserID sessions authenticate the caller",
+     note: "ECKey sessions behind a build flag",
+     api: [Open, BeginAesKeySession, BeginEcKeySession, BeginUserIdSession, EndSession],
+     registers: [CreateSession, {name: SCPInitializeUpdate, header: ScpInitializeUpdate},
+                 {name: VerifySessionUserID, header: VerifySessionUserId}]}
+  - {id: lifecycle, title: Lifecycle and locks, icon: alert, status: guarded, ref: a_lifecycle,
+     docs: irreversible.md,
+     what: "Transport lock, a platform SCP03 requirement and factory reset: one-way changes to the chip",
+     note: "compiled out by default; each needs a plan and a typed confirmation",
+     api: [ExecuteIrreversible, Operations],
+     registers: [SetLockState, {name: SetPlatformSCPRequest, header: SetPlatformScpRequest}, DeleteAll]}
+  - {id: iso, title: Contactless and ISO 7816, icon: bus, status: not-covered, ref: iso, docs: limitations.md,
+     what: "The ISO 14443 antenna and ISO 7816 interfaces; the host cannot reach them over I2C"}
+
+frames:
+  - id: t1-rblock
+    title: T=1 R-block (acknowledgement)
+    description: >-
+      Every T=1 block is a prologue (NAD, PCB, LEN), up to LEN bytes of APDU and a CRC16; an R-block has no data,
+      so it is five bytes. The GlobalPlatform flavour has a two-byte LEN.
+    bits: 40
+    ref: t1_frame
+    rows:
+      - label: Host to chip
+        sub: SDA, NAD 0x5A
+        fields:
+          - {name: DAD, bits: [39, 36], tone: blue}
+          - {name: SAD, bits: [35, 32], tone: blue}
+          - {name: PCB, bits: [31, 24], tone: amber}
+          - {name: LEN 0x00, short: LEN, bits: [23, 16], tone: violet}
+          - {name: CRC16, bits: [15, 0], tone: slate}
+      - label: Chip to host
+        sub: SDA, NAD 0xA5
+        fields:
+          - {name: DAD, bits: [39, 36], tone: blue}
+          - {name: SAD, bits: [35, 32], tone: blue}
+          - {name: PCB, bits: [31, 24], tone: amber}
+          - {name: LEN 0x00, short: LEN, bits: [23, 16], tone: violet}
+          - {name: CRC16, bits: [15, 0], tone: slate}
+    decode:
+      row: Host to chip
+      field: PCB
+      ref: t1_rblock
+      bits:
+        - {bit: 7, name: "1 (R-block)"}
+        - {bit: 6, name: "0 (R-block)"}
+        - {bit: 5, name: "0 (reserved)"}
+        - {bit: 4, name: "N(R)"}
+        - {bit: 3, name: "0 (reserved)"}
+        - {bit: 2, name: "0 (reserved)"}
+        - {bit: 1, name: "error code, high"}
+        - {bit: 0, name: "error code, low"}
+
+hooks:
+  - {id: i2c, call: "Write() / Read()", kind: i2c, source: inc/se05x_ports.hpp, symbol: BusInterface}
+  - {id: enable, call: "SetEnable() / PowerCycle()", kind: gpio-out, source: inc/se05x_ports.hpp,
+     symbol: ResetInterface}
+
+pins:
+  - {number: 1, name: LB, type: analog, domain: VCC, function: "ISO 14443 antenna connection; not used by this driver",
+     unused: Tie to VSS, ref: pins}
+  - {number: 2, name: NC2, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 3, name: IO1, type: digital-io, domain: VCC,
+     function: "ISO 7816 IO, or SDA of the chip's own I2C controller (I2CM commands); referenced to VCC",
+     unused: "Leave open (recommended) or tie to VCC", ref: pins}
+  - {number: 4, name: NC4, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 5, name: NC5, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 6, name: NC6, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 7, name: NC7, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 8, name: NC8, type: nc, domain: GND, function: "Not connected", ref: pins}
+  - {number: 9, name: SDA, type: bus, domain: VIN,
+     function: "I2C target data, open drain, T=1 frames at address 0x48; needs a pull-up; referenced to VIN",
+     hook: i2c, unused: Leave open, ref: pins}
+  - {number: 10, name: SCL, type: bus, domain: VIN,
+     function: "I2C target clock, open drain; needs a pull-up; referenced to VIN", hook: i2c, unused: Leave open,
+     ref: pins}
+  - {number: 11, name: ENA, type: digital-in, domain: VIN,
+     function: "Deep power-down enable: low enters deep power-down (no state retention), high leaves it and the chip
+     boots; tENalt 2 us typical, no minimum printed (the ESP-IDF port holds 10 us); glitches below 0.4 V longer than 30 ns count",
+     hook: enable, unused: Tie to VCC, ref: pins}
+  - {number: 12, name: VIN, type: power, domain: VIN,
+     function: "Supply of the I2C pads and the ISO 7816/14443 interfaces, and the logic supply when deep power-down
+     is used; 1.62 V to 3.6 V", ref: pins}
+  - {number: 13, name: CLK, type: digital-in, domain: VCC, function: "ISO 7816 clock input; not used by this driver",
+     unused: "Leave open (recommended) or tie to VCC", ref: pins}
+  - {number: 14, name: RST_N, type: digital-in, domain: VCC,
+     function: "ISO 7816 reset, active low; has no effect when only the I2C interface is enabled (section 4.2), so
+     the driver does not use it", unused: "Tie to VCC or VSS", ref: pins_cont}
+  - {number: 15, name: VOUT, type: power-out, domain: VIN,
+     function: "Switched supply output; connect to VCC on the board when deep power-down is used (up to 25 mA,
+     switch at most 1.1 ohm, Table 14)", unused: Leave open, ref: pins_cont}
+  - {number: 16, name: IO2, type: digital-io, domain: VOUT,
+     function: "ISO 7816 IO2, or SCL of the chip's own I2C controller (I2CM commands)",
+     unused: "Leave open (recommended) or tie to VOUT", ref: pins_cont,
+     unverified: "the data sheet gives VOUT (note under Table 5, p. 12) and VIN (Table 9 note 2, p. 13) as the
+     reference of IO2"}
+  - {number: 17, name: LA, type: analog, domain: VCC, function: "ISO 14443 antenna connection; not used by this driver",
+     unused: Tie to VSS, ref: pins_cont}
+  - {number: 18, name: VCC, type: power, domain: VCC,
+     function: "Logic and ISO 7816/14443 interface supply; connect to VOUT on the board when deep power-down is
+     used, else to the supply", ref: pins_cont}
+  - {number: 19, name: VSS, type: ground, domain: GND, function: "Ground", ref: pins_cont}
+  - {number: 20, name: NC20, type: nc, domain: GND, function: "Not connected", ref: pins_cont}
+  - {number: EP, name: VSS_EP, type: ground, domain: GND,
+     function: "Centre pad: not connected inside; connecting it to ground is recommended for thermal reasons",
+     unused: Tie to GND, ref: pins_cont}
+
+block_diagram:
+  ref: functions
+  unverified: >-
+    drawn from the functional description (sections 3 to 5) of the SE050 data sheet, which has no hardware block
+    diagram; it shows the SE050 and SE051 (same pin table); the SE052 has no ENA pin (SE052 Table 2, p. 4), so the
+    power-switch block does not apply to it
+  blocks:
+    - {id: i2c, label: I2C target, detail: "T=1 over I2C, address 0x48", at: [0, 0], tone: blue, pins: [SDA, SCL]}
+    - {id: app, label: IoT applet, detail: "secure objects, policies, 2 sessions", at: [1, 0]}
+    - {id: crypto, label: Crypto and RNG, detail: "EC, RSA, AES, DRG.4 from a PTG.2 TRNG", at: [2, 0], tone: teal}
+    - {id: pwr, label: Power switch, detail: "ENA, VIN to VOUT, deep power-down; not on the SE052", at: [0, 1],
+       tone: slate,
+       pins: [ENA, VIN, VOUT, VCC, VSS]}
+    - {id: i2cm, label: I2C controller, detail: "400 kHz, for a sensor", at: [2, 1], tone: violet, pins: [IO1, IO2]}
+    - {id: iso, label: ISO 7816 and 14443, detail: "not enabled in generic configurations", at: [0, 2],
+       tone: slate, pins: [CLK, RST_N, LA, LB]}
+  links:
+    - {from: i2c, to: app, label: APDUs, both: true}
+    - {from: app, to: crypto, label: operations, both: true}
+    - {from: app, to: i2cm, label: I2CM commands}
+    - {from: pwr, to: app, label: boot}
+    - {from: iso, to: app, label: other interfaces}
+
+circuits:
+  - id: typical
+    title: Recommended application (SE050, SE051)
+    description: >-
+      The chip on an MCU's I2C bus with pull-ups, ENA on a GPIO the reset port drives, and VOUT wired to VCC so that
+      ENA low switches the core off: the only power cycle the driver can make, and the only cure of errata I2C.1
+      and I2C.2. RST_N is tied to VSS (allowed by Table 5): it has no effect with I2C alone, and VCC is switched off
+      in deep power-down.
+    ref: dpd
+    parts:
+      - {id: U1, kind: chip}
+      - id: U2
+        kind: mcu
+        label: MCU
+        pins:
+          - {name: SDA, label: I2C SDA}
+          - {name: SCL, label: I2C SCL}
+          - {name: ENA, label: GPIO}
+          - VDD
+          - GND
+      - {id: C1, kind: capacitor, value: 100 nF, ref: supply,
+         unverified: "a usual decoupling value; the SE050 data sheet gives none"}
+      - {id: R1, kind: resistor, value: 3.3 kΩ, ref: kit}
+      - {id: R2, kind: resistor, value: 3.3 kΩ, ref: kit}
+    nets:
+      - {name: "+3V3", kind: supply, nodes: [U1.VIN, C1.1, R1.1, R2.1, U2.VDD]}
+      - {name: GND, kind: ground, nodes: [U1.VSS, U1.VSS_EP, U1.RST_N, C1.2, U2.GND]}
+      - {name: SDA, nodes: [U1.SDA, R1.2, U2.SDA]}
+      - {name: SCL, nodes: [U1.SCL, R2.2, U2.SCL]}
+      - {name: ENA, nodes: [U1.ENA, U2.ENA]}
+      - {name: VOUT_VCC, nodes: [U1.VOUT, U1.VCC], ref: dpd}
+    unused: [U1.LB, U1.IO1, U1.CLK, U1.IO2, U1.LA]
+  - id: minimal
+    title: Minimal application, no power cycle (SE050, SE051)
+    description: >-
+      ENA tied to VCC and VCC on the supply: the chip runs, but the driver has no power-cycle rung, so a bus held by
+      errata I2C.1 or I2C.2 stays held until the board's supply is switched. Use only where the board can switch
+      the chip's supply itself.
+    ref: pins
+    parts:
+      - {id: U1, kind: chip}
+      - id: U2
+        kind: mcu
+        label: MCU
+        pins:
+          - {name: SDA, label: I2C SDA}
+          - {name: SCL, label: I2C SCL}
+          - VDD
+          - GND
+      - {id: C1, kind: capacitor, value: 100 nF, ref: supply,
+         unverified: "a usual decoupling value; the SE050 data sheet gives none"}
+      - {id: R1, kind: resistor, value: 3.3 kΩ, ref: kit}
+      - {id: R2, kind: resistor, value: 3.3 kΩ, ref: kit}
+    nets:
+      - {name: "+3V3", kind: supply, nodes: [U1.VIN, U1.VCC, U1.ENA, U1.RST_N, C1.1, R1.1, R2.1, U2.VDD]}
+      - {name: GND, kind: ground, nodes: [U1.VSS, U1.VSS_EP, C1.2, U2.GND]}
+      - {name: SDA, nodes: [U1.SDA, R1.2, U2.SDA]}
+      - {name: SCL, nodes: [U1.SCL, R2.2, U2.SCL]}
+    unused: [U1.LB, U1.IO1, U1.CLK, U1.VOUT, U1.IO2, U1.LA]

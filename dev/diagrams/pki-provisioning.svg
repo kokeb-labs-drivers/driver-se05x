@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="445" viewBox="0 0 1200 445" role="img" aria-labelledby="pki-provisioning-title pki-provisioning-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="pki-provisioning-title">Device certificates: provision once, verify at boot</title>
+<desc id="pki-provisioning-desc">Factory row: generate the key in the chip, build and sign the CSR on the chip, the CA outside issues the certificate, store it and the trust anchor read-only. Boot row: read both back and verify the chain with the caller's time.</desc>
+<defs><marker id="fk-arrow-brand-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9A4A17"/></marker><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8893A2"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="444" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#7A360E">PKI</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#0E1726">Device certificates: provision once, verify at boot</text>
+<text x="32" y="103.8" font-size="15" fill="#566070">The private key never leaves the chip; the driver never acts as a CA.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#E2E7EE"/>
+<path d="M290 181.8 L322 181.8" fill="none" stroke="#8893A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M584 181.8 L616 181.8" fill="none" stroke="#8893A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M878 181.8 L910 181.8" fill="none" stroke="#8893A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M388 339.8 L420 339.8" fill="none" stroke="#8893A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M780 339.8 L812 339.8" fill="none" stroke="#8893A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M1041 225.8 L1041 257.8 Q1041 265.8 1033 265.8 L216 265.8 Q208 265.8 208 273.8 L208 295.8" fill="none" stroke="#9A4A17" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-brand-strong)"/>
+<rect x="32" y="137.8" width="254" height="88" rx="10" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="72" rx="2" fill="#0B7A72"/>
+<rect x="326" y="137.8" width="254" height="88" rx="10" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<rect x="326" y="145.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="620" y="137.8" width="254" height="88" rx="10" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<rect x="620" y="145.8" width="4" height="72" rx="2" fill="#DB2752"/>
+<rect x="914" y="137.8" width="254" height="88" rx="10" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<rect x="914" y="145.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="32" y="295.8" width="352" height="88" rx="10" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<rect x="32" y="303.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="424" y="295.8" width="352" height="88" rx="10" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<rect x="424" y="303.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="816" y="295.8" width="352" height="88" rx="10" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="816" y="303.8" width="4" height="72" rx="2" fill="#0B7A72"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#0B5F59">1. Generate</text>
+<text x="52" y="189.4" font-size="13" fill="#2B3442">GenerateEcKey (in the chip)</text>
+<text x="52" y="208.2" font-size="13" fill="#2B3442">ReadPublicKey: public half</text>
+<text x="346" y="164.6" font-size="15" font-weight="700" fill="#7A360E">2. Request</text>
+<text x="346" y="189.4" font-size="13" fill="#2B3442">BuildCsr + DeviceSigner</text>
+<text x="346" y="208.2" font-size="13" fill="#2B3442">VerifyCsr: self check</text>
+<text x="640" y="164.6" font-size="15" font-weight="700" fill="#9F1239">3. Issue</text>
+<text x="640" y="189.4" font-size="13" fill="#2B3442">your CA (not the driver)</text>
+<text x="640" y="208.2" font-size="13" fill="#2B3442">returns the certificate</text>
+<text x="934" y="164.6" font-size="15" font-weight="700" fill="#7A360E">4. Store</text>
+<text x="934" y="189.4" font-size="13" fill="#2B3442">StoreCertificate x2</text>
+<text x="934" y="208.2" font-size="13" fill="#2B3442">read-only policy, read back</text>
+<text x="52" y="322.6" font-size="15" font-weight="700" fill="#7A360E">Read</text>
+<text x="52" y="347.4" font-size="13" fill="#2B3442">ReadCertificate</text>
+<text x="52" y="366.2" font-size="13" fill="#2B3442">LoadTrustAnchor</text>
+<text x="444" y="322.6" font-size="15" font-weight="700" fill="#7A360E">Verify</text>
+<text x="444" y="347.4" font-size="13" fill="#2B3442">VerifyChain(now, anchors)</text>
+<text x="444" y="366.2" font-size="13" fill="#2B3442">signature, names, time, path</text>
+<text x="836" y="322.6" font-size="15" font-weight="700" fill="#0B5F59">Use</text>
+<text x="836" y="347.4" font-size="13" fill="#2B3442">the verified key is the chip's</text>
+<text x="836" y="366.2" font-size="13" fill="#2B3442">sign with DeviceSigner</text>
+<rect x="583.3" y="255.8" width="92.4" height="20" rx="10" fill="#FFFFFF"/>
+<text x="629.5" y="270.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">at every boot</text>
+<rect x="32" y="399.2" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="54" y="410.8" font-size="12.5" fill="#566070">inside the chip</text>
+<rect x="169.1" y="399.2" width="14" height="14" rx="4" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<text x="191.1" y="410.8" font-size="12.5" fill="#566070">this driver (se05x::pki)</text>
+<rect x="355.5" y="399.2" width="14" height="14" rx="4" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<text x="377.5" y="410.8" font-size="12.5" fill="#566070">outside the driver</text>
+</svg>

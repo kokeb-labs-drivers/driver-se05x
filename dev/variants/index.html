@@ -1,0 +1,1727 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
+      
+      
+      
+        <link rel="canonical" href="https://kokeb-labs-drivers.github.io/driver-se05x/latest/variants/">
+      
+      
+        <link rel="prev" href="../getting-started/">
+      
+      
+        <link rel="next" href="../installation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/kokeb/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Where to use it - SE05X Driver</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M8%201.5c-2.363%200-4%201.69-4%203.75%200%20.984.424%201.625.984%202.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621%201.49a.75.75%200%200%201-1.484.211c-.04-.282-.163-.547-.37-.847a9%209%200%200%200-.542-.68q-.126-.149-.268-.32C3.201%207.75%202.5%206.766%202.5%205.25%202.5%202.31%204.863%200%208%200s5.5%202.31%205.5%205.25c0%201.516-.701%202.5-1.328%203.259q-.142.172-.268.319c-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751%200%200%201-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848q.113-.133.213-.253c.561-.679.985-1.32.985-2.304%200-2.06-1.637-3.75-4-3.75M5.75%2012h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M6%2015.25a.75.75%200%200%201%20.75-.75h2.5a.75.75%200%200%201%200%201.5h-2.5a.75.75%200%200%201-.75-.75%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+  <link rel="stylesheet" href="../assets/kokeb/kokeb.css">
+
+    
+      
+    
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="../assets/kokeb/fonts.css">
+  <noscript><link rel="stylesheet" href="../assets/kokeb/fonts.css"></noscript>
+
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  
+  
+  <meta name="theme-color" content="#0e1726" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b2140" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kokeb Labs">
+  <meta property="og:title" content="Where to use it - SE05X Driver">
+  <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
+  <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/variants/">
+  <meta name="twitter:card" content="summary">
+  <script>
+(function () {
+  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
+  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
+      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
+  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
+  var stub = {
+    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
+    render: function (id, text) {
+      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
+      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
+      if (el) el.setAttribute("data-kb-mermaid", "");
+      return near(el).then(load).then(function (m) { return m.render(id, text); });
+    }
+  };
+  function load() {
+    return loading || (loading = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = SRC;
+      s.integrity = SRI;
+      s.crossOrigin = "anonymous";
+      s.onload = function () {
+        real = window.mermaid;
+        window.mermaid = stub;
+        real.initialize(config);
+        resolve(real);
+      };
+      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
+      document.head.appendChild(s);
+    }));
+  }
+  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
+  function watch() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
+      });
+    }, { rootMargin: ahead ? "100% 0px" : "0px" });
+    waiting.forEach(function (w) { io.observe(w.el); });
+  }
+  function release(which) {
+    waiting = waiting.filter(function (w) {
+      if (!which(w)) return true;
+      io.unobserve(w.el);
+      w.go();
+      return false;
+    });
+  }
+  function near(el) {
+    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
+    return new Promise(function (resolve) {
+      waiting.push({ el: el, go: resolve });
+      if (io) io.observe(el); else watch();
+    });
+  }
+  function engaged() {
+    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
+    ahead = true;
+    if (io) watch();
+  }
+  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
+  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
+  window.mermaid = stub;
+})();
+</script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#where-to-use-it-which-variant" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You are reading the documentation of an older version.
+  <a href="https://kokeb-labs-drivers.github.io/driver-se05x/"><strong>Go to the latest version.</strong></a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL(".."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="SE05X Driver" class="md-header__button md-logo" aria-label="SE05X Driver" data-md-component="logo">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false" class="kb-mark">
+    <g transform="translate(1.28 1.28) scale(0.12000)"><path d="M232,66 Q265.29,246.71 446,280 Q265.29,313.29 232,494 Q198.71,313.29 18,280 Q198.71,246.71 232,66 Z" fill="#F4B942"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#0E1726" stroke="#0E1726" stroke-width="24" stroke-linejoin="round"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#D9773B"/></g>
+  </svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          
+          <a class="kb-org" href="https://kokeb-labs.github.io/" title="All Kokeb Labs documentation">Kokeb Labs</a>
+          <span class="kb-org__sep" aria-hidden="true">/</span>
+          <span class="md-ellipsis">
+            SE05X Driver
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Where to use it
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Follow the system theme"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Follow the system theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/kokeb-labs-drivers/driver-se05x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kokeb-labs-drivers/driver-se05x
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../jobs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../hardware/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Hardware
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../security-model/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tasks/secret-storage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../status-words/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="SE05X Driver" class="md-nav__button md-logo" aria-label="SE05X Driver" data-md-component="logo">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false" class="kb-mark">
+    <g transform="translate(1.28 1.28) scale(0.12000)"><path d="M232,66 Q265.29,246.71 446,280 Q265.29,313.29 232,494 Q198.71,313.29 18,280 Q198.71,246.71 232,66 Z" fill="#F4B942"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#0E1726" stroke="#0E1726" stroke-width="24" stroke-linejoin="round"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#D9773B"/></g>
+  </svg>
+
+    </a>
+    SE05X Driver
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kokeb-labs-drivers/driver-se05x
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose your job
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first-15-minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The first 15 minutes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started by job
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Where to use it
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Where to use it
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-family-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The family at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-each-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where each fits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The chips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The chips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#se050-and-se051-hx2qfn20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SE050 and SE051 (HX2QFN20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#se052-hvqfn20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SE052 (HVQFN20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-differs-by-applet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What differs by applet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-driver-reads-the-chip-not-the-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The driver reads the chip, not the name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-for-this-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not for this driver
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platforms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platforms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../hardware/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../security-model/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../tasks/secret-storage/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../status-words/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-family-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The family at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-each-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where each fits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The chips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The chips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#se050-and-se051-hx2qfn20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SE050 and SE051 (HX2QFN20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#se052-hvqfn20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SE052 (HVQFN20)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-differs-by-applet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What differs by applet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-driver-reads-the-chip-not-the-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The driver reads the chip, not the name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-for-this-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not for this driver
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/kokeb-labs-drivers/driver-se05x/edit/main/docs/variants.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="where-to-use-it-which-variant">Where to use it: which variant<a class="headerlink" href="#where-to-use-it-which-variant" title="Permanent link">&para;</a></h1>
+<p>The family has three chips, many configurations and two applet generations. This page helps you choose where each
+fits and which one to order; the per-chip guides (<a href="../se050/">SE050</a>, <a href="../se051/">SE051</a>, <a href="../se052/">SE052</a>) cover
+wiring and what differs.</p>
+<!-- generated: datasheet-refs -->
+<details class="abstract">
+<summary>Datasheet sections this page relies on</summary>
+<ul>
+<li>I2C clock and clock stretching per variant: NXP SE050-DATASHEET Rev. 3.8, 4.1.1 Supported I2C frequencies, p. 9</li>
+<li>SE050 ordering and variants: NXP SE050-DATASHEET Rev. 3.8, Table 3 Ordering information, p. 10</li>
+<li>SE051 ordering and variants: NXP SE051 Rev. 2.0, Table 2 Ordering information, p. 11</li>
+<li>Feature bits of the extended version: NXP AN12543 Rev. 4.5, Table 9, p. 26</li>
+<li>Limits of FIPS 140-3 mode: NXP AN12543 Rev. 4.5, 3.13.2 FIPS 140-3 mode, p. 45</li>
+<li>GetVersion, GetTimestamp, GetFreeMemory, GetRandom: NXP AN12543 Rev. 4.5, Generic management commands, p. 151</li>
+<li>SE050 variant identifiers: NXP AN12436 Rev. 2.4, Table 2 Variant identifiers, p. 8</li>
+<li>SE051 OEF identifiers per variant: NXP AN12973 Rev. 2.0, Table 4, p. 4</li>
+<li>SE052F configuration: applet 7.2.22, AppletConfig 0x26F2, OEF B501: NXP AN14277 Rev. 1.0, SE052F configuration, p. 2</li>
+<li>GetFreeMemory reply width: NXP AN13030 Rev. 2.7, GetFreeMemory, p. 641</li>
+</ul>
+<p>All of them, with the driver API for each: <a href="../datasheet/">Datasheet map</a>.</p>
+</details>
+<!-- /generated -->
+
+<figure class="kb-figure">
+<img src="../diagrams/variant-decision.svg#only-light" alt="Decision tree: FIPS 140-3 leads to SE052F, FIPS 140-2 to SE050F, NFC and Matter to SE051H, UWB to SE051W, field updates to SE051A or C, else SE050E, C, A, B or D by algorithms; then platform SCP03, ECKey or UserID sessions." width="1200" height="982"><img src="../diagrams/variant-decision.dark.svg#only-dark" alt="Decision tree: FIPS 140-3 leads to SE052F, FIPS 140-2 to SE050F, NFC and Matter to SE051H, UWB to SE051W, field updates to SE051A or C, else SE050E, C, A, B or D by algorithms; then platform SCP03, ECKey or UserID sessions." width="1200" height="982">
+<figcaption>Choosing a variant, an applet and an authentication</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Read top to bottom; take the first question you answer yes. Certification needs come first: FIPS 140-3 Level 3 is the SE052F; FIPS 140-2 with SCP03 mandatory is the SE050F. Then interfaces: NFC commissioning and Matter (PAKE) is the SE051H, UWB the SE051W. Field update of the applet (SEMS Lite) is the SE051A or C. Otherwise the SE050 by algorithm set: E for AES-GCM and CCM and Curve448 (applet 7.x), C for ECC and RSA, A for ECC only, B for RSA only, D for ECC with MIFARE DESFire. The SE051P runs a customer applet and has no IoT applet, so this driver does not apply. The bottom row is the authentication choice: platform SCP03 whenever the bus can be probed, an ECKey session to bind a host, a UserID session only under a trusted host OS, since it has no secure messaging. The driver reads the real capabilities at Open() and never trusts the part name.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_types.hpp"><code>inc/se05x_types.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_caps.hpp"><code>inc/se05x_caps.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/variant-decision.py"><code>docs/diagrams/figures/variant-decision.py</code></a>.</p>
+</details>
+<h2 id="the-family-at-a-glance">The family at a glance<a class="headerlink" href="#the-family-at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SE050</th>
+<th>SE051</th>
+<th>SE052F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td>HX2QFN20, 3 x 3 mm</td>
+<td>HX2QFN20, 3 x 3 mm</td>
+<td>HVQFN20, 4 x 4 mm</td>
+</tr>
+<tr>
+<td>Configurations</td>
+<td>A1, A2, B1, B2, C1, C2, D2, E2, F2</td>
+<td>A2, C2, H2, P2, W2</td>
+<td>F2</td>
+</tr>
+<tr>
+<td>IoT applet</td>
+<td>3.x (A to D, F), 7.2 (E)</td>
+<td>6.0 or 7.2, 7.3 by update</td>
+<td>7.2.22</td>
+</tr>
+<tr>
+<td>Deep power-down</td>
+<td>ENA pin</td>
+<td>ENA pin</td>
+<td>S-block 0xDF</td>
+</tr>
+<tr>
+<td>Clock stretching by default</td>
+<td>on for A to D and F, off for E</td>
+<td>off</td>
+<td>off</td>
+</tr>
+<tr>
+<td>Certification (chip)</td>
+<td>F: FIPS 140-2</td>
+<td>IEC 62443-4-2</td>
+<td>FIPS 140-3 Level 3</td>
+</tr>
+</tbody>
+</table>
+<p>The digit after the letter is the temperature range (1: -25 to 85 C, 2: -40 to 105 C). Sources: SE050 data sheet
+Table 3 (p. 10), SE051 Table 2 (p. 11), AN12907 p. 13 for the SE051 applets, AN14277 for the SE052F configuration.</p>
+<h2 id="where-each-fits">Where each fits<a class="headerlink" href="#where-each-fits" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Your product</th>
+<th>Choose</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A connected device that needs a device identity, TLS client keys and secret storage, no certification</td>
+<td>SE050E or SE050C</td>
+<td>The IoT applet with ECC (E adds AES-GCM and CCM, applet 7.2); smallest package</td>
+</tr>
+<tr>
+<td>A product that must use FIPS 140-2 validated key storage</td>
+<td>SE050F</td>
+<td>FIPS 140-2 certified chip; platform SCP03 always on (<a href="../se050/">SE050 guide</a>)</td>
+</tr>
+<tr>
+<td>A product that must use FIPS 140-3 Level 3 validated key storage</td>
+<td>SE052F</td>
+<td>FIPS 140-3 certified chip; mind the APDU throughput limit (AN13904 p. 28)</td>
+</tr>
+<tr>
+<td>A device commissioned over NFC or for Matter</td>
+<td>SE051H</td>
+<td>NFC and PAKE (SE051 data sheet Table 2, p. 11)</td>
+</tr>
+<tr>
+<td>A device with UWB ranging</td>
+<td>SE051W</td>
+<td>UWB (SE051 data sheet Table 2, p. 11)</td>
+</tr>
+<tr>
+<td>A fleet whose applet must be updatable in the field</td>
+<td>SE051A or SE051C</td>
+<td>SEMS Lite applet update (SE051 data sheet Table 2, p. 11)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-chips">The chips<a class="headerlink" href="#the-chips" title="Permanent link">&para;</a></h2>
+<p>The SE050 and SE051 share the HX2QFN20 package and its pinout; the SE052 comes in the larger HVQFN20 with a
+different pinout and no ENA pin (SE052 data sheet section 6, p. 5, and Table 2, p. 4).</p>
+<h3 id="se050-and-se051-hx2qfn20">SE050 and SE051 (HX2QFN20)<a class="headerlink" href="#se050-and-se051-hx2qfn20" title="Permanent link">&para;</a></h3>
+<figure class="kb-figure">
+<img src="../diagrams/chip-pinout.svg#only-light" alt="Pinout of the SE05x in HX2QFN20, top view: 20 pins and an exposed pad, each with its name, its electrical type as a colour and the driver hook that uses it." width="1020" height="1172" loading="lazy"><img src="../diagrams/chip-pinout.dark.svg#only-dark" alt="Pinout of the SE05x in HX2QFN20, top view: 20 pins and an exposed pad, each with its name, its electrical type as a colour and the driver hook that uses it." width="1020" height="1172" loading="lazy">
+<figcaption>SE05x pinout, HX2QFN20</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE05x seen from the top, in its HX2QFN20 package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver. The dashed square is the exposed pad.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+</details>
+<figure class="kb-figure">
+<img src="../diagrams/chip-outline.svg#only-light" alt="Outline of the SE05x in HX2QFN20 drawn to scale from above: body 3.0 x 3.0 x 0.32 mm, pitch 0.4 mm, 20 pins and an exposed pad." width="983" height="675" loading="lazy"><img src="../diagrams/chip-outline.dark.svg#only-dark" alt="Outline of the SE05x in HX2QFN20 drawn to scale from above: body 3.0 x 3.0 x 0.32 mm, pitch 0.4 mm, 20 pins and an exposed pad." width="983" height="675" loading="lazy">
+<figcaption>SE05x package, HX2QFN20</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE05x package seen from the top and, when the height is known, from the side, drawn to scale: 3.0 x 3.0 x 0.32 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side at the stated pitch; the datasheet's land pattern is the reference for a board.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+</details>
+<figure class="kb-figure">
+<img src="../diagrams/chip-blocks.svg#only-light" alt="Block diagram of the SE05x: its function blocks, how they connect and which package pins reach each block." width="1200" height="797" loading="lazy"><img src="../diagrams/chip-blocks.dark.svg#only-dark" alt="Block diagram of the SE05x: its function blocks, how they connect and which package pins reach each block." width="1200" height="797" loading="lazy">
+<figcaption>Inside the SE05x</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE05x's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+</details>
+<h3 id="se052-hvqfn20">SE052 (HVQFN20)<a class="headerlink" href="#se052-hvqfn20" title="Permanent link">&para;</a></h3>
+<figure class="kb-figure">
+<img src="../diagrams/se052-pinout.svg#only-light" alt="Pinout of the SE052 in HVQFN20, top view: 20 pins with their names, coloured by type; SDA on 11, SCL on 10, RST_N on 14, VIN on 12, VDD on 18, no ENA pin." width="1200" height="1074" loading="lazy"><img src="../diagrams/se052-pinout.dark.svg#only-dark" alt="Pinout of the SE052 in HVQFN20, top view: 20 pins with their names, coloured by type; SDA on 11, SCL on 10, RST_N on 14, VIN on 12, VDD on 18, no ENA pin." width="1200" height="1074" loading="lazy">
+<figcaption>SE052 pinout, HVQFN20</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE052 seen from the top in its HVQFN20 package (4 x 4 x 0.85 mm, 0.5 mm pitch, SOT917-7 in the data sheet). Pin 1 is at the top of the left side and the numbers run counter-clockwise: 1 to 5 down the left side, 6 to 10 along the bottom, 11 to 15 up the right side and 16 to 20 along the top. Each pin card is coloured by the pin's type as in the HX2QFN20 pinout. The driver uses SDA (11) and SCL (10) for the bus and RST_N (14) through the reset port; the SE052 has no ENA pin, so deep power-down is a T=1 S-block (0xDF) and the next I2C access wakes it. The table is SE052 Table 2 (p. 4).</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a>.</p>
+</details>
+<figure class="kb-figure">
+<img src="../diagrams/se052-outline.svg#only-light" alt="Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high." width="1200" height="788" loading="lazy"><img src="../diagrams/se052-outline.dark.svg#only-dark" alt="Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high." width="1200" height="788" loading="lazy">
+<figcaption>SE052 package outline, HVQFN20</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE052 body from above and from the side, to one scale: 4.0 x 4.0 mm, 0.85 mm high, 20 pins at a 0.5 mm pitch, five on each side, pin 1 at the top of the left side (SE052 data sheet section 6, p. 5, and the pin order of Table 2, p. 4). The terminal and exposed-pad dimensions are in the package drawing SOT917-7, not in the data sheet, so the pins are drawn as position marks only. The SE050 and SE051 come in the smaller HX2QFN20 (3.0 x 3.0 x 0.32 mm, 0.4 mm pitch).</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a>.</p>
+</details>
+<figure class="kb-figure">
+<img src="../diagrams/se052-wiring.svg#only-light" alt="Schematic in boxes: MCU I2C SDA and SCL with pull-ups to the 1.65 V to 3.6 V bus supply, VIN on that supply, VOUT to VDD, RST_N on a GPIO, optional 22 nF on VIN and VOUT." width="1200" height="726" loading="lazy"><img src="../diagrams/se052-wiring.dark.svg#only-dark" alt="Schematic in boxes: MCU I2C SDA and SCL with pull-ups to the 1.65 V to 3.6 V bus supply, VIN on that supply, VOUT to VDD, RST_N on a GPIO, optional 22 nF on VIN and VOUT." width="1200" height="726" loading="lazy">
+<figcaption>Wiring the SE052</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The SE052 on an MCU's I2C bus. SDA (pin 11) and SCL (pin 10) go to the MCU with pull-ups to the bus supply of 1.65 V to 3.6 V, which also feeds VIN (pin 12). VOUT (pin 15) goes to VDD (pin 18) on the board, as Table 2 asks; Figure 1 shows an optional 22 nF on VIN and an optional 22 nF (or nothing) on VOUT. RST_N (pin 14) goes to a GPIO the reset port drives low to reset the chip. There is no ENA pin: deep power-down is the S-block 0xDF, and the next I2C access wakes the chip. CLK (13) is left open or tied to ground, LA and LB are left open, IO1 and IO2 are the chip's own I2C controller and stay open when it is not used. The pull-up value is not in the data sheet.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a>.</p>
+</details>
+<h2 id="what-differs-by-applet">What differs by applet<a class="headerlink" href="#what-differs-by-applet" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>3.x</strong> (SE050 A to D, F): attestation format 1 (nonce echo), ECDAA, no AES-GCM or CCM, 2-byte free-memory reply.
+  The HRoT facade (<code>hrot::Device</code>) does not run here: every facade call returns <code>Unsupported</code> before anything is
+  sent, after its argument checks (an invalid key, an off-curve point or an empty buffer is refused first with
+  <code>InvalidArgument</code>). Use <code>se05x::Device</code> directly on these chips.</li>
+<li><strong>6.x</strong> (SE051 A2 and C2 on early boards, OEF A565 and A564): no specification in hand; the policy builder uses
+  the 3.x rule table. The HRoT facade does not run here either: every facade call returns <code>Unsupported</code> before
+  anything is sent, after the same argument checks. Use <code>se05x::Device</code>, or update the applet to 7.x.</li>
+<li><strong>7.x</strong> (SE050E, SE051, SE052): the HRoT facade runs; attestation format 2 (the command is signed), AES-GCM,
+  CCM and GMAC, Curve448 on SE050E and SE051, PAKE on parts with the feature bits, ReadState, TriggerSelfTest,
+  DisableObjectCreation; the extended version carries 30 feature bytes (AN12543 Table 9).</li>
+<li><strong>FIPS modes</strong>: the SE050F refuses RSA 1024, plain RSA, 2-key 3DES, SHA-1 signatures and curves under 224 bits; the
+  SE052F has no EdDSA, Montgomery curves, DES, MIFARE DESFire or PAKE (AN12543 3.13.2 FIPS 140-3 mode, p. 45).</li>
+</ul>
+<h2 id="the-driver-reads-the-chip-not-the-name">The driver reads the chip, not the name<a class="headerlink" href="#the-driver-reads-the-chip-not-the-name" title="Permanent link">&para;</a></h2>
+<p><code>Open()</code> reads the applet version and AppletConfig, the extended feature bits on 7.x, the OEF id and the free-memory
+width, and fills <code>Capabilities</code>. Every command passes the capability gate before it is sent: a command the chip does
+not have is <code>Unsupported</code> and costs no round trip. The OEF ids per configuration are in AN12436 Table 2 (SE050) and
+AN12973 Table 4 (SE051); where two tables of one note disagree, the chip's own value wins.</p>
+<h2 id="not-for-this-driver">Not for this driver<a class="headerlink" href="#not-for-this-driver" title="Permanent link">&para;</a></h2>
+<p>The SE051P runs a customer applet and has no IoT applet. The T4T applet of the SE051H and the SEMS Lite update agent
+are outside v1 (<a href="../limitations/">Limitations</a>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started by job">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Getting started by job
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Installation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      
+<div class="md-copyright kb-footer">
+  <nav class="kb-footer__links" aria-label="Kokeb Labs">
+    <a href="https://kokeb-labs.github.io/">Kokeb Labs docs</a>
+    <a href="https://github.com/kokeb-labs-drivers">GitHub organisation</a>
+    
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x">Source</a>
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x/issues">Report an issue</a>
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/main/LICENSE">License</a>
+    
+  </nav>
+  
+    <div class="md-copyright__highlight">Copyright (c) 2026 The driver-se05x authors</div>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/kokeb-labs-drivers" target="_blank" rel="noopener" title="Kokeb Labs on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.prune", "navigation.top", "navigation.footer", "navigation.tracking", "navigation.instant", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit", "content.tabs.link", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

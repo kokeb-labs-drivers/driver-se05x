@@ -1,0 +1,1877 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
+      
+      
+      
+        <link rel="canonical" href="https://kokeb-labs-drivers.github.io/driver-se05x/latest/ambiguities/">
+      
+      
+        <link rel="prev" href="../claims/">
+      
+      
+        <link rel="next" href="../tasks/secret-storage/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/kokeb/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Ambiguities - SE05X Driver</title>
+      
+    
+    
+  
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M8%201.5c-2.363%200-4%201.69-4%203.75%200%20.984.424%201.625.984%202.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621%201.49a.75.75%200%200%201-1.484.211c-.04-.282-.163-.547-.37-.847a9%209%200%200%200-.542-.68q-.126-.149-.268-.32C3.201%207.75%202.5%206.766%202.5%205.25%202.5%202.31%204.863%200%208%200s5.5%202.31%205.5%205.25c0%201.516-.701%202.5-1.328%203.259q-.142.172-.268.319c-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751%200%200%201-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848q.113-.133.213-.253c.561-.679.985-1.32.985-2.304%200-2.06-1.637-3.75-4-3.75M5.75%2012h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M6%2015.25a.75.75%200%200%201%20.75-.75h2.5a.75.75%200%200%201%200%201.5h-2.5a.75.75%200%200%201-.75-.75%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+  <link rel="stylesheet" href="../assets/kokeb/kokeb.css">
+
+    
+      
+    
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="../assets/kokeb/fonts.css">
+  <noscript><link rel="stylesheet" href="../assets/kokeb/fonts.css"></noscript>
+
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  
+  
+  <meta name="theme-color" content="#0e1726" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b2140" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kokeb Labs">
+  <meta property="og:title" content="Ambiguities - SE05X Driver">
+  <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
+  <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/ambiguities/">
+  <meta name="twitter:card" content="summary">
+  <script>
+(function () {
+  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
+  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
+      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
+  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
+  var stub = {
+    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
+    render: function (id, text) {
+      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
+      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
+      if (el) el.setAttribute("data-kb-mermaid", "");
+      return near(el).then(load).then(function (m) { return m.render(id, text); });
+    }
+  };
+  function load() {
+    return loading || (loading = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = SRC;
+      s.integrity = SRI;
+      s.crossOrigin = "anonymous";
+      s.onload = function () {
+        real = window.mermaid;
+        window.mermaid = stub;
+        real.initialize(config);
+        resolve(real);
+      };
+      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
+      document.head.appendChild(s);
+    }));
+  }
+  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
+  function watch() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
+      });
+    }, { rootMargin: ahead ? "100% 0px" : "0px" });
+    waiting.forEach(function (w) { io.observe(w.el); });
+  }
+  function release(which) {
+    waiting = waiting.filter(function (w) {
+      if (!which(w)) return true;
+      io.unobserve(w.el);
+      w.go();
+      return false;
+    });
+  }
+  function near(el) {
+    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
+    return new Promise(function (resolve) {
+      waiting.push({ el: el, go: resolve });
+      if (io) io.observe(el); else watch();
+    });
+  }
+  function engaged() {
+    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
+    ahead = true;
+    if (io) watch();
+  }
+  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
+  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
+  window.mermaid = stub;
+})();
+</script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ambiguities-and-knobs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You are reading the documentation of an older version.
+  <a href="https://kokeb-labs-drivers.github.io/driver-se05x/"><strong>Go to the latest version.</strong></a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL(".."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="SE05X Driver" class="md-header__button md-logo" aria-label="SE05X Driver" data-md-component="logo">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false" class="kb-mark">
+    <g transform="translate(1.28 1.28) scale(0.12000)"><path d="M232,66 Q265.29,246.71 446,280 Q265.29,313.29 232,494 Q198.71,313.29 18,280 Q198.71,246.71 232,66 Z" fill="#F4B942"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#0E1726" stroke="#0E1726" stroke-width="24" stroke-linejoin="round"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#D9773B"/></g>
+  </svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          
+          <a class="kb-org" href="https://kokeb-labs.github.io/" title="All Kokeb Labs documentation">Kokeb Labs</a>
+          <span class="kb-org__sep" aria-hidden="true">/</span>
+          <span class="md-ellipsis">
+            SE05X Driver
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ambiguities
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Follow the system theme"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Follow the system theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/kokeb-labs-drivers/driver-se05x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kokeb-labs-drivers/driver-se05x
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../jobs/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../hardware/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Hardware
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../security-model/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tasks/secret-storage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../status-words/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="SE05X Driver" class="md-nav__button md-logo" aria-label="SE05X Driver" data-md-component="logo">
+      
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false" class="kb-mark">
+    <g transform="translate(1.28 1.28) scale(0.12000)"><path d="M232,66 Q265.29,246.71 446,280 Q265.29,313.29 232,494 Q198.71,313.29 18,280 Q198.71,246.71 232,66 Z" fill="#F4B942"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#0E1726" stroke="#0E1726" stroke-width="24" stroke-linejoin="round"/><path d="M386,38 Q399.69,112.31 474,126 Q399.69,139.69 386,214 Q372.31,139.69 298,126 Q372.31,112.31 386,38 Z" fill="#D9773B"/></g>
+  </svg>
+
+    </a>
+    SE05X Driver
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kokeb-labs-drivers/driver-se05x
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../jobs/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../hardware/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport (T=1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-channels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secure channels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objects-policies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objects and policies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lifecycle and roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Safety rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../claims/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claims and their limits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ambiguities
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ambiguities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#corrections-folded-into-the-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Corrections folded into the contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Still open
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-vectors-from-the-vendor-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle vectors from the vendor middleware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deleteall-lc-0x00-or-case-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteAll: Lc 0x00 or case 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attested-read-under-secure-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attested read under secure messaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../tasks/secret-storage/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../status-words/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#corrections-folded-into-the-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Corrections folded into the contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Still open
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-vectors-from-the-vendor-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle vectors from the vendor middleware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deleteall-lc-0x00-or-case-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteAll: Lc 0x00 or case 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attested-read-under-secure-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attested read under secure messaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/kokeb-labs-drivers/driver-se05x/edit/main/docs/ambiguities.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ambiguities-and-knobs">Ambiguities and knobs<a class="headerlink" href="#ambiguities-and-knobs" title="Permanent link">&para;</a></h1>
+<p>Where the sources disagree or are missing, the driver does not guess silently. Each doubt below has a choice, a bench
+step that settles it, and a knob where one exists (<code>Config</code> fields and build flags; "model" knobs belong to the test
+chip model and only reproduce the case). The status column says whether the documents settle it (document and page
+named), partly settle it, or leave it open.</p>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Question</th>
+<th>Status</th>
+<th>Choice</th>
+<th>Knob</th>
+<th>Bench step (<strong>not verified on hardware</strong> until run)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>SE051 applet version</td>
+<td>settled: 6.0 on earlier boards, 7.2 since early 2022, 7.3 by update</td>
+<td>capability by <code>GetVersion</code>, never by name</td>
+<td>model profiles <code>se051_v6</code>, <code>se051_v7</code></td>
+<td><code>Open()</code> an SE051 dev kit; compare <code>GetCapabilities().applet</code> with the label</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>SE052 package code SOT917-6 or -7</td>
+<td>open</td>
+<td>both recorded in <code>hardware.yml</code>; the data sheet number is shown</td>
+<td>none</td>
+<td>read the package marking of an SE052 dev kit</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>OEF ids swapped between two tables of one note</td>
+<td>open</td>
+<td>trust the on-chip value</td>
+<td>none</td>
+<td><code>Open()</code> each variant; record <code>Capabilities::oef_id</code> next to the part number</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>SE052F curve and RSA sets</td>
+<td>open (config sheet not public)</td>
+<td>capabilities from the applet configuration bits and a curve-list probe</td>
+<td>model <code>profile</code></td>
+<td><code>ReadEcCurveList</code> on an SE052F; record which curves answer</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>SE052 digests outside HMAC and PBKDF</td>
+<td>open</td>
+<td>digest commands gated on capability</td>
+<td>model <code>profile</code></td>
+<td><code>DigestOneShot</code> with each algorithm on an SE052F; record the status words</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>7.x TLV numeric constants</td>
+<td>partly settled</td>
+<td>every codec checked byte for byte against the AN12543 and AN12413 APDU tables; 122 commands match the middleware (below); PAKE and T4T held</td>
+<td><code>held_commands</code></td>
+<td>trace one command of each group on a dev kit and compare with the codec</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>Changing the I2C address</td>
+<td>partly settled (SE051 PERSO tag 0x800D)</td>
+<td>read-only; the write sits behind the S-10 token on <code>perso::Perso</code></td>
+<td>none</td>
+<td>read tag 0x800D on an SE051; do not write it on a shared board</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>Boot time before the first frame</td>
+<td>partly: 5 ms NXP flavour, 25 ms GP, SE052 ATR WUT 5 ms; no SE050 value (UM11225 p. 19, GPC_SPE_172 p. 31)</td>
+<td><code>boot_wait_ms</code>, then poll the ATR with back-off</td>
+<td><code>Config</code></td>
+<td>power-cycle an SE050 and log the time from ENA high to the first ACKed read</td>
+</tr>
+<tr>
+<td>A9</td>
+<td>Framing flavour per chip</td>
+<td>both flavours settled (UM11225 pp. 5-19, GPC_SPE_172 pp. 21-39); the SE051 detects the flavour from the first frame (SE051 data sheet 4.1.2, p. 9); SE052F NXP by default (AN13904 p. 27); SE050 not stated</td>
+<td><code>Flavour::Auto</code>: the NXP form first for half of the budget, then GP; fix on the first valid frame (A17)</td>
+<td><code>Config</code>, model <code>gp_flavour</code></td>
+<td><code>Open()</code> each variant with <code>Auto</code> and with each fixed flavour; record which open</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>CRC byte order on the wire</td>
+<td>GP settled (MSB first, BDA4); NXP: the CRC is the one of ISO/IEC 7816-3 (UM11225 2.1, p. 5), the byte order is not printed</td>
+<td>both orders tried in <code>Auto</code>; both in the model</td>
+<td>model <code>crc_swapped</code></td>
+<td>log one NXP-flavour frame from a chip and check which byte of the CRC comes first</td>
+</tr>
+<tr>
+<td>A11</td>
+<td>Command timeouts</td>
+<td>partly: ATR gives BWT, MPOT, SEGT; ten retransmissions; WTX host timeout at least 4 s</td>
+<td>class defaults; about 20 s is the quiet limit; a WTX extends any class to at least 4 s (A19)</td>
+<td><code>Config::timeouts</code>, <code>wtx_limit</code></td>
+<td>time <code>DeleteSecureObject</code> and a FIPS self-test window on an SE052F</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>DESFire availability</td>
+<td>unchanged</td>
+<td>capability bit</td>
+<td>model <code>profile</code></td>
+<td>read the extended features of each variant</td>
+</tr>
+<tr>
+<td>A13</td>
+<td>Does a reset close sessions</td>
+<td>settled for the T=1 chip reset</td>
+<td>every recovery rung drops all session knowledge</td>
+<td>model</td>
+<td>open an AESKey session, <code>Recover(ChipReset)</code>, send a wrapped command: the chip must refuse it</td>
+</tr>
+<tr>
+<td>A14</td>
+<td>A second host-facing I2C address</td>
+<td>open</td>
+<td>not modelled</td>
+<td>none</td>
+<td>scan the bus of a dev kit for a second ACKing address</td>
+</tr>
+<tr>
+<td>A15</td>
+<td>ECKey receipt on 7.x</td>
+<td>settled: the receipt exists and the host checks it; the key derivation is printed in AN12543 pp. 22-23 and 72-73</td>
+<td>built from AN12543 behind a flag until a vector confirms it</td>
+<td>model <code>receipt</code></td>
+<td>open an ECKey session on a 7.x dev kit with the flag on; the receipt check must pass</td>
+</tr>
+<tr>
+<td>A16</td>
+<td>Throughput limit 66A6</td>
+<td>settled for the SE052F (AN13904 p. 28); possible on the SE051 (AN13030 p. 10)</td>
+<td>status <code>ThroughputLimited</code>, chip-reset rung, APDU budget rule S-17</td>
+<td>model <code>throttle_enabled</code>, <code>throttle_after</code></td>
+<td>none needed on a shared kit (it costs a million APDUs); run once on a sacrificial SE052F</td>
+</tr>
+<tr>
+<td>A17</td>
+<td>GP flavour NAD and Auto order</td>
+<td>partly: GPC_SPE_172 4.2.1 (p. 33) only recommends NAD 0x21/0x12; the vendor middleware sends 0x5A and expects 0xA5 in its GP mode; the SE051 locks onto the protocol of the first frame (data sheet 4.1.2, p. 9)</td>
+<td>GP accepts 0x12 or 0xA5 from the chip; <code>Auto</code> tries the NXP flavour first, so an SE051 is never locked into GP by the probe</td>
+<td><code>Config::flavour</code></td>
+<td><code>Open()</code> an SE051 and an SE052 with <code>Gp</code> fixed; log the NAD of the first answer; then power-cycle and <code>Open()</code> with <code>Auto</code></td>
+</tr>
+<tr>
+<td>A18</td>
+<td>SE052 deep power-down by S-block</td>
+<td>partly: tDPD 300 us before the next access (SE052 data sheet Table 15, p. 22); the 0xFF response code comes from the middleware only</td>
+<td>after the S-block response nothing touches the bus for 300 us</td>
+<td>none</td>
+<td>send <code>DeepPowerDown()</code> to an SE052 and log the response PCB; wake it after 300 us and after 100 us</td>
+</tr>
+<tr>
+<td>A19</td>
+<td>WTX on a short command class</td>
+<td>settled: the host waits at least 4 s after a WTX (AN13904 8.3, p. 27); the SE052F sends WTX every second, also in its FIPS self-test</td>
+<td>a WTX extends the command deadline itself to at least 4 s, whatever the class (<code>fast_ms</code> 2 s included)</td>
+<td><code>Config::wtx_limit</code></td>
+<td><code>DeleteSecureObject</code> of a large object on an SE052F; it must succeed while WTX arrive</td>
+</tr>
+<tr>
+<td>A20</td>
+<td>Authentication object 0 and other sessions</td>
+<td>settled in the text: id 0 is the default session only, not inherited by authenticated sessions (AN12543 3.7.1.2, p. 36); whether platform SCP03 in the default session satisfies REQUIRE_SM is not stated (Table 63, p. 67)</td>
+<td>facade policies name id 0 and, inside an AESKey or ECKey session, that session's credential; an object made in one session is refused in another (fails closed)</td>
+<td><code>PolicyBuilder::For()</code> for more sessions</td>
+<td>provision a facade key under platform SCP03 and sign; then sign in an AESKey session: the first must pass, the second must be refused with 0x6986</td>
+</tr>
+<tr>
+<td>A21</td>
+<td>Length form of the attested TLVs</td>
+<td>open: AN12543 4.1.3.2 (p. 49) allows any BER length form in an R-APDU; Tables 128, 131 and 313 do not fix one</td>
+<td>the signature is checked over the TLV bytes exactly as returned; a verifier without them (format 2 vectors) rebuilds the <code>82 xx xx</code> form</td>
+<td>model <code>attested_short_tlv</code></td>
+<td>one attested <code>ReadObject</code> on a dev kit: record the answer and check which length form the TLVs use</td>
+</tr>
+<tr>
+<td>A22</td>
+<td>DeleteAll inside a session</td>
+<td>settled: the reply is not wrapped (AN12543 4.20.5, p. 154); RESERVED_ID_FACTORY_RESET may be any authentication object type (3.2.4.1.1.5, p. 12)</td>
+<td>a bare 9000 is success for a command that ends the session, in that session only; the session is then dropped</td>
+<td>none</td>
+<td>run <code>DeleteAll</code> in an AESKey factory-reset session on a sacrificial dev kit</td>
+</tr>
+<tr>
+<td>A23</td>
+<td>Guard time between accesses</td>
+<td>settled: SEGT (UM11225 Table 15, p. 20) and RWGT (GPC_SPE_172 3.2.7, p. 28) hold between any two accesses</td>
+<td>the guard before every read and write, at least the default 10 us, except right after a NACKed drain probe (errata I2C.1: a wait there lets the next answer arrive before the write)</td>
+<td>none</td>
+<td>logic-analyser trace of one exchange: no two accesses closer than SEGT</td>
+</tr>
+<tr>
+<td>A24</td>
+<td>ReadIDList MoreIndicator</td>
+<td>open: the text of AN12543 p. 94 contradicts Table 56 (p. 63)</td>
+<td>the table: 01 NO_MORE, 02 MORE</td>
+<td>none</td>
+<td>create more ids than one answer holds; read the list and check the indicator of the first answer</td>
+</tr>
+<tr>
+<td>A25</td>
+<td>I2C controller command order</td>
+<td>open: "only one READ at the end" (AN12543 p. 146) contradicts Figure 21 (p. 147), which reads several times</td>
+<td>the strict reading: CONFIGURE first with a clock byte of 0x00 or 0x01, at most one READ, last</td>
+<td>none</td>
+<td>run Figure 21's sequence on a dev kit with an I2C target; if it passes, the rule can be relaxed</td>
+</tr>
+<tr>
+<td>A26</td>
+<td>Le of a wrapped command</td>
+<td>open: "Le must be smaller than 0x8000" (AN12543 4.1.2, p. 48); AN13904 Figure 8 (p. 16) shows a wrapped command with no Le</td>
+<td>a wrapped command that carried Le goes out in the extended form with Le 00 00, as the vendor middleware frames it</td>
+<td>none</td>
+<td>send a wrapped <code>ReadObject</code> of 300 bytes under platform SCP03 and record the status word</td>
+</tr>
+<tr>
+<td>A27</td>
+<td>Object ids 0x80000000 and up</td>
+<td>partly: AN12543 3.2.4.1 (p. 10) reserves 0x7FFF0000 to 0x7FFFFFFF only; AN13904 Table 1 (p. 7) reserves 0x80000000 and up for NXP on the SE052F</td>
+<td><code>MakeUserObject()</code> refuses 0x7FFF0000-0x7FFFFFFF and 0xE0000000 and up on every part; AN13904 advises 0x00000000-0x7BFFFFFF</td>
+<td>none</td>
+<td><code>MakeUserObject(0xE0000000)</code> on an SE052F dev kit is refused by the driver; <code>WriteBinary</code> to 0x80000000 there shows whether the chip reserves it (record the status word)</td>
+</tr>
+<tr>
+<td>A28</td>
+<td>SCP03 counter for commands without data (errata JOS.2)</td>
+<td>partly: the SE050 errata (3.13, p. 12) says the counter does not advance; the response ICV for such a command uses counter - 1 in the middleware only</td>
+<td><code>jos2_counter_rule</code> on by default for platform SCP03 on every variant</td>
+<td><code>ChannelParams::jos2_counter_rule</code></td>
+<td>under platform SCP03 at <code>Full</code>, send <code>GetVersion</code> (no data) then <code>ReadObject</code>: both R-MACs must verify</td>
+</tr>
+<tr>
+<td>A29</td>
+<td>ECKey InternalAuthenticate form</td>
+<td>open: AN13904 Figure 7 sends it without the TAG_1 wrapper and without Le; AN12543 Table 85 (pp. 72-73) wraps it</td>
+<td>the AN13904 form, behind <code>SE05X_ENABLE_ECKEY_SESSION</code></td>
+<td>build flag</td>
+<td>open an ECKey session on a 7.x dev kit with the flag on</td>
+</tr>
+<tr>
+<td>A30</td>
+<td>Recovery order after retransmissions</td>
+<td>settled by ISO/IEC 7816-3: RESYNC is allowed before the soft reset UM11225 2.4.1 (p. 11) names</td>
+<td>the ladder sends RESYNC, then the soft reset, then selects the applet again, then the chip reset and the power cycle</td>
+<td>none</td>
+<td>break one frame on a dev kit (cut SDA for one byte); the log shows RESYNC answered</td>
+</tr>
+<tr>
+<td>A31</td>
+<td>PAKE in FIPS 140-3 mode</td>
+<td>open: AN12543 3.13.2 (pp. 45-47) says PAKE is allowed on p. 46 and not on p. 47</td>
+<td>PAKE stays held (A6)</td>
+<td><code>held_commands</code></td>
+<td>on an SE052F in FIPS mode, send one PAKE <code>CreateCryptoObject</code> with the command un-held in a lab build and record the status word</td>
+</tr>
+<tr>
+<td>A32</td>
+<td>MPOT unit of the GP flavour</td>
+<td>open: the SE052 data sheet (Table 12, p. 18) selects "GP 0.39 flavour", where MPOT is in ms; GPC_SPE_172 v1.0 (Table 4-9, p. 38) counts 100 us</td>
+<td>MPOT read in v1.0 units, polling never faster than <code>Config::poll_interval_us</code> (1 ms or more)</td>
+<td><code>Config::poll_interval_us</code></td>
+<td><code>Open()</code> an SE052 in GP; log the CIP MPOT byte and whether a poll 1 ms after a write is NACKed</td>
+</tr>
+<tr>
+<td>A33</td>
+<td>Upper bound of BWT and of WTX waits</td>
+<td>open: the documents give no maximum BWT and allow a WTX multiplier up to 255 (UM11225 Table 9, p. 8), so a wrong ATR or WTX could stretch a command to hours</td>
+<td>an ATR or CIP BWT above 10 s is refused (<code>FrameError</code>); one WTX grants at most 30 s and the WTX of one command at most 180 s together, then the command ends with <code>Timeout</code></td>
+<td><code>Config::wtx_limit</code></td>
+<td>log the BWT of each variant's ATR and the longest WTX run of a large <code>DeleteSecureObject</code> and of the SE052F self-test</td>
+</tr>
+<tr>
+<td>A34</td>
+<td>Policy bytes read back by <code>ReadObjectAttributes</code></td>
+<td>open: AN12543 4.7.4 does not say the policy comes back byte for byte as written</td>
+<td><code>Find()</code> and <code>CreateCounter()</code> adopt an object only when its class and origin match, its policy equals byte for byte the one the facade builds, and <code>ReadType</code> says it is persistent; anything else is <code>PolicyDenied</code> (fails closed: a chip that reformats the policy would make adoption fail, never pass)</td>
+<td>none</td>
+<td>provision a facade key, then <code>ReadObjectAttributes</code> it on a dev kit and compare the policy with the one sent</td>
+</tr>
+<tr>
+<td>A35</td>
+<td>A store cut short by a power loss</td>
+<td>partly: AN12543 does not say whether one WriteBinary is atomic or what a new binary file holds before it is written</td>
+<td><code>Store</code> creates the object one byte longer than the data and writes a completion marker (0xA5) after every data chunk, by its own command; <code>Load</code> and <code>Attest</code> refuse an object without it. A new file that the chip does not zero-fill could hold 0xA5 there by chance (1 in 256). An object not written by <code>Store</code> is <code>FrameError</code>, or, if its last byte is 0xA5, reads back one byte short</td>
+<td>none</td>
+<td>cut the power during a 700-byte <code>Store</code> on a dev kit 20 times at random points; <code>Load</code> must return <code>FrameError</code> or the whole value every time</td>
+</tr>
+<tr>
+<td>A36</td>
+<td>Attested read of an object above the 500-byte chunk limit</td>
+<td>open: AN13030 (pp. 248-252) limits one attested binary read to 500 bytes, and does not say what the chip answers to a read without offset and length of a larger object</td>
+<td><code>Attest</code> reads the object whole into a 256-byte buffer (<code>kMaxAttestedBytes</code>); the model returns the whole value, which the host refuses as <code>BufferTooSmall</code>. A chip that answers an error status instead returns that status's error (a device error, not <code>BufferTooSmall</code>); either way no value is returned</td>
+<td>model only (<code>kMaxBinary</code>)</td>
+<td><code>Store</code> 255, 300 and 600 bytes on a dev kit, <code>Attest</code> each, and record the error and the status word of each (<code>Device::GetLastStatusWord()</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="corrections-folded-into-the-contract">Corrections folded into the contract<a class="headerlink" href="#corrections-folded-into-the-contract" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A quiet chip answers within about 20 s, and up to 40 WTX requests are answered at session open. The old reference of
+  500 WTX is gone; <code>Config::wtx_limit</code> and <code>kSessionOpenWtxAllowance</code> carry the numbers.</li>
+<li><code>GetFreeMemory</code> returns 4 bytes on the SE052F only and 2 bytes elsewhere, SE051 7.x included.</li>
+<li>SIGMA-I is not an SE05x feature. It is not in the command set.</li>
+<li>Ed25519 and Montgomery values on the wire are the byte reverse of RFC 8032 and RFC 7748 (AN12543 pp. 168-170; an
+  earlier note said little endian, which AN12543 corrects). A Montgomery ECDH with an inline public key writes NVM on
+  every call.</li>
+<li>On the SE050 and SE051, RST_N is the ISO 7816 reset and has no effect when only I2C is enabled (SE050 section 4.2,
+  p. 9): there the reset port implements <code>Reset()</code> and <code>PowerCycle()</code> with ENA (VOUT wired to VCC) or a supply
+  switch; the link only calls the port.</li>
+</ul>
+<h2 id="still-open">Still open<a class="headerlink" href="#still-open" title="Permanent link">&para;</a></h2>
+<p>UM11225 was obtained (addendum 3). Both T=1 flavours are specified except the CRC byte order of the NXP flavour:
+the link accepts either order on the first valid frame and keeps it (A10). The code 0xC6 is a chip reset in the NXP
+flavour and RELEASE in the GP one. The GP flavour is specified by GPC_SPE_172 v1.0, but the SE052 data sheet selects
+a "GP 0.39" flavour, and the NAD and MPOT unit the chips use in it are open (A17, A32). The ECKey KDF is printed in
+AN12543 pp. 22-23 and 72-73 but has no vector: it is built behind a feature flag. The order of the attestation
+timestamp is settled (AN12543 3.9, p. 42: 4 persistent bytes, then 8 transient bytes, growing with every session
+open); the driver accepts only a timestamp later than the last one it accepted. The 6.x policy bit values, the SE052
+configuration sheet and the SOT917 code stay open. The SEMS Lite update agent is outside v1.</p>
+<h2 id="oracle-vectors-from-the-vendor-middleware">Oracle vectors from the vendor middleware<a class="headerlink" href="#oracle-vectors-from-the-vendor-middleware" title="Permanent link">&para;</a></h2>
+<p><code>tests/vectors/nxp_oracle_vectors.hpp</code> holds vectors recorded by <code>tools/oracle/build_oracle.sh</code> against the pinned
+middleware checkout <code>7102413e</code>, in a sandbox without network access (provenance and the BSD 3-Clause notice in <code>tests/vectors/THIRD_PARTY.md</code>).
+It records 122 commands, 62 on applet 7.2 and 60 on applet 3.x. <code>tests/test_apdu_oracle_vectors.cpp</code> builds each
+command with the same inputs and compares header and TLV body byte for byte; every remaining difference is listed
+there with its class and evidence (middleware quirks such as TAG_11 version 0 and TAG_2 <code>FF</code>; policy-less creates,
+which the library refuses, S-03; the <code>WriteUserID</code> instruction byte of the harness input; <code>DeleteAll</code>, below), and
+removing any one of them makes the test fail. The <code>TLSPerformPRF</code> P2 is no longer a difference: <code>TlsPrfArgs::role</code>
+gives the server role (AN12543 4.17.3), which the harness used. Framing is not compared: the middleware frames
+short case 4 without Le and extended commands as <code>00 LcH LcL ... 00 00</code>. The structural check of
+<code>tests/vectors/nxp_layouts.hpp</code> (read from the source text by <code>tools/oracle/extract_layouts.py</code>) remains. The
+oracle covers 122 of the commands; the others rest on the APDU tables of AN12543 and AN12413 only. The ECKey key
+derivation, receipt and first MAC chaining value still rest on the independent chip model only (A15): that session
+stays behind its build flag.</p>
+<h2 id="deleteall-lc-0x00-or-case-1">DeleteAll: Lc 0x00 or case 1<a class="headerlink" href="#deleteall-lc-0x00-or-case-1" title="Permanent link">&para;</a></h2>
+<p>AN12543 Table 339 prints the <code>DeleteAll</code> command with <code>Lc 0x00</code>, so the codec sends <code>80 04 00 2A 00</code>; the middleware
+sends case 1 (<code>80 04 00 2A</code>, four bytes). Read as ISO/IEC 7816-4 the trailing byte is an Le, which the chip ignores
+for a command without a response, so both should be accepted. <strong>Not verified on hardware</strong>: a trace of <code>DeleteAll</code>
+on a real chip (bench step: run it in a RESERVED_ID_FACTORY_RESET session on a dev kit and record the C-APDU and
+the status word) decides it.</p>
+<h2 id="attested-read-under-secure-messaging">Attested read under secure messaging<a class="headerlink" href="#attested-read-under-secure-messaging" title="Permanent link">&para;</a></h2>
+<p>A format 2 attestation signs the hash of "the complete APDU except the Le bytes" (AN12543 3.2.7.2, p. 19). Inside
+platform SCP03 or an AESKey session the applet sees the command after the secure channel unwrapped it, and the
+documents do not say which length form it then hashes. The driver hashes the unwrapped command with the shortest Lc
+form (one byte for up to 255 bytes, no Le), which is how the chip model rebuilds a command after unwrapping; outside
+secure messaging it hashes the command exactly as sent (<code>Device::ReadVerified</code>, <code>detail::ShortestLcForm</code>). A wrong
+choice fails closed: every attestation is refused with <code>AttestationInvalid</code>, nothing false is accepted. <strong>Not
+verified on hardware</strong>: bench step: run <code>hrot::Device::Attest()</code> under platform SCP03 on a dev kit; if it fails while
+the same read without secure messaging passes, the chip hashes the extended form.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../claims/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Claims and their limits">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Claims and their limits
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../tasks/secret-storage/" class="md-footer__link md-footer__link--next" aria-label="Next: Store a secret">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Store a secret
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      
+<div class="md-copyright kb-footer">
+  <nav class="kb-footer__links" aria-label="Kokeb Labs">
+    <a href="https://kokeb-labs.github.io/">Kokeb Labs docs</a>
+    <a href="https://github.com/kokeb-labs-drivers">GitHub organisation</a>
+    
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x">Source</a>
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x/issues">Report an issue</a>
+      <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/main/LICENSE">License</a>
+    
+  </nav>
+  
+    <div class="md-copyright__highlight">Copyright (c) 2026 The driver-se05x authors</div>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/kokeb-labs-drivers" target="_blank" rel="noopener" title="Kokeb Labs on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.prune", "navigation.top", "navigation.footer", "navigation.tracking", "navigation.instant", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit", "content.tabs.link", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../search/main.js"></script>
+      
+    
+  </body>
+</html>

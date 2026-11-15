@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="499" viewBox="0 0 1200 499" role="img" aria-labelledby="trust-boundaries-title trust-boundaries-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="trust-boundaries-title">Trust boundaries</title>
+<desc id="trust-boundaries-desc">Zones: remote verifier, host MCU with the driver and crypto port, the I2C bus, and the chip with keys, policies, counters and RNG; arrows show attestations, signatures and wrapped APDUs crossing.</desc>
+<defs><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0B7A72"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="498" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#7A360E">SECURITY MODEL</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#0E1726">Trust boundaries</text>
+<text x="32" y="103.8" font-size="15" fill="#566070">The chip is the only place a long-term secret is created or used.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="32" y="137.8" width="269" height="300" rx="14" fill="#FFEEF2" stroke="#F5BECB" stroke-width="1.2"/>
+<rect x="321" y="137.8" width="269" height="300" rx="14" fill="#FFF5E3" stroke="#F1CF93" stroke-width="1.2"/>
+<rect x="610" y="137.8" width="269" height="300" rx="14" fill="#FFEEF2" stroke="#F5BECB" stroke-width="1.2"/>
+<rect x="899" y="137.8" width="269" height="300" rx="14" fill="#E6F6F4" stroke="#A6DCD5" stroke-width="1.2"/>
+<path d="M913 333.8 L287 333.8" fill="none" stroke="#0B7A72" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-teal-strong)"/>
+<rect x="46" y="178.8" width="241" height="107" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="46" y="186.8" width="4" height="91" rx="2" fill="#DB2752"/>
+<rect x="335" y="178.8" width="241" height="125" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="335" y="186.8" width="4" height="109" rx="2" fill="#C26A05"/>
+<rect x="624" y="178.8" width="241" height="107" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="624" y="186.8" width="4" height="91" rx="2" fill="#DB2752"/>
+<rect x="913" y="178.8" width="241" height="125" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="913" y="186.8" width="4" height="109" rx="2" fill="#0B7A72"/>
+<text x="48" y="162.8" font-size="13" font-weight="700" fill="#9F1239">VERIFIER</text>
+<text x="66" y="205.6" font-size="15" font-weight="700" fill="#0E1726">Verifier</text>
+<text x="66" y="230.4" font-size="13" fill="#2B3442">public keys only</text>
+<text x="66" y="249.2" font-size="13" fill="#2B3442">checks attestations</text>
+<text x="66" y="268.1" font-size="13" fill="#2B3442">checks signatures</text>
+<text x="337" y="162.8" font-size="13" font-weight="700" fill="#8A3C0B">HOST MCU</text>
+<text x="355" y="205.6" font-size="15" font-weight="700" fill="#0E1726">Host MCU</text>
+<text x="355" y="230.4" font-size="13" fill="#2B3442">this driver: a courier</text>
+<text x="355" y="249.2" font-size="13" fill="#2B3442">crypto port: SCP03 key</text>
+<text x="355" y="268.1" font-size="13" fill="#2B3442">handles</text>
+<text x="355" y="286.9" font-size="13" fill="#2B3442">ephemeral ECKey key, wiped</text>
+<text x="626" y="162.8" font-size="13" font-weight="700" fill="#9F1239">I2C BUS</text>
+<text x="644" y="205.6" font-size="15" font-weight="700" fill="#0E1726">I2C bus</text>
+<text x="644" y="230.4" font-size="13" fill="#2B3442">plain APDUs unless wrapped</text>
+<text x="644" y="249.2" font-size="13" fill="#2B3442">probe can read and inject</text>
+<text x="644" y="268.1" font-size="13" fill="#2B3442">SCP03 or ECKey session wraps</text>
+<text x="915" y="162.8" font-size="13" font-weight="700" fill="#0B5F59">SE05X</text>
+<text x="933" y="205.6" font-size="15" font-weight="700" fill="#0E1726">SE05x</text>
+<text x="933" y="230.4" font-size="13" fill="#2B3442">private keys, never exported</text>
+<text x="933" y="249.2" font-size="13" fill="#2B3442">policies enforced on chip</text>
+<text x="933" y="268.1" font-size="13" fill="#2B3442">counters, RNG (DRG.4)</text>
+<text x="933" y="286.9" font-size="13" fill="#2B3442">attestation key</text>
+<rect x="486.9" y="323.8" width="226.2" height="20" rx="10" fill="#FFFFFF"/>
+<text x="600" y="338.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">signatures, attested values (public)</text>
+<rect x="32" y="453.2" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="54" y="464.8" font-size="12.5" fill="#566070">trusted for secrets</text>
+<rect x="193.9" y="453.2" width="14" height="14" rx="4" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<text x="215.9" y="464.8" font-size="12.5" fill="#566070">trusted for availability only</text>
+<rect x="405.4" y="453.2" width="14" height="14" rx="4" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<text x="427.4" y="464.8" font-size="12.5" fill="#566070">untrusted</text>
+</svg>

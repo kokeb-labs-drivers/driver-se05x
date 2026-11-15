@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="749" viewBox="0 0 1200 749" role="img" aria-labelledby="driver-layers-title driver-layers-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="driver-layers-title">The layers</title>
+<desc id="driver-layers-desc">Layer diagram: your application calls the Device library, which has no platform code.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8893A2"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="748" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#7A360E">ARCHITECTURE</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#0E1726">The layers</text>
+<text x="32" y="115.4" font-size="18" fill="#566070">One header-only C++20 library, no platform code.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="32" y="302.4" width="796" height="384.2" rx="16" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M430 242.4 L430 298.4" fill="none" stroke="#8893A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="149.4" width="796" height="89" rx="12" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="32" y="157.4" width="4" height="73" rx="2" fill="#0B7A72"/>
+<rect x="868" y="302.4" width="300" height="128.3" rx="12" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="184.4" font-size="20" font-weight="700" fill="#0B5F59">Your application</text>
+<text x="56" y="215" font-size="17" fill="#2B3442">a handler, a manager or a test</text>
+<rect x="48" y="370.6" width="169.4" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="388.7" font-size="16" font-weight="700" fill="#7A360E">SetPlatformKeys()</text>
+<rect x="225.4" y="370.6" width="73.2" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="233.4" y="388.7" font-size="16" font-weight="700" fill="#7A360E">Open()</text>
+<rect x="306.6" y="370.6" width="75.9" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="314.6" y="388.7" font-size="16" font-weight="700" fill="#7A360E">Close()</text>
+<rect x="390.5" y="370.6" width="97.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="398.5" y="388.7" font-size="16" font-weight="700" fill="#7A360E">Recover()</text>
+<rect x="496.1" y="370.6" width="129" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="504.1" y="388.7" font-size="16" font-weight="700" fill="#7A360E">PowerCycle()</text>
+<rect x="633.2" y="370.6" width="172.4" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="641.2" y="388.7" font-size="16" font-weight="700" fill="#7A360E">DeepPowerDown()</text>
+<rect x="48" y="404.6" width="87.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="422.7" font-size="16" font-weight="700" fill="#7A360E">IsOpen()</text>
+<rect x="143.5" y="404.6" width="72.3" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="151.5" y="422.7" font-size="16" font-weight="700" fill="#7A360E">State()</text>
+<rect x="223.7" y="404.6" width="155.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="231.7" y="422.7" font-size="16" font-weight="700" fill="#7A360E">GetCapabilities()</text>
+<rect x="387.4" y="404.6" width="65" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="395.4" y="422.7" font-size="16" font-weight="700" fill="#7A360E">Role()</text>
+<rect x="460.4" y="404.6" width="232.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="468.4" y="422.7" font-size="16" font-weight="700" fill="#7A360E">SecureMessagingActive()</text>
+<rect x="48" y="438.6" width="220.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="456.7" font-size="16" font-weight="700" fill="#7A360E">AnswersAuthenticated()</text>
+<rect x="276.7" y="438.6" width="186.4" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="284.7" y="456.7" font-size="16" font-weight="700" fill="#7A360E">TrafficConfidential()</text>
+<rect x="471.1" y="438.6" width="180.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="479.1" y="456.7" font-size="16" font-weight="700" fill="#7A360E">SessionCredential()</text>
+<rect x="48" y="472.6" width="192" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="490.7" font-size="16" font-weight="700" fill="#7A360E">GetLastStatusWord()</text>
+<rect x="248" y="472.6" width="140.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="256" y="490.7" font-size="16" font-weight="700" fill="#7A360E">GetLastDetail()</text>
+<rect x="396.6" y="472.6" width="123.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="404.6" y="490.7" font-size="16" font-weight="700" fill="#7A360E">ApduCount()</text>
+<rect x="528.3" y="472.6" width="123.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="536.3" y="490.7" font-size="16" font-weight="700" fill="#7A360E">OpenCount()</text>
+<rect x="659.7" y="472.6" width="92.4" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="667.7" y="490.7" font-size="16" font-weight="700" fill="#7A360E">GetLink()</text>
+<rect x="48" y="506.6" width="196.1" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="524.7" font-size="16" font-weight="700" fill="#7A360E">BeginUserIdSession()</text>
+<rect x="252.1" y="506.6" width="206.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="260.1" y="524.7" font-size="16" font-weight="700" fill="#7A360E">BeginAesKeySession()</text>
+<rect x="466.6" y="506.6" width="194.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="474.6" y="524.7" font-size="16" font-weight="700" fill="#7A360E">BeginEcKeySession()</text>
+<rect x="669.2" y="506.6" width="126.1" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="677.2" y="524.7" font-size="16" font-weight="700" fill="#7A360E">EndSession()</text>
+<rect x="48" y="540.6" width="159.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="558.7" font-size="16" font-weight="700" fill="#7A360E">RefreshSession()</text>
+<rect x="215.6" y="540.6" width="94.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="223.6" y="558.7" font-size="16" font-weight="700" fill="#7A360E">Session()</text>
+<rect x="318.2" y="540.6" width="194.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="326.2" y="558.7" font-size="16" font-weight="700" fill="#7A360E">ReadEckaPublicKey()</text>
+<rect x="520.6" y="540.6" width="106" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="528.6" y="558.7" font-size="16" font-weight="700" fill="#7A360E">ReadRaw()</text>
+<rect x="634.6" y="540.6" width="175.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="642.6" y="558.7" font-size="16" font-weight="700" fill="#7A360E">BeginTransaction()</text>
+<rect x="48" y="574.6" width="160.1" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="592.7" font-size="16" font-weight="700" fill="#7A360E">EndTransaction()</text>
+<rect x="216.1" y="574.6" width="159.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="224.1" y="592.7" font-size="16" font-weight="700" fill="#7A360E">TriggerSelfTest()</text>
+<rect x="383.8" y="574.6" width="122.6" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="391.8" y="592.7" font-size="16" font-weight="700" fill="#7A360E">GetVersion()</text>
+<rect x="514.4" y="574.6" width="134.8" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="522.4" y="592.7" font-size="16" font-weight="700" fill="#7A360E">FreeMemory()</text>
+<rect x="657.1" y="574.6" width="125.9" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="665.1" y="592.7" font-size="16" font-weight="700" fill="#7A360E">GetRandom()</text>
+<rect x="48" y="608.6" width="158.1" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="626.7" font-size="16" font-weight="700" fill="#7A360E">GenerateEcKey()</text>
+<rect x="214.1" y="608.6" width="116.1" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="222.1" y="626.7" font-size="16" font-weight="700" fill="#7A360E">EcdsaSign()</text>
+<rect x="338.2" y="608.6" width="130.3" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="346.2" y="626.7" font-size="16" font-weight="700" fill="#7A360E">EcdsaVerify()</text>
+<rect x="476.6" y="608.6" width="125.2" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="484.6" y="626.7" font-size="16" font-weight="700" fill="#7A360E">ReadObject()</text>
+<rect x="609.8" y="608.6" width="127.5" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="617.8" y="626.7" font-size="16" font-weight="700" fill="#7A360E">WriteBinary()</text>
+<rect x="48" y="642.6" width="133.4" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="56" y="660.7" font-size="16" font-weight="700" fill="#7A360E">ObjectExists()</text>
+<rect x="189.4" y="642.6" width="136.8" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="197.4" y="660.7" font-size="16" font-weight="700" fill="#7A360E">DeleteObject()</text>
+<rect x="334.2" y="642.6" width="142.3" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="342.2" y="660.7" font-size="16" font-weight="700" fill="#7A360E">ReadAttested()</text>
+<rect x="484.4" y="642.6" width="137" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="492.4" y="660.7" font-size="16" font-weight="700" fill="#7A360E">ReadVerified()</text>
+<rect x="629.4" y="642.6" width="180.7" height="26" rx="13" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1"/>
+<text x="637.4" y="660.7" font-size="16" font-weight="700" fill="#7A360E">IncrementCounter()</text>
+<text x="48" y="331.4" font-size="17" font-weight="700" fill="#7A360E">HARDWARE-AGNOSTIC CORE</text>
+<text x="48" y="354.6" font-size="16" fill="#7A360E">Device, inc/se05x_device.hpp</text>
+<rect x="405.4" y="258.4" width="49.1" height="24" rx="12" fill="#FFFFFF"/>
+<text x="430" y="276.2" font-size="16" font-weight="500" text-anchor="middle" fill="#566070">calls</text>
+<text x="886" y="337.4" font-size="20" font-weight="700" fill="#7A360E">Portable</text>
+<text x="886" y="360.8" font-size="17" fill="#7A360E">No platform code: the same</text>
+<text x="886" y="385.5" font-size="17" fill="#7A360E">header builds on every MCU</text>
+<text x="886" y="410.1" font-size="17" fill="#7A360E">and on the host.</text>
+<rect x="32" y="699" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="54" y="713.6" font-size="16" fill="#566070">you write</text>
+<rect x="152.3" y="699" width="14" height="14" rx="4" fill="#FBEFE6" stroke="#9A4A17" stroke-width="1.4"/>
+<text x="174.3" y="713.6" font-size="16" fill="#566070">this library</text>
+<rect x="282.1" y="699" width="14" height="14" rx="4" fill="#F1F4F8" stroke="#64748B" stroke-width="1.4"/>
+<text x="304.1" y="713.6" font-size="16" fill="#566070">hardware</text>
+<path d="M404.1 707L434.1 707" fill="none" stroke="#8893A2" stroke-width="2.2" marker-end="url(#fk-arrow-rail)"/>
+<text x="448.1" y="713.6" font-size="16" fill="#566070">calls</text>
+</svg>

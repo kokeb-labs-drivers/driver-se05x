@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="726" viewBox="0 0 1200 726" role="img" aria-labelledby="se052-wiring-title se052-wiring-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="se052-wiring-title">Wiring the SE052</title>
+<desc id="se052-wiring-desc">Schematic in boxes: MCU I2C SDA and SCL with pull-ups to the 1.65 V to 3.6 V bus supply, VIN on that supply, VOUT to VDD, RST_N on a GPIO, optional 22 nF on VIN and VOUT.</desc>
+<defs><marker id="fk-arrow-blue-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#60A5FA"/></marker><marker id="fk-arrow-slate-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#94A3B8"/></marker><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2BB3A3"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="725" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">SE052</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">Wiring the SE052</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">SE052 data sheet Rev. 1.5: Figure 1 (p. 6) and Table 2 (p. 4).</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M296 309.1 L562.6 309.1 Q565 309.1 565 311.4 L565 311.4 Q565 313.8 567.4 313.8 L834 313.8" fill="none" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-blue-strong)"/>
+<path d="M296 352.8 L557 352.8 Q565 352.8 565 360.8 L565 370.6 Q565 378.6 573 378.6 L834 378.6" fill="none" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-teal-strong)"/>
+<path d="M676 181.8 L995 181.8 Q1003 181.8 1003 189.8 L1003 273.8" fill="none" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-blue-strong)"/>
+<path d="M676 511.8 L995 511.8 Q1003 511.8 1003 503.8 L1003 425.8" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#fk-arrow-slate-strong)"/>
+<rect x="32" y="277.8" width="260" height="125" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="32" y="285.8" width="4" height="109" rx="2" fill="#94A3B8"/>
+<rect x="372" y="137.8" width="300" height="88" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="372" y="145.8" width="4" height="72" rx="2" fill="#60A5FA"/>
+<rect x="838" y="277.8" width="330" height="144" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="838" y="285.8" width="4" height="128" rx="2" fill="#2BB3A3"/>
+<rect x="372" y="467.8" width="300" height="88" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="32" y="585.8" width="1136" height="79.3" rx="10" fill="#1B232E" stroke="#3A4656" stroke-width="1"/>
+<text x="52" y="304.6" font-size="15" font-weight="700" fill="#E2E8F0">MCU</text>
+<text x="52" y="329.4" font-size="13" fill="#D2DAE4">I2C SDA</text>
+<text x="52" y="348.2" font-size="13" fill="#D2DAE4">I2C SCL</text>
+<text x="52" y="367.1" font-size="13" fill="#D2DAE4">GPIO (reset port)</text>
+<text x="52" y="385.9" font-size="13" fill="#D2DAE4">3V3, GND</text>
+<text x="392" y="164.6" font-size="15" font-weight="700" fill="#BFDBFE">Pull-ups to the bus supply</text>
+<text x="392" y="189.4" font-size="13" fill="#D2DAE4">SDA and SCL, value per bus speed</text>
+<text x="392" y="208.2" font-size="13" fill="#D2DAE4">bus supply 1.65 V to 3.6 V</text>
+<text x="858" y="304.6" font-size="15" font-weight="700" fill="#A7F3E6">SE052</text>
+<text x="858" y="329.4" font-size="13" fill="#D2DAE4">11 SDA, 10 SCL</text>
+<text x="858" y="348.2" font-size="13" fill="#D2DAE4">12 VIN: bus supply</text>
+<text x="858" y="367.1" font-size="13" fill="#D2DAE4">15 VOUT to 18 VDD</text>
+<text x="858" y="385.9" font-size="13" fill="#D2DAE4">14 RST_N</text>
+<text x="858" y="404.8" font-size="13" fill="#D2DAE4">19 VSS</text>
+<text x="392" y="494.6" font-size="15" font-weight="700" fill="#E8EDF3">Capacitors (optional)</text>
+<text x="392" y="519.4" font-size="13" fill="#D2DAE4">22 nF on VIN</text>
+<text x="392" y="538.2" font-size="13" fill="#D2DAE4">22 nF or none on VOUT, at most 47 nF</text>
+<rect x="529.8" y="301.4" width="70.4" height="20" rx="10" fill="#0E131A"/>
+<text x="565" y="315.7" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">SDA, SCL</text>
+<rect x="538.9" y="355.7" width="52.3" height="20" rx="10" fill="#0E131A"/>
+<text x="565" y="370" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">RST_N</text>
+<rect x="857.8" y="171.8" width="55.3" height="20" rx="10" fill="#0E131A"/>
+<text x="885.5" y="186.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">pull-up</text>
+<rect x="843.6" y="501.8" width="77.8" height="20" rx="10" fill="#0E131A"/>
+<text x="882.5" y="516.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">VIN, VOUT</text>
+<text x="46" y="612.5" font-size="15" font-weight="700" fill="#E2E8F0">Unused pins</text>
+<text x="46" y="630.4" font-size="13" fill="#E2E8F0">Unused: CLK (13) open or to ground, LA (17) and LB (1) open, IO1 (3) and IO2 (16) open when the chip's own I2C controller is not used. The limit of 47 nF on VOUT is Table</text>
+<text x="46" y="649.2" font-size="13" fill="#E2E8F0">6, p. 8.</text>
+<rect x="32" y="680.5" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="54" y="692.2" font-size="12.5" fill="#9AA6B5">bus</text>
+<rect x="100.9" y="680.5" width="14" height="14" rx="4" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<text x="122.9" y="692.2" font-size="12.5" fill="#9AA6B5">supply</text>
+<rect x="188.7" y="680.5" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="210.7" y="692.2" font-size="12.5" fill="#9AA6B5">control</text>
+<rect x="278.5" y="680.5" width="14" height="14" rx="4" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<text x="300.5" y="692.2" font-size="12.5" fill="#9AA6B5">optional part</text>
+</svg>
