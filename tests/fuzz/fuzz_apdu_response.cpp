@@ -17,8 +17,11 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "model/bytes.hpp"
 #include "se05x_apdu.hpp"
 #include "se05x_codec.hpp"
+
+using se05x::testmodel::SameBytes;
 
 namespace {
 
@@ -99,7 +102,7 @@ void CheckDecoder(ByteSpan input, MakeArgs make) {
   std::array<uint8_t, N + 8U> second{};
   const ArgsOf<C> args2 = make(MutableByteSpan{second}.first(N));
   Require(Codec<C>::Decode(args2, input, again).error == r.error);
-  Require(std::memcmp(storage.data(), second.data(), storage.size()) == 0);
+  Require(SameBytes(storage.data(), second.data(), storage.size()));
 }
 
 void CheckDecoders(ByteSpan input) {

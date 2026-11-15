@@ -90,8 +90,8 @@ ports in `Ports<Bus, Clock, Crypto[, Reset][, Log]>`. `docs/architecture.md` dra
 - A driver is MCU-agnostic and platform-free: no SDK, no RTOS, no lock, no heap, exceptions, RTTI, `std::function`,
   `std::string`, `printf` or static mutable state. It reaches the bus only through the port hooks.
 - Everything is in `namespace se05x` (sub-namespaces `t1`, `scp03`, `eckey`, `session`, `gp`, `perso`,
-  `attest`, `hrot`, `irreversible`, `apdu`, `gate`, `wire`, `refcrypto`, `pki`); internals in `detail`. The command
-  layer is `se05x::Device<P>`, the facade `se05x::hrot::Device<P>`.
+  `attest`, `hrot`, `irreversible`, `apdu`, `codecs`, `gate`, `wire`, `refcrypto`, `pki`); internals in `detail`.
+  The command layer is `se05x::Device<P>`, the facade `se05x::hrot::Device<P>`.
 - Each port base declares no hook; the driver is constrained by the `BusPort`, `ClockPort`, `CryptoPort`,
   `ResetPort` and `LogPort` concepts, which check each hook's exact signature and `noexcept`. A member that needs
   an optional port is constrained on `Ports::kHasReset` or `kHasLog`, so it does not compile without it.

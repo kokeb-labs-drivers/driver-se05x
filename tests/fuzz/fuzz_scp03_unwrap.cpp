@@ -16,9 +16,11 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "model/bytes.hpp"
 #include "se05x_crypto.hpp"
 #include "se05x_scp03.hpp"
 
+using se05x::testmodel::CopyBytes;
 using namespace se05x;
 
 namespace {
@@ -38,7 +40,7 @@ struct Answer {
   Result<std::size_t> Transceive(ByteSpan command, MutableByteSpan r) const noexcept {
     static_cast<void>(command);
     const std::size_t n = (bytes.size() < r.size()) ? bytes.size() : r.size();
-    static_cast<void>(std::memcpy(r.data(), bytes.data(), n));
+    CopyBytes(r.data(), bytes.data(), n);
     return Result<std::size_t>::Success(n);
   }
 };
@@ -59,7 +61,7 @@ void FuzzUnwrap(uint8_t mode, ByteSpan response) {
   sm.Start(crypto, keys, level, rule, std::array<uint8_t, 16>{});
   std::array<uint8_t, 16U + 1100U> buffer{};
   const std::size_t n = (response.size() > 1100U) ? 1100U : response.size();
-  static_cast<void>(std::memcpy(&buffer[16], response.data(), n));
+  CopyBytes(&buffer[16], response.data(), n);
   std::array<uint8_t, 1100> out{};
   const uint32_t before = sm.Counter();
   const auto r = sm.Unwrap(MutableByteSpan{buffer}, n, MutableByteSpan{out});

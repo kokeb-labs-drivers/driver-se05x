@@ -15,8 +15,8 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/scp_loop.hpp"
 #include "model/scp_script.hpp"
 #include "model/scp_target.hpp"
@@ -24,6 +24,8 @@
 #include "se05x_scp03.hpp"
 #include "test_harness.hpp"
 
+using se05x::testmodel::CopyBytes;
+using se05x::testmodel::SameBytes;
 using namespace se05x;
 using testmodel::Loop;
 using testmodel::ScpFixture;
@@ -237,10 +239,10 @@ TEST_CASE("The plain command reaches the applet byte for byte (C-DECRYPTION undo
   std::array<uint8_t, 32> rsp{};
   REQUIRE(t.ch.Transceive(ByteSpan{cmd}, MutableByteSpan{rsp}).ok());
   REQUIRE(t.chip.last_plain_len == cmd.size());
-  CHECK(std::memcmp(t.chip.last_plain.data(), cmd.data(), cmd.size()) == 0);
+  CHECK(SameBytes(t.chip.last_plain.data(), cmd.data(), cmd.size()));
   // On the wire the data was encrypted and padded: the command was not sent in the clear.
   CHECK_EQ(t.loop.last_cmd[0], 0x84U);
-  CHECK(std::memcmp(&t.loop.last_cmd[7], &cmd[5], 2U) != 0);
+  CHECK(!SameBytes(&t.loop.last_cmd[7], &cmd[5], 2U));
 }
 
 TEST_CASE("The counter only goes up, also across commands without data, and restarts at 1") {
@@ -504,7 +506,7 @@ TEST_CASE("The session framer writes ProcessSessionCmd in short and extended for
                                      2,    3,    4,    5,    6,    7,    8,    0x41,
                                      0x04, 0x80, 0x04, 0x00, 0x20, 0x00};
   REQUIRE(framed.value.size() == want.size());
-  CHECK(std::memcmp(framed.value.data(), want.data(), want.size()) == 0);
+  CHECK(SameBytes(framed.value.data(), want.data(), want.size()));
   auto big = framer.Frame(MutableByteSpan{buf}, 300U);
   REQUIRE(big.ok());
   CHECK((big.value[4] == 0x00U) && (big.value[5] == 0x01U) && (big.value[6] == 0x3AU)); // 314
@@ -522,7 +524,7 @@ TEST_CASE("CreateSession reads the session id in the 1-byte and the 0x82 length 
     std::size_t length{0};
     Result<std::size_t> Transceive(ByteSpan command, MutableByteSpan r) const noexcept {
       static_cast<void>(command);
-      static_cast<void>(std::memcpy(r.data(), bytes.data(), length));
+      CopyBytes(r.data(), bytes.data(), length);
       return Result<std::size_t>::Success(length);
     }
   };

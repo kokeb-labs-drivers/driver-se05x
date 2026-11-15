@@ -7,8 +7,8 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/scp_loop.hpp"
 #include "model/scp_target.hpp"
 #include "se05x_crypto.hpp"
@@ -16,6 +16,8 @@
 #include "se05x_perso.hpp"
 #include "test_harness.hpp"
 
+using se05x::testmodel::CopyBytes;
+using se05x::testmodel::SameBytes;
 using namespace se05x;
 using testmodel::Loop;
 using testmodel::ScpFixture;
@@ -32,7 +34,7 @@ struct Fixed {
   Result<std::size_t> Transceive(ByteSpan command, MutableByteSpan r) noexcept {
     static_cast<void>(command);
     ++calls;
-    static_cast<void>(std::memcpy(r.data(), bytes.data(), length));
+    CopyBytes(r.data(), bytes.data(), length);
     return Result<std::size_t>::Success(length);
   }
 };
@@ -65,7 +67,7 @@ TEST_CASE("PERSO: Select sends the AN13015 Table 7 command and reads the version
                                      0x03, 0x96, 0x54, 0x53, 0x00, 0x00, 0x00, 0x01,
                                      0x03, 0x40, 0x00, 0x00, 0x00, 0x00};
   REQUIRE(t.loop.last_cmd_len == want.size());
-  CHECK(std::memcmp(t.loop.last_cmd.data(), want.data(), want.size()) == 0);
+  CHECK(SameBytes(t.loop.last_cmd.data(), want.data(), want.size()));
   CHECK(t.perso.Selected());
 }
 
@@ -88,7 +90,7 @@ TEST_CASE("PERSO: the I2C address and parameters are read with Table 10 and 12")
   REQUIRE(a.ok());
   CHECK_EQ(a.value, 0x48U);
   const std::array<uint8_t, 7> want{0x80, 0x02, 0x80, 0x0D, 0x01, 0x01, 0x00};
-  CHECK(std::memcmp(t.loop.last_cmd.data(), want.data(), want.size()) == 0);
+  CHECK(SameBytes(t.loop.last_cmd.data(), want.data(), want.size()));
   const auto p = t.perso.ReadI2cParams();
   REQUIRE(p.ok());
   CHECK(p.value.ClockStretching());
@@ -214,7 +216,7 @@ TEST_CASE("Card manager: SELECT of the ISD, then CPLC, card identification and k
   REQUIRE(t.cm.SelectCardManager().ok());
   const std::array<uint8_t, 14> select{0x00, 0xA4, 0x04, 0x00, 0x08, 0xA0, 0x00,
                                        0x00, 0x01, 0x51, 0x00, 0x00, 0x00, 0x00};
-  CHECK(std::memcmp(t.loop.last_cmd.data(), select.data(), select.size()) == 0);
+  CHECK(SameBytes(t.loop.last_cmd.data(), select.data(), select.size()));
   const auto cplc = t.cm.GetCplc();
   REQUIRE(cplc.ok());
   CHECK_EQ(cplc.value.length, 42U);
@@ -224,7 +226,7 @@ TEST_CASE("Card manager: SELECT of the ISD, then CPLC, card identification and k
   CHECK_EQ(id.value.oef_id, 0xA921U);
   CHECK_EQ(id.value.raw.length, 66U);
   const std::array<uint8_t, 8> want{0x80, 0xCA, 0x00, 0xFE, 0x02, 0xDF, 0x28, 0x00};
-  CHECK(std::memcmp(t.loop.last_cmd.data(), want.data(), want.size()) == 0);
+  CHECK(SameBytes(t.loop.last_cmd.data(), want.data(), want.size()));
   const auto keys = t.cm.GetKeyInformation();
   REQUIRE(keys.ok());
   CHECK_EQ(keys.value.count, 3U);

@@ -12,8 +12,8 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "se05x_status.hpp"
 #include "se05x_types.hpp"
 
@@ -78,7 +78,7 @@ public:
     }
     std::array<uint8_t, 600> want{};
     const std::size_t n = HexTo(steps_[index].command, want.data(), want.size());
-    if ((n != command.size()) || (std::memcmp(want.data(), command.data(), n) != 0)) {
+    if ((n != command.size()) || (!SameBytes(want.data(), command.data(), n))) {
       mismatch = true;
       mismatch_at = index;
       response[0] = 0x6FU;

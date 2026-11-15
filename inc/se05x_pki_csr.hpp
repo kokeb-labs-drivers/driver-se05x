@@ -181,6 +181,21 @@ constexpr uint8_t AltNameTag(AltNameType type) noexcept {
   return der::ContextPrimitive(number);
 }
 
+/** @brief One attribute of a `Name` (outside the class so it is not a nested type). */
+struct NameEntry {
+  Attribute attribute{Attribute::CommonName};   ///< The attribute.
+  ByteSpan value;                               ///< The caller's value, unless `owns`.
+  std::array<uint8_t, 2U * kMaxHexInput> hex{}; ///< The hex text of `AddHex()`.
+  std::size_t hex_length{0};                    ///< The length of `hex` in use.
+  bool owns{false};                             ///< Whether the value is `hex`.
+};
+
+/** @brief One entry of `AltNames` (outside the class so it is not a nested type). */
+struct AltNameEntry {
+  AltNameType type{AltNameType::Dns}; ///< The type.
+  ByteSpan value;                     ///< The caller's value.
+};
+
 } // namespace detail
 
 /**
@@ -200,7 +215,7 @@ public:
    * @return This name.
    */
   constexpr Name& Add(Attribute attribute, ByteSpan value) noexcept {
-    Entry* e = next(attribute, value);
+    detail::NameEntry* e = next(attribute, value);
     if (e != nullptr) {
       e->value = value;
     }
@@ -226,7 +241,7 @@ public:
       hex[(2U * i) + 1U] = kHex[static_cast<uint32_t>(bytes[i]) & 0x0FU];
     }
     const ByteSpan text = ByteSpan{hex}.first(2U * bytes.size());
-    Entry* e = next(attribute, text);
+    detail::NameEntry* e = next(attribute, text);
     if (e != nullptr) {
       e->hex = hex;
       e->hex_length = text.size();
@@ -253,7 +268,7 @@ public:
     }
     w.Begin(der::kSequence);
     for (std::size_t i = 0U; i < count_; ++i) {
-      const Entry& e = entries_[i];
+      const detail::NameEntry& e = entries_[i];
       std::size_t max = 0U;
       const bool printable =
           (e.attribute == Attribute::Country) || (e.attribute == Attribute::SerialNumber);
@@ -269,19 +284,12 @@ public:
   }
 
 private:
-  struct Entry {
-    Attribute attribute{Attribute::CommonName};
-    ByteSpan value;
-    std::array<uint8_t, 2U * kMaxHexInput> hex{};
-    std::size_t hex_length{0};
-    bool owns{false};
-  };
   constexpr void fail(Reason reason) noexcept {
     if (error_ == Reason::Ok) {
       error_ = reason;
     }
   }
-  constexpr Entry* next(Attribute attribute, ByteSpan value) noexcept {
+  constexpr detail::NameEntry* next(Attribute attribute, ByteSpan value) noexcept {
     if (!se05x::detail::IsEnumerator(attribute) ||
         (detail::CheckAttribute(attribute, value) != Reason::Ok)) {
       fail(Reason::InvalidInput);
@@ -291,13 +299,13 @@ private:
       fail(Reason::TooManyEntries);
       return nullptr;
     }
-    entries_[count_] = Entry{};
+    entries_[count_] = detail::NameEntry{};
     entries_[count_].attribute = attribute;
     ++count_;
     return &entries_[count_ - 1U];
   }
 
-  std::array<Entry, kMaxNameAttributes> entries_{};
+  std::array<detail::NameEntry, kMaxNameAttributes> entries_{};
   std::size_t count_{0};
   Reason error_{Reason::Ok};
 };
@@ -323,7 +331,7 @@ public:
     } else if (count_ >= entries_.size()) {
       fail(Reason::TooManyEntries);
     } else {
-      entries_[count_] = Entry{.type = type, .value = value};
+      entries_[count_] = detail::AltNameEntry{.type = type, .value = value};
       ++count_;
     }
     return *this;
@@ -353,16 +361,12 @@ public:
   }
 
 private:
-  struct Entry {
-    AltNameType type{AltNameType::Dns};
-    ByteSpan value;
-  };
   constexpr void fail(Reason reason) noexcept {
     if (error_ == Reason::Ok) {
       error_ = reason;
     }
   }
-  std::array<Entry, kMaxAltNames> entries_{};
+  std::array<detail::AltNameEntry, kMaxAltNames> entries_{};
   std::size_t count_{0};
   Reason error_{Reason::Ok};
 };

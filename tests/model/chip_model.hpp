@@ -37,6 +37,7 @@
 #include <cstdint>
 #include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/model_if.hpp"
 #include "model/scp_crypto.hpp"
 #include "model/scp_target.hpp"
@@ -131,7 +132,7 @@ public:
                                             0x4D, 0x6E, 0x19, 0x02, 0x73, 0x0A, 0x5B, 0x34,
                                             0x26, 0x47, 0x58, 0x69, 0x7A, 0x0B, 0x1C, 0x2D};
     Object& a = add(kAttestKey, Type::EcPair, true);
-    static_cast<void>(std::memcpy(a.priv.data(), kAttestPriv, 32U));
+    CopyBytes(a.priv.data(), kAttestPriv, 32U);
     static_cast<void>(mc::PublicKey(a.priv.data(), a.pub.data()));
     a.attest = true;
     a.provisioned = true;
@@ -142,7 +143,7 @@ public:
   /** @brief The chip's ECKA key pair (RESERVED_ID_ECKEY_SESSION); also give it to `ScpTarget`. */
   void SetEcka(const uint8_t* priv32) {
     Object& o = add(kEcka, Type::EcPair, true);
-    static_cast<void>(std::memcpy(o.priv.data(), priv32, 32U));
+    CopyBytes(o.priv.data(), priv32, 32U);
     static_cast<void>(mc::PublicKey(o.priv.data(), o.pub.data()));
     o.provisioned = true;
   }
@@ -162,7 +163,7 @@ public:
   [[nodiscard]] bool AesKeyIs(uint32_t id, ByteSpan key) const {
     const Object* o = find(id);
     return (o != nullptr) && (o->type == Type::Aes) && (o->size == key.size()) &&
-           (std::memcmp(o->priv.data(), key.data(), key.size()) == 0);
+           (SameBytes(o->priv.data(), key.data(), key.size()));
   }
   /** @return Whether an object exists. */
   [[nodiscard]] bool Has(uint32_t id) const {
@@ -356,7 +357,7 @@ private:
     r[at + 2U] = static_cast<uint8_t>(n >> 8U);
     r[at + 3U] = static_cast<uint8_t>(n & 0xFFU);
     if (n != 0U) {
-      static_cast<void>(std::memcpy(&r[at + 4U], v, n));
+      CopyBytes(&r[at + 4U], v, n);
     }
     return at + 4U + n;
   }
@@ -375,7 +376,7 @@ private:
       r[at++] = static_cast<uint8_t>(n & 0xFFU);
     }
     if (n != 0U) {
-      static_cast<void>(std::memcpy(&r[at], v, n));
+      CopyBytes(&r[at], v, n);
     }
     return at + n;
   }
@@ -464,7 +465,7 @@ private:
                           static_cast<uint8_t>(profile_.applet_config & 0xFFU),
                           static_cast<uint8_t>(profile_.secure_box >> 8U),
                           static_cast<uint8_t>(profile_.secure_box & 0xFFU)};
-    static_cast<void>(std::memcpy(r.data(), v, 7U));
+    CopyBytes(r.data(), v, 7U);
     return sw(r, 7U, 0x9000U);
   }
   void deselect() {
@@ -689,13 +690,13 @@ private:
     }
     if (pub.present && !priv.present) { // a public key only (P1_PUBLIC)
       Object& k = add(id, Type::EcPub, !transient);
-      static_cast<void>(std::memcpy(k.pub.data(), pub.v, 65U));
+      CopyBytes(k.pub.data(), pub.v, 65U);
       return sw(r, 0U, 0x9000U);
     }
     Object& n = add(id, Type::EcPair, !transient);
     n.generated = !priv.present;
     if (priv.present) { // an imported key pair: the public key follows from the private one
-      static_cast<void>(std::memcpy(n.priv.data(), priv.v, 32U));
+      CopyBytes(n.priv.data(), priv.v, 32U);
       static_cast<void>(mc::PublicKey(n.priv.data(), n.pub.data()));
       return sw(r, 0U, 0x9000U);
     }
@@ -722,12 +723,12 @@ private:
         return sw(r, 0U, 0x6A80U);
       }
     } else if ((n == 16U) || (n == 32U)) {
-      static_cast<void>(std::memcpy(key, k.v, n));
+      CopyBytes(key, k.v, n);
     } else {
       return sw(r, 0U, 0x6A80U);
     }
     Object& x = add(id, Type::Aes, !transient);
-    static_cast<void>(std::memcpy(x.priv.data(), key, n));
+    CopyBytes(x.priv.data(), key, n);
     x.size = n;
     return sw(r, 0U, 0x9000U);
   }
@@ -739,24 +740,24 @@ private:
     const std::size_t blocks = (in.n / 8U) - 1U;
     uint8_t a[8];
     uint8_t rb[4][8];
-    static_cast<void>(std::memcpy(a, in.v, 8U));
+    CopyBytes(a, in.v, 8U);
     for (std::size_t i = 0U; i < blocks; ++i) {
-      static_cast<void>(std::memcpy(rb[i], in.v + 8U + (8U * i), 8U));
+      CopyBytes(rb[i], in.v + 8U + (8U * i), 8U);
     }
     for (uint32_t step = 6U; step > 0U; --step) {
       const uint32_t j = step - 1U;
       for (std::size_t i = blocks; i >= 1U; --i) {
         const uint64_t t = (blocks * static_cast<uint64_t>(j)) + i;
         uint8_t b[16];
-        static_cast<void>(std::memcpy(b, a, 8U));
+        CopyBytes(b, a, 8U);
         for (std::size_t q = 0U; q < 8U; ++q) {
           b[7U - q] = static_cast<uint8_t>(b[7U - q] ^ static_cast<uint8_t>(t >> (8U * q)));
         }
-        static_cast<void>(std::memcpy(b + 8, rb[i - 1U], 8U));
+        CopyBytes(b + 8, rb[i - 1U], 8U);
         uint8_t iv[16] = {};
         static_cast<void>(mc::CbcDecrypt(mc::Bytes(kek.priv.data(), kek.size), iv, b, 16U));
-        static_cast<void>(std::memcpy(a, b, 8U));
-        static_cast<void>(std::memcpy(rb[i - 1U], b + 8, 8U));
+        CopyBytes(a, b, 8U);
+        CopyBytes(rb[i - 1U], b + 8, 8U);
       }
     }
     for (const uint8_t iv_byte : a) {
@@ -765,7 +766,7 @@ private:
       }
     }
     for (std::size_t i = 0U; i < blocks; ++i) {
-      static_cast<void>(std::memcpy(out + (8U * i), rb[i], 8U));
+      CopyBytes(out + (8U * i), rb[i], 8U);
     }
     n = 8U * blocks;
     return true;
@@ -790,7 +791,7 @@ private:
       return sw(r, 0U, 0x6A80U);
     }
     if (d.n != 0U) {
-      static_cast<void>(std::memcpy(o->data.data() + offset, d.v, d.n));
+      CopyBytes(o->data.data() + offset, d.v, d.n);
     }
     return sw(r, 0U, 0x9000U);
   }
@@ -834,7 +835,7 @@ private:
     constexpr uint8_t kWire[] = {0x00U, 0x01U, 0x03U, 0x0BU, 0x0DU, 0x0CU, 0x09U};
     block[4] = kWire[static_cast<std::size_t>(o->type)];
     block[5] = 0x01U; // NOT_SET
-    static_cast<void>(std::memcpy(block + 14, o->policy.data(), o->policy_len));
+    CopyBytes(block + 14, o->policy.data(), o->policy_len);
     std::size_t n = 14U + o->policy_len;
     uint8_t origin = o->generated ? 0x02U : 0x01U; // ORIGIN_INTERNAL or ORIGIN_EXTERNAL
     if (o->provisioned) {
@@ -905,7 +906,7 @@ private:
     uint8_t value[kMaxBinary];
     std::size_t n = 0U;
     if ((o->type == Type::EcPair) || (o->type == Type::EcPub)) {
-      static_cast<void>(std::memcpy(value, o->pub.data(), 65U));
+      CopyBytes(value, o->pub.data(), 65U);
       n = 65U;
     } else if (o->type == Type::Binary) {
       const std::size_t off = a.t[0x42].present ? be(a.t[0x42]) : 0U;
@@ -913,7 +914,7 @@ private:
       if ((off + len) > o->size) {
         return sw(r, 0U, 0x6A80U);
       }
-      static_cast<void>(std::memcpy(value, o->data.data() + off, len));
+      CopyBytes(value, o->data.data() + off, len);
       n = len;
     } else if (o->type == Type::Counter) {
       for (std::size_t i = 0U; i < o->size; ++i) {
@@ -983,7 +984,7 @@ private:
     // Signature input: SHA-256 of the plain command without Le, then the TLVs as returned.
     static uint8_t input[32 + 1200];
     mc::Sha256(command_, input);
-    static_cast<void>(std::memcpy(input + 32, r.data(), at));
+    CopyBytes(input + 32, r.data(), at);
     uint8_t digest[32];
     mc::Sha256(mc::Bytes(input, 32U + at), digest);
     uint8_t der[72];
@@ -991,12 +992,11 @@ private:
     at = put(r, at, 0x52U, der, dl);
     const std::size_t n_out = sw(r, at, 0x9000U);
     if (knobs.replay_attested && (replay_len_ != 0U)) {
-      static_cast<void>(std::memcpy(r.data(), replay_.data(),
-                                    replay_len_)); // a bus attacker replays an old answer
+      CopyBytes(r.data(), replay_.data(), replay_len_); // a bus attacker replays an old answer
       return replay_len_;
     }
     if (n_out <= replay_.size()) {
-      static_cast<void>(std::memcpy(replay_.data(), r.data(), n_out));
+      CopyBytes(replay_.data(), r.data(), n_out);
       replay_len_ = n_out;
     }
     return n_out;
@@ -1083,8 +1083,8 @@ private:
     const mc::U256& n = mc::OrderN();
     ++nonce_;
     uint8_t seed[32 + 32 + 4];
-    static_cast<void>(std::memcpy(seed, priv, 32U));
-    static_cast<void>(std::memcpy(seed + 32, digest, 32U));
+    CopyBytes(seed, priv, 32U);
+    CopyBytes(seed + 32, digest, 32U);
     seed[64] = static_cast<uint8_t>(nonce_ >> 24U);
     seed[65] = static_cast<uint8_t>(nonce_ >> 16U);
     seed[66] = static_cast<uint8_t>(nonce_ >> 8U);
@@ -1134,7 +1134,7 @@ private:
     if (pad) {
       der[at++] = 0x00U;
     }
-    static_cast<void>(std::memcpy(der + at, v32 + skip, 32U - skip));
+    CopyBytes(der + at, v32 + skip, 32U - skip);
     return at + (32U - skip);
   }
 
@@ -1185,7 +1185,7 @@ private:
     }
     o.policy_len = (policy_.present && (policy_.n <= o.policy.size())) ? policy_.n : 0U;
     if (o.policy_len != 0U) {
-      static_cast<void>(std::memcpy(o.policy.data(), policy_.v, o.policy_len));
+      CopyBytes(o.policy.data(), policy_.v, o.policy_len);
     }
   }
   [[nodiscard]] Object* find(uint32_t id) {

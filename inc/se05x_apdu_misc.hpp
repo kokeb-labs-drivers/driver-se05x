@@ -1,6 +1,6 @@
 /**
  * @file se05x_apdu_misc.hpp
- * @brief The `Codec<C>` specialisations of the commands of the groups Desfire and I2cm.
+ * @brief The codecs (`Codec<C>`) of the commands of the groups Desfire and I2cm.
  * @copyright Copyright (c) 2026 The driver-se05x authors. SPDX-License-Identifier: MIT
  *
  * @details
@@ -159,10 +159,11 @@ inline constexpr DfShape kDfKill{.p2 = kP2KillAuth,
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `DfDiversifyKey`: `80 03 00 10` TLV[TAG_1] master key TLV[TAG_2] target AES key TLV[TAG_3]
 /// divInput (AN12543 4.16.1).
-template <>
-struct Codec<Command::DfDiversifyKey> {
+struct DfDiversifyKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -171,22 +172,27 @@ struct Codec<Command::DfDiversifyKey> {
     return apdu::detail::EncodeDf(out, args, apdu::detail::kDfDiversify);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const DfArgs& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const DfArgs& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DfDiversifyKey` (selects it for
+ * `Codec<Command::DfDiversifyKey>`). */
+constexpr DfDiversifyKeyCodec CodecFor(CommandTag<Command::DfDiversifyKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfAuthenticateFirstPart1`: `80 03 00 53` TLV[TAG_1] key TLV[TAG_2] 16 bytes, Le; answer
 /// TLV[TAG_1] 32 bytes (AN12543 4.16.2.1).
-template <>
-struct Codec<Command::DfAuthenticateFirstPart1> {
+struct DfAuthenticateFirstPart1Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -196,7 +202,7 @@ struct Codec<Command::DfAuthenticateFirstPart1> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -208,11 +214,16 @@ struct Codec<Command::DfAuthenticateFirstPart1> {
     return apdu::detail::DecodeDf(args, data, apdu::detail::kDfFirst1, reply.length);
   }
 };
+/** @return The codec of `Command::DfAuthenticateFirstPart1` (selects it for
+ * `Codec<Command::DfAuthenticateFirstPart1>`). */
+constexpr DfAuthenticateFirstPart1Codec CodecFor(
+    CommandTag<Command::DfAuthenticateFirstPart1> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfAuthenticateFirstPart2`: `80 03 00 12` TLV[TAG_1] 32 bytes, Le; answer TLV[TAG_1] 12 bytes
 /// (AN12543 4.16.2.2).
-template <>
-struct Codec<Command::DfAuthenticateFirstPart2> {
+struct DfAuthenticateFirstPart2Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -222,7 +233,7 @@ struct Codec<Command::DfAuthenticateFirstPart2> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -234,11 +245,16 @@ struct Codec<Command::DfAuthenticateFirstPart2> {
     return apdu::detail::DecodeDf(args, data, apdu::detail::kDfFirst2, reply.length);
   }
 };
+/** @return The codec of `Command::DfAuthenticateFirstPart2` (selects it for
+ * `Codec<Command::DfAuthenticateFirstPart2>`). */
+constexpr DfAuthenticateFirstPart2Codec CodecFor(
+    CommandTag<Command::DfAuthenticateFirstPart2> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfAuthenticateNonFirstPart1`: `80 03 00 54` TLV[TAG_1] key TLV[TAG_2] 16 bytes, Le; answer
 /// TLV[TAG_1] 32 bytes (AN12543 4.16.3.1).
-template <>
-struct Codec<Command::DfAuthenticateNonFirstPart1> {
+struct DfAuthenticateNonFirstPart1Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -248,7 +264,7 @@ struct Codec<Command::DfAuthenticateNonFirstPart1> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -260,11 +276,16 @@ struct Codec<Command::DfAuthenticateNonFirstPart1> {
     return apdu::detail::DecodeDf(args, data, apdu::detail::kDfNonFirst1, reply.length);
   }
 };
+/** @return The codec of `Command::DfAuthenticateNonFirstPart1` (selects it for
+ * `Codec<Command::DfAuthenticateNonFirstPart1>`). */
+constexpr DfAuthenticateNonFirstPart1Codec CodecFor(
+    CommandTag<Command::DfAuthenticateNonFirstPart1> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfAuthenticateNonFirstPart2`: `80 03 00 13` TLV[TAG_1] 16 bytes; no answer data (AN12543
 /// 4.16.3.2; SW 0x6A80 when the authentication fails, mapped to `AuthFailed`).
-template <>
-struct Codec<Command::DfAuthenticateNonFirstPart2> {
+struct DfAuthenticateNonFirstPart2Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Shares the DESFire reply shape.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -274,7 +295,7 @@ struct Codec<Command::DfAuthenticateNonFirstPart2> {
   }
   /** @brief Refused, as for the other DESFire commands. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -286,11 +307,16 @@ struct Codec<Command::DfAuthenticateNonFirstPart2> {
     return apdu::detail::DecodeDf(args, data, apdu::detail::kDfNonFirst2, reply.length);
   }
 };
+/** @return The codec of `Command::DfAuthenticateNonFirstPart2` (selects it for
+ * `Codec<Command::DfAuthenticateNonFirstPart2>`). */
+constexpr DfAuthenticateNonFirstPart2Codec CodecFor(
+    CommandTag<Command::DfAuthenticateNonFirstPart2> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfDumpSessionKeys`: `80 03 00 14`, Le; answer TLV[TAG_1] 38 bytes: SesAuthENCKey,
 /// SesAuthMACKey, TI, Cmd-Ctr (AN12543 4.16.4; secret-bearing, S-02).
-template <>
-struct Codec<Command::DfDumpSessionKeys> {
+struct DfDumpSessionKeysCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -300,7 +326,7 @@ struct Codec<Command::DfDumpSessionKeys> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -312,13 +338,17 @@ struct Codec<Command::DfDumpSessionKeys> {
     return apdu::detail::DecodeDf(args, data, apdu::detail::kDfDump, reply.length);
   }
 };
+/** @return The codec of `Command::DfDumpSessionKeys` (selects it for
+ * `Codec<Command::DfDumpSessionKeys>`). */
+constexpr DfDumpSessionKeysCodec CodecFor(CommandTag<Command::DfDumpSessionKeys> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfChangeKeyPart1`: `80 03 00 15` [TLV[TAG_1] old key, `key`; absent when 0] TLV[TAG_2] new
 /// key, `target` [TLV[TAG_3] key set number] TLV[TAG_4] DESFire key number TLV[TAG_5] key version,
 /// Le; answer TLV[TAG_1] the cryptogram (AN12543 4.16.5.1). `input` is `[key set] key number key
 /// version`, 2 or 3 bytes.
-template <>
-struct Codec<Command::DfChangeKeyPart1> {
+struct DfChangeKeyPart1Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -346,7 +376,7 @@ struct Codec<Command::DfChangeKeyPart1> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -358,11 +388,15 @@ struct Codec<Command::DfChangeKeyPart1> {
     return apdu::detail::DecodeTag1Into(data, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::DfChangeKeyPart1` (selects it for
+ * `Codec<Command::DfChangeKeyPart1>`). */
+constexpr DfChangeKeyPart1Codec CodecFor(CommandTag<Command::DfChangeKeyPart1> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfChangeKeyPart2`: `80 03 00 16` TLV[TAG_1] the card's MAC, Le; answer TLV[TAG_1] Result
 /// (AN12543 4.16.5.2). Result 02 is `AuthFailed`.
-template <>
-struct Codec<Command::DfChangeKeyPart2> {
+struct DfChangeKeyPart2Codec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Shares the DESFire reply shape.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -380,7 +414,7 @@ struct Codec<Command::DfChangeKeyPart2> {
   }
   /** @brief Refused, as for the other DESFire commands. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -399,10 +433,14 @@ struct Codec<Command::DfChangeKeyPart2> {
     return success ? Result<void>::Success() : apdu::detail::Fail<void>(Error::AuthFailed);
   }
 };
+/** @return The codec of `Command::DfChangeKeyPart2` (selects it for
+ * `Codec<Command::DfChangeKeyPart2>`). */
+constexpr DfChangeKeyPart2Codec CodecFor(CommandTag<Command::DfChangeKeyPart2> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DfKillAuthentication`: `80 03 00 17` (AN12543 4.16.6).
-template <>
-struct Codec<Command::DfKillAuthentication> {
+struct DfKillAuthenticationCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -411,22 +449,28 @@ struct Codec<Command::DfKillAuthentication> {
     return apdu::detail::EncodeDf(out, args, apdu::detail::kDfKill);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const DfArgs& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const DfArgs& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DfKillAuthentication` (selects it for
+ * `Codec<Command::DfKillAuthentication>`). */
+constexpr DfKillAuthenticationCodec CodecFor(
+    CommandTag<Command::DfKillAuthentication> /*tag*/) noexcept {
+  return {};
+}
 
 /// `I2cmExecuteCommandSet`: `80 03 00 30` TLV[TAG_1] command set (at most 255 bytes, checked
 /// against Table 311), Le; answer TLV[TAG_1] the result sequence (AN12543 4.18.1).
-template <>
-struct Codec<Command::I2cmExecuteCommandSet> {
+struct I2cmExecuteCommandSetCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -443,7 +487,7 @@ struct Codec<Command::I2cmExecuteCommandSet> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -455,13 +499,18 @@ struct Codec<Command::I2cmExecuteCommandSet> {
     return apdu::detail::DecodeTag1Into(data, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::I2cmExecuteCommandSet` (selects it for
+ * `Codec<Command::I2cmExecuteCommandSet>`). */
+constexpr I2cmExecuteCommandSetCodec CodecFor(
+    CommandTag<Command::I2cmExecuteCommandSet> /*tag*/) noexcept {
+  return {};
+}
 
 /// `I2cmExecuteCommandSetAttested`: `80 23 00 30` TLV[TAG_1] command set TLV[TAG_2] attestation
 /// key TLV[TAG_3] algorithm TLV[TAG_7] freshness, extended Le (AN12543 Table 312: the attestation
 /// tags are TAG_2 and TAG_3 here; the INS flag is used, not P2_I2CM_ATTESTED, as the middleware
 /// does). The answer format is told by its tags.
-template <>
-struct Codec<Command::I2cmExecuteCommandSetAttested> {
+struct I2cmExecuteCommandSetAttestedCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `data_out` and `signature_out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -484,7 +533,7 @@ struct Codec<Command::I2cmExecuteCommandSetAttested> {
   }
   /** @brief Refused: the output goes to the caller buffers. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, AttestedRead& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const AttestedRead& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -497,6 +546,14 @@ struct Codec<Command::I2cmExecuteCommandSetAttested> {
         data, {.data = args.data_out, .signature = args.signature_out}, reply);
   }
 };
+/** @return The codec of `Command::I2cmExecuteCommandSetAttested` (selects it for
+ * `Codec<Command::I2cmExecuteCommandSetAttested>`). */
+constexpr I2cmExecuteCommandSetAttestedCodec CodecFor(
+    CommandTag<Command::I2cmExecuteCommandSetAttested> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 } // namespace se05x
 

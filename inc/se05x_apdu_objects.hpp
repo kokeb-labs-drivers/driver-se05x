@@ -1,6 +1,6 @@
 /**
  * @file se05x_apdu_objects.hpp
- * @brief The `Codec<C>` specialisations of the commands of the groups ObjectWrite, ObjectRead,
+ * @brief The codecs (`Codec<C>`) of the commands of the groups ObjectWrite, ObjectRead,
  * Curve and CryptoObject.
  * @copyright Copyright (c) 2026 The driver-se05x authors. SPDX-License-Identifier: MIT
  *
@@ -238,10 +238,11 @@ constexpr void PutRsaComponent(CommandWriter& w, uint8_t tag, uint8_t component,
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `WriteEcKey`: `80 01[|80] <P1KeyType|01> 00` TLV[TAG_POLICY] TLV[TAG_1] id TLV[TAG_2] curve
 /// [TLV[TAG_3] private] [TLV[TAG_4] public] [TLV[TAG_11] version] (AN12543 Table 115).
-template <>
-struct Codec<Command::WriteEcKey> {
+struct WriteEcKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -281,23 +282,26 @@ struct Codec<Command::WriteEcKey> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteEcKeyArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteEcKey` (selects it for `Codec<Command::WriteEcKey>`). */
+constexpr WriteEcKeyCodec CodecFor(CommandTag<Command::WriteEcKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GenerateEcKey`: `80 01[|80] 61 00` TLV[TAG_POLICY] TLV[TAG_1] id TLV[TAG_2] curve
 /// [TLV[TAG_11] version] (AN12543 4.7.1.1: both key values absent and P1_KEY_PAIR).
-template <>
-struct Codec<Command::GenerateEcKey> {
+struct GenerateEcKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -322,26 +326,30 @@ struct Codec<Command::GenerateEcKey> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const GenerateEcKeyArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GenerateEcKey` (selects it for `Codec<Command::GenerateEcKey>`).
+ */
+constexpr GenerateEcKeyCodec CodecFor(CommandTag<Command::GenerateEcKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WriteRsaKey`: an externally generated key takes one APDU per component (AN12543 4.7.1.2):
 /// `Step(args, 0)` carries the key type in P1, the policy, the id, the size and the first
 /// component; each next step the id and one more component, in TLV order (TAG_3 to TAG_10). P2 is
 /// P2_RAW for a key in the private-exponent form and P2_DEFAULT otherwise, on every step (the
 /// middleware does the same). `Encode` is `Step(args, 0)`; the device sends `Steps(args)` APDUs.
-template <>
-struct Codec<Command::WriteRsaKey> {
+struct WriteRsaKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /**
@@ -399,23 +407,26 @@ struct Codec<Command::WriteRsaKey> {
     return Step(args, 0U, out);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteRsaKeyArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteRsaKey` (selects it for `Codec<Command::WriteRsaKey>`). */
+constexpr WriteRsaKeyCodec CodecFor(CommandTag<Command::WriteRsaKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GenerateRsaKey`: `80 01[|80] 62 00` TLV[TAG_POLICY] TLV[TAG_1] id TLV[TAG_2] size: one APDU, a
 /// CRT key pair (P2_DEFAULT; AN12543 4.7.1.2).
-template <>
-struct Codec<Command::GenerateRsaKey> {
+struct GenerateRsaKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -438,24 +449,28 @@ struct Codec<Command::GenerateRsaKey> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const GenerateRsaKeyArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GenerateRsaKey` (selects it for
+ * `Codec<Command::GenerateRsaKey>`). */
+constexpr GenerateRsaKeyCodec CodecFor(CommandTag<Command::GenerateRsaKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WriteSymmKey`: `80 01[|80] <03|04|05> 00` TLV[TAG_POLICY] TLV[TAG_1] id [TLV[TAG_2] KEK id]
 /// TLV[TAG_3] key [TLV[TAG_11] version] (AN12543 Table 118). The key bytes are a secret (S-01):
 /// on any error the buffer is zeroed.
-template <>
-struct Codec<Command::WriteSymmKey> {
+struct WriteSymmKeyCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -486,26 +501,29 @@ struct Codec<Command::WriteSymmKey> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteSymmKeyArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteSymmKey` (selects it for `Codec<Command::WriteSymmKey>`). */
+constexpr WriteSymmKeyCodec CodecFor(CommandTag<Command::WriteSymmKey> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WriteBinary`: `80 01 06 00` (AN12543 Table 119). Creation (`file_length` not 0):
 /// TLV[TAG_POLICY] TLV[TAG_1] id [TLV[TAG_2] offset] TLV[TAG_3] length [TLV[TAG_4] data]
 /// [TLV[TAG_11] version]; the policy is required. Update (`file_length` 0): TLV[TAG_1] [TLV[TAG_2]]
 /// TLV[TAG_4] data [TLV[TAG_11]]; a policy is refused (the chip rejects TAG_POLICY on an existing
 /// object).
-template <>
-struct Codec<Command::WriteBinary> {
+struct WriteBinaryCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -542,24 +560,27 @@ struct Codec<Command::WriteBinary> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteBinaryArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteBinary` (selects it for `Codec<Command::WriteBinary>`). */
+constexpr WriteBinaryCodec CodecFor(CommandTag<Command::WriteBinary> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WriteUserId`: `80 41 07 00` TLV[TAG_POLICY] TLV[TAG_MAX_ATTEMPTS] 2 bytes TLV[TAG_1] id
 /// TLV[TAG_2] 4 to 16 bytes (AN12543 Table 120: INS_AUTH_OBJECT is mandatory). An attempt limit
 /// of 0 means unlimited and is refused (S-14).
-template <>
-struct Codec<Command::WriteUserId> {
+struct WriteUserIdCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -582,26 +603,29 @@ struct Codec<Command::WriteUserId> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteUserIdArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteUserId` (selects it for `Codec<Command::WriteUserId>`). */
+constexpr WriteUserIdCodec CodecFor(CommandTag<Command::WriteUserId> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WriteCounter`: `80 01 08 00` (AN12543 Table 121). Creation (a policy given): TLV[TAG_POLICY]
 /// TLV[TAG_1] id, then TLV[TAG_2] the 2-byte width when no value is set, or TLV[TAG_3] the value,
 /// `counter_bytes` wide, which gives the width (TAG_2 only "if TAG_3 is not given"). Set (no
 /// policy): TLV[TAG_1] TLV[TAG_3] value, `counter_bytes` wide (it must equal the counter's width).
 /// An absent TAG_3 on an existing counter increments it: that is `IncrementCounter`.
-template <>
-struct Codec<Command::WriteCounter> {
+struct WriteCounterCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -628,22 +652,25 @@ struct Codec<Command::WriteCounter> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WriteCounterArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WriteCounter` (selects it for `Codec<Command::WriteCounter>`). */
+constexpr WriteCounterCodec CodecFor(CommandTag<Command::WriteCounter> /*tag*/) noexcept {
+  return {};
+}
 
 /// `IncrementCounter`: `80 01 08 00` TLV[TAG_1] id (AN12543 Table 121: no value increments by 1).
-template <>
-struct Codec<Command::IncrementCounter> {
+struct IncrementCounterCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -656,17 +683,25 @@ struct Codec<Command::IncrementCounter> {
                                   0U);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const IdArgs& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const IdArgs& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::IncrementCounter` (selects it for
+ * `Codec<Command::IncrementCounter>`). */
+constexpr IncrementCounterCodec CodecFor(CommandTag<Command::IncrementCounter> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 namespace apdu::detail {
 
@@ -701,9 +736,10 @@ constexpr Result<std::size_t> EncodePcrCreate(MutableByteSpan out, ObjectId id,
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `WritePcr`: create a persistent PCR (AN12543 Table 122).
-template <>
-struct Codec<Command::WritePcr> {
+struct WritePcrCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -714,23 +750,26 @@ struct Codec<Command::WritePcr> {
                                          Lifetime::Persistent);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WritePcrArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WritePcr` (selects it for `Codec<Command::WritePcr>`). */
+constexpr WritePcrCodec CodecFor(CommandTag<Command::WritePcr> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ExtendPcr`: `80 01 09 00` TLV[TAG_1] id TLV[TAG_3] data (AN12543 Table 122; an absent TAG_3
 /// would reset the PCR, which this command never sends).
-template <>
-struct Codec<Command::ExtendPcr> {
+struct ExtendPcrCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -747,23 +786,26 @@ struct Codec<Command::ExtendPcr> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const ExtendPcrArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ExtendPcr` (selects it for `Codec<Command::ExtendPcr>`). */
+constexpr ExtendPcrCodec CodecFor(CommandTag<Command::ExtendPcr> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ImportObject`: `80 01 00 18` TLV[TAG_1] id [TLV[TAG_2] RSAKeyComponent] TLV[TAG_3] serialised
 /// object (AN12543 Table 123; transient objects only, after `ExportObject`).
-template <>
-struct Codec<Command::ImportObject> {
+struct ImportObjectCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -781,23 +823,26 @@ struct Codec<Command::ImportObject> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const ImportObjectArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ImportObject` (selects it for `Codec<Command::ImportObject>`). */
+constexpr ImportObjectCodec CodecFor(CommandTag<Command::ImportObject> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ExportObject`: `80 02 00 19` TLV[TAG_1] id [TLV[TAG_2] RSAKeyComponent], Le; answer
 /// TLV[TAG_1] the serialised object (AN12543 4.7.3.3).
-template <>
-struct Codec<Command::ExportObject> {
+struct ExportObjectCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -816,7 +861,7 @@ struct Codec<Command::ExportObject> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -828,14 +873,17 @@ struct Codec<Command::ExportObject> {
     return apdu::detail::DecodeTag1Into(data, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::ExportObject` (selects it for `Codec<Command::ExportObject>`). */
+constexpr ExportObjectCodec CodecFor(CommandTag<Command::ExportObject> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ImportExternalObject`: `80 06 00 00 <envelope> 00` (AN12543 Table 124; Le 00 asks for the
 /// receipt, whose length the decoder checks). The envelope is the
 /// whole payload: TLV[TAG_IMPORT_AUTH_DATA] TLV[TAG_IMPORT_AUTH_KEY_ID] 4 bytes TLV[TAG_1] wrapped
 /// write command, in that order (built by the ECKey layer). The answer is the 8-byte receipt, not a
 /// TLV (Table 125). NXP asks to be contacted before this command is used (AN12543 p. 88).
-template <>
-struct Codec<Command::ImportExternalObject> {
+struct ImportExternalObjectCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /// Length of the receipt (an 8-byte CMAC).
@@ -872,11 +920,16 @@ struct Codec<Command::ImportExternalObject> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ImportExternalObject` (selects it for
+ * `Codec<Command::ImportExternalObject>`). */
+constexpr ImportExternalObjectCodec CodecFor(
+    CommandTag<Command::ImportExternalObject> /*tag*/) noexcept {
+  return {};
+}
 
 /// `WritePcrWithType` (applet 7.x): a PCR that may be transient, `80 01|80 09 00` (AN12543
 /// Table 122 with INS_TRANSIENT).
-template <>
-struct Codec<Command::WritePcrWithType> {
+struct WritePcrWithTypeCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -887,24 +940,28 @@ struct Codec<Command::WritePcrWithType> {
                                          args.lifetime);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const WritePcrTypedArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::WritePcrWithType` (selects it for
+ * `Codec<Command::WritePcrWithType>`). */
+constexpr WritePcrWithTypeCodec CodecFor(CommandTag<Command::WritePcrWithType> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadObject`: `80 02 00 00` TLV[TAG_1] id [TLV[TAG_2] offset TLV[TAG_3] length]
 /// [TLV[TAG_4] component], Le (extended when the answer may exceed 256 bytes); answer TLV[TAG_1]
 /// (AN12543 Tables 127, 128).
-template <>
-struct Codec<Command::ReadObject> {
+struct ReadObjectCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -924,7 +981,7 @@ struct Codec<Command::ReadObject> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, LengthReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const LengthReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -936,13 +993,16 @@ struct Codec<Command::ReadObject> {
     return apdu::detail::DecodeTag1Into(data, args.out, reply.length);
   }
 };
+/** @return The codec of `Command::ReadObject` (selects it for `Codec<Command::ReadObject>`). */
+constexpr ReadObjectCodec CodecFor(CommandTag<Command::ReadObject> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadObjectAttested`: `80 22 00 00` TLV[TAG_1] id [TAG_2, TAG_3] TLV[TAG_5] attestation key
 /// TLV[TAG_6] algorithm TLV[TAG_7] freshness, extended Le (AN12543 Table 127). A binary read takes
 /// at most `kMaxAttestedBinaryRead` bytes (AN13030 pp. 248-252). The answer format is told by its
 /// tags (`AttestedRead::format`).
-template <>
-struct Codec<Command::ReadObjectAttested> {
+struct ReadObjectAttestedCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `data_out` and `signature_out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -965,7 +1025,7 @@ struct Codec<Command::ReadObjectAttested> {
   }
   /** @brief Refused: the output goes to the caller buffers. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, AttestedRead& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const AttestedRead& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -978,11 +1038,16 @@ struct Codec<Command::ReadObjectAttested> {
         data, {.data = args.data_out, .signature = args.signature_out}, reply);
   }
 };
+/** @return The codec of `Command::ReadObjectAttested` (selects it for
+ * `Codec<Command::ReadObjectAttested>`). */
+constexpr ReadObjectAttestedCodec CodecFor(
+    CommandTag<Command::ReadObjectAttested> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadObjectAttributes` (applet 7.x): `80 02 00 3B` TLV[TAG_1] id, Le; answer TLV[TAG_3] the
 /// attribute block (AN12543 Tables 130, 131), parsed by `ParseObjectAttributes`.
-template <>
-struct Codec<Command::ReadObjectAttributes> {
+struct ReadObjectAttributesCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1013,11 +1078,16 @@ struct Codec<Command::ReadObjectAttributes> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadObjectAttributes` (selects it for
+ * `Codec<Command::ReadObjectAttributes>`). */
+constexpr ReadObjectAttributesCodec CodecFor(
+    CommandTag<Command::ReadObjectAttributes> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadObjectAttributesAttested` (applet 7.x): `80 22 00 3B` TLV[TAG_1] id TLV[TAG_5] TLV[TAG_6]
 /// TLV[TAG_7], Le; answer TAG_2 chip id, TAG_3 attributes, TAG_4 size, TAG_TS, TAG_ATT_SIG.
-template <>
-struct Codec<Command::ReadObjectAttributesAttested> {
+struct ReadObjectAttributesAttestedCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `signature_out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1038,7 +1108,7 @@ struct Codec<Command::ReadObjectAttributesAttested> {
   }
   /** @brief Refused: the output goes to `signature_out`. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, AttestedRead& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const AttestedRead& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -1051,11 +1121,16 @@ struct Codec<Command::ReadObjectAttributesAttested> {
         data, {.data = MutableByteSpan{}, .signature = args.signature_out}, reply);
   }
 };
+/** @return The codec of `Command::ReadObjectAttributesAttested` (selects it for
+ * `Codec<Command::ReadObjectAttributesAttested>`). */
+constexpr ReadObjectAttributesAttestedCodec CodecFor(
+    CommandTag<Command::ReadObjectAttributesAttested> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadRsaAttested`: `80 22 00 00` TLV[TAG_1] id TLV[TAG_4] component (modulus or public
 /// exponent) TLV[TAG_5] TLV[TAG_6] TLV[TAG_7], extended Le (AN12543 Table 127).
-template <>
-struct Codec<Command::ReadRsaAttested> {
+struct ReadRsaAttestedCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `data_out` and `signature_out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1078,7 +1153,7 @@ struct Codec<Command::ReadRsaAttested> {
   }
   /** @brief Refused: the output goes to the caller buffers. @param data The body. @param reply The
    * reply. @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, AttestedRead& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const AttestedRead& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -1091,11 +1166,15 @@ struct Codec<Command::ReadRsaAttested> {
         data, {.data = args.data_out, .signature = args.signature_out}, reply);
   }
 };
+/** @return The codec of `Command::ReadRsaAttested` (selects it for
+ * `Codec<Command::ReadRsaAttested>`). */
+constexpr ReadRsaAttestedCodec CodecFor(CommandTag<Command::ReadRsaAttested> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadType`: `80 02 00 26` TLV[TAG_1] id, Le; answer TLV[TAG_1] SecureObjectType TLV[TAG_2]
 /// TransientIndicator (AN12543 4.7.4.1).
-template <>
-struct Codec<Command::ReadType> {
+struct ReadTypeCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1130,11 +1209,14 @@ struct Codec<Command::ReadType> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadType` (selects it for `Codec<Command::ReadType>`). */
+constexpr ReadTypeCodec CodecFor(CommandTag<Command::ReadType> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadSize`: `80 02 00 07` TLV[TAG_1] id, Le; answer TLV[TAG_1] the size, 1 to 4 bytes big
 /// endian (AN12543 4.7.4.2).
-template <>
-struct Codec<Command::ReadSize> {
+struct ReadSizeCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1161,12 +1243,15 @@ struct Codec<Command::ReadSize> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadSize` (selects it for `Codec<Command::ReadSize>`). */
+constexpr ReadSizeCodec CodecFor(CommandTag<Command::ReadSize> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadIdList`: `80 02 00 25` TLV[TAG_1] 2-byte offset TLV[TAG_2] type filter (FF for all), Le;
 /// answer TLV[TAG_1] MoreIndicator TLV[TAG_2] the 4-byte ids (AN12543 Tables 142, 143; Table 56:
 /// 01 NO_MORE, 02 MORE, the text of p. 94 says the reverse and is not followed).
-template <>
-struct Codec<Command::ReadIdList> {
+struct ReadIdListCodec {
   static constexpr bool kImplemented = true;         ///< Implemented.
   static constexpr bool kWritesCallerBuffers = true; ///< Writes `args.out`.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1187,7 +1272,7 @@ struct Codec<Command::ReadIdList> {
   }
   /** @brief Refused: the output goes to `args.out`. @param data The body. @param reply The reply.
    * @return `InvalidArgument`. */
-  static constexpr Result<void> Decode(ByteSpan data, IdListReply& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const IdListReply& reply) noexcept {
     static_cast<void>(data);
     static_cast<void>(reply);
     return apdu::detail::NeedsArgs();
@@ -1216,11 +1301,14 @@ struct Codec<Command::ReadIdList> {
     return Result<void>::Success();
   }
 };
+/** @return The codec of `Command::ReadIdList` (selects it for `Codec<Command::ReadIdList>`). */
+constexpr ReadIdListCodec CodecFor(CommandTag<Command::ReadIdList> /*tag*/) noexcept {
+  return {};
+}
 
 /// `CheckObjectExists`: `80 04 00 27` TLV[TAG_1] id, Le; answer TLV[TAG_1] Result, 01 exists
 /// (AN12543 4.7.4.4).
-template <>
-struct Codec<Command::CheckObjectExists> {
+struct CheckObjectExistsCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1241,11 +1329,15 @@ struct Codec<Command::CheckObjectExists> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CheckObjectExists` (selects it for
+ * `Codec<Command::CheckObjectExists>`). */
+constexpr CheckObjectExistsCodec CodecFor(CommandTag<Command::CheckObjectExists> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DeleteSecureObject`: `80 04 00 28` TLV[TAG_1] id (AN12543 4.7.4.5). An id in the NXP range is
 /// refused before sending (provisioned objects cannot be deleted; the driver never tries).
-template <>
-struct Codec<Command::DeleteSecureObject> {
+struct DeleteSecureObjectCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1258,17 +1350,26 @@ struct Codec<Command::DeleteSecureObject> {
                                   args.id, 0U);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
-  static constexpr Result<void> Decode(const IdArgs& args, ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(const IdArgs& args, ByteSpan data,
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DeleteSecureObject` (selects it for
+ * `Codec<Command::DeleteSecureObject>`). */
+constexpr DeleteSecureObjectCodec CodecFor(
+    CommandTag<Command::DeleteSecureObject> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 namespace apdu::detail {
 
@@ -1294,9 +1395,10 @@ constexpr Result<std::size_t> EncodeCurve(MutableByteSpan out, uint8_t ins, uint
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `CreateEcCurve`: `80 01 0B 04` TLV[TAG_1] curve id (AN12543 4.8.1).
-template <>
-struct Codec<Command::CreateEcCurve> {
+struct CreateEcCurveCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1305,23 +1407,27 @@ struct Codec<Command::CreateEcCurve> {
     return apdu::detail::EncodeCurve(out, apdu::kInsWrite, apdu::kP2Create, args.curve);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const CurveArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CreateEcCurve` (selects it for `Codec<Command::CreateEcCurve>`).
+ */
+constexpr CreateEcCurveCodec CodecFor(CommandTag<Command::CreateEcCurve> /*tag*/) noexcept {
+  return {};
+}
 
 /// `SetEcCurveParam`: `80 01 0B 40` TLV[TAG_1] curve TLV[TAG_2] ECCurveParam (01 A, 02 B, 04 G,
 /// 08 N, 10 prime) TLV[TAG_3] value (AN12543 4.8.2; Weierstrass curves only).
-template <>
-struct Codec<Command::SetEcCurveParam> {
+struct SetEcCurveParamCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1343,22 +1449,26 @@ struct Codec<Command::SetEcCurveParam> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const SetCurveParamArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::SetEcCurveParam` (selects it for
+ * `Codec<Command::SetEcCurveParam>`). */
+constexpr SetEcCurveParamCodec CodecFor(CommandTag<Command::SetEcCurveParam> /*tag*/) noexcept {
+  return {};
+}
 
 /// `GetEcCurveId`: `80 02 0B 36` TLV[TAG_1] object id, Le; answer TLV[TAG_1] curve id.
-template <>
-struct Codec<Command::GetEcCurveId> {
+struct GetEcCurveIdCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1384,11 +1494,14 @@ struct Codec<Command::GetEcCurveId> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::GetEcCurveId` (selects it for `Codec<Command::GetEcCurveId>`). */
+constexpr GetEcCurveIdCodec CodecFor(CommandTag<Command::GetEcCurveId> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadEcCurveList`: `80 02 0B 25 00`; answer TLV[TAG_1] one SetIndicator per curve id below
 /// 0x40 (AN12543 4.8.4).
-template <>
-struct Codec<Command::ReadEcCurveList> {
+struct ReadEcCurveListCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -1409,10 +1522,14 @@ struct Codec<Command::ReadEcCurveList> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadEcCurveList` (selects it for
+ * `Codec<Command::ReadEcCurveList>`). */
+constexpr ReadEcCurveListCodec CodecFor(CommandTag<Command::ReadEcCurveList> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DeleteEcCurve`: `80 04 0B 28` TLV[TAG_1] curve id (AN12543 4.8.5).
-template <>
-struct Codec<Command::DeleteEcCurve> {
+struct DeleteEcCurveCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1421,18 +1538,25 @@ struct Codec<Command::DeleteEcCurve> {
     return apdu::detail::EncodeCurve(out, apdu::kInsMgmt, apdu::kP2DeleteObject, args.curve);
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const CurveArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DeleteEcCurve` (selects it for `Codec<Command::DeleteEcCurve>`).
+ */
+constexpr DeleteEcCurveCodec CodecFor(CommandTag<Command::DeleteEcCurve> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 namespace apdu::detail {
 
@@ -1478,10 +1602,11 @@ constexpr Error CryptoObjectWire(se05x::CryptoObjectType type, uint8_t algorithm
 
 } // namespace apdu::detail
 
+namespace codecs {
+
 /// `CreateCryptoObject`: `80 01 10 00` TLV[TAG_1] 2-byte id TLV[TAG_2] CryptoContext TLV[TAG_3]
 /// subtype (AN12543 4.9.1; the PAKE context is held, A6).
-template <>
-struct Codec<Command::CreateCryptoObject> {
+struct CreateCryptoObjectCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1502,23 +1627,28 @@ struct Codec<Command::CreateCryptoObject> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const CreateCryptoObjectArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::CreateCryptoObject` (selects it for
+ * `Codec<Command::CreateCryptoObject>`). */
+constexpr CreateCryptoObjectCodec CodecFor(
+    CommandTag<Command::CreateCryptoObject> /*tag*/) noexcept {
+  return {};
+}
 
 /// `ReadCryptoObjectList`: `80 02 10 25 00`; answer TLV[TAG_1] 4-byte entries (2-byte id,
 /// CryptoContext, subtype) (AN12543 4.9.2).
-template <>
-struct Codec<Command::ReadCryptoObjectList> {
+struct ReadCryptoObjectListCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args None. @param out The buffer. @return The length or an error. */
@@ -1545,10 +1675,15 @@ struct Codec<Command::ReadCryptoObjectList> {
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::ReadCryptoObjectList` (selects it for
+ * `Codec<Command::ReadCryptoObjectList>`). */
+constexpr ReadCryptoObjectListCodec CodecFor(
+    CommandTag<Command::ReadCryptoObjectList> /*tag*/) noexcept {
+  return {};
+}
 
 /// `DeleteCryptoObject`: `80 04 10 28` TLV[TAG_1] 2-byte id (AN12543 4.9.3).
-template <>
-struct Codec<Command::DeleteCryptoObject> {
+struct DeleteCryptoObjectCodec {
   static constexpr bool kImplemented = true;          ///< Implemented.
   static constexpr bool kWritesCallerBuffers = false; ///< No caller buffer.
   /** @brief Encode. @param args The arguments. @param out The buffer. @return The length or an
@@ -1561,18 +1696,26 @@ struct Codec<Command::DeleteCryptoObject> {
     return w.Finish();
   }
   /** @brief Decode. @param data The body. @param reply The reply. @return `Ok` or `FrameError`. */
-  static constexpr Result<void> Decode(ByteSpan data, Empty& reply) noexcept {
+  static constexpr Result<void> Decode(ByteSpan data, const Empty& reply) noexcept {
     static_cast<void>(reply);
     return apdu::detail::ExpectEmpty(data);
   }
   /** @brief Decode. @param args The arguments. @param data The body. @param reply The reply.
    * @return As the two-argument form. */
   static constexpr Result<void> Decode(const CryptoObjectArgs& args, ByteSpan data,
-                                       Empty& reply) noexcept {
+                                       const Empty& reply) noexcept {
     static_cast<void>(args);
     return Decode(data, reply);
   }
 };
+/** @return The codec of `Command::DeleteCryptoObject` (selects it for
+ * `Codec<Command::DeleteCryptoObject>`). */
+constexpr DeleteCryptoObjectCodec CodecFor(
+    CommandTag<Command::DeleteCryptoObject> /*tag*/) noexcept {
+  return {};
+}
+
+} // namespace codecs
 
 } // namespace se05x
 

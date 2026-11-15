@@ -17,10 +17,13 @@
 #include <cstdint>
 #include <cstring>
 
+#include "model/bytes.hpp"
 #include "se05x_policy.hpp"
 #include "test_apdu_util.hpp"
 #include "vectors/nxp_layouts.hpp"
 #include "vectors/nxp_oracle_vectors.hpp"
+
+using se05x::testmodel::SameBytes;
 
 namespace {
 
@@ -458,7 +461,7 @@ std::size_t Without(ByteSpan body, uint8_t tag, ByteSpan value, std::span<uint8_
     const bool drop =
         (tlv.value.tag == tag) &&
         (value.empty() || ((tlv.value.value.size() == value.size()) &&
-                           (std::memcmp(tlv.value.value.data(), value.data(), value.size()) == 0)));
+                           (SameBytes(tlv.value.value.data(), value.data(), value.size()))));
     if (!drop) {
       for (std::size_t i = pos; i < next; ++i) {
         out[n++] = body[i];
@@ -485,7 +488,7 @@ bool Same(const Entry& e, const oracle::Apdu& o, const Encoded& ours) {
     return false;
   }
   const std::array<uint8_t, 4> want = ((e.fixes & kHeaderDiffers) != 0U) ? e.header : o.header;
-  if (std::memcmp(want.data(), ours.bytes.data(), 4U) != 0) {
+  if (!SameBytes(want.data(), ours.bytes.data(), 4U)) {
     static_cast<void>(std::printf("    %s: header %02X %02X %02X %02X\n", e.name, ours.bytes[0],
                                   ours.bytes[1], ours.bytes[2], ours.bytes[3]));
     return false;
@@ -509,7 +512,7 @@ bool Same(const Entry& e, const oracle::Apdu& o, const Encoded& ours) {
     nb = Without(ByteSpan{b}.first(nb), se05x::apdu::kTag2, ByteSpan{na_component}, c);
     b = c;
   }
-  if ((na != nb) || (std::memcmp(a.data(), b.data(), na) != 0)) {
+  if ((na != nb) || (!SameBytes(a.data(), b.data(), na))) {
     static_cast<void>(std::printf("    %s: body differs (%zu vs %zu bytes)\n", e.name, na, nb));
     return false;
   }

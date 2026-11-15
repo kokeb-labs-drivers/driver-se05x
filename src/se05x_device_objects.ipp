@@ -23,6 +23,8 @@ inline constexpr uint8_t kPersistentLock = 0x02U;
 template <PortSet P>
 template <Command C>
 Error Device<P>::checkArgs(const ArgsOf<C>& args, bool irreversible) const noexcept {
+  // Only the creating commands below read `irreversible`; for every other command it is ignored.
+  static_cast<void>(irreversible);
   if constexpr ((C == Command::EddsaSign) || (C == Command::EddsaVerify)) {
     // 940 bytes in the default, AESKey and ECKey sessions, 919 in a UserID session (AN12543
     // 4.10.1.2 p. 103, 4.10.2.2 p. 104); the codec knows only the first.

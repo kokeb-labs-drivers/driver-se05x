@@ -9,8 +9,8 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/scp_crypto.hpp"
 #include "model/scp_loop.hpp"
 #include "model/scp_target.hpp"
@@ -18,6 +18,8 @@
 #include "se05x_eckey.hpp"
 #include "test_harness.hpp"
 
+using se05x::testmodel::CopyBytes;
+using se05x::testmodel::SameBytes;
 using namespace se05x;
 using testmodel::Loop;
 using testmodel::ScpFixture;
@@ -98,10 +100,10 @@ TEST_CASE("The authentication data is the TLV layout of AN12543 Figure 14 and Ta
   const std::array<uint8_t, 31> a6{0xA6, 0x1D, 0x4F, 0x10, 0xA0, 0x00, 0x00, 0x03, 0x96, 0x54, 0x53,
                                    0x00, 0x00, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00, 0x00, 0x90, 0x03,
                                    0xAB, 0x01, 0x33, 0x80, 0x01, 0x88, 0x81, 0x01, 0x10};
-  CHECK(std::memcmp(auth.data(), a6.data(), a6.size()) == 0);
+  CHECK(SameBytes(auth.data(), a6.data(), a6.size()));
   CHECK((auth[31] == 0x7FU) && (auth[32] == 0x49U) && (auth[33] == 0x46U));
   CHECK((auth[34] == 0xB0U) && (auth[35] == 0x41U));
-  CHECK(std::memcmp(&auth[36], pub.data(), 65U) == 0);
+  CHECK(SameBytes(&auth[36], pub.data(), 65U));
   CHECK((auth[101] == 0xF0U) && (auth[102] == 0x01U) && (auth[103] == 0x03U));
 }
 
@@ -120,8 +122,8 @@ TEST_CASE("The DER signature strips leading zeros and pads a high bit") {
   std::array<uint8_t, 32> r{};
   std::array<uint8_t, 32> s{};
   CHECK(testmodel::mc::ParseDer(testmodel::mc::Bytes(der.data(), n), r.data(), s.data()));
-  CHECK(std::memcmp(r.data(), raw.data(), 32U) == 0);
-  CHECK(std::memcmp(s.data(), &raw[32], 32U) == 0);
+  CHECK(SameBytes(r.data(), raw.data(), 32U));
+  CHECK(SameBytes(s.data(), &raw[32], 32U));
   std::array<uint8_t, 64> tiny{};
   tiny[31] = 0x05U;
   tiny[63] = 0x06U;
@@ -147,8 +149,8 @@ TEST_CASE("Master key and session keys match the model's own derivation of AN125
   // The model: SHA-256(00000001 || Z || DR || 01 33 88 10), first 16 bytes; CMAC(MK, 00*11 c 00
   // 0080 01).
   std::array<uint8_t, 56> in{0, 0, 0, 1};
-  static_cast<void>(std::memcpy(&in[4], z.data(), 32U));
-  static_cast<void>(std::memcpy(&in[36], dr.data(), 16U));
+  CopyBytes(&in[4], z.data(), 32U);
+  CopyBytes(&in[36], dr.data(), 16U);
   in[52] = 0x01U;
   in[53] = 0x33U;
   in[54] = 0x88U;
@@ -217,7 +219,7 @@ TEST_CASE("Each handshake uses a fresh ephemeral key") {
   const std::size_t first_len = t.loop.last_cmd_len;
   REQUIRE(t.engine.Close().ok());
   REQUIRE(t.engine.Open(t.params).ok());
-  CHECK(std::memcmp(first.data(), t.loop.last_cmd.data(), first_len) != 0);
+  CHECK(!SameBytes(first.data(), t.loop.last_cmd.data(), first_len));
 }
 
 TEST_CASE("A wrong receipt is SecureChannelError, counted; skipping the check opens (A15 knob)") {

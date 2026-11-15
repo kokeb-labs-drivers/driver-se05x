@@ -11,8 +11,8 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
+#include "model/bytes.hpp"
 #include "model/model_if.hpp"
 #include "null_ports.hpp"
 #include "se05x_crypto.hpp"
@@ -48,11 +48,11 @@ public:
     if (command.size() > cmd.size()) {
       return Result<std::size_t>::Failure(Error::BufferTooSmall);
     }
-    static_cast<void>(std::memcpy(cmd.data(), command.data(), command.size()));
+    CopyBytes(cmd.data(), command.data(), command.size());
     if ((calls == tamper_cmd_call) && (tamper_cmd_byte < command.size())) {
       cmd[tamper_cmd_byte] = static_cast<uint8_t>(cmd[tamper_cmd_byte] ^ tamper_mask);
     }
-    static_cast<void>(std::memcpy(last_cmd.data(), cmd.data(), command.size()));
+    CopyBytes(last_cmd.data(), cmd.data(), command.size());
     last_cmd_len = command.size();
     std::array<uint8_t, 1200> rsp{};
     std::size_t n = handler_->Handle(ByteSpan(cmd.data(), command.size()), MutableByteSpan(rsp));
@@ -71,7 +71,7 @@ public:
     if (n > response.size()) {
       return Result<std::size_t>::Failure(Error::BufferTooSmall);
     }
-    static_cast<void>(std::memcpy(response.data(), rsp.data() + from, n));
+    CopyBytes(response.data(), rsp.data() + from, n);
     return Result<std::size_t>::Success(n);
   }
 
