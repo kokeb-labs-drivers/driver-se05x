@@ -21,7 +21,7 @@ jobs:
       level: high
       # 233 translation units per configuration: the scan needs more than the default hour, and the runner's four
       # cores.
-      scan_timeout_minutes: 120
+      scan_timeout_minutes: 240
       scan_parallel: "4"
       cmake_args: "-DSE05X_BUILD_TESTS=ON"
       cross_build_target: se05x_optimised_build
