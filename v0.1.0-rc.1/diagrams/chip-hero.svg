@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="659" viewBox="0 0 1200 659" role="img" aria-labelledby="chip-hero-title chip-hero-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-hero-title">SE05x</title>
+<desc id="chip-hero-desc">Overview of the SE05x, a family of secure elements (SE050, SE051, SE052) that hold keys and credentials isolated from the host, sign, agree keys and attest with them inside the chip, and talk to the host over I2C with T=1 framing and an encrypted SCP03 channel. A MCU talks to it over I2C, T=1; it drives Sensor or actuator. Headline figures: EAL 6+ Common Criteria, hardware and OS (SE051 2.2, p. 3; SE052 3.1, p. 3); 0x48 I2C target address, T=1 framing (SE052: Table 12, p. 18); 1.62 to 3.6 V VIN and VCC, SE050 and SE051; 3 x 3 mm HX2QFN20, SE050 and SE051; 4 x 4 mm HVQFN20, SE052.</desc>
+<defs><marker id="fk-arrow-blue-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2563EB"/></marker><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0B7A72"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="658" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#7A360E">SECURE ELEMENT, IOT ROOT OF TRUST</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#0E1726">SE05x</text>
+<text x="32" y="115.4" font-size="18" fill="#566070">What talks to it, what it drives and what it reads back, with its headline numbers. Datasheet: SE050 1 Introduction, p. 1.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#E2E7EE"/>
+<path d="M246 262.4 L361 262.4" fill="none" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-blue-strong)" marker-start="url(#fk-arrow-blue-strong)"/>
+<path d="M623 262.4 L675 262.4" fill="none" stroke="#0B7A72" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-teal-strong)"/>
+<rect x="365" y="190.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="365" y="224.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="365" y="258.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="365" y="292.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="365" y="326.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="607" y="190.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="607" y="224.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="607" y="258.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="607" y="292.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="607" y="326.9" width="12" height="7" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="412.5" y="145.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="450.5" y="145.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="488.5" y="145.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="526.5" y="145.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="564.5" y="145.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="412.5" y="367.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="450.5" y="367.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="488.5" y="367.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="526.5" y="367.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="564.5" y="367.4" width="7" height="12" rx="2" fill="#F1F4F8" stroke="#64748B" stroke-width="1.2"/>
+<rect x="377" y="157.4" width="230" height="210" rx="10" fill="#F5F7FA" stroke="#2B3442" stroke-width="2.2"/>
+<circle cx="397" cy="177.4" r="6" fill="#2B3442"/>
+<rect x="32" y="205.4" width="210" height="114" rx="12" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="32" y="213.4" width="4" height="98" rx="2" fill="#2563EB"/>
+<rect x="679" y="205.4" width="260" height="114" rx="12" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="679" y="213.4" width="4" height="98" rx="2" fill="#0B7A72"/>
+<rect x="32" y="407.4" width="214.4" height="221.4" rx="12" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="262.4" y="407.4" width="214.4" height="221.4" rx="12" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="492.8" y="407.4" width="214.4" height="221.4" rx="12" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="723.2" y="407.4" width="214.4" height="221.4" rx="12" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="953.6" y="407.4" width="214.4" height="221.4" rx="12" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<text x="492" y="256.4" font-size="30" font-weight="700" text-anchor="middle" fill="#0E1726">SE05x</text>
+<text x="492" y="286.4" font-size="17" text-anchor="middle" fill="#566070">HX2QFN20</text>
+<text x="492" y="310.4" font-size="16" text-anchor="middle" fill="#566070">20 pins + pad</text>
+<text x="56" y="240.4" font-size="20" font-weight="700" fill="#1E429F">MCU</text>
+<text x="56" y="271" font-size="17" fill="#2B3442">your firmware and</text>
+<text x="56" y="295.7" font-size="17" fill="#2B3442">this driver</text>
+<rect x="264.2" y="250.4" width="78.6" height="24" rx="12" fill="#FFFFFF"/>
+<text x="303.5" y="268.2" font-size="16" font-weight="500" text-anchor="middle" fill="#566070">I2C, T=1</text>
+<text x="703" y="240.4" font-size="20" font-weight="700" fill="#0B5F59">Sensor or actuator</text>
+<text x="703" y="271" font-size="17" fill="#2B3442">optional, on the chip's</text>
+<text x="703" y="295.7" font-size="17" fill="#2B3442">own I2C controller</text>
+<text x="48" y="455.4" font-size="30" font-weight="700" fill="#0E1726">EAL 6+</text>
+<text x="48" y="485" font-size="17" fill="#2B3442">Common Criteria,</text>
+<text x="48" y="507.9" font-size="17" fill="#2B3442">hardware and OS</text>
+<text x="48" y="530.9" font-size="17" fill="#2B3442">(SE051 2.2, p. 3;</text>
+<text x="48" y="553.8" font-size="17" fill="#2B3442">SE052 3.1, p. 3)</text>
+<text x="48" y="589.2" font-size="16" fill="#566070">SE050 2.2 Key</text>
+<text x="48" y="610.8" font-size="16" fill="#566070">features, p. 3</text>
+<text x="278.4" y="455.4" font-size="30" font-weight="700" fill="#0E1726">0x48</text>
+<text x="278.4" y="485" font-size="17" fill="#2B3442">I2C target address,</text>
+<text x="278.4" y="507.9" font-size="17" fill="#2B3442">T=1 framing (SE052:</text>
+<text x="278.4" y="530.9" font-size="17" fill="#2B3442">Table 12, p. 18)</text>
+<text x="278.4" y="589.2" font-size="16" fill="#566070">SE050 4.1 I2C</text>
+<text x="278.4" y="610.8" font-size="16" fill="#566070">interfaces, Figure 3…</text>
+<text x="508.8" y="453.8" font-size="28" font-weight="700" fill="#0E1726">1.62 to 3.6 V</text>
+<text x="508.8" y="485" font-size="17" fill="#2B3442">VIN and VCC, SE050</text>
+<text x="508.8" y="507.9" font-size="17" fill="#2B3442">and SE051</text>
+<text x="508.8" y="589.2" font-size="16" fill="#566070">SE050 Table 9</text>
+<text x="508.8" y="610.8" font-size="16" fill="#566070">Recommended oper…</text>
+<text x="739.2" y="455.4" font-size="30" font-weight="700" fill="#0E1726">3 x 3 mm</text>
+<text x="739.2" y="485" font-size="17" fill="#2B3442">HX2QFN20, SE050</text>
+<text x="739.2" y="507.9" font-size="17" fill="#2B3442">and SE051</text>
+<text x="739.2" y="589.2" font-size="16" fill="#566070">SE050 8 Package, p.</text>
+<text x="739.2" y="610.8" font-size="16" fill="#566070">12</text>
+<text x="969.6" y="455.4" font-size="30" font-weight="700" fill="#0E1726">4 x 4 mm</text>
+<text x="969.6" y="485" font-size="17" fill="#2B3442">HVQFN20, SE052</text>
+<text x="969.6" y="610.8" font-size="16" fill="#566070">SE052 6 Package, p. 5</text>
+</svg>

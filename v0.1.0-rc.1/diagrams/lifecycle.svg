@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="687" viewBox="0 0 1200 687" role="img" aria-labelledby="lifecycle-title lifecycle-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="lifecycle-title">Lifecycle settings and the roles that change them</title>
+<desc id="lifecycle-desc">Central card: the chip in normal use. Around it: transport locked, platform SCP required, object creation restricted, applet features changed and factory reset, each reached by one command from one reserved role; irreversible ones in red.</desc>
+<defs><marker id="fk-arrow-rose-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#DB2752"/></marker><marker id="fk-arrow-teal-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0B7A72"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="686" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#7A360E">LIFECYCLE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#0E1726">Lifecycle settings and the roles that change them</text>
+<text x="32" y="103.8" font-size="15" fill="#566070">Roles: None, User, Transport, PlatformScp, Feature, FactoryReset, Restrict</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#E2E7EE"/>
+<path d="M446 364.2 L190 364.2 Q182 364.2 182 356.2 L182 229.8" fill="none" stroke="#DB2752" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M92 229.8 L92 395.8 Q92 403.8 100 403.8 L446 403.8" fill="none" stroke="#0B7A72" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-teal-strong)"/>
+<path d="M754 364.2 L1010 364.2 Q1018 364.2 1018 356.2 L1018 229.8" fill="none" stroke="#DB2752" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M446 417 L190 417 Q182 417 182 425 L182 533.8" fill="none" stroke="#DB2752" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M754 417 L1010 417 Q1018 417 1018 425 L1018 533.8" fill="none" stroke="#DB2752" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M600 333.8 L600 229.8" fill="none" stroke="#DB2752" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<rect x="450" y="337.8" width="300" height="88" rx="10" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="450" y="345.8" width="4" height="72" rx="2" fill="#0B7A72"/>
+<rect x="32" y="137.8" width="300" height="88" rx="10" fill="#F1F4F8" stroke="#64748B" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="72" rx="2" fill="#64748B"/>
+<rect x="868" y="137.8" width="300" height="88" rx="10" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<rect x="868" y="145.8" width="4" height="72" rx="2" fill="#DB2752"/>
+<rect x="32" y="537.8" width="300" height="88" rx="10" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<rect x="32" y="545.8" width="4" height="72" rx="2" fill="#DB2752"/>
+<rect x="868" y="537.8" width="300" height="88" rx="10" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<rect x="868" y="545.8" width="4" height="72" rx="2" fill="#DB2752"/>
+<rect x="450" y="137.8" width="300" height="88" rx="10" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<rect x="450" y="145.8" width="4" height="72" rx="2" fill="#C26A05"/>
+<text x="470" y="364.6" font-size="15" font-weight="700" fill="#0B5F59">In use</text>
+<text x="470" y="389.4" font-size="13" fill="#2B3442">objects per their policies</text>
+<text x="470" y="408.3" font-size="13" fill="#2B3442">ReadState any time</text>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#334155">Transport locked</text>
+<text x="52" y="189.4" font-size="13" fill="#2B3442">Transport role: SetLockState</text>
+<text x="52" y="208.2" font-size="13" fill="#2B3442">only 5 commands answered</text>
+<text x="888" y="164.6" font-size="15" font-weight="700" fill="#9F1239">Platform SCP required</text>
+<text x="888" y="189.4" font-size="13" fill="#2B3442">PlatformScp role</text>
+<text x="888" y="208.2" font-size="13" fill="#2B3442">full SCP03 from then on</text>
+<text x="52" y="564.5" font-size="15" font-weight="700" fill="#9F1239">Creation restricted</text>
+<text x="52" y="589.4" font-size="13" fill="#2B3442">DisableObjectCreation</text>
+<text x="52" y="608.2" font-size="13" fill="#2B3442">persistent: cannot be undone</text>
+<text x="888" y="564.5" font-size="15" font-weight="700" fill="#9F1239">Features changed</text>
+<text x="888" y="589.4" font-size="13" fill="#2B3442">Feature role (ECKey)</text>
+<text x="888" y="608.2" font-size="13" fill="#2B3442">SetAppletFeatures</text>
+<text x="470" y="164.6" font-size="15" font-weight="700" fill="#8A3C0B">Factory reset</text>
+<text x="470" y="189.4" font-size="13" fill="#2B3442">FactoryReset role: DeleteAll</text>
+<text x="470" y="208.2" font-size="13" fill="#2B3442">provisioned objects stay</text>
+<rect x="154.8" y="354.2" width="184.1" height="20" rx="10" fill="#FFFFFF"/>
+<text x="246.8" y="368.5" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">lock (transient or persistent)</text>
+<rect x="108.8" y="393.8" width="146.3" height="20" rx="10" fill="#FFFFFF"/>
+<text x="182" y="408.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">unlock: Transport role</text>
+<rect x="925.4" y="354.2" width="55.5" height="20" rx="10" fill="#FFFFFF"/>
+<text x="953.2" y="368.5" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">require</text>
+<rect x="227.9" y="407" width="55.4" height="20" rx="10" fill="#FFFFFF"/>
+<text x="255.6" y="421.3" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">restrict</text>
+<rect x="902" y="407" width="84.8" height="20" rx="10" fill="#FFFFFF"/>
+<text x="944.4" y="421.3" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">set features</text>
+<rect x="566.7" y="271.8" width="66.6" height="20" rx="10" fill="#FFFFFF"/>
+<text x="600" y="286.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">DeleteAll</text>
+<rect x="32" y="641.2" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="54" y="652.8" font-size="12.5" fill="#566070">reversible</text>
+<rect x="140.1" y="641.2" width="14" height="14" rx="4" fill="#FFEEF2" stroke="#DB2752" stroke-width="1.4"/>
+<text x="162.1" y="652.8" font-size="12.5" fill="#566070">irreversible: Plan and Confirmation</text>
+<rect x="402.7" y="641.2" width="14" height="14" rx="4" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<text x="424.7" y="652.8" font-size="12.5" fill="#566070">ends the session</text>
+</svg>

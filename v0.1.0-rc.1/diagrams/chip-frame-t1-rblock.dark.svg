@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="582" viewBox="0 0 1200 582" role="img" aria-labelledby="chip-frame-t1-rblock-title chip-frame-t1-rblock-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-frame-t1-rblock-title">SE05x: T=1 R-block (acknowledgement)</title>
+<desc id="chip-frame-t1-rblock-desc">T=1 R-block (acknowledgement) of the SE05x, 40 bits, most significant bit first. Host to chip: DAD (bits 39 to 36), SAD (bits 35 to 32), PCB (bits 31 to 24), LEN 0x00 (bits 23 to 16), CRC16 (bits 15 to 0); Chip to host: DAD (bits 39 to 36), SAD (bits 35 to 32), PCB (bits 31 to 24), LEN 0x00 (bits 23 to 16), CRC16 (bits 15 to 0). The PCB field of the Host to chip row: bit 7 1 (R-block), bit 6 0 (R-block), bit 5 0 (reserved), bit 4 N(R), bit 3 0 (reserved), bit 2 0 (reserved), bit 1 error code, high, bit 0 error code, low.</desc>
+<rect x="0.5" y="0.5" width="1199" height="581" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#F8D27A">ON THE BUS</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#E8EDF3">SE05x: T=1 R-block (acknowledgement)</text>
+<text x="32" y="115.4" font-size="18" fill="#9AA6B5">Every T=1 block is a prologue (NAD, PCB, LEN), up to LEN bytes of APDU and a CRC16; an R-block has no data, so it is five</text>
+<text x="32" y="141.5" font-size="18" fill="#9AA6B5">bytes. The GlobalPlatform flavour has a two-byte LEN. 40 bits, sent most significant bit first. Datasheet: UM11225 2.1 T=1</text>
+<text x="32" y="167.6" font-size="18" fill="#9AA6B5">Block Frame Format, Tables 1 to 4, p. 5.</text>
+<rect x="32" y="183.6" width="1136" height="1" fill="#252F3C"/>
+<rect x="212" y="235.6" width="92.8" height="46" rx="6" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="304.8" y="235.6" width="92.8" height="46" rx="6" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="397.6" y="235.6" width="185.6" height="46" rx="6" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="583.2" y="235.6" width="185.6" height="46" rx="6" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="768.8" y="235.6" width="371.2" height="46" rx="6" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="212" y="323.6" width="92.8" height="46" rx="6" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="304.8" y="323.6" width="92.8" height="46" rx="6" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="397.6" y="323.6" width="185.6" height="46" rx="6" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="583.2" y="323.6" width="185.6" height="46" rx="6" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="768.8" y="323.6" width="371.2" height="46" rx="6" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="32" y="459.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="32" y="505.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="319" y="459.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="319" y="505.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="606" y="459.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="606" y="505.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="893" y="459.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<rect x="893" y="505.6" width="275" height="38" rx="8" fill="#18202B" stroke="#3A4657" stroke-width="1"/>
+<text x="212" y="217.6" font-size="16" fill="#9AA6B5">MSB, sent first</text>
+<text x="1140" y="217.6" font-size="16" text-anchor="end" fill="#9AA6B5">LSB, sent last</text>
+<text x="32" y="256.6" font-size="20" font-weight="700" fill="#E8EDF3">Host to chip</text>
+<text x="32" y="276.6" font-size="16" fill="#9AA6B5">SDA, NAD 0x5A</text>
+<text x="258.4" y="264.7" font-size="17" font-weight="600" text-anchor="middle" fill="#BFDBFE">DAD</text>
+<text x="214" y="301.6" font-size="16" fill="#9AA6B5">39</text>
+<text x="302.8" y="301.6" font-size="16" text-anchor="end" fill="#9AA6B5">36</text>
+<text x="351.2" y="264.7" font-size="17" font-weight="600" text-anchor="middle" fill="#BFDBFE">SAD</text>
+<text x="306.8" y="301.6" font-size="16" fill="#9AA6B5">35</text>
+<text x="395.6" y="301.6" font-size="16" text-anchor="end" fill="#9AA6B5">32</text>
+<text x="490.4" y="264.7" font-size="17" font-weight="600" text-anchor="middle" fill="#FDE68A">PCB</text>
+<text x="399.6" y="301.6" font-size="16" fill="#9AA6B5">31</text>
+<text x="581.2" y="301.6" font-size="16" text-anchor="end" fill="#9AA6B5">24</text>
+<text x="676" y="264.7" font-size="17" font-weight="600" text-anchor="middle" fill="#DDD6FE">LEN 0x00</text>
+<text x="585.2" y="301.6" font-size="16" fill="#9AA6B5">23</text>
+<text x="766.8" y="301.6" font-size="16" text-anchor="end" fill="#9AA6B5">16</text>
+<text x="954.4" y="264.7" font-size="17" font-weight="600" text-anchor="middle" fill="#E2E8F0">CRC16</text>
+<text x="770.8" y="301.6" font-size="16" fill="#9AA6B5">15</text>
+<text x="1138" y="301.6" font-size="16" text-anchor="end" fill="#9AA6B5">0</text>
+<text x="32" y="344.6" font-size="20" font-weight="700" fill="#E8EDF3">Chip to host</text>
+<text x="32" y="364.6" font-size="16" fill="#9AA6B5">SDA, NAD 0xA5</text>
+<text x="258.4" y="352.7" font-size="17" font-weight="600" text-anchor="middle" fill="#BFDBFE">DAD</text>
+<text x="214" y="389.6" font-size="16" fill="#9AA6B5">39</text>
+<text x="302.8" y="389.6" font-size="16" text-anchor="end" fill="#9AA6B5">36</text>
+<text x="351.2" y="352.7" font-size="17" font-weight="600" text-anchor="middle" fill="#BFDBFE">SAD</text>
+<text x="306.8" y="389.6" font-size="16" fill="#9AA6B5">35</text>
+<text x="395.6" y="389.6" font-size="16" text-anchor="end" fill="#9AA6B5">32</text>
+<text x="490.4" y="352.7" font-size="17" font-weight="600" text-anchor="middle" fill="#FDE68A">PCB</text>
+<text x="399.6" y="389.6" font-size="16" fill="#9AA6B5">31</text>
+<text x="581.2" y="389.6" font-size="16" text-anchor="end" fill="#9AA6B5">24</text>
+<text x="676" y="352.7" font-size="17" font-weight="600" text-anchor="middle" fill="#DDD6FE">LEN 0x00</text>
+<text x="585.2" y="389.6" font-size="16" fill="#9AA6B5">23</text>
+<text x="766.8" y="389.6" font-size="16" text-anchor="end" fill="#9AA6B5">16</text>
+<text x="954.4" y="352.7" font-size="17" font-weight="600" text-anchor="middle" fill="#E2E8F0">CRC16</text>
+<text x="770.8" y="389.6" font-size="16" fill="#9AA6B5">15</text>
+<text x="1138" y="389.6" font-size="16" text-anchor="end" fill="#9AA6B5">0</text>
+<text x="32" y="438.6" font-size="20" font-weight="700" fill="#E8EDF3">PCB, one flag per bit (datasheet UM11225 Table 6 Coding of R-Block PCB, p. 6)</text>
+<rect x="40" y="465.6" width="51.4" height="26" rx="13" fill="#E2E8F0"/>
+<text x="48" y="483.7" font-size="16" font-weight="700" fill="#0E131A">bit 7</text>
+<text x="103.4" y="484.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">1 (R-block)</text>
+<rect x="40" y="511.6" width="52.5" height="26" rx="13" fill="#E2E8F0"/>
+<text x="48" y="529.7" font-size="16" font-weight="700" fill="#0E131A">bit 6</text>
+<text x="104.5" y="530.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">0 (R-block)</text>
+<rect x="327" y="465.6" width="52.1" height="26" rx="13" fill="#E2E8F0"/>
+<text x="335" y="483.7" font-size="16" font-weight="700" fill="#0E131A">bit 5</text>
+<text x="391.1" y="484.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">0 (reserved)</text>
+<rect x="327" y="511.6" width="53" height="26" rx="13" fill="#E2E8F0"/>
+<text x="335" y="529.7" font-size="16" font-weight="700" fill="#0E131A">bit 4</text>
+<text x="392" y="530.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">N(R)</text>
+<rect x="614" y="465.6" width="52.5" height="26" rx="13" fill="#E2E8F0"/>
+<text x="622" y="483.7" font-size="16" font-weight="700" fill="#0E131A">bit 3</text>
+<text x="678.5" y="484.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">0 (reserved)</text>
+<rect x="614" y="511.6" width="52.2" height="26" rx="13" fill="#E2E8F0"/>
+<text x="622" y="529.7" font-size="16" font-weight="700" fill="#0E131A">bit 2</text>
+<text x="678.2" y="530.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">0 (reserved)</text>
+<rect x="901" y="465.6" width="48.8" height="26" rx="13" fill="#E2E8F0"/>
+<text x="909" y="483.7" font-size="16" font-weight="700" fill="#0E131A">bit 1</text>
+<text x="961.8" y="484.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">error code, high</text>
+<rect x="901" y="511.6" width="53" height="26" rx="13" fill="#E2E8F0"/>
+<text x="909" y="529.7" font-size="16" font-weight="700" fill="#0E131A">bit 0</text>
+<text x="966" y="530.4" font-size="16" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">error code, low</text>
+</svg>
