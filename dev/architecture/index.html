@@ -1350,7 +1350,7 @@ device.</p>
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a> <code>public calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a> <code>public calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
 <h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
 <table>

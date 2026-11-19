@@ -1284,15 +1284,15 @@ optional pieces around it, and only <code>examples/&lt;platform&gt;/</code> hold
 <tbody>
 <tr>
 <td>Host (Linux, macOS, Windows)</td>
-<td>the chip model of the tests (<code>tests/model/</code>) and <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/tests/null_ports.hpp"><code>tests/null_ports.hpp</code></a> (a bus with nothing on it)</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/examples/host/README.md"><code>examples/host/</code></a></td>
+<td>the chip model of the tests (<code>tests/model/</code>) and <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/tests/null_ports.hpp"><code>tests/null_ports.hpp</code></a> (a bus with nothing on it)</td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/host/README.md"><code>examples/host/</code></a></td>
 <td>Plain CMake</td>
 <td>yes</td>
 </tr>
 <tr>
 <td>ESP32 (ESP-IDF)</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a></td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/examples/esp32/README.md"><code>examples/esp32/</code></a> (built with ESP-IDF v5.5; not run on a board)</td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/esp32/README.md"><code>examples/esp32/</code></a> (built with ESP-IDF v5.5; not run on a board)</td>
 <td>Component</td>
 <td>yes</td>
 </tr>
@@ -1311,7 +1311,7 @@ repository as a component (a repository scaffolded without the ESP32 platform ad
 template when it needs it). Zephyr modules, Arduino library manifests and PlatformIO manifests are added only when a
 product needs them, and an example is added only together with a CI job that builds it.</p>
 <h2 id="add-a-platform">Add a platform<a class="headerlink" href="#add-a-platform" title="Permanent link">&para;</a></h2>
-<p>The <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/.claude/skills/add-port/SKILL.md"><code>add-port</code> skill</a> has
+<p>The <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/.claude/skills/add-port/SKILL.md"><code>add-port</code> skill</a> has
 the details per MCU. In short:</p>
 <ol>
 <li>Create <code>examples/&lt;platform&gt;/</code> with the port (<code>&lt;platform&gt;_se05x_port.hpp</code>), a small example program and a

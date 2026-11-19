@@ -1254,7 +1254,7 @@
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Same rules as the SE050: pull-ups, both lines high at boot, ENA on a GPIO with VOUT wired to VCC for the power cycle,
 RST_N tied to VSS because it has no effect with I2C alone (section 4.2, p. 10). Clock stretching is off by default:

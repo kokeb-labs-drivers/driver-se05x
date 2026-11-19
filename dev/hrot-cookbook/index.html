@@ -1720,7 +1720,7 @@ The certificate comes from <code>LoadCertificate()</code>.</p>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>For the host-side crypto of the driver itself (SCP03, the attestation check), the optional PSA crypto port in
-<a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8cb448097696f22f67d947997465d6c93187b37a/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/</code></a> replaces <code>ReferenceCrypto</code> with mbedTLS or any PSA Crypto
+<a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/</code></a> replaces <code>ReferenceCrypto</code> with mbedTLS or any PSA Crypto
 implementation; the ESP32 example uses it.</p>
 <h2 id="anti-rollback-floor-for-firmware"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12L5 6.3v4.92C5 15.54 8.25 20 12 21m-2-4-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9"/></svg></span> Anti-rollback floor for firmware<a class="headerlink" href="#anti-rollback-floor-for-firmware" title="Permanent link">&para;</a></h2>
 <ol>
