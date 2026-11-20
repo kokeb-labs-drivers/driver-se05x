@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1042" height="500" viewBox="0 0 1042 500" role="img" aria-labelledby="agree-call-title agree-call-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="agree-call-title">ECDH key agreement</title>
+<desc id="agree-call-desc">ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key, and Agree has the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself.</desc>
+<defs><marker id="agree-call-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1041" height="499" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#E8EDF3">ECDH key agreement</text>
+<rect x="32" y="70.8" width="978" height="1" fill="#252F3C"/>
+<path d="M104.6 144.8 L104.6 486.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M274.6 144.8 L274.6 486.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M593.3 144.8 L593.3 486.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M937.4 144.8 L937.4 486.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M278.6 180.8 L589.3 180.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)"/>
+<path d="M108.6 224.8 L270.6 224.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)"/>
+<path d="M278.6 268.8 L589.3 268.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)"/>
+<path d="M597.3 312.8 L933.4 312.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)"/>
+<path d="M933.4 356.8 L597.3 356.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#agree-call-arrow-rail)"/>
+<path d="M589.3 400.8 L278.6 400.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#agree-call-arrow-rail)"/>
+<rect x="39.6" y="88.8" width="130" height="52" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="39.6" y="96.8" width="4" height="36" rx="2" fill="#FBBF24"/>
+<rect x="209.6" y="88.8" width="130" height="52" rx="10" fill="#2E1533" stroke="#F0ABFC" stroke-width="1.4"/>
+<rect x="209.6" y="96.8" width="4" height="36" rx="2" fill="#F0ABFC"/>
+<rect x="524.2" y="88.8" width="138.2" height="52" rx="10" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<rect x="524.2" y="96.8" width="4" height="36" rx="2" fill="#4ADE80"/>
+<rect x="872.4" y="88.8" width="130" height="52" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="872.4" y="96.8" width="4" height="36" rx="2" fill="#FBBF24"/>
+<rect x="204.6" y="428.8" width="458.7" height="41" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<text x="107.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#FDE68A">Peer</text>
+<text x="277.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#F5D0FE">Firmware</text>
+<text x="596.3" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#BBF7D0">hrot::Device</text>
+<text x="940.4" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#FDE68A">SE05x</text>
+<rect x="303.8" y="156.8" width="260.4" height="20" rx="10" fill="#0E131A"/>
+<text x="434" y="171.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Provision&lt;KeyUse::Agree&gt;(slot 1) (once)</text>
+<rect x="136.9" y="200.8" width="105.5" height="20" rx="10" fill="#0E131A"/>
+<text x="189.6" y="215.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">peer public key</text>
+<rect x="334" y="244.8" width="200.1" height="20" rx="10" fill="#0E131A"/>
+<text x="434" y="259.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Agree(key, peer, SecretBuffer)</text>
+<rect x="601.3" y="288.8" width="328" height="20" rx="10" fill="#0E131A"/>
+<text x="765.3" y="303.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">ECDHGenerateSharedSecret (encrypted both ways)</text>
+<rect x="665" y="332.8" width="200.6" height="20" rx="10" fill="#0E131A"/>
+<text x="765.3" y="347.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">shared secret (R-ENC, R-MAC)</text>
+<rect x="282.6" y="376.8" width="302.7" height="20" rx="10" fill="#0E131A"/>
+<text x="434" y="391.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">SecretBuffer, wiped on failure and at scope end</text>
+<text x="218.6" y="453.9" font-size="13" fill="#FDE68A">HKDF, then AES-GCM with the derived key</text>
+</svg>

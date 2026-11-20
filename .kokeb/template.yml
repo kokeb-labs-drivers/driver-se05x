@@ -3,7 +3,7 @@
 # (tools/scaffold.py --check-drift, CI: kokeb-labs/ci-tools ru-template-drift) scaffolds the template again
 # with these arguments and compares the files it manages. List a file under `local` only when it differs on
 # purpose, with the reason.
-template: a730fa8cbb17e023d5cfbe87e2b505e4fcc9899a
+template: b8e3d3858dbba28924ccd7e073c30d29b3717039
 kind: "driver"
 name: "se05x"
 bus: "i2c"
@@ -18,6 +18,6 @@ datasheet: "https://www.nxp.com/docs/en/data-sheet/SE050-DATASHEET.pdf"
 platforms: [host, esp32]
 local:
   - path: .github/workflows/ci-cpp-lint.yml
-    reason: 'the lint timeout is 45 minutes and tools/oracle and examples/psa (needs MbedTLS) are not in the compile database'
+    reason: "'the lint timeout is 45 minutes and tools/oracle and examples/psa (needs MbedTLS) are not in the compile database'"
   - path: .github/workflows/ci-misra.yml
-    reason: '233 translation units per configuration: the scan needs 240 minutes and four parallel jobs'
+    reason: "'233 translation units per configuration: the scan needs 240 minutes and four parallel jobs'"

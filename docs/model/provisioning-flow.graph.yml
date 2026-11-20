@@ -1,0 +1,37 @@
+---
+# Model of the figure 'provisioning-flow'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: graph
+id: provisioning-flow
+title: The factory provisioning flow
+alt: >-
+  Flow of factory provisioning: open with the product's platform keys, provision keys, record the identity, install
+  certificates, create counters and store credentials, then either lock the device or ship it unlocked for development.
+reads: >-
+  Seven steps in order. Open with the product's platform keys, never the vendor defaults. CheckPlan, then Provision the
+  sign, TLS and agree keys. FactoryRecord: Identify, public keys, attestation. CSR, certificates and trust anchor.
+  CreateCounter makes the anti-rollback floors. Store the network credentials. Then the question Lock? has two answers.
+  Plan, read and confirm leads to Irreversible: RequirePlatformScp, SetLockStatePersistent and DisableObjectCreation.
+  Not yet leads to Ship unlocked, for development only.
+direction: TB
+print: landscape
+sources:
+  - docs/model/provisioning-flow.graph.yml
+nodes:
+  - {id: o, label: "Open with the product's platform keys", tone: blue, lines: ["never the vendor defaults"]}
+  - {id: p, label: "CheckPlan, then Provision", tone: blue, lines: ["sign, TLS, agree keys"]}
+  - {id: i, label: FactoryRecord, tone: blue, lines: ["Identify, public keys, attestation"]}
+  - {id: c, label: "CSR, certificates, trust anchor", tone: blue}
+  - {id: f, label: "CreateCounter", tone: blue, lines: ["anti-rollback floors"]}
+  - {id: s, label: Store, tone: blue, lines: ["network credentials"]}
+  - {id: l, label: "Lock?", tone: amber, accent: true}
+  - {id: x, label: Irreversible, tone: rose, lines: ["RequirePlatformScp, SetLockStatePersistent, DisableObjectCreation"]}
+  - {id: d, label: Ship unlocked, tone: slate, lines: ["development only"]}
+edges:
+  - {from: o, to: p}
+  - {from: p, to: i}
+  - {from: i, to: c}
+  - {from: c, to: f}
+  - {from: f, to: s}
+  - {from: s, to: l}
+  - {from: l, to: x, label: "plan, read, confirm"}
+  - {from: l, to: d, label: "not yet", dashed: true}

@@ -1,0 +1,70 @@
+{
+ "direction": "TB",
+ "edges": [
+  {
+   "from": "b",
+   "to": "c",
+   "via": []
+  },
+  {
+   "from": "c",
+   "to": "r",
+   "via": []
+  },
+  {
+   "from": "c",
+   "to": "t",
+   "via": []
+  },
+  {
+   "from": "t",
+   "to": "u",
+   "via": []
+  },
+  {
+   "from": "t",
+   "to": "r",
+   "via": []
+  }
+ ],
+ "engine": "graphviz dot 13.1.0 (recorded for the reader; render never reads it)",
+ "figkit_layout": 1,
+ "id": "rollback-flow",
+ "input": "29fb843415c7dca30c507dc0a03d6532b98ec31f4c1ee71750897c7d5723f431",
+ "nodes": {
+  "b": [
+   86,
+   0,
+   197,
+   44
+  ],
+  "c": [
+   90,
+   124,
+   191,
+   44
+  ],
+  "r": [
+   0,
+   372,
+   190,
+   69
+  ],
+  "t": [
+   180,
+   248,
+   190,
+   44
+  ],
+  "u": [
+   246,
+   372,
+   228,
+   69
+  ]
+ },
+ "size": [
+  474,
+  441
+ ]
+}

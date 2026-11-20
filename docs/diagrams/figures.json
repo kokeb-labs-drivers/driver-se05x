@@ -1,4 +1,38 @@
 {
+  "agree-call": {
+    "title": "ECDH key agreement",
+    "alt": "ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key, and Agree has the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself.",
+    "description": "Participants, left to right: Peer, Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Provision<KeyUse::Agree>(slot 1) (once) to hrot::Device. Peer sends peer public key to Firmware. Firmware sends Agree(key, peer, SecretBuffer) to hrot::Device. hrot::Device sends ECDHGenerateSharedSecret (encrypted both ways) to SE05x. SE05x returns shared secret (R-ENC, R-MAC) to hrot::Device. hrot::Device returns SecretBuffer, wiped on failure and at scope end to Firmware. A note over Firmware and hrot::Device says: HKDF, then AES-GCM with the derived key.",
+    "profile": "detail",
+    "width": 1042,
+    "source": "docs/model/agree-call.seq.yml",
+    "sources": [
+      "docs/model/agree-call.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
+  "attest-call": {
+    "title": "An attested read",
+    "alt": "An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation, and checks the command hash, the signature, a later timestamp and the unique id on the host before it returns a Verified result.",
+    "description": "Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Attest(trusted attestation key, slot 0) to hrot::Device. A note over Firmware and hrot::Device and SE05x says: hrot::Device: fresh 16-byte nonce from the host crypto port. hrot::Device sends ReadObject with attestation (nonce) to SE05x. SE05x returns value, unique id, timestamp, attributes, signature to hrot::Device. A note over Firmware and hrot::Device and SE05x says: hrot::Device: check the command hash and the signature over the TLVs as returned. A note over Firmware and hrot::Device and SE05x says: hrot::Device: check a later timestamp and the unique id against this open's read. hrot::Device returns Verified<AttestedValue>, or an error to Firmware.",
+    "profile": "detail",
+    "width": 786,
+    "source": "docs/model/attest-call.seq.yml",
+    "sources": [
+      "docs/model/attest-call.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "chip-blocks": {
     "title": "Inside the SE05x",
     "alt": "Block diagram of the SE05x: its function blocks, how they connect and which package pins reach each block.",
@@ -119,6 +153,23 @@
       "inc/se05x_ports.hpp"
     ]
   },
+  "csr-flow": {
+    "title": "From a device key to a stored certificate",
+    "alt": "The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies on every boot.",
+    "description": "Participants, left to right: Your CA, Factory station, Device firmware and SE05x. The steps run from top to bottom. Device firmware sends generate the device key (inside the chip) to SE05x. Device firmware sends sign the CSR body (ECDSASign) to SE05x. Device firmware sends CSR with the unique id as serialNumber to Factory station. Factory station sends CSR to Your CA. Your CA returns device certificate, CA certificate to Factory station. Factory station sends both certificates to Device firmware. Device firmware sends WriteBinary: certificate and trust anchor (nobody may write them) to SE05x. A note over Device firmware and SE05x says: every boot: read both back, verify the chain.",
+    "profile": "detail",
+    "width": 1129,
+    "source": "docs/model/csr-flow.seq.yml",
+    "sources": [
+      "docs/model/csr-flow.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "driver-layers": {
     "title": "The layers",
     "alt": "Layer diagram: your application calls the Device library, which has no platform code.",
@@ -141,6 +192,23 @@
       "inc/se05x_eckey.hpp"
     ]
   },
+  "first-15-minutes": {
+    "title": "The first 15 minutes",
+    "alt": "The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to minute 6, wire the chip to minute 11 and flash the ESP32 example to minute 15.",
+    "description": "Four steps in order, each with its minutes. Run the host example takes minutes 0 to 3. Read what it did takes minutes 3 to 6. Wire the chip takes minutes 6 to 11. Flash the ESP32 example takes minutes 11 to 15. The first two steps need no hardware.",
+    "profile": "detail",
+    "width": 640,
+    "source": "docs/model/first-15-minutes.graph.yml",
+    "sources": [
+      "docs/model/first-15-minutes.graph.yml"
+    ],
+    "kind": "graph",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "irreversible-flow": {
     "title": "Irreversible operations: plan, confirm, apply",
     "alt": "Four steps: build flag, Plan (no I/O), Confirmation from the operation's phrase, Apply; and the list of the operations that need them.",
@@ -151,6 +219,23 @@
     "sources": [
       "inc/se05x_confirm.hpp:operation tags"
     ]
+  },
+  "jobs-map": {
+    "title": "What the chip does for your firmware",
+    "alt": "Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the chip provides a root of trust, secret storage, certificates, TLS credentials, key agreement, secure sessions, attestation, counters and provisioning.",
+    "description": "Your firmware connects to the SE05x over I2C, T=1, SCP03. From the SE05x nine jobs follow. Root of trust is a device identity key that never leaves the chip. Secret storage holds a Wi-Fi passphrase, tokens and configuration. Certificates and signing covers CSR, chain and ECDSA. TLS and mutual-auth gives client credentials. Key agreement is ECDH with a peer. Secure sessions make the bus encrypted and authenticated. Attestation is a signed answer, checked on the host. Monotonic counters hold anti-rollback floors. Secure provisioning and lifecycle locks set up and lock a device.",
+    "profile": "detail",
+    "width": 1052,
+    "source": "docs/model/jobs-map.graph.yml",
+    "sources": [
+      "docs/model/jobs-map.graph.yml"
+    ],
+    "kind": "graph",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
   },
   "lifecycle": {
     "title": "Lifecycle settings and the roles that change them",
@@ -189,6 +274,23 @@
       "inc/se05x_pki_verify.hpp"
     ]
   },
+  "provisioning-flow": {
+    "title": "The factory provisioning flow",
+    "alt": "Flow of factory provisioning: open with the product's platform keys, provision keys, record the identity, install certificates, create counters and store credentials, then either lock the device or ship it unlocked for development.",
+    "description": "Seven steps in order. Open with the product's platform keys, never the vendor defaults. CheckPlan, then Provision the sign, TLS and agree keys. FactoryRecord: Identify, public keys, attestation. CSR, certificates and trust anchor. CreateCounter makes the anti-rollback floors. Store the network credentials. Then the question Lock? has two answers. Plan, read and confirm leads to Irreversible: RequirePlatformScp, SetLockStatePersistent and DisableObjectCreation. Not yet leads to Ship unlocked, for development only.",
+    "profile": "detail",
+    "width": 640,
+    "source": "docs/model/provisioning-flow.graph.yml",
+    "sources": [
+      "docs/model/provisioning-flow.graph.yml"
+    ],
+    "kind": "graph",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "recovery-ladder": {
     "title": "The recovery ladder",
     "alt": "Six rungs from top to bottom: resend the block, resync, interface soft reset, reselect the applet, chip reset and power cycle, each with what it costs.",
@@ -199,6 +301,40 @@
     "sources": [
       "inc/se05x_t1.hpp:Rung"
     ]
+  },
+  "rollback-flow": {
+    "title": "The anti-rollback boot check",
+    "alt": "Flow of the boot check: the image version is compared with the floor, an older image is refused, and a newer one runs the self test and then raises the floor in one command.",
+    "description": "Boot image version v enters the check CheckFloor(floor, v). If v is below the floor the answer is PolicyDenied and the flow ends at Refuse the image, boot the fallback. If the answer is Ok the flow continues to Run the self test. When the test passed, RaiseCounterTo(floor, v) raises the floor in one command. When it failed, the flow also ends at Refuse the image, boot the fallback.",
+    "profile": "detail",
+    "width": 654,
+    "source": "docs/model/rollback-flow.graph.yml",
+    "sources": [
+      "docs/model/rollback-flow.graph.yml"
+    ],
+    "kind": "graph",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
+  "scp03-open": {
+    "title": "Opening an SCP03 session",
+    "alt": "Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the card's reply, checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command and answer is protected.",
+    "description": "Participants, left to right: Device::Open, Crypto port and SE05x card manager. The steps run from top to bottom. Device::Open sends host challenge (Random) to Crypto port. Device::Open sends INITIALIZE UPDATE (host challenge) to SE05x card manager. SE05x card manager returns card challenge, card cryptogram to Device::Open. Device::Open sends derive S-ENC, S-MAC, S-RMAC (CMAC KDF) to Crypto port. A note over Device::Open and SE05x card manager says: Device::Open: check the card cryptogram. Device::Open sends EXTERNAL AUTHENTICATE (host cryptogram, level) to SE05x card manager. A note over Device::Open and SE05x card manager says: from here every command: C-MAC (+ C-DEC); every answer: R-MAC (+ R-ENC).",
+    "profile": "detail",
+    "width": 741,
+    "source": "docs/model/scp03-open.seq.yml",
+    "sources": [
+      "docs/model/scp03-open.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
   },
   "scp03-session": {
     "title": "Platform SCP03: opening the channel",
@@ -244,6 +380,40 @@
       "docs/diagrams/figures/_se052.py"
     ]
   },
+  "sign-call": {
+    "title": "Provision a signing key, then sign",
+    "alt": "Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and Sign sends a SHA-256 digest to the chip, which returns a DER signature checked by its response MAC.",
+    "description": "Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Provision<KeyUse::Sign>(slot 0) to hrot::Device. hrot::Device sends CheckObjectExists, WriteECKey (no key bytes, strict policy) to SE05x. A note over SE05x and hrot::Device says: the key pair is generated inside the chip. Firmware sends Sign(key, SHA-256 digest) to hrot::Device. hrot::Device sends ECDSASign to SE05x. SE05x returns DER signature (R-MAC checked) to hrot::Device. hrot::Device returns Signature to Firmware.",
+    "profile": "detail",
+    "width": 828,
+    "source": "docs/model/sign-call.seq.yml",
+    "sources": [
+      "docs/model/sign-call.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
+  "store-load-call": {
+    "title": "Store a secret, load it at every boot",
+    "alt": "Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope.",
+    "description": "Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. A note over Firmware and SE05x says: provisioning, once. Firmware sends Store(slot 1, passphrase, Secret) to hrot::Device. hrot::Device sends CheckObjectExists, WriteBinary (encrypted, MACed) to SE05x. SE05x returns 9000 (R-MAC checked) to hrot::Device. A note over Firmware and SE05x says: every boot. Firmware sends Load(slot 1, buffer, Secret) to hrot::Device. hrot::Device sends ReadSize, ReadObject (encrypted) to SE05x. SE05x returns the bytes (R-ENC, R-MAC) to hrot::Device. hrot::Device returns SecretBuffer, wiped when it goes out of scope to Firmware.",
+    "profile": "detail",
+    "width": 869,
+    "source": "docs/model/store-load-call.seq.yml",
+    "sources": [
+      "docs/model/store-load-call.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "t1-frame": {
     "title": "One T=1 block on the bus",
     "alt": "Two rows of fields: the NXP flavour NAD, PCB, one-byte LEN, INF up to 254 bytes, CRC; the GP flavour NAD, PCB, two-byte LEN, INF up to 4089 bytes, CRC; and the three PCB forms.",
@@ -266,6 +436,23 @@
       "inc/se05x_t1.hpp:LinkState",
       "inc/se05x_wire.hpp:S-block codes"
     ]
+  },
+  "tls-sign-call": {
+    "title": "A TLS client signature",
+    "alt": "Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as CertificateVerify.",
+    "description": "Participants, left to right: Server, TLS stack, hrot::Device and SE05x. The steps run from top to bottom. Server sends CertificateRequest to TLS stack. TLS stack sends client certificate (read from the chip's binary object) to Server. TLS stack sends TlsSign(key, handshake digest) to hrot::Device. hrot::Device sends ECDSASign (secure messaging) to SE05x. SE05x returns signature to hrot::Device. hrot::Device returns DER signature to TLS stack. TLS stack sends CertificateVerify to Server.",
+    "profile": "detail",
+    "width": 996,
+    "source": "docs/model/tls-sign-call.seq.yml",
+    "sources": [
+      "docs/model/tls-sign-call.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
   },
   "trust-boundaries": {
     "title": "Trust boundaries",

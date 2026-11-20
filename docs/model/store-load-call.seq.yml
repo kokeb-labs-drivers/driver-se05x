@@ -1,0 +1,32 @@
+---
+# Model of the figure 'store-load-call'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: store-load-call
+title: "Store a secret, load it at every boot"
+alt: >-
+  Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load reads it back
+  encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope.
+reads: >-
+  Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. A note over
+  Firmware and SE05x says: provisioning, once. Firmware sends Store(slot 1, passphrase, Secret) to hrot::Device.
+  hrot::Device sends CheckObjectExists, WriteBinary (encrypted, MACed) to SE05x. SE05x returns 9000 (R-MAC
+  checked) to hrot::Device. A note over Firmware and SE05x says: every boot. Firmware sends Load(slot 1, buffer,
+  Secret) to hrot::Device. hrot::Device sends ReadSize, ReadObject (encrypted) to SE05x. SE05x returns the bytes
+  (R-ENC, R-MAC) to hrot::Device. hrot::Device returns SecretBuffer, wiped when it goes out of scope to Firmware.
+print: landscape
+sources:
+  - docs/model/store-load-call.seq.yml
+participants:
+  - {id: f, label: "Firmware", tone: magenta}
+  - {id: h, label: "hrot::Device", tone: green}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {note: "provisioning, once", over: [f, s]}
+  - {from: f, to: h, label: "Store(slot 1, passphrase, Secret)"}
+  - {from: h, to: s, label: "CheckObjectExists, WriteBinary (encrypted, MACed)"}
+  - {from: s, to: h, label: "9000 (R-MAC checked)", return: true}
+  - {note: "every boot", over: [f, s]}
+  - {from: f, to: h, label: "Load(slot 1, buffer, Secret)"}
+  - {from: h, to: s, label: "ReadSize, ReadObject (encrypted)"}
+  - {from: s, to: h, label: "the bytes (R-ENC, R-MAC)", return: true}
+  - {from: h, to: f, label: "SecretBuffer, wiped when it goes out of scope", return: true}

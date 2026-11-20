@@ -3,19 +3,14 @@
 Give each device a NIST P-256 key pair generated inside the chip (WriteECKey with no key bytes, AN12543 p. 80). The
 private half never exists outside the chip; the device proves who it is by signing (ECDSASign, AN12543 p. 101).
 
-```mermaid
-sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F->>H: Provision<KeyUse::Sign>(slot 0)
-    H->>S: CheckObjectExists, WriteECKey (no key bytes, strict policy)
-    Note over S: the key pair is generated inside the chip
-    F->>H: Sign(key, SHA-256 digest)
-    H->>S: ECDSASign
-    S-->>H: DER signature (R-MAC checked)
-    H-->>F: Signature
-```
+<!-- figure: sign-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/sign-call.dark.svg">
+  <img src="../diagrams/sign-call.svg"
+    alt="Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and
+    Sign sends a SHA-256 digest to the chip, which returns a DER signature checked by its response MAC.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:provision"

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="654" height="560" viewBox="0 0 654 560" role="img" aria-labelledby="rollback-flow-title rollback-flow-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="rollback-flow-title">The anti-rollback boot check</title>
+<desc id="rollback-flow-desc">Flow of the boot check: the image version is compared with the floor, an older image is refused, and a newer one runs the self test and then raises the floor in one command.</desc>
+<defs><marker id="rollback-flow-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7C8798"/></marker></defs>
+<rect x="0.5" y="0.5" width="653" height="559" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#0E1726">The anti-rollback boot check</text>
+<rect x="32" y="70.8" width="590" height="1" fill="#E2E7EE"/>
+<path d="M274.5 136.8 L274.5 172.3 Q274.5 172.8 275 172.8 L275 172.8 Q275.5 172.8 275.5 173.3 L275.5 208.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#rollback-flow-arrow-rail)"/>
+<path d="M194 260.8 L194 271.8 Q194 279.8 202 279.8 L222.2 279.8 Q230.2 279.8 230.2 287.8 L230.2 383.3 Q230.2 391.3 222.2 391.3 L112 391.3 Q104 391.3 104 399.3 L104 456.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#rollback-flow-arrow-rail)"/>
+<path d="M357 260.8 L357 309.8 Q357 313.8 361 313.8 L361 313.8 Q365 313.8 365 317.8 L365 332.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#rollback-flow-arrow-rail)"/>
+<path d="M446 384.8 L446 438.8 Q446 440.8 448 440.8 L448 440.8 Q450 440.8 450 442.8 L450 456.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#rollback-flow-arrow-rail)"/>
+<path d="M284 384.8 L284 403.3 Q284 411.3 276 411.3 L274 411.3 Q266 411.3 266 419.3 L266 456.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#rollback-flow-arrow-rail)"/>
+<rect x="176" y="88.8" width="197" height="44" rx="10" fill="#FFFFFF" stroke="#738093" stroke-width="1"/>
+<rect x="176" y="96.8" width="4" height="28" rx="2" fill="#2563EB"/>
+<rect x="180" y="212.8" width="191" height="44" rx="10" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<rect x="180" y="220.8" width="4" height="28" rx="2" fill="#C26A05"/>
+<rect x="90" y="460.8" width="190" height="69" rx="10" fill="#FFFFFF" stroke="#738093" stroke-width="1"/>
+<rect x="90" y="468.8" width="4" height="53" rx="2" fill="#DB2752"/>
+<rect x="270" y="336.8" width="190" height="44" rx="10" fill="#FFFFFF" stroke="#738093" stroke-width="1"/>
+<rect x="270" y="344.8" width="4" height="28" rx="2" fill="#2563EB"/>
+<rect x="336" y="460.8" width="228" height="69" rx="10" fill="#FFFFFF" stroke="#738093" stroke-width="1"/>
+<rect x="336" y="468.8" width="4" height="53" rx="2" fill="#15803D"/>
+<text x="196" y="115.5" font-size="15" font-weight="700" fill="#0E1726">Boot image version v</text>
+<text x="200" y="239.6" font-size="15" font-weight="700" fill="#8A3C0B">CheckFloor(floor, v)</text>
+<text x="110" y="487.6" font-size="15" font-weight="700" fill="#0E1726">Refuse the image</text>
+<text x="110" y="512.4" font-size="13" fill="#2B3442">boot the fallback</text>
+<text x="290" y="363.6" font-size="15" font-weight="700" fill="#0E1726">Run the self test</text>
+<text x="356" y="487.6" font-size="15" font-weight="700" fill="#0E1726">RaiseCounterTo(floor, v)</text>
+<text x="356" y="512.4" font-size="13" fill="#2B3442">one command</text>
+<rect x="238.2" y="269.8" width="201" height="20" rx="10" fill="#FFFFFF"/>
+<text x="338.8" y="284.2" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">v below the floor: PolicyDenied</text>
+<rect x="373.1" y="303.8" width="28.9" height="20" rx="10" fill="#FFFFFF"/>
+<text x="387.5" y="318.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">Ok</text>
+<rect x="457.9" y="430.8" width="56.1" height="20" rx="10" fill="#FFFFFF"/>
+<text x="486" y="445.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">passed</text>
+<rect x="292.1" y="401.3" width="45.8" height="20" rx="10" fill="#FFFFFF"/>
+<text x="315" y="415.6" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">failed</text>
+</svg>

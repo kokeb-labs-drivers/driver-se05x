@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="869" height="579" viewBox="0 0 869 579" role="img" aria-labelledby="store-load-call-title store-load-call-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="store-load-call-title">Store a secret, load it at every boot</title>
+<desc id="store-load-call-desc">Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope.</desc>
+<defs><marker id="store-load-call-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7C8798"/></marker></defs>
+<rect x="0.5" y="0.5" width="868" height="578" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#0E1726">Store a secret, load it at every boot</text>
+<rect x="32" y="70.8" width="805" height="1" fill="#E2E7EE"/>
+<path d="M104.8 144.8 L104.8 582.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M415.2 144.8 L415.2 582.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M764.2 144.8 L764.2 582.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M108.8 232.8 L411.2 232.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M419.2 276.8 L760.2 276.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M760.2 320.8 L419.2 320.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M108.8 416.8 L411.2 416.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M419.2 460.8 L760.2 460.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M760.2 504.8 L419.2 504.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#store-load-call-arrow-rail)"/>
+<path d="M411.2 548.8 L108.8 548.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#store-load-call-arrow-rail)"/>
+<rect x="39.8" y="88.8" width="130" height="52" rx="10" fill="#FDF0FF" stroke="#A21CAF" stroke-width="1.4"/>
+<rect x="39.8" y="96.8" width="4" height="36" rx="2" fill="#A21CAF"/>
+<rect x="346.1" y="88.8" width="138.2" height="52" rx="10" fill="#EAF7EF" stroke="#15803D" stroke-width="1.4"/>
+<rect x="346.1" y="96.8" width="4" height="36" rx="2" fill="#15803D"/>
+<rect x="699.2" y="88.8" width="130" height="52" rx="10" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<rect x="699.2" y="96.8" width="4" height="36" rx="2" fill="#C26A05"/>
+<rect x="34.8" y="164.8" width="799.5" height="41" rx="10" fill="#FFF5E3" stroke="#F1CF93" stroke-width="1"/>
+<rect x="34.8" y="348.8" width="799.5" height="41" rx="10" fill="#FFF5E3" stroke="#F1CF93" stroke-width="1"/>
+<text x="107.8" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#86198F">Firmware</text>
+<text x="418.2" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#14532D">hrot::Device</text>
+<text x="767.2" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#8A3C0B">SE05x</text>
+<text x="48.8" y="189.8" font-size="13" fill="#8A3C0B">provisioning, once</text>
+<rect x="155.1" y="208.8" width="209.8" height="20" rx="10" fill="#FFFFFF"/>
+<text x="260" y="223.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">Store(slot 1, passphrase, Secret)</text>
+<rect x="423.2" y="252.8" width="333" height="20" rx="10" fill="#FFFFFF"/>
+<text x="589.7" y="267.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">CheckObjectExists, WriteBinary (encrypted, MACed)</text>
+<rect x="511.2" y="296.8" width="157.1" height="20" rx="10" fill="#FFFFFF"/>
+<text x="589.7" y="311.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">9000 (R-MAC checked)</text>
+<text x="48.8" y="373.9" font-size="13" fill="#8A3C0B">every boot</text>
+<rect x="173.1" y="392.8" width="173.9" height="20" rx="10" fill="#FFFFFF"/>
+<text x="260" y="407.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">Load(slot 1, buffer, Secret)</text>
+<rect x="478.8" y="436.8" width="221.8" height="20" rx="10" fill="#FFFFFF"/>
+<text x="589.7" y="451.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">ReadSize, ReadObject (encrypted)</text>
+<rect x="503" y="480.8" width="173.5" height="20" rx="10" fill="#FFFFFF"/>
+<text x="589.7" y="495.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">the bytes (R-ENC, R-MAC)</text>
+<rect x="112.8" y="524.8" width="294.5" height="20" rx="10" fill="#FFFFFF"/>
+<text x="260" y="539.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">SecretBuffer, wiped when it goes out of scope</text>
+</svg>

@@ -6,6 +6,42 @@ Every figure on this site is drawn by a Python module from facts extracted from 
 not redrawn, when the code changes. CI runs `kokeb-docs figures --check` and fails when a
 committed figure no longer matches the code. Each figure below lists the files it is drawn from.
 
+## ECDH key agreement
+
+<!-- figure: agree-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="agree-call.dark.svg">
+  <img src="agree-call.svg"
+    alt="ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key,
+    and Agree has the chip compute the shared secret under encryption both ways and return it in a
+    SecretBuffer that wipes itself.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/agree-call.seq.yml`](../model/agree-call.seq.yml)
+
+Drawn from:
+
+- [`docs/model/agree-call.seq.yml`](../model/agree-call.seq.yml)
+
+## An attested read
+
+<!-- figure: attest-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="attest-call.dark.svg">
+  <img src="attest-call.svg"
+    alt="An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation,
+    and checks the command hash, the signature, a later timestamp and the unique id on the host before
+    it returns a Verified result.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/attest-call.seq.yml`](../model/attest-call.seq.yml)
+
+Drawn from:
+
+- [`docs/model/attest-call.seq.yml`](../model/attest-call.seq.yml)
+
 ## Inside the SE05x
 
 <!-- figure: chip-blocks -->
@@ -208,6 +244,24 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/se05x_ports.hpp`](../../inc/se05x_ports.hpp)
 
+## From a device key to a stored certificate
+
+<!-- figure: csr-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="csr-flow.dark.svg">
+  <img src="csr-flow.svg"
+    alt="The certificate flow: the chip generates the device key and signs the CSR body, the factory station
+    has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it
+    reads back and verifies on every boot.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/csr-flow.seq.yml`](../model/csr-flow.seq.yml)
+
+Drawn from:
+
+- [`docs/model/csr-flow.seq.yml`](../model/csr-flow.seq.yml)
+
 ## The layers
 
 <!-- figure: driver-layers -->
@@ -241,6 +295,23 @@ Drawn from:
 
 - [`inc/se05x_eckey.hpp`](../../inc/se05x_eckey.hpp)
 
+## The first 15 minutes
+
+<!-- figure: first-15-minutes -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="first-15-minutes.dark.svg">
+  <img src="first-15-minutes.svg"
+    alt="The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to
+    minute 6, wire the chip to minute 11 and flash the ESP32 example to minute 15.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/first-15-minutes.graph.yml`](../model/first-15-minutes.graph.yml)
+
+Drawn from:
+
+- [`docs/model/first-15-minutes.graph.yml`](../model/first-15-minutes.graph.yml)
+
 ## Irreversible operations: plan, confirm, apply
 
 <!-- figure: irreversible-flow -->
@@ -257,6 +328,24 @@ Figure module: [`docs/diagrams/figures/irreversible-flow.py`](../../docs/diagram
 Drawn from:
 
 - `operation tags` in [`inc/se05x_confirm.hpp`](../../inc/se05x_confirm.hpp)
+
+## What the chip does for your firmware
+
+<!-- figure: jobs-map -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="jobs-map.dark.svg">
+  <img src="jobs-map.svg"
+    alt="Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the
+    chip provides a root of trust, secret storage, certificates, TLS credentials, key agreement, secure
+    sessions, attestation, counters and provisioning.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/jobs-map.graph.yml`](../model/jobs-map.graph.yml)
+
+Drawn from:
+
+- [`docs/model/jobs-map.graph.yml`](../model/jobs-map.graph.yml)
 
 ## Lifecycle settings and the roles that change them
 
@@ -315,6 +404,24 @@ Drawn from:
 - [`inc/se05x_pki_device.hpp`](../../inc/se05x_pki_device.hpp)
 - [`inc/se05x_pki_verify.hpp`](../../inc/se05x_pki_verify.hpp)
 
+## The factory provisioning flow
+
+<!-- figure: provisioning-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="provisioning-flow.dark.svg">
+  <img src="provisioning-flow.svg"
+    alt="Flow of factory provisioning: open with the product's platform keys, provision keys, record the
+    identity, install certificates, create counters and store credentials, then either lock the device
+    or ship it unlocked for development.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/provisioning-flow.graph.yml`](../model/provisioning-flow.graph.yml)
+
+Drawn from:
+
+- [`docs/model/provisioning-flow.graph.yml`](../model/provisioning-flow.graph.yml)
+
 ## The recovery ladder
 
 <!-- figure: recovery-ladder -->
@@ -331,6 +438,41 @@ Figure module: [`docs/diagrams/figures/recovery-ladder.py`](../../docs/diagrams/
 Drawn from:
 
 - `Rung` in [`inc/se05x_t1.hpp`](../../inc/se05x_t1.hpp)
+
+## The anti-rollback boot check
+
+<!-- figure: rollback-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="rollback-flow.dark.svg">
+  <img src="rollback-flow.svg"
+    alt="Flow of the boot check: the image version is compared with the floor, an older image is refused, and
+    a newer one runs the self test and then raises the floor in one command.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/rollback-flow.graph.yml`](../model/rollback-flow.graph.yml)
+
+Drawn from:
+
+- [`docs/model/rollback-flow.graph.yml`](../model/rollback-flow.graph.yml)
+
+## Opening an SCP03 session
+
+<!-- figure: scp03-open -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="scp03-open.dark.svg">
+  <img src="scp03-open.svg"
+    alt="Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the
+    card's reply, checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command
+    and answer is protected.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/scp03-open.seq.yml`](../model/scp03-open.seq.yml)
+
+Drawn from:
+
+- [`docs/model/scp03-open.seq.yml`](../model/scp03-open.seq.yml)
 
 ## Platform SCP03: opening the channel
 
@@ -400,6 +542,40 @@ Drawn from:
 
 - [`docs/diagrams/figures/_se052.py`](../../docs/diagrams/figures/_se052.py)
 
+## Provision a signing key, then sign
+
+<!-- figure: sign-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="sign-call.dark.svg">
+  <img src="sign-call.svg"
+    alt="Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and
+    Sign sends a SHA-256 digest to the chip, which returns a DER signature checked by its response MAC.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/sign-call.seq.yml`](../model/sign-call.seq.yml)
+
+Drawn from:
+
+- [`docs/model/sign-call.seq.yml`](../model/sign-call.seq.yml)
+
+## Store a secret, load it at every boot
+
+<!-- figure: store-load-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="store-load-call.dark.svg">
+  <img src="store-load-call.svg"
+    alt="Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load
+    reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/store-load-call.seq.yml`](../model/store-load-call.seq.yml)
+
+Drawn from:
+
+- [`docs/model/store-load-call.seq.yml`](../model/store-load-call.seq.yml)
+
 ## One T=1 block on the bus
 
 <!-- figure: t1-frame -->
@@ -434,6 +610,24 @@ Drawn from:
 
 - `LinkState` in [`inc/se05x_t1.hpp`](../../inc/se05x_t1.hpp)
 - `S-block codes` in [`inc/se05x_wire.hpp`](../../inc/se05x_wire.hpp)
+
+## A TLS client signature
+
+<!-- figure: tls-sign-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="tls-sign-call.dark.svg">
+  <img src="tls-sign-call.svg"
+    alt="Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read
+    from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as
+    CertificateVerify.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/tls-sign-call.seq.yml`](../model/tls-sign-call.seq.yml)
+
+Drawn from:
+
+- [`docs/model/tls-sign-call.seq.yml`](../model/tls-sign-call.seq.yml)
 
 ## Trust boundaries
 

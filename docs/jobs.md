@@ -5,19 +5,15 @@ uses but can never read out, and that signs, agrees keys, counts and attests on 
 3, p. 6; AN12543 section 3, pp. 6-47). Pick what you want the chip to do; each guide has a diagram, compiled code, what
 it protects against, what to do when a call fails, and a bench step.
 
-```mermaid
-flowchart LR
-    FW["Your firmware"] -- "I2C, T=1, SCP03" --> SE["SE05x"]
-    SE --> ROT["Root of trust:<br/>a device identity key<br/>that never leaves"]
-    SE --> STORE["Secret storage:<br/>Wi-Fi passphrase, tokens,<br/>configuration"]
-    SE --> PKI["Certificates and signing:<br/>CSR, chain, ECDSA"]
-    SE --> TLS["TLS and mutual-auth<br/>client credentials"]
-    SE --> ECDH["Key agreement:<br/>ECDH with a peer"]
-    SE --> SCP["Secure sessions:<br/>an encrypted, authenticated bus"]
-    SE --> ATT["Attestation:<br/>a signed answer, checked on the host"]
-    SE --> CNT["Monotonic counters:<br/>anti-rollback floors"]
-    SE --> PROV["Secure provisioning<br/>and lifecycle locks"]
-```
+<!-- figure: jobs-map -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/jobs-map.dark.svg">
+  <img src="diagrams/jobs-map.svg"
+    alt="Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the
+    chip provides a root of trust, secret storage, certificates, TLS credentials, key agreement, secure
+    sessions, attestation, counters and provisioning.">
+</picture>
+<!-- /figure -->
 
 | You want to | Guide | Driver API |
 | --- | --- | --- |

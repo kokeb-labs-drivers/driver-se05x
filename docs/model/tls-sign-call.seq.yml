@@ -1,0 +1,30 @@
+---
+# Model of the figure 'tls-sign-call'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: tls-sign-call
+title: "A TLS client signature"
+alt: >-
+  Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read from the
+  chip, has the chip sign the handshake digest through TlsSign and sends the signature as CertificateVerify.
+reads: >-
+  Participants, left to right: Server, TLS stack, hrot::Device and SE05x. The steps run from top to bottom. Server
+  sends CertificateRequest to TLS stack. TLS stack sends client certificate (read from the chip's binary object)
+  to Server. TLS stack sends TlsSign(key, handshake digest) to hrot::Device. hrot::Device sends ECDSASign (secure
+  messaging) to SE05x. SE05x returns signature to hrot::Device. hrot::Device returns DER signature to TLS stack.
+  TLS stack sends CertificateVerify to Server.
+print: landscape
+sources:
+  - docs/model/tls-sign-call.seq.yml
+participants:
+  - {id: srv, label: "Server", tone: magenta}
+  - {id: tls, label: "TLS stack", tone: magenta}
+  - {id: h, label: "hrot::Device", tone: green}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {from: srv, to: tls, label: "CertificateRequest"}
+  - {from: tls, to: srv, label: "client certificate (read from the chip's binary object)"}
+  - {from: tls, to: h, label: "TlsSign(key, handshake digest)"}
+  - {from: h, to: s, label: "ECDSASign (secure messaging)"}
+  - {from: s, to: h, label: "signature", return: true}
+  - {from: h, to: tls, label: "DER signature", return: true}
+  - {from: tls, to: srv, label: "CertificateVerify"}

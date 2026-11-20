@@ -1,0 +1,29 @@
+---
+# Model of the figure 'sign-call'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: sign-call
+title: "Provision a signing key, then sign"
+alt: >-
+  Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and Sign sends a
+  SHA-256 digest to the chip, which returns a DER signature checked by its response MAC.
+reads: >-
+  Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends
+  Provision<KeyUse::Sign>(slot 0) to hrot::Device. hrot::Device sends CheckObjectExists, WriteECKey (no key bytes,
+  strict policy) to SE05x. A note over SE05x and hrot::Device says: the key pair is generated inside the chip.
+  Firmware sends Sign(key, SHA-256 digest) to hrot::Device. hrot::Device sends ECDSASign to SE05x. SE05x returns
+  DER signature (R-MAC checked) to hrot::Device. hrot::Device returns Signature to Firmware.
+print: landscape
+sources:
+  - docs/model/sign-call.seq.yml
+participants:
+  - {id: f, label: "Firmware", tone: magenta}
+  - {id: h, label: "hrot::Device", tone: green}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {from: f, to: h, label: "Provision<KeyUse::Sign>(slot 0)"}
+  - {from: h, to: s, label: "CheckObjectExists, WriteECKey (no key bytes, strict policy)"}
+  - {note: "the key pair is generated inside the chip", over: [s, h]}
+  - {from: f, to: h, label: "Sign(key, SHA-256 digest)"}
+  - {from: h, to: s, label: "ECDSASign"}
+  - {from: s, to: h, label: "DER signature (R-MAC checked)", return: true}
+  - {from: h, to: f, label: "Signature", return: true}

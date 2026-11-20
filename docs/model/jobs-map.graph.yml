@@ -1,0 +1,43 @@
+---
+# Model of the figure 'jobs-map'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: graph
+id: jobs-map
+title: What the chip does for your firmware
+alt: >-
+  Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the chip provides a
+  root of trust, secret storage, certificates, TLS credentials, key agreement, secure sessions, attestation, counters
+  and provisioning.
+reads: >-
+  Your firmware connects to the SE05x over I2C, T=1, SCP03. From the SE05x nine jobs follow. Root of trust is a device
+  identity key that never leaves the chip. Secret storage holds a Wi-Fi passphrase, tokens and configuration.
+  Certificates and signing covers CSR, chain and ECDSA. TLS and mutual-auth gives client credentials. Key agreement
+  is ECDH with a peer. Secure sessions make the bus encrypted and authenticated. Attestation is a signed answer,
+  checked on the host. Monotonic counters hold anti-rollback floors. Secure provisioning and lifecycle locks set up
+  and lock a device.
+direction: LR
+print: landscape
+sources:
+  - docs/model/jobs-map.graph.yml
+nodes:
+  - {id: fw, label: Your firmware, tone: magenta}
+  - {id: se, label: SE05x, tone: amber, accent: true}
+  - {id: rot, label: Root of trust, tone: green, lines: [a device identity key that never leaves]}
+  - {id: store, label: Secret storage, tone: green, lines: ["Wi-Fi passphrase, tokens, configuration"]}
+  - {id: pki, label: Certificates and signing, tone: green, lines: ["CSR, chain, ECDSA"]}
+  - {id: tls, label: TLS and mutual-auth, tone: green, lines: [client credentials]}
+  - {id: ecdh, label: Key agreement, tone: green, lines: [ECDH with a peer]}
+  - {id: scp, label: Secure sessions, tone: green, lines: ["an encrypted, authenticated bus"]}
+  - {id: att, label: Attestation, tone: green, lines: ["a signed answer, checked on the host"]}
+  - {id: cnt, label: Monotonic counters, tone: green, lines: [anti-rollback floors]}
+  - {id: prov, label: Secure provisioning, tone: green, lines: [and lifecycle locks]}
+edges:
+  - {from: fw, to: se, label: "I2C, T=1, SCP03"}
+  - {from: se, to: rot}
+  - {from: se, to: store}
+  - {from: se, to: pki}
+  - {from: se, to: tls}
+  - {from: se, to: ecdh}
+  - {from: se, to: scp}
+  - {from: se, to: att}
+  - {from: se, to: cnt}
+  - {from: se, to: prov}

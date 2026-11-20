@@ -1,0 +1,25 @@
+---
+# Model of the figure 'first-15-minutes'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: graph
+id: first-15-minutes
+title: The first 15 minutes
+alt: >-
+  The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to minute 6, wire the
+  chip to minute 11 and flash the ESP32 example to minute 15.
+reads: >-
+  Four steps in order, each with its minutes. Run the host example takes minutes 0 to 3. Read what it did takes
+  minutes 3 to 6. Wire the chip takes minutes 6 to 11. Flash the ESP32 example takes minutes 11 to 15. The first two
+  steps need no hardware.
+direction: TB
+print: landscape
+sources:
+  - docs/model/first-15-minutes.graph.yml
+nodes:
+  - {id: a, label: Run the host example, tone: green, tag: "0 to 3 min", lines: [no hardware]}
+  - {id: b, label: Read what it did, tone: green, tag: "3 to 6 min", lines: [no hardware]}
+  - {id: c, label: Wire the chip, tone: amber, tag: "6 to 11 min"}
+  - {id: d, label: Flash the ESP32 example, tone: amber, tag: "11 to 15 min"}
+edges:
+  - {from: a, to: b}
+  - {from: b, to: c}
+  - {from: c, to: d}

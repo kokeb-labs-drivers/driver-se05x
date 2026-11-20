@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="996" height="475" viewBox="0 0 996 475" role="img" aria-labelledby="tls-sign-call-title tls-sign-call-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="tls-sign-call-title">A TLS client signature</title>
+<desc id="tls-sign-call-desc">Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as CertificateVerify.</desc>
+<defs><marker id="tls-sign-call-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7C8798"/></marker></defs>
+<rect x="0.5" y="0.5" width="995" height="474" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#0E1726">A TLS client signature</text>
+<rect x="32" y="70.8" width="932" height="1" fill="#E2E7EE"/>
+<path d="M104.6 144.8 L104.6 478.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M449.3 144.8 L449.3 478.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M668.8 144.8 L668.8 478.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M891.4 144.8 L891.4 478.8" fill="none" stroke="#738093" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M108.6 180.8 L445.3 180.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M445.3 224.8 L108.6 224.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M453.3 268.8 L664.8 268.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M672.8 312.8 L887.4 312.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M887.4 356.8 L672.8 356.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M664.8 400.8 L453.3 400.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<path d="M445.3 444.8 L108.6 444.8" fill="none" stroke="#7C8798" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#tls-sign-call-arrow-rail)"/>
+<rect x="39.6" y="88.8" width="130" height="52" rx="10" fill="#FDF0FF" stroke="#A21CAF" stroke-width="1.4"/>
+<rect x="39.6" y="96.8" width="4" height="36" rx="2" fill="#A21CAF"/>
+<rect x="384.3" y="88.8" width="130" height="52" rx="10" fill="#FDF0FF" stroke="#A21CAF" stroke-width="1.4"/>
+<rect x="384.3" y="96.8" width="4" height="36" rx="2" fill="#A21CAF"/>
+<rect x="599.7" y="88.8" width="138.2" height="52" rx="10" fill="#EAF7EF" stroke="#15803D" stroke-width="1.4"/>
+<rect x="599.7" y="96.8" width="4" height="36" rx="2" fill="#15803D"/>
+<rect x="826.4" y="88.8" width="130" height="52" rx="10" fill="#FFF5E3" stroke="#C26A05" stroke-width="1.4"/>
+<rect x="826.4" y="96.8" width="4" height="36" rx="2" fill="#C26A05"/>
+<text x="107.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#86198F">Server</text>
+<text x="452.3" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#86198F">TLS stack</text>
+<text x="671.8" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#14532D">hrot::Device</text>
+<text x="894.4" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#8A3C0B">SE05x</text>
+<rect x="214.2" y="156.8" width="125.5" height="20" rx="10" fill="#FFFFFF"/>
+<text x="277" y="171.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">CertificateRequest</text>
+<rect x="112.6" y="200.8" width="328.6" height="20" rx="10" fill="#FFFFFF"/>
+<text x="277" y="215.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">client certificate (read from the chip's binary object)</text>
+<rect x="457.3" y="244.8" width="203.5" height="20" rx="10" fill="#FFFFFF"/>
+<text x="559" y="259.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">TlsSign(key, handshake digest)</text>
+<rect x="676.8" y="288.8" width="206.6" height="20" rx="10" fill="#FFFFFF"/>
+<text x="780.1" y="303.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">ECDSASign (secure messaging)</text>
+<rect x="745.5" y="332.8" width="69.2" height="20" rx="10" fill="#FFFFFF"/>
+<text x="780.1" y="347.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">signature</text>
+<rect x="510.2" y="376.8" width="97.7" height="20" rx="10" fill="#FFFFFF"/>
+<text x="559" y="391.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">DER signature</text>
+<rect x="220.7" y="420.8" width="112.4" height="20" rx="10" fill="#FFFFFF"/>
+<text x="277" y="435.1" font-size="12" font-weight="500" text-anchor="middle" fill="#566070">CertificateVerify</text>
+</svg>

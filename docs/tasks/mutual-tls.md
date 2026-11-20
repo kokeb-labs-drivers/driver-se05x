@@ -4,20 +4,15 @@ In mutual TLS the device proves its identity with a client certificate and a sig
 client key in the chip as a `TlsKey` and give your TLS stack a private-key callback that calls `TlsSign` (ECDSASign
 over the handshake digest, AN12543 p. 101). The certificate is the one from [CSR and certificates](certificates.md).
 
-```mermaid
-sequenceDiagram
-    participant Srv as Server
-    participant TLS as TLS stack
-    participant H as hrot::Device
-    participant S as SE05x
-    Srv->>TLS: CertificateRequest
-    TLS->>Srv: client certificate (read from the chip's binary object)
-    TLS->>H: TlsSign(key, handshake digest)
-    H->>S: ECDSASign (secure messaging)
-    S-->>H: signature
-    H-->>TLS: DER signature
-    TLS->>Srv: CertificateVerify
-```
+<!-- figure: tls-sign-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/tls-sign-call.dark.svg">
+  <img src="../diagrams/tls-sign-call.svg"
+    alt="Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read
+    from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as
+    CertificateVerify.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:tls"

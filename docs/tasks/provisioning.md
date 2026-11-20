@@ -5,17 +5,15 @@ keys, record the identity, get the certificates, create the floors, and only the
 locks are irreversible; the driver compiles them only with `SE05X_ENABLE_IRREVERSIBLE=1` and applies each only with a
 plan a person read and a typed confirmation ([Irreversible operations](../irreversible.md)).
 
-```mermaid
-flowchart TD
-    O["Open with the product's platform keys<br/>(never the vendor defaults)"] --> P["CheckPlan, then Provision<br/>sign, TLS, agree keys"]
-    P --> I["FactoryRecord: Identify,<br/>public keys, attestation"]
-    I --> C["CSR, certificates, trust anchor"]
-    C --> F["CreateCounter: anti-rollback floors"]
-    F --> S["Store: network credentials"]
-    S --> L{"Lock?"}
-    L -- "plan, read, confirm" --> X["Irreversible: RequirePlatformScp,<br/>SetLockStatePersistent, DisableObjectCreation"]
-    L -- "not yet" --> D["Ship unlocked (development only)"]
-```
+<!-- figure: provisioning-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/provisioning-flow.dark.svg">
+  <img src="../diagrams/provisioning-flow.svg"
+    alt="Flow of factory provisioning: open with the product's platform keys, provision keys, record the
+    identity, install certificates, create counters and store credentials, then either lock the device
+    or ship it unlocked for development.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:identity"

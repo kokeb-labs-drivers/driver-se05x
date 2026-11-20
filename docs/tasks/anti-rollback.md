@@ -4,14 +4,14 @@ A counter in the chip only counts up (WriteCounter, AN12543 p. 84). Use it as a 
 than the floor, and after a new image has booted and passed its self test, raise the floor to its version. An attacker
 with full control of the host can neither count down nor delete the floor.
 
-```mermaid
-flowchart TD
-    B["Boot image version v"] --> C{"CheckFloor(floor, v)"}
-    C -- "v below the floor: PolicyDenied" --> R["Refuse the image, boot the fallback"]
-    C -- "Ok" --> T["Run the self test"]
-    T -- "passed" --> U["RaiseCounterTo(floor, v): one command"]
-    T -- "failed" --> R
-```
+<!-- figure: rollback-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/rollback-flow.dark.svg">
+  <img src="../diagrams/rollback-flow.svg"
+    alt="Flow of the boot check: the image version is compared with the floor, an older image is refused, and
+    a newer one runs the self test and then raises the floor in one command.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:counters"
