@@ -19,3 +19,5 @@ platforms: [host, esp32]
 local:
   - path: .github/workflows/ci-cpp-lint.yml
     reason: 'the lint timeout is 45 minutes and tools/oracle and examples/psa (needs MbedTLS) are not in the compile database'
+  - path: .github/workflows/ci-misra.yml
+    reason: '233 translation units per configuration: the scan needs 240 minutes and four parallel jobs'
