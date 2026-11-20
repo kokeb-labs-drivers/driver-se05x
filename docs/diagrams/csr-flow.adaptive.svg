@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1129" height="544" viewBox="0 0 1129 544" role="img" aria-labelledby="csr-flow-title csr-flow-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" class="fk">
+<title id="csr-flow-title">From a device key to a stored certificate</title>
+<desc id="csr-flow-desc">The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies on every boot.</desc>
+<style>
+.fk{--fk-amber-soft:#F1CF93;--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-canvas:#FFFFFF;--fk-frame:#E2E7EE;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-line:#738093;--fk-magenta-strong:#A21CAF;--fk-magenta-text:#86198F;--fk-magenta-tint:#FDF0FF;--fk-muted:#566070;--fk-rail:#7C8798;}
+@media (prefers-color-scheme:dark){.fk{--fk-amber-soft:#6A5220;--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-canvas:#0E131A;--fk-frame:#283241;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-line:#6C7889;--fk-magenta-strong:#F0ABFC;--fk-magenta-text:#F5D0FE;--fk-magenta-tint:#2E1533;--fk-muted:#9AA6B5;--fk-rail:#6C7889;}}
+:root[data-theme="dark"] .fk,[data-md-color-scheme="slate"] .fk{--fk-amber-soft:#6A5220;--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-canvas:#0E131A;--fk-frame:#283241;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-line:#6C7889;--fk-magenta-strong:#F0ABFC;--fk-magenta-text:#F5D0FE;--fk-magenta-tint:#2E1533;--fk-muted:#9AA6B5;--fk-rail:#6C7889;}
+:root[data-theme="light"] .fk,[data-md-color-scheme="default"] .fk{--fk-amber-soft:#F1CF93;--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-canvas:#FFFFFF;--fk-frame:#E2E7EE;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-line:#738093;--fk-magenta-strong:#A21CAF;--fk-magenta-text:#86198F;--fk-magenta-tint:#FDF0FF;--fk-muted:#566070;--fk-rail:#7C8798;}
+.fk-f-amber-soft{fill:var(--fk-amber-soft)}.fk-s-amber-soft{stroke:var(--fk-amber-soft)}
+.fk-f-amber-strong{fill:var(--fk-amber-strong)}.fk-s-amber-strong{stroke:var(--fk-amber-strong)}
+.fk-f-amber-text{fill:var(--fk-amber-text)}.fk-s-amber-text{stroke:var(--fk-amber-text)}
+.fk-f-amber-tint{fill:var(--fk-amber-tint)}.fk-s-amber-tint{stroke:var(--fk-amber-tint)}
+.fk-f-canvas{fill:var(--fk-canvas)}.fk-s-canvas{stroke:var(--fk-canvas)}
+.fk-f-frame{fill:var(--fk-frame)}.fk-s-frame{stroke:var(--fk-frame)}
+.fk-f-hair{fill:var(--fk-hair)}.fk-s-hair{stroke:var(--fk-hair)}
+.fk-f-ink{fill:var(--fk-ink)}.fk-s-ink{stroke:var(--fk-ink)}
+.fk-f-line{fill:var(--fk-line)}.fk-s-line{stroke:var(--fk-line)}
+.fk-f-magenta-strong{fill:var(--fk-magenta-strong)}.fk-s-magenta-strong{stroke:var(--fk-magenta-strong)}
+.fk-f-magenta-text{fill:var(--fk-magenta-text)}.fk-s-magenta-text{stroke:var(--fk-magenta-text)}
+.fk-f-magenta-tint{fill:var(--fk-magenta-tint)}.fk-s-magenta-tint{stroke:var(--fk-magenta-tint)}
+.fk-f-muted{fill:var(--fk-muted)}.fk-s-muted{stroke:var(--fk-muted)}
+.fk-f-rail{fill:var(--fk-rail)}.fk-s-rail{stroke:var(--fk-rail)}
+@media (forced-colors:active){.fk text{fill:CanvasText}.fk rect,.fk circle{fill:Canvas;stroke:CanvasText}.fk path{stroke:CanvasText}.fk marker path{fill:CanvasText;stroke:none}}
+</style>
+<defs><marker id="csr-flow-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fk-f-rail"/></marker></defs>
+<rect x="0.5" y="0.5" width="1128" height="543" rx="16" class="fk-f-canvas fk-s-frame"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" class="fk-f-ink">From a device key to a stored certificate</text>
+<rect x="32" y="70.8" width="1065" height="1" class="fk-f-hair"/>
+<path d="M104.6 144.8 L104.6 530.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M329 144.8 L329 530.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M596.6 144.8 L596.6 530.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M1024.4 144.8 L1024.4 530.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M600.6 180.8 L1020.4 180.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M600.6 224.8 L1020.4 224.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M592.6 268.8 L333 268.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M325 312.8 L108.6 312.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M108.6 356.8 L325 356.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M333 400.8 L592.6 400.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M600.6 444.8 L1020.4 444.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)" class="fk-s-rail"/>
+<rect x="39.6" y="88.8" width="130" height="52" rx="10" stroke-width="1.4" class="fk-f-magenta-tint fk-s-magenta-strong"/>
+<rect x="39.6" y="96.8" width="4" height="36" rx="2" class="fk-f-magenta-strong"/>
+<rect x="249.4" y="88.8" width="159" height="52" rx="10" stroke-width="1.4" class="fk-f-magenta-tint fk-s-magenta-strong"/>
+<rect x="249.4" y="96.8" width="4" height="36" rx="2" class="fk-f-magenta-strong"/>
+<rect x="511.8" y="88.8" width="169.7" height="52" rx="10" stroke-width="1.4" class="fk-f-magenta-tint fk-s-magenta-strong"/>
+<rect x="511.8" y="96.8" width="4" height="36" rx="2" class="fk-f-magenta-strong"/>
+<rect x="959.4" y="88.8" width="130" height="52" rx="10" stroke-width="1.4" class="fk-f-amber-tint fk-s-amber-strong"/>
+<rect x="959.4" y="96.8" width="4" height="36" rx="2" class="fk-f-amber-strong"/>
+<rect x="526.6" y="472.8" width="567.8" height="41" rx="10" stroke-width="1" class="fk-f-amber-tint fk-s-amber-soft"/>
+<text x="107.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-magenta-text">Your CA</text>
+<text x="332" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-magenta-text">Factory station</text>
+<text x="599.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-magenta-text">Device firmware</text>
+<text x="1027.4" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-amber-text">SE05x</text>
+<rect x="680.5" y="156.8" width="259.9" height="20" rx="10" class="fk-f-canvas"/>
+<text x="810.5" y="171.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">generate the device key (inside the chip)</text>
+<rect x="707.1" y="200.8" width="206.9" height="20" rx="10" class="fk-f-canvas"/>
+<text x="810.5" y="215.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">sign the CSR body (ECDSASign)</text>
+<rect x="337" y="244.8" width="251.7" height="20" rx="10" class="fk-f-canvas"/>
+<text x="462.8" y="259.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">CSR with the unique id as serialNumber</text>
+<rect x="197.9" y="288.8" width="37.8" height="20" rx="10" class="fk-f-canvas"/>
+<text x="216.8" y="303.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">CSR</text>
+<rect x="112.6" y="332.8" width="208.4" height="20" rx="10" class="fk-f-canvas"/>
+<text x="216.8" y="347.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">device certificate, CA certificate</text>
+<rect x="407.1" y="376.8" width="111.4" height="20" rx="10" class="fk-f-canvas"/>
+<text x="462.8" y="391.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">both certificates</text>
+<rect x="604.6" y="420.8" width="411.8" height="20" rx="10" class="fk-f-canvas"/>
+<text x="810.5" y="435.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">WriteBinary: certificate and trust anchor (nobody may write them)</text>
+<text x="540.6" y="497.9" font-size="13" class="fk-f-amber-text">every boot: read both back, verify the chain</text>
+</svg>

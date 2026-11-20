@@ -5,19 +5,15 @@ you store and can rewrite what the chip answers. Platform SCP03 (GlobalPlatform 
 manager; AN13030 p. 152) encrypts and MACs both directions with session keys derived from static keys only your
 crypto port holds. An AESKey session does the same per applet session (AN12543 3.6, pp. 33-35).
 
-```mermaid
-sequenceDiagram
-    participant D as Device::Open
-    participant C as Crypto port
-    participant S as SE05x card manager
-    D->>C: host challenge (Random)
-    D->>S: INITIALIZE UPDATE (host challenge)
-    S-->>D: card challenge, card cryptogram
-    D->>C: derive S-ENC, S-MAC, S-RMAC (CMAC KDF)
-    D->>D: check the card cryptogram
-    D->>S: EXTERNAL AUTHENTICATE (host cryptogram, level)
-    Note over D,S: from here every command: C-MAC (+ C-DEC); every answer: R-MAC (+ R-ENC)
-```
+<!-- figure: scp03-open -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/scp03-open.dark.svg">
+  <img src="../diagrams/scp03-open.svg"
+    alt="Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the
+    card's reply, checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command
+    and answer is protected.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:open-secure"

@@ -2,12 +2,14 @@
 
 From nothing to a chip that signs, in four steps. Steps 1 and 2 need no hardware.
 
-```mermaid
-flowchart LR
-    A["0-3 min<br/>run the host example"] --> B["3-6 min<br/>read what it did"]
-    B --> C["6-11 min<br/>wire the chip"]
-    C --> D["11-15 min<br/>flash the ESP32 example"]
-```
+<!-- figure: first-15-minutes -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/first-15-minutes.dark.svg">
+  <img src="diagrams/first-15-minutes.svg"
+    alt="The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to
+    minute 6, wire the chip to minute 11 and flash the ESP32 example to minute 15.">
+</picture>
+<!-- /figure -->
 
 ## 0 to 3 minutes: run the host example
 

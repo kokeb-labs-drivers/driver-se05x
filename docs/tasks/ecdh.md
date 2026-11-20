@@ -4,20 +4,15 @@ Agree a shared secret with a peer: the chip combines its private key with the pe
 32-byte x coordinate of the shared point (ECDHGenerateSharedSecret, AN12543 p. 105). Derive a session key from it
 (HKDF on the host) and encrypt with that key; the private half of the agreement key never leaves the chip.
 
-```mermaid
-sequenceDiagram
-    participant P as Peer
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F->>H: Provision<KeyUse::Agree>(slot 1) (once)
-    P->>F: peer public key
-    F->>H: Agree(key, peer, SecretBuffer)
-    H->>S: ECDHGenerateSharedSecret (encrypted both ways)
-    S-->>H: shared secret (R-ENC, R-MAC)
-    H-->>F: SecretBuffer, wiped on failure and at scope end
-    Note over F: HKDF, then AES-GCM with the derived key
-```
+<!-- figure: agree-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/agree-call.dark.svg">
+  <img src="../diagrams/agree-call.svg"
+    alt="ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key,
+    and Agree has the chip compute the shared secret under encryption both ways and return it in a
+    SecretBuffer that wipes itself.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:ecdh"

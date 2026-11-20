@@ -4,21 +4,14 @@ Keep the network passphrase, a cloud token or a configuration blob in a binary o
 flash. The object's policy requires secure messaging for every read, write and delete (AN12543 Table 63, pp. 66-67;
 WriteBinary, AN12543 p. 84; ReadObject, p. 89), and the facade sends it only over a channel that encrypts both ways.
 
-```mermaid
-sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    Note over F,S: provisioning, once
-    F->>H: Store(slot 1, passphrase, Secret)
-    H->>S: CheckObjectExists, WriteBinary (encrypted, MACed)
-    S-->>H: 9000 (R-MAC checked)
-    Note over F,S: every boot
-    F->>H: Load(slot 1, buffer, Secret)
-    H->>S: ReadSize, ReadObject (encrypted)
-    S-->>H: the bytes (R-ENC, R-MAC)
-    H-->>F: SecretBuffer, wiped when it goes out of scope
-```
+<!-- figure: store-load-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/store-load-call.dark.svg">
+  <img src="../diagrams/store-load-call.svg"
+    alt="Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load
+    reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:wifi"

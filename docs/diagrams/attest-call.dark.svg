@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="786" height="499" viewBox="0 0 786 499" role="img" aria-labelledby="attest-call-title attest-call-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="attest-call-title">An attested read</title>
+<desc id="attest-call-desc">An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation, and checks the command hash, the signature, a later timestamp and the unique id on the host before it returns a Verified result.</desc>
+<defs><marker id="attest-call-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="785" height="498" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#E8EDF3">An attested read</text>
+<rect x="32" y="70.8" width="722" height="1" fill="#252F3C"/>
+<path d="M104.8 144.8 L104.8 502.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M356.2 144.8 L356.2 502.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M681.2 144.8 L681.2 502.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M108.8 180.8 L352.2 180.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#attest-call-arrow-rail)"/>
+<path d="M360.2 276.8 L677.2 276.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#attest-call-arrow-rail)"/>
+<path d="M677.2 320.8 L360.2 320.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#attest-call-arrow-rail)"/>
+<path d="M352.2 468.8 L108.8 468.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#attest-call-arrow-rail)"/>
+<rect x="39.8" y="88.8" width="130" height="52" rx="10" fill="#2E1533" stroke="#F0ABFC" stroke-width="1.4"/>
+<rect x="39.8" y="96.8" width="4" height="36" rx="2" fill="#F0ABFC"/>
+<rect x="287.1" y="88.8" width="138.2" height="52" rx="10" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<rect x="287.1" y="96.8" width="4" height="36" rx="2" fill="#4ADE80"/>
+<rect x="616.2" y="88.8" width="130" height="52" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="616.2" y="96.8" width="4" height="36" rx="2" fill="#FBBF24"/>
+<rect x="34.8" y="208.8" width="716.4" height="41" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<rect x="34.8" y="348.8" width="716.4" height="41" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<rect x="34.8" y="400.8" width="716.4" height="41" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<text x="107.8" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#F5D0FE">Firmware</text>
+<text x="359.2" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#BBF7D0">hrot::Device</text>
+<text x="684.2" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#FDE68A">SE05x</text>
+<rect x="112.8" y="156.8" width="235.3" height="20" rx="10" fill="#0E131A"/>
+<text x="230.5" y="171.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Attest(trusted attestation key, slot 0)</text>
+<text x="48.8" y="233.9" font-size="13" fill="#FDE68A">hrot::Device: fresh 16-byte nonce from the host crypto port</text>
+<rect x="403.4" y="252.8" width="230.5" height="20" rx="10" fill="#0E131A"/>
+<text x="518.7" y="267.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">ReadObject with attestation (nonce)</text>
+<rect x="364.2" y="296.8" width="309" height="20" rx="10" fill="#0E131A"/>
+<text x="518.7" y="311.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">value, unique id, timestamp, attributes, signature</text>
+<text x="48.8" y="373.9" font-size="13" fill="#FDE68A">hrot::Device: check the command hash and the signature over the TLVs as returned</text>
+<text x="48.8" y="425.9" font-size="13" fill="#FDE68A">hrot::Device: check a later timestamp and the unique id against this open's read</text>
+<rect x="113.2" y="444.8" width="234.6" height="20" rx="10" fill="#0E131A"/>
+<text x="230.5" y="459.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">Verified&lt;AttestedValue&gt;, or an error</text>
+</svg>

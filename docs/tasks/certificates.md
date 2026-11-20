@@ -4,21 +4,15 @@ The optional `se05x::pki` layer builds a certification request (PKCS#10, RFC 298
 stores the certificate your CA issues and the CA certificate as the trust anchor in binary objects, and verifies the
 chain at boot. See [Certificates (PKI)](../pki.md) for the whole layer.
 
-```mermaid
-sequenceDiagram
-    participant F as Factory station
-    participant D as Device firmware
-    participant S as SE05x
-    participant CA as Your CA
-    D->>S: generate the device key (inside the chip)
-    D->>S: sign the CSR body (ECDSASign)
-    D->>F: CSR with the unique id as serialNumber
-    F->>CA: CSR
-    CA-->>F: device certificate, CA certificate
-    F->>D: both certificates
-    D->>S: WriteBinary: certificate and trust anchor (nobody may write them)
-    Note over D,S: every boot: read both back, verify the chain
-```
+<!-- figure: csr-flow -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/csr-flow.dark.svg">
+  <img src="../diagrams/csr-flow.svg"
+    alt="The certificate flow: the chip generates the device key and signs the CSR body, the factory station
+    has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it
+    reads back and verifies on every boot.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/pki_recipes.hpp:generate"

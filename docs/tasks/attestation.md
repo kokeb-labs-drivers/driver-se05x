@@ -5,18 +5,15 @@ signature by an attestation key; a format 2 signature covers the hash of the com
 returned TLVs (AN12543 3.2.7.2, p. 19). `hrot::Device::Attest` checks that answer **on the host**: your firmware
 learns that the value came, unchanged and fresh, from a chip that holds the attestation key you trust.
 
-```mermaid
-sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F->>H: Attest(trusted attestation key, slot 0)
-    H->>H: fresh 16-byte nonce from the host crypto port
-    H->>S: ReadObject with attestation (nonce)
-    S-->>H: value, unique id, timestamp, attributes, signature
-    H->>H: check the command hash, the signature over the TLVs as returned,<br/>a later timestamp, the unique id against this open's read
-    H-->>F: Verified<AttestedValue>, or an error
-```
+<!-- figure: attest-call -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../diagrams/attest-call.dark.svg">
+  <img src="../diagrams/attest-call.svg"
+    alt="An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation,
+    and checks the command hash, the signature, a later timestamp and the unique id on the host before
+    it returns a Verified result.">
+</picture>
+<!-- /figure -->
 
 ```cpp
 --8<-- "tests/docs/jobs.hpp:attest"
