@@ -16,4 +16,6 @@ author: "The driver-se05x authors"
 license: "MIT"
 datasheet: "https://www.nxp.com/docs/en/data-sheet/SE050-DATASHEET.pdf"
 platforms: [host, esp32]
-local: []
+local:
+  - path: .github/workflows/ci-cpp-lint.yml
+    reason: 'the lint timeout is 45 minutes and tools/oracle and examples/psa (needs MbedTLS) are not in the compile database'
