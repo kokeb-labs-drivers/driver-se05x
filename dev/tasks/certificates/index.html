@@ -1553,19 +1553,16 @@
 <p>The optional <code>se05x::pki</code> layer builds a certification request (PKCS#10, RFC 2986) signed by the key in the chip,
 stores the certificate your CA issues and the CA certificate as the trust anchor in binary objects, and verifies the
 chain at boot. See <a href="../../pki/">Certificates (PKI)</a> for the whole layer.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant F as Factory station
-    participant D as Device firmware
-    participant S as SE05x
-    participant CA as Your CA
-    D-&gt;&gt;S: generate the device key (inside the chip)
-    D-&gt;&gt;S: sign the CSR body (ECDSASign)
-    D-&gt;&gt;F: CSR with the unique id as serialNumber
-    F-&gt;&gt;CA: CSR
-    CA--&gt;&gt;F: device certificate, CA certificate
-    F-&gt;&gt;D: both certificates
-    D-&gt;&gt;S: WriteBinary: certificate and trust anchor (nobody may write them)
-    Note over D,S: every boot: read both back, verify the chain</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/csr-flow.svg#only-light" alt="The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies on every boot." width="1129" height="544"><img src="../../diagrams/csr-flow.dark.svg#only-dark" alt="The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies on every boot." width="1129" height="544">
+<figcaption>From a device key to a stored certificate</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Your CA, Factory station, Device firmware and SE05x. The steps run from top to bottom. Device firmware sends generate the device key (inside the chip) to SE05x. Device firmware sends sign the CSR body (ECDSASign) to SE05x. Device firmware sends CSR with the unique id as serialNumber to Factory station. Factory station sends CSR to Your CA. Your CA returns device certificate, CA certificate to Factory station. Factory station sends both certificates to Device firmware. Device firmware sends WriteBinary: certificate and trust anchor (nobody may write them) to SE05x. A note over Device firmware and SE05x says: every boot: read both back, verify the chain.</p>
+<p>Drawn from: <a href="../../model/csr-flow.seq.yml"><code>docs/model/csr-flow.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Step 1: generate the device key inside the chip and read its public half. The policy lets</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">/// anybody sign with it under secure messaging and nobody write, delete or regenerate it.</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">AppletGeneration</span><span class="w"> </span><span class="n">G</span><span class="p">,</span><span class="w"> </span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>

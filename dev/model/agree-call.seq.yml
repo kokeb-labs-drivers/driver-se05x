@@ -1,0 +1,31 @@
+---
+# Model of the figure 'agree-call'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: agree-call
+title: "ECDH key agreement"
+alt: >-
+  ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key, and Agree has
+  the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself.
+reads: >-
+  Participants, left to right: Peer, Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware
+  sends Provision<KeyUse::Agree>(slot 1) (once) to hrot::Device. Peer sends peer public key to Firmware. Firmware
+  sends Agree(key, peer, SecretBuffer) to hrot::Device. hrot::Device sends ECDHGenerateSharedSecret (encrypted
+  both ways) to SE05x. SE05x returns shared secret (R-ENC, R-MAC) to hrot::Device. hrot::Device returns
+  SecretBuffer, wiped on failure and at scope end to Firmware. A note over Firmware and hrot::Device says: HKDF,
+  then AES-GCM with the derived key.
+print: landscape
+sources:
+  - docs/model/agree-call.seq.yml
+participants:
+  - {id: p, label: "Peer", tone: amber}
+  - {id: f, label: "Firmware", tone: magenta}
+  - {id: h, label: "hrot::Device", tone: green}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {from: f, to: h, label: "Provision<KeyUse::Agree>(slot 1) (once)"}
+  - {from: p, to: f, label: "peer public key"}
+  - {from: f, to: h, label: "Agree(key, peer, SecretBuffer)"}
+  - {from: h, to: s, label: "ECDHGenerateSharedSecret (encrypted both ways)"}
+  - {from: s, to: h, label: "shared secret (R-ENC, R-MAC)", return: true}
+  - {from: h, to: f, label: "SecretBuffer, wiped on failure and at scope end", return: true}
+  - {note: "HKDF, then AES-GCM with the derived key", over: [f, h]}

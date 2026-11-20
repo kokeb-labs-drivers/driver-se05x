@@ -1576,16 +1576,16 @@
 signature by an attestation key; a format 2 signature covers the hash of the command the chip received and the
 returned TLVs (AN12543 3.2.7.2, p. 19). <code>hrot::Device::Attest</code> checks that answer <strong>on the host</strong>: your firmware
 learns that the value came, unchanged and fresh, from a chip that holds the attestation key you trust.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F-&gt;&gt;H: Attest(trusted attestation key, slot 0)
-    H-&gt;&gt;H: fresh 16-byte nonce from the host crypto port
-    H-&gt;&gt;S: ReadObject with attestation (nonce)
-    S--&gt;&gt;H: value, unique id, timestamp, attributes, signature
-    H-&gt;&gt;H: check the command hash, the signature over the TLVs as returned,&lt;br/&gt;a later timestamp, the unique id against this open's read
-    H--&gt;&gt;F: Verified&lt;AttestedValue&gt;, or an error</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/attest-call.svg#only-light" alt="An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation, and checks the command hash, the signature, a later timestamp and the unique id on the host before it returns a Verified result." width="786" height="499"><img src="../../diagrams/attest-call.dark.svg#only-dark" alt="An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation, and checks the command hash, the signature, a later timestamp and the unique id on the host before it returns a Verified result." width="786" height="499">
+<figcaption>An attested read</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Attest(trusted attestation key, slot 0) to hrot::Device. A note over Firmware and hrot::Device and SE05x says: hrot::Device: fresh 16-byte nonce from the host crypto port. hrot::Device sends ReadObject with attestation (nonce) to SE05x. SE05x returns value, unique id, timestamp, attributes, signature to hrot::Device. A note over Firmware and hrot::Device and SE05x says: hrot::Device: check the command hash and the signature over the TLVs as returned. A note over Firmware and hrot::Device and SE05x says: hrot::Device: check a later timestamp and the unique id against this open's read. hrot::Device returns Verified<AttestedValue>, or an error to Firmware.</p>
+<p>Drawn from: <a href="../../model/attest-call.seq.yml"><code>docs/model/attest-call.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Prove that the key in slot 0 lives in this chip. `vendor_public` must come from a verified</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">/// certificate (the se05x::pki layer) or your factory record, never from the same chip.</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>

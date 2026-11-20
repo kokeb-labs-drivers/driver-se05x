@@ -1553,18 +1553,16 @@
 <p>Agree a shared secret with a peer: the chip combines its private key with the peer's public key and returns the
 32-byte x coordinate of the shared point (ECDHGenerateSharedSecret, AN12543 p. 105). Derive a session key from it
 (HKDF on the host) and encrypt with that key; the private half of the agreement key never leaves the chip.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant P as Peer
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F-&gt;&gt;H: Provision&lt;KeyUse::Agree&gt;(slot 1) (once)
-    P-&gt;&gt;F: peer public key
-    F-&gt;&gt;H: Agree(key, peer, SecretBuffer)
-    H-&gt;&gt;S: ECDHGenerateSharedSecret (encrypted both ways)
-    S--&gt;&gt;H: shared secret (R-ENC, R-MAC)
-    H--&gt;&gt;F: SecretBuffer, wiped on failure and at scope end
-    Note over F: HKDF, then AES-GCM with the derived key</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/agree-call.svg#only-light" alt="ECDH key agreement: the firmware provisions an agreement key once, receives the peer&#x27;s public key, and Agree has the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself." width="1042" height="500"><img src="../../diagrams/agree-call.dark.svg#only-dark" alt="ECDH key agreement: the firmware provisions an agreement key once, receives the peer&#x27;s public key, and Agree has the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself." width="1042" height="500">
+<figcaption>ECDH key agreement</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Peer, Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Provision<KeyUse::Agree>(slot 1) (once) to hrot::Device. Peer sends peer public key to Firmware. Firmware sends Agree(key, peer, SecretBuffer) to hrot::Device. hrot::Device sends ECDHGenerateSharedSecret (encrypted both ways) to SE05x. SE05x returns shared secret (R-ENC, R-MAC) to hrot::Device. hrot::Device returns SecretBuffer, wiped on failure and at scope end to Firmware. A note over Firmware and hrot::Device says: HKDF, then AES-GCM with the derived key.</p>
+<p>Drawn from: <a href="../../model/agree-call.seq.yml"><code>docs/model/agree-call.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Agree a secret with a peer. The key lives in slot 1; the secret is wiped when `shared` goes.</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Error</span><span class="w"> </span><span class="n">AgreeWithPeer</span><span class="p">(</span><span class="n">hrot</span><span class="o">::</span><span class="n">Device</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">hrot</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">hrot</span><span class="o">::</span><span class="n">EcPublicKey</span><span class="o">&amp;</span><span class="w"> </span><span class="n">peer</span><span class="p">,</span>

@@ -1553,12 +1553,16 @@
 <p>A counter in the chip only counts up (WriteCounter, AN12543 p. 84). Use it as a floor: at boot refuse an image older
 than the floor, and after a new image has booted and passed its self test, raise the floor to its version. An attacker
 with full control of the host can neither count down nor delete the floor.</p>
-<pre class="mermaid"><code>flowchart TD
-    B["Boot image version v"] --&gt; C{"CheckFloor(floor, v)"}
-    C -- "v below the floor: PolicyDenied" --&gt; R["Refuse the image, boot the fallback"]
-    C -- "Ok" --&gt; T["Run the self test"]
-    T -- "passed" --&gt; U["RaiseCounterTo(floor, v): one command"]
-    T -- "failed" --&gt; R</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/rollback-flow.svg#only-light" alt="Flow of the boot check: the image version is compared with the floor, an older image is refused, and a newer one runs the self test and then raises the floor in one command." width="654" height="560"><img src="../../diagrams/rollback-flow.dark.svg#only-dark" alt="Flow of the boot check: the image version is compared with the floor, an older image is refused, and a newer one runs the self test and then raises the floor in one command." width="654" height="560">
+<figcaption>The anti-rollback boot check</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Boot image version v enters the check CheckFloor(floor, v). If v is below the floor the answer is PolicyDenied and the flow ends at Refuse the image, boot the fallback. If the answer is Ok the flow continues to Run the self test. When the test passed, RaiseCounterTo(floor, v) raises the floor in one command. When it failed, the flow also ends at Refuse the image, boot the fallback.</p>
+<p>Drawn from: <a href="../../model/rollback-flow.graph.yml"><code>docs/model/rollback-flow.graph.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// The anti-rollback check at boot: refuse an image older than one that ran before.</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Error</span><span class="w"> </span><span class="n">BootCheck</span><span class="p">(</span><span class="n">hrot</span><span class="o">::</span><span class="n">Device</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">hrot</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">image_version</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>

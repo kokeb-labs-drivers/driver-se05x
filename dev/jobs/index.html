@@ -1224,17 +1224,16 @@
 uses but can never read out, and that signs, agrees keys, counts and attests on its behalf (SE050 data sheet section
 3, p. 6; AN12543 section 3, pp. 6-47). Pick what you want the chip to do; each guide has a diagram, compiled code, what
 it protects against, what to do when a call fails, and a bench step.</p>
-<pre class="mermaid"><code>flowchart LR
-    FW["Your firmware"] -- "I2C, T=1, SCP03" --&gt; SE["SE05x"]
-    SE --&gt; ROT["Root of trust:&lt;br/&gt;a device identity key&lt;br/&gt;that never leaves"]
-    SE --&gt; STORE["Secret storage:&lt;br/&gt;Wi-Fi passphrase, tokens,&lt;br/&gt;configuration"]
-    SE --&gt; PKI["Certificates and signing:&lt;br/&gt;CSR, chain, ECDSA"]
-    SE --&gt; TLS["TLS and mutual-auth&lt;br/&gt;client credentials"]
-    SE --&gt; ECDH["Key agreement:&lt;br/&gt;ECDH with a peer"]
-    SE --&gt; SCP["Secure sessions:&lt;br/&gt;an encrypted, authenticated bus"]
-    SE --&gt; ATT["Attestation:&lt;br/&gt;a signed answer, checked on the host"]
-    SE --&gt; CNT["Monotonic counters:&lt;br/&gt;anti-rollback floors"]
-    SE --&gt; PROV["Secure provisioning&lt;br/&gt;and lifecycle locks"]</code></pre>
+<figure class="kb-figure">
+<img src="../diagrams/jobs-map.svg#only-light" alt="Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the chip provides a root of trust, secret storage, certificates, TLS credentials, key agreement, secure sessions, attestation, counters and provisioning." width="1052" height="1263"><img src="../diagrams/jobs-map.dark.svg#only-dark" alt="Map of the jobs of the SE05x: your firmware talks to the chip over I2C with T=1 and SCP03, and the chip provides a root of trust, secret storage, certificates, TLS credentials, key agreement, secure sessions, attestation, counters and provisioning." width="1052" height="1263">
+<figcaption>What the chip does for your firmware</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Your firmware connects to the SE05x over I2C, T=1, SCP03. From the SE05x nine jobs follow. Root of trust is a device identity key that never leaves the chip. Secret storage holds a Wi-Fi passphrase, tokens and configuration. Certificates and signing covers CSR, chain and ECDSA. TLS and mutual-auth gives client credentials. Key agreement is ECDH with a peer. Secure sessions make the bus encrypted and authenticated. Attestation is a signed answer, checked on the host. Monotonic counters hold anti-rollback floors. Secure provisioning and lifecycle locks set up and lock a device.</p>
+<p>Drawn from: <a href="../model/jobs-map.graph.yml"><code>docs/model/jobs-map.graph.yml</code></a>.</p>
+</details>
 <table>
 <thead>
 <tr>

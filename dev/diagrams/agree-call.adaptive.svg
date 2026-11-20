@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1042" height="500" viewBox="0 0 1042 500" role="img" aria-labelledby="agree-call-title agree-call-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" class="fk">
+<title id="agree-call-title">ECDH key agreement</title>
+<desc id="agree-call-desc">ECDH key agreement: the firmware provisions an agreement key once, receives the peer's public key, and Agree has the chip compute the shared secret under encryption both ways and return it in a SecretBuffer that wipes itself.</desc>
+<style>
+.fk{--fk-amber-soft:#F1CF93;--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-canvas:#FFFFFF;--fk-frame:#E2E7EE;--fk-green-strong:#15803D;--fk-green-text:#14532D;--fk-green-tint:#EAF7EF;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-line:#738093;--fk-magenta-strong:#A21CAF;--fk-magenta-text:#86198F;--fk-magenta-tint:#FDF0FF;--fk-muted:#566070;--fk-rail:#7C8798;}
+@media (prefers-color-scheme:dark){.fk{--fk-amber-soft:#6A5220;--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-canvas:#0E131A;--fk-frame:#283241;--fk-green-strong:#4ADE80;--fk-green-text:#BBF7D0;--fk-green-tint:#11281A;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-line:#6C7889;--fk-magenta-strong:#F0ABFC;--fk-magenta-text:#F5D0FE;--fk-magenta-tint:#2E1533;--fk-muted:#9AA6B5;--fk-rail:#6C7889;}}
+:root[data-theme="dark"] .fk,[data-md-color-scheme="slate"] .fk{--fk-amber-soft:#6A5220;--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-canvas:#0E131A;--fk-frame:#283241;--fk-green-strong:#4ADE80;--fk-green-text:#BBF7D0;--fk-green-tint:#11281A;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-line:#6C7889;--fk-magenta-strong:#F0ABFC;--fk-magenta-text:#F5D0FE;--fk-magenta-tint:#2E1533;--fk-muted:#9AA6B5;--fk-rail:#6C7889;}
+:root[data-theme="light"] .fk,[data-md-color-scheme="default"] .fk{--fk-amber-soft:#F1CF93;--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-canvas:#FFFFFF;--fk-frame:#E2E7EE;--fk-green-strong:#15803D;--fk-green-text:#14532D;--fk-green-tint:#EAF7EF;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-line:#738093;--fk-magenta-strong:#A21CAF;--fk-magenta-text:#86198F;--fk-magenta-tint:#FDF0FF;--fk-muted:#566070;--fk-rail:#7C8798;}
+.fk-f-amber-soft{fill:var(--fk-amber-soft)}.fk-s-amber-soft{stroke:var(--fk-amber-soft)}
+.fk-f-amber-strong{fill:var(--fk-amber-strong)}.fk-s-amber-strong{stroke:var(--fk-amber-strong)}
+.fk-f-amber-text{fill:var(--fk-amber-text)}.fk-s-amber-text{stroke:var(--fk-amber-text)}
+.fk-f-amber-tint{fill:var(--fk-amber-tint)}.fk-s-amber-tint{stroke:var(--fk-amber-tint)}
+.fk-f-canvas{fill:var(--fk-canvas)}.fk-s-canvas{stroke:var(--fk-canvas)}
+.fk-f-frame{fill:var(--fk-frame)}.fk-s-frame{stroke:var(--fk-frame)}
+.fk-f-green-strong{fill:var(--fk-green-strong)}.fk-s-green-strong{stroke:var(--fk-green-strong)}
+.fk-f-green-text{fill:var(--fk-green-text)}.fk-s-green-text{stroke:var(--fk-green-text)}
+.fk-f-green-tint{fill:var(--fk-green-tint)}.fk-s-green-tint{stroke:var(--fk-green-tint)}
+.fk-f-hair{fill:var(--fk-hair)}.fk-s-hair{stroke:var(--fk-hair)}
+.fk-f-ink{fill:var(--fk-ink)}.fk-s-ink{stroke:var(--fk-ink)}
+.fk-f-line{fill:var(--fk-line)}.fk-s-line{stroke:var(--fk-line)}
+.fk-f-magenta-strong{fill:var(--fk-magenta-strong)}.fk-s-magenta-strong{stroke:var(--fk-magenta-strong)}
+.fk-f-magenta-text{fill:var(--fk-magenta-text)}.fk-s-magenta-text{stroke:var(--fk-magenta-text)}
+.fk-f-magenta-tint{fill:var(--fk-magenta-tint)}.fk-s-magenta-tint{stroke:var(--fk-magenta-tint)}
+.fk-f-muted{fill:var(--fk-muted)}.fk-s-muted{stroke:var(--fk-muted)}
+.fk-f-rail{fill:var(--fk-rail)}.fk-s-rail{stroke:var(--fk-rail)}
+@media (forced-colors:active){.fk text{fill:CanvasText}.fk rect,.fk circle{fill:Canvas;stroke:CanvasText}.fk path{stroke:CanvasText}.fk marker path{fill:CanvasText;stroke:none}}
+</style>
+<defs><marker id="agree-call-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fk-f-rail"/></marker></defs>
+<rect x="0.5" y="0.5" width="1041" height="499" rx="16" class="fk-f-canvas fk-s-frame"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" class="fk-f-ink">ECDH key agreement</text>
+<rect x="32" y="70.8" width="978" height="1" class="fk-f-hair"/>
+<path d="M104.6 144.8 L104.6 486.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M274.6 144.8 L274.6 486.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M593.3 144.8 L593.3 486.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M937.4 144.8 L937.4 486.8" fill="none" stroke-width="1.2" stroke-dasharray="5 5" class="fk-s-line"/>
+<path d="M278.6 180.8 L589.3 180.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<path d="M108.6 224.8 L270.6 224.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<path d="M278.6 268.8 L589.3 268.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<path d="M597.3 312.8 L933.4 312.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<path d="M933.4 356.8 L597.3 356.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<path d="M589.3 400.8 L278.6 400.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#agree-call-arrow-rail)" class="fk-s-rail"/>
+<rect x="39.6" y="88.8" width="130" height="52" rx="10" stroke-width="1.4" class="fk-f-amber-tint fk-s-amber-strong"/>
+<rect x="39.6" y="96.8" width="4" height="36" rx="2" class="fk-f-amber-strong"/>
+<rect x="209.6" y="88.8" width="130" height="52" rx="10" stroke-width="1.4" class="fk-f-magenta-tint fk-s-magenta-strong"/>
+<rect x="209.6" y="96.8" width="4" height="36" rx="2" class="fk-f-magenta-strong"/>
+<rect x="524.2" y="88.8" width="138.2" height="52" rx="10" stroke-width="1.4" class="fk-f-green-tint fk-s-green-strong"/>
+<rect x="524.2" y="96.8" width="4" height="36" rx="2" class="fk-f-green-strong"/>
+<rect x="872.4" y="88.8" width="130" height="52" rx="10" stroke-width="1.4" class="fk-f-amber-tint fk-s-amber-strong"/>
+<rect x="872.4" y="96.8" width="4" height="36" rx="2" class="fk-f-amber-strong"/>
+<rect x="204.6" y="428.8" width="458.7" height="41" rx="10" stroke-width="1" class="fk-f-amber-tint fk-s-amber-soft"/>
+<text x="107.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-amber-text">Peer</text>
+<text x="277.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-magenta-text">Firmware</text>
+<text x="596.3" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-green-text">hrot::Device</text>
+<text x="940.4" y="119.3" font-size="15" font-weight="700" text-anchor="middle" class="fk-f-amber-text">SE05x</text>
+<rect x="303.8" y="156.8" width="260.4" height="20" rx="10" class="fk-f-canvas"/>
+<text x="434" y="171.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">Provision&lt;KeyUse::Agree&gt;(slot 1) (once)</text>
+<rect x="136.9" y="200.8" width="105.5" height="20" rx="10" class="fk-f-canvas"/>
+<text x="189.6" y="215.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">peer public key</text>
+<rect x="334" y="244.8" width="200.1" height="20" rx="10" class="fk-f-canvas"/>
+<text x="434" y="259.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">Agree(key, peer, SecretBuffer)</text>
+<rect x="601.3" y="288.8" width="328" height="20" rx="10" class="fk-f-canvas"/>
+<text x="765.3" y="303.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">ECDHGenerateSharedSecret (encrypted both ways)</text>
+<rect x="665" y="332.8" width="200.6" height="20" rx="10" class="fk-f-canvas"/>
+<text x="765.3" y="347.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">shared secret (R-ENC, R-MAC)</text>
+<rect x="282.6" y="376.8" width="302.7" height="20" rx="10" class="fk-f-canvas"/>
+<text x="434" y="391.1" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">SecretBuffer, wiped on failure and at scope end</text>
+<text x="218.6" y="453.9" font-size="13" class="fk-f-amber-text">HKDF, then AES-GCM with the derived key</text>
+</svg>

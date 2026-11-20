@@ -1,0 +1,29 @@
+---
+# Model of the figure 'rollback-flow'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: graph
+id: rollback-flow
+title: The anti-rollback boot check
+alt: >-
+  Flow of the boot check: the image version is compared with the floor, an older image is refused, and a newer one runs
+  the self test and then raises the floor in one command.
+reads: >-
+  Boot image version v enters the check CheckFloor(floor, v). If v is below the floor the answer is PolicyDenied and
+  the flow ends at Refuse the image, boot the fallback. If the answer is Ok the flow continues to Run the self test.
+  When the test passed, RaiseCounterTo(floor, v) raises the floor in one command. When it failed, the flow also ends
+  at Refuse the image, boot the fallback.
+direction: TB
+print: landscape
+sources:
+  - docs/model/rollback-flow.graph.yml
+nodes:
+  - {id: b, label: Boot image version v, tone: blue}
+  - {id: c, label: "CheckFloor(floor, v)", tone: amber, accent: true}
+  - {id: r, label: Refuse the image, tone: rose, lines: ["boot the fallback"]}
+  - {id: t, label: Run the self test, tone: blue}
+  - {id: u, label: "RaiseCounterTo(floor, v)", tone: green, lines: ["one command"]}
+edges:
+  - {from: b, to: c}
+  - {from: c, to: r, label: "v below the floor: PolicyDenied", dashed: true}
+  - {from: c, to: t, label: Ok}
+  - {from: t, to: u, label: passed}
+  - {from: t, to: r, label: failed, dashed: true}

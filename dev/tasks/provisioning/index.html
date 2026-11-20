@@ -1554,15 +1554,16 @@
 keys, record the identity, get the certificates, create the floors, and only then lock what must never change. The
 locks are irreversible; the driver compiles them only with <code>SE05X_ENABLE_IRREVERSIBLE=1</code> and applies each only with a
 plan a person read and a typed confirmation (<a href="../../irreversible/">Irreversible operations</a>).</p>
-<pre class="mermaid"><code>flowchart TD
-    O["Open with the product's platform keys&lt;br/&gt;(never the vendor defaults)"] --&gt; P["CheckPlan, then Provision&lt;br/&gt;sign, TLS, agree keys"]
-    P --&gt; I["FactoryRecord: Identify,&lt;br/&gt;public keys, attestation"]
-    I --&gt; C["CSR, certificates, trust anchor"]
-    C --&gt; F["CreateCounter: anti-rollback floors"]
-    F --&gt; S["Store: network credentials"]
-    S --&gt; L{"Lock?"}
-    L -- "plan, read, confirm" --&gt; X["Irreversible: RequirePlatformScp,&lt;br/&gt;SetLockStatePersistent, DisableObjectCreation"]
-    L -- "not yet" --&gt; D["Ship unlocked (development only)"]</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/provisioning-flow.svg#only-light" alt="Flow of factory provisioning: open with the product&#x27;s platform keys, provision keys, record the identity, install certificates, create counters and store credentials, then either lock the device or ship it unlocked for development." width="640" height="1168"><img src="../../diagrams/provisioning-flow.dark.svg#only-dark" alt="Flow of factory provisioning: open with the product&#x27;s platform keys, provision keys, record the identity, install certificates, create counters and store credentials, then either lock the device or ship it unlocked for development." width="640" height="1168">
+<figcaption>The factory provisioning flow</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Seven steps in order. Open with the product's platform keys, never the vendor defaults. CheckPlan, then Provision the sign, TLS and agree keys. FactoryRecord: Identify, public keys, attestation. CSR, certificates and trust anchor. CreateCounter makes the anti-rollback floors. Store the network credentials. Then the question Lock? has two answers. Plan, read and confirm leads to Irreversible: RequirePlatformScp, SetLockStatePersistent and DisableObjectCreation. Not yet leads to Ship unlocked, for development only.</p>
+<p>Drawn from: <a href="../../model/provisioning-flow.graph.yml"><code>docs/model/provisioning-flow.graph.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// The factory record: the chip identity and the device public key.</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Error</span><span class="w"> </span><span class="n">FactoryRecord</span><span class="p">(</span><span class="n">hrot</span><span class="o">::</span><span class="n">Device</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">hrot</span><span class="p">,</span><span class="w"> </span><span class="n">hrot</span><span class="o">::</span><span class="n">Identity</span><span class="o">&amp;</span><span class="w"> </span><span class="n">identity</span><span class="p">,</span>

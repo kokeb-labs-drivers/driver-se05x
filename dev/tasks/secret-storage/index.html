@@ -1553,19 +1553,16 @@
 <p>Keep the network passphrase, a cloud token or a configuration blob in a binary object of the chip instead of in
 flash. The object's policy requires secure messaging for every read, write and delete (AN12543 Table 63, pp. 66-67;
 WriteBinary, AN12543 p. 84; ReadObject, p. 89), and the facade sends it only over a channel that encrypts both ways.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    Note over F,S: provisioning, once
-    F-&gt;&gt;H: Store(slot 1, passphrase, Secret)
-    H-&gt;&gt;S: CheckObjectExists, WriteBinary (encrypted, MACed)
-    S--&gt;&gt;H: 9000 (R-MAC checked)
-    Note over F,S: every boot
-    F-&gt;&gt;H: Load(slot 1, buffer, Secret)
-    H-&gt;&gt;S: ReadSize, ReadObject (encrypted)
-    S--&gt;&gt;H: the bytes (R-ENC, R-MAC)
-    H--&gt;&gt;F: SecretBuffer, wiped when it goes out of scope</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/store-load-call.svg#only-light" alt="Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope." width="869" height="579"><img src="../../diagrams/store-load-call.dark.svg#only-dark" alt="Secret storage: Store writes the secret to the chip once, encrypted and MACed, and every boot Load reads it back encrypted and returns it in a SecretBuffer that is wiped when it goes out of scope." width="869" height="579">
+<figcaption>Store a secret, load it at every boot</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. A note over Firmware and SE05x says: provisioning, once. Firmware sends Store(slot 1, passphrase, Secret) to hrot::Device. hrot::Device sends CheckObjectExists, WriteBinary (encrypted, MACed) to SE05x. SE05x returns 9000 (R-MAC checked) to hrot::Device. A note over Firmware and SE05x says: every boot. Firmware sends Load(slot 1, buffer, Secret) to hrot::Device. hrot::Device sends ReadSize, ReadObject (encrypted) to SE05x. SE05x returns the bytes (R-ENC, R-MAC) to hrot::Device. hrot::Device returns SecretBuffer, wiped when it goes out of scope to Firmware.</p>
+<p>Drawn from: <a href="../../model/store-load-call.seq.yml"><code>docs/model/store-load-call.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Keep the Wi-Fi passphrase (or a cloud token) in the chip, written once at provisioning: it</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">/// crosses the bus only encrypted, and the slot refuses a second write (`ObjectExists`).</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>

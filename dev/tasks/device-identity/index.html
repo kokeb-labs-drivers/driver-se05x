@@ -1552,17 +1552,16 @@
 <h1 id="device-identity-generate-a-key-and-sign">Device identity: generate a key and sign<a class="headerlink" href="#device-identity-generate-a-key-and-sign" title="Permanent link">&para;</a></h1>
 <p>Give each device a NIST P-256 key pair generated inside the chip (WriteECKey with no key bytes, AN12543 p. 80). The
 private half never exists outside the chip; the device proves who it is by signing (ECDSASign, AN12543 p. 101).</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant F as Firmware
-    participant H as hrot::Device
-    participant S as SE05x
-    F-&gt;&gt;H: Provision&lt;KeyUse::Sign&gt;(slot 0)
-    H-&gt;&gt;S: CheckObjectExists, WriteECKey (no key bytes, strict policy)
-    Note over S: the key pair is generated inside the chip
-    F-&gt;&gt;H: Sign(key, SHA-256 digest)
-    H-&gt;&gt;S: ECDSASign
-    S--&gt;&gt;H: DER signature (R-MAC checked)
-    H--&gt;&gt;F: Signature</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/sign-call.svg#only-light" alt="Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and Sign sends a SHA-256 digest to the chip, which returns a DER signature checked by its response MAC." width="828" height="483"><img src="../../diagrams/sign-call.dark.svg#only-dark" alt="Device identity: Provision creates a signing key pair inside the chip with no key bytes sent, and Sign sends a SHA-256 digest to the chip, which returns a DER signature checked by its response MAC." width="828" height="483">
+<figcaption>Provision a signing key, then sign</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends Provision<KeyUse::Sign>(slot 0) to hrot::Device. hrot::Device sends CheckObjectExists, WriteECKey (no key bytes, strict policy) to SE05x. A note over SE05x and hrot::Device says: the key pair is generated inside the chip. Firmware sends Sign(key, SHA-256 digest) to hrot::Device. hrot::Device sends ECDSASign to SE05x. SE05x returns DER signature (R-MAC checked) to hrot::Device. hrot::Device returns Signature to Firmware.</p>
+<p>Drawn from: <a href="../../model/sign-call.seq.yml"><code>docs/model/sign-call.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Generate the device key in slot 0 and read its public half.</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Error</span><span class="w"> </span><span class="n">ProvisionDeviceKey</span><span class="p">(</span><span class="n">hrot</span><span class="o">::</span><span class="n">Device</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">hrot</span><span class="p">,</span><span class="w"> </span><span class="n">hrot</span><span class="o">::</span><span class="n">EcPublicKey</span><span class="o">&amp;</span><span class="w"> </span><span class="n">public_key</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>

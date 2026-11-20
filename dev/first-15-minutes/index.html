@@ -1287,10 +1287,16 @@
 
 <h1 id="the-first-15-minutes">The first 15 minutes<a class="headerlink" href="#the-first-15-minutes" title="Permanent link">&para;</a></h1>
 <p>From nothing to a chip that signs, in four steps. Steps 1 and 2 need no hardware.</p>
-<pre class="mermaid"><code>flowchart LR
-    A["0-3 min&lt;br/&gt;run the host example"] --&gt; B["3-6 min&lt;br/&gt;read what it did"]
-    B --&gt; C["6-11 min&lt;br/&gt;wire the chip"]
-    C --&gt; D["11-15 min&lt;br/&gt;flash the ESP32 example"]</code></pre>
+<figure class="kb-figure">
+<img src="../diagrams/first-15-minutes.svg#only-light" alt="The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to minute 6, wire the chip to minute 11 and flash the ESP32 example to minute 15." width="640" height="483"><img src="../diagrams/first-15-minutes.dark.svg#only-dark" alt="The first 15 minutes in four steps: run the host example in minutes 0 to 3, read what it did to minute 6, wire the chip to minute 11 and flash the ESP32 example to minute 15." width="640" height="483">
+<figcaption>The first 15 minutes</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Four steps in order, each with its minutes. Run the host example takes minutes 0 to 3. Read what it did takes minutes 3 to 6. Wire the chip takes minutes 6 to 11. Flash the ESP32 example takes minutes 11 to 15. The first two steps need no hardware.</p>
+<p>Drawn from: <a href="../model/first-15-minutes.graph.yml"><code>docs/model/first-15-minutes.graph.yml</code></a>.</p>
+</details>
 <h2 id="0-to-3-minutes-run-the-host-example">0 to 3 minutes: run the host example<a class="headerlink" href="#0-to-3-minutes-run-the-host-example" title="Permanent link">&para;</a></h2>
 <p>The host example runs every facade job against the simulated chip of the tests: open with platform SCP03, identify,
 provision a key, attest it, sign, seal a configuration and check an anti-rollback floor. From the repository root:</p>

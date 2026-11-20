@@ -1554,17 +1554,16 @@
 you store and can rewrite what the chip answers. Platform SCP03 (GlobalPlatform Amendment D, run by the chip's card
 manager; AN13030 p. 152) encrypts and MACs both directions with session keys derived from static keys only your
 crypto port holds. An AESKey session does the same per applet session (AN12543 3.6, pp. 33-35).</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant D as Device::Open
-    participant C as Crypto port
-    participant S as SE05x card manager
-    D-&gt;&gt;C: host challenge (Random)
-    D-&gt;&gt;S: INITIALIZE UPDATE (host challenge)
-    S--&gt;&gt;D: card challenge, card cryptogram
-    D-&gt;&gt;C: derive S-ENC, S-MAC, S-RMAC (CMAC KDF)
-    D-&gt;&gt;D: check the card cryptogram
-    D-&gt;&gt;S: EXTERNAL AUTHENTICATE (host cryptogram, level)
-    Note over D,S: from here every command: C-MAC (+ C-DEC); every answer: R-MAC (+ R-ENC)</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/scp03-open.svg#only-light" alt="Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the card&#x27;s reply, checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command and answer is protected." width="741" height="508"><img src="../../diagrams/scp03-open.dark.svg#only-dark" alt="Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the card&#x27;s reply, checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command and answer is protected." width="741" height="508">
+<figcaption>Opening an SCP03 session</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Device::Open, Crypto port and SE05x card manager. The steps run from top to bottom. Device::Open sends host challenge (Random) to Crypto port. Device::Open sends INITIALIZE UPDATE (host challenge) to SE05x card manager. SE05x card manager returns card challenge, card cryptogram to Device::Open. Device::Open sends derive S-ENC, S-MAC, S-RMAC (CMAC KDF) to Crypto port. A note over Device::Open and SE05x card manager says: Device::Open: check the card cryptogram. Device::Open sends EXTERNAL AUTHENTICATE (host cryptogram, level) to SE05x card manager. A note over Device::Open and SE05x card manager says: from here every command: C-MAC (+ C-DEC); every answer: R-MAC (+ R-ENC).</p>
+<p>Drawn from: <a href="../../model/scp03-open.seq.yml"><code>docs/model/scp03-open.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// Open the chip with platform SCP03. The keys are handles in your crypto port: never compile key</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">/// bytes into the image, and never use a vendor default key set in a product.</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>

@@ -1553,18 +1553,16 @@
 <p>In mutual TLS the device proves its identity with a client certificate and a signature over the handshake. Keep the
 client key in the chip as a <code>TlsKey</code> and give your TLS stack a private-key callback that calls <code>TlsSign</code> (ECDSASign
 over the handshake digest, AN12543 p. 101). The certificate is the one from <a href="../certificates/">CSR and certificates</a>.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant Srv as Server
-    participant TLS as TLS stack
-    participant H as hrot::Device
-    participant S as SE05x
-    Srv-&gt;&gt;TLS: CertificateRequest
-    TLS-&gt;&gt;Srv: client certificate (read from the chip's binary object)
-    TLS-&gt;&gt;H: TlsSign(key, handshake digest)
-    H-&gt;&gt;S: ECDSASign (secure messaging)
-    S--&gt;&gt;H: signature
-    H--&gt;&gt;TLS: DER signature
-    TLS-&gt;&gt;Srv: CertificateVerify</code></pre>
+<figure class="kb-figure">
+<img src="../../diagrams/tls-sign-call.svg#only-light" alt="Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as CertificateVerify." width="996" height="475"><img src="../../diagrams/tls-sign-call.dark.svg#only-dark" alt="Mutual TLS: when the server requests a certificate, the TLS stack sends the client certificate read from the chip, has the chip sign the handshake digest through TlsSign and sends the signature as CertificateVerify." width="996" height="475">
+<figcaption>A TLS client signature</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Server, TLS stack, hrot::Device and SE05x. The steps run from top to bottom. Server sends CertificateRequest to TLS stack. TLS stack sends client certificate (read from the chip's binary object) to Server. TLS stack sends TlsSign(key, handshake digest) to hrot::Device. hrot::Device sends ECDSASign (secure messaging) to SE05x. SE05x returns signature to hrot::Device. hrot::Device returns DER signature to TLS stack. TLS stack sends CertificateVerify to Server.</p>
+<p>Drawn from: <a href="../../model/tls-sign-call.seq.yml"><code>docs/model/tls-sign-call.seq.yml</code></a>.</p>
+</details>
 <div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">/// At start-up, once: find the TLS client key (three APDUs), and keep the handle.</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PortSet</span><span class="w"> </span><span class="n">P</span><span class="o">&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">Result</span><span class="o">&lt;</span><span class="n">hrot</span><span class="o">::</span><span class="n">TlsKey</span><span class="o">&gt;</span><span class="w"> </span><span class="n">FindTlsKey</span><span class="p">(</span><span class="n">hrot</span><span class="o">::</span><span class="n">Device</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">hrot</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
