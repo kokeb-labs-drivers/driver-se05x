@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="527" viewBox="0 0 1200 527" role="img" aria-labelledby="object-policy-title object-policy-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="object-policy-title">Objects, policies and sessions</title>
+<desc id="object-policy-desc">An authentication object opens a session; a policy of an object names that authentication object and the rules it allows; the chip checks the policy on every command.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker><marker id="fk-arrow-slate-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#94A3B8"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="526" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">OBJECT MODEL</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">Objects, policies and sessions</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">The chip enforces the policy; the host never decides access.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M348 219.3 L440 219.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M760 219.3 L798 219.3 Q806 219.3 806 211.3 L806 199.3 Q806 191.3 814 191.3 L852 191.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M1012 248.8 L1012 373.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M852 421.8 L760 421.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M440 421.8 L196 421.8 Q188 421.8 188 413.8 L188 304.8" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-slate-strong)"/>
+<rect x="32" y="137.8" width="312" height="163" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="147" rx="2" fill="#60A5FA"/>
+<rect x="444" y="137.8" width="312" height="163" rx="10" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="444" y="145.8" width="4" height="147" rx="2" fill="#A78BFA"/>
+<rect x="856" y="137.8" width="312" height="107" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="856" y="145.8" width="4" height="91" rx="2" fill="#60A5FA"/>
+<rect x="856" y="377.8" width="312" height="88" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="856" y="385.8" width="4" height="72" rx="2" fill="#2BB3A3"/>
+<rect x="444" y="377.8" width="312" height="88" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="444" y="385.8" width="4" height="72" rx="2" fill="#94A3B8"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#BFDBFE">Secure object</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">ObjectId: 4 bytes, big endian</text>
+<text x="52" y="208.2" font-size="13" fill="#D2DAE4">class: EcKeyPair, EcPrivKey, EcPubKey,</text>
+<text x="52" y="227.1" font-size="13" fill="#D2DAE4">RsaKeyPair, RsaPrivKey, ...</text>
+<text x="52" y="245.9" font-size="13" fill="#D2DAE4">lifetime: Persistent, TransientReset,</text>
+<text x="52" y="264.8" font-size="13" fill="#D2DAE4">TransientDeselect</text>
+<text x="52" y="283.6" font-size="13" fill="#D2DAE4">origin: External, Internal, Provisioned</text>
+<text x="464" y="164.6" font-size="15" font-weight="700" fill="#DDD6FE">Policy set</text>
+<text x="464" y="189.4" font-size="13" fill="#D2DAE4">per policy: auth object id + 4-byte rule</text>
+<text x="464" y="208.2" font-size="13" fill="#D2DAE4">header</text>
+<text x="464" y="227.1" font-size="13" fill="#D2DAE4">29 rules in the contract, e.g. ForbidAll,</text>
+<text x="464" y="245.9" font-size="13" fill="#D2DAE4">Sign, Verify, KeyAgreement</text>
+<text x="464" y="264.8" font-size="13" fill="#D2DAE4">9 to 53 bytes each; built by PolicyBuilder</text>
+<text x="464" y="283.6" font-size="13" fill="#D2DAE4">only</text>
+<text x="876" y="164.6" font-size="15" font-weight="700" fill="#BFDBFE">Authentication object</text>
+<text x="876" y="189.4" font-size="13" fill="#D2DAE4">UserID, AESKey (SCP03) or ECKey</text>
+<text x="876" y="208.2" font-size="13" fill="#D2DAE4">or a reserved one: Transport,</text>
+<text x="876" y="227.1" font-size="13" fill="#D2DAE4">PlatformScp, Feature, FactoryReset</text>
+<text x="876" y="404.6" font-size="15" font-weight="700" fill="#A7F3E6">Session</text>
+<text x="876" y="429.4" font-size="13" fill="#D2DAE4">CreateSession: 8-byte id</text>
+<text x="876" y="448.3" font-size="13" fill="#D2DAE4">at most 2 open, plus the default</text>
+<text x="464" y="404.6" font-size="15" font-weight="700" fill="#E2E8F0">Command</text>
+<text x="464" y="429.4" font-size="13" fill="#D2DAE4">the chip checks the object's policy</text>
+<text x="464" y="448.3" font-size="13" fill="#D2DAE4">for the session's auth object</text>
+<rect x="377.1" y="209.3" width="33.7" height="20" rx="10" fill="#0E131A"/>
+<text x="394" y="223.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">has</text>
+<rect x="779.8" y="195.3" width="52.5" height="20" rx="10" fill="#0E131A"/>
+<text x="806" y="209.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">names</text>
+<rect x="987.2" y="301.3" width="49.5" height="20" rx="10" fill="#0E131A"/>
+<text x="1012" y="315.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">opens</text>
+<rect x="786.5" y="411.8" width="39.1" height="20" rx="10" fill="#0E131A"/>
+<text x="806" y="426.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">runs</text>
+<rect x="241.8" y="411.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="255.5" y="426.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">on</text>
+<rect x="32" y="481.2" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="54" y="492.8" font-size="12.5" fill="#9AA6B5">secure object</text>
+<rect x="163.5" y="481.2" width="14" height="14" rx="4" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<text x="185.5" y="492.8" font-size="12.5" fill="#9AA6B5">policy</text>
+<rect x="246.9" y="481.2" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="268.9" y="492.8" font-size="12.5" fill="#9AA6B5">session</text>
+</svg>

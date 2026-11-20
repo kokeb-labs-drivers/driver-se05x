@@ -1,0 +1,1145 @@
+---
+# The vendor documents this driver was written against (handbook ADR-0019), and where the driver relies on them.
+# Never commit a PDF: `sha256` identifies the exact file that was used, so a reader can confirm they hold the same
+# revision. `pdf` is a stable direct link when the vendor publishes one; otherwise readers download from `url`.
+#
+# The README card, docs/datasheet.md and the "Datasheet" box on each page are generated from this file by
+# tools/docs/generators/datasheet.py (`kokeb-docs gen`). Page numbers are the PDF pages, which equal the printed
+# footer numbers in these documents. A document marked "URL not recorded" is held by its hash: the vendor's
+# document search finds it by number. No default platform or PERSO key from any document is in this repository.
+documents:
+  - id: se050
+    vendor: NXP
+    title: "SE050 Plug & Trust Secure Element product data sheet (doc 504938)"
+    kind: Datasheet
+    number: "SE050-DATASHEET"
+    revision: "Rev. 3.8"
+    date: "revision date 2023-10-18"
+    url: https://www.nxp.com/docs/en/data-sheet/SE050-DATASHEET.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "b47c8a5d40191f31b78e48f6c60c6ba17c3eac56bf97976212ade786ee3ee83c"
+  - id: se051
+    vendor: NXP
+    title: "SE051 Plug & Trust Secure Element product data sheet (doc 577320)"
+    kind: Datasheet
+    number: "SE051"
+    revision: "Rev. 2.0"
+    date: "revision date 2024-07-08"
+    url: https://www.nxp.com/docs/en/data-sheet/SE051.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "5aaf11205161d88ad5445576c655e74cc672c313fe924083516548c0c65d0aaa"
+  - id: se052
+    vendor: NXP
+    title: "SE052 EdgeLock family product data sheet (doc 789115)"
+    kind: Datasheet
+    number: "SE052"
+    revision: "Rev. 1.5"
+    date: "revision date 2024-06-03"
+    url: https://www.nxp.com/docs/en/data-sheet/SE052.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "c5f199130663fd6491009cb07ab1816ee871b6b116901c608f3c4d58b34e5996"
+  - id: errata
+    vendor: NXP
+    title: "SE050 Errata sheet (doc 640310)"
+    kind: Errata (datasheet set)
+    number: "SE050_Erratasheet"
+    revision: "Rev. 1.0"
+    date: "revision date 2020-10-14"
+    url: https://www.nxp.com/docs/en/errata/SE050_Erratasheet.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "289ec4ca30295bfe7f41b11659feebf5a4ee0e5d3c3551530fa818342d1fd73d"
+  - id: um11225  # behind the vendor's login; the URL is the one AN13904 prints
+    vendor: NXP
+    title: "UM11225 NXP SE05x T=1 Over I2C Specification"
+    kind: User manual (datasheet set)
+    number: "UM11225"
+    revision: "Rev. 1.2"
+    date: "revision date 2020-12-10"
+    url: https://www.nxp.com/webapp/Download?colCode=UM11225
+    pdf: null
+    page_offset: 0
+    sha256: "5a7df83e3337928bc887b074908fbba43f3f1a2abe7de01641ecb439f04beee1"
+  - id: gp-apdu-transport  # download form on the page; the URL is the one AN13904 prints
+    vendor: GlobalPlatform
+    title: "GPC_SPE_172 APDU Transport over SPI / I2C, public release"
+    kind: Specification (datasheet set)
+    number: "GPC_SPE_172"
+    revision: "v1.0"
+    date: "2020-01"
+    url: https://globalplatform.org/specs-library/apdu-transport-over-spi-i2c-v1-0-gpc_spe_172
+    pdf: null
+    page_offset: 0
+    sha256: "e19438f863d9f68b9c99f3c599e392ee0b40c8b776ac2e683cf7ba763d599f16"
+  - id: an12543  # page numbers are the printed footer numbers
+    vendor: NXP
+    title: "AN12543 SE05x IoT applet APDU Specification (applet 7.x)"
+    kind: Application note (datasheet set)
+    number: "AN12543"
+    revision: "Rev. 4.5"
+    date: "revision date 2024-03-27"
+    url: https://www.nxp.com/docs/en/application-note/AN12543.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "7067b3fdd856583affd74b5b0fee656811b8d02bed37afa64905448546874eab"
+  - id: an12413
+    vendor: NXP
+    title: "AN12413 SE050A/B/C/D/F APDU Specification (applet 3.x)"
+    kind: Application note (datasheet set)
+    number: "AN12413"
+    revision: "Rev. 2.12"
+    date: "revision date 2021-03-24"
+    url: https://www.nxp.com/docs/en/application-note/AN12413.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "e98a72e4215ba2886d777509f066ff620925ae65999d9c28cbcf24b7f2cf5622"
+  - id: an12436  # prints default platform keys: never copy them here
+    vendor: NXP
+    title: "AN12436 SE050 configurations"
+    kind: Application note (datasheet set)
+    number: "AN12436"
+    revision: "Rev. 2.4"
+    date: "revision date 2024-07-08"
+    url: https://www.nxp.com/docs/en/application-note/AN12436.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "a717571925e7141f6112b55516591be384fc30b30eaa2d0b5d282eb09e1ea89d"
+  - id: an12973  # URL not recorded; prints default platform keys
+    vendor: NXP
+    title: "AN12973 SE051 configurations"
+    kind: Application note (datasheet set)
+    number: "AN12973"
+    revision: "Rev. 2.0"
+    date: "revision date 2024-07-08"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "69a3999ad5af9bc2108bdc6c042271456fe0158816a46559f51a947c2657f30a"
+  - id: an14277  # prints default platform keys: never copy them here
+    vendor: NXP
+    title: "AN14277 SE052 Configuration Details"
+    kind: Application note (datasheet set)
+    number: "AN14277"
+    revision: "Rev. 1.0"
+    date: "revision date 2024-03-25"
+    url: https://www.nxp.com/docs/en/application-note/AN14277.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "c0534b58113abee6058fbcb9bf74e721b654fd9af2e6e0c87dba40100ed967fc"
+  - id: an13014
+    vendor: NXP
+    title: "AN13014 Moving from SE050 to SE050E or SE051"
+    kind: Application note (datasheet set)
+    number: "AN13014"
+    revision: "Rev. 1.2"
+    date: "revision date 2022-04-11"
+    url: https://www.nxp.com/docs/en/application-note/AN13014.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "f346dfbe9c70ef98b70e97b229f75690f6e2bc5d0b29bf59370ce0a5328864c1"
+  - id: an14028
+    vendor: NXP
+    title: "AN14028 Moving from SE050F to SE052F"
+    kind: Application note (datasheet set)
+    number: "AN14028"
+    revision: "Rev. 1.0"
+    date: "revision date 2024-04-02"
+    url: https://www.nxp.com/docs/en/application-note/AN14028.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "78df5c25cc83ebb5626bbc71d98d284a039697526b06eeac31ccf80732b6868a"
+  - id: an12514  # URL not recorded
+    vendor: NXP
+    title: "AN12514 SE050 User Guidelines"
+    kind: Application note (datasheet set)
+    number: "AN12514"
+    revision: "Rev. 1.4"
+    date: "revision date 2021-11-21"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "8122534d48a04269a959915da675192c8af0564d110b7764b512340ae2839185"
+  - id: an13483  # URL not recorded
+    vendor: NXP
+    title: "AN13483 SE050E User Guidelines"
+    kind: Application note (datasheet set)
+    number: "AN13483"
+    revision: "Rev. 1.2"
+    date: "revision date 2022-08-22"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "fcbeb39e87908632874d8e9cf9eb95ed000fea98072cff6191a9e7095c47e113"
+  - id: an13904  # URL not recorded
+    vendor: NXP
+    title: "AN13904 SE052F User Guidelines"
+    kind: Application note (datasheet set)
+    number: "AN13904"
+    revision: "Rev. 1.0"
+    date: "revision date 2024-03-27"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "a1e00c32a2b370b583fa0b5116e8ee345e86d42f7e732c2ec2d6683347e533f6"
+  - id: an13254
+    vendor: NXP
+    title: "AN13254 Secure attestation with EdgeLock SE05x"
+    kind: Application note (datasheet set)
+    number: "AN13254"
+    revision: "Rev. 1.1"
+    date: "revision date 2023-07-26"
+    url: https://www.nxp.com/docs/en/application-note/AN13254.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "42d7268d1c07836e889d91e695a5627cb6d21344efef8423c3e065877b236199"
+  - id: an12907  # URL not recorded
+    vendor: NXP
+    title: "AN12907 Secure update of EdgeLock SE051 IoT applet (SEMS Lite)"
+    kind: Application note (datasheet set)
+    number: "AN12907"
+    revision: "Rev. 1.2"
+    date: "revision date 2023-11-23"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "d582655f13ecdd83cc51744c5d7aae427c26ee2650b625e3d83d9936495f0381"
+  - id: an13015  # URL not recorded
+    vendor: NXP
+    title: "AN13015 How to use EdgeLock SE051 PERSO applet"
+    kind: Application note (datasheet set)
+    number: "AN13015"
+    revision: "Rev. 1.4"
+    date: "revision date 2026-01-09"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "91e11a45e51beb4d76aa6a0236832b3351b008b6565df8aa8da32f0ab060bd63"
+  - id: an13030  # URL not recorded
+    vendor: NXP
+    title: "AN13030 Plug & Trust MW Documentation (a user guide; not a T=1 or APDU specification)"
+    kind: Application note (datasheet set)
+    number: "AN13030"
+    revision: "Rev. 2.7"
+    date: "revision date 2026-07-09"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "b6222da65af2d579f4d24c42e92c0b6c3c7bd025afe4413c2cf84fd9b85812f9"
+  - id: an13539  # URL not recorded
+    vendor: NXP
+    title: "AN13539 OM-SE05xARD hardware overview"
+    kind: Application note (datasheet set)
+    number: "AN13539"
+    revision: "Rev. 1.2"
+    date: "revision date 2022-11-08"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "d4dcd2eb3210bfb5a5cf2eef2c662316b50a2a12180d1a1df1b51de9741478a8"
+  - id: an12448
+    vendor: NXP
+    title: "AN12448 Plug & Trust MW porting guidelines"
+    kind: Application note (datasheet set)
+    number: "AN12448"
+    revision: "Rev. 1.1"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12448.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "458dfaad174284559111db4ec3aa53e3412e2bc0bd9d7cbc5d19210daa8899f5"
+  - id: an12662
+    vendor: NXP
+    title: "AN12662 Binding a host device to SE05x"
+    kind: Application note (datasheet set)
+    number: "AN12662"
+    revision: "Rev. 1.1"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12662.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "90359040045583d17b54eeb9c57b261ace8a0e32ce8d5a3f906dd381fd3c87d0"
+  - id: an13013
+    vendor: NXP
+    title: "AN13013 Get started with SE05x support package"
+    kind: Application note (datasheet set)
+    number: "AN13013"
+    revision: "Rev. 1.5"
+    date: "revision date 2024-07-25"
+    url: https://www.nxp.com/docs/en/application-note/AN13013.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "ffd5d562561d3231bad74e653f969542b3e920146409fe2de71df9a62f522027"
+  - id: an12396  # URL not recorded
+    vendor: NXP
+    title: "AN12396 EdgeLock SE05x quick start guide with FRDM-K64F"
+    kind: Application note (datasheet set)
+    number: "AN12396"
+    revision: "Rev. 3.3"
+    date: "revision date 2022-08-04"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "559d0d22f262bad2cc91802a6210eb877ab177cf3c584410cefe6ef264895d6f"
+  - id: an12450  # URL not recorded
+    vendor: NXP
+    title: "AN12450 SE05x quick start guide with i.MX RT1060 and RT1170"
+    kind: Application note (datasheet set)
+    number: "AN12450"
+    revision: "Rev. 4.2"
+    date: "revision date 2022-08-04"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "168fe7fcba06e274935d48f3cca6cff6357753f40eb3c5901b9201dbcd39b950"
+  - id: an13027  # URL not recorded
+    vendor: NXP
+    title: "AN13027 SE05x quick start guide with i.MX 8M"
+    kind: Application note (datasheet set)
+    number: "AN13027"
+    revision: "Rev. 1.3"
+    date: "revision date 2022-09-12"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "9802c379fdf6c976c0552848e41155fab0c5c02dd800e309c5c75426dedc2086"
+  - id: an12570
+    vendor: NXP
+    title: "AN12570 SE05x quick start with Raspberry Pi"
+    kind: Application note (datasheet set)
+    number: "AN12570"
+    revision: "Rev. 1.5"
+    date: "revision date 2022-08-03"
+    url: https://www.nxp.com/docs/en/application-note/AN12570.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "6e232edb08d8310504bf5a3961fe4099e6bd6d019202edf761ffa30492cf7f08"
+  - id: an12398
+    vendor: NXP
+    title: "AN12398 SE05x quick start with Visual Studio"
+    kind: Application note (datasheet set)
+    number: "AN12398"
+    revision: "Rev. 2.5"
+    date: "revision date 2022-09-12"
+    url: https://www.nxp.com/docs/en/application-note/AN12398.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "c6d354048d053e8a5a53f710b6fde5164d4b651d701e394d6946ae343fd0cf1a"
+  - id: an12399
+    vendor: NXP
+    title: "AN12399 SE05x device-to-device authentication"
+    kind: Application note (datasheet set)
+    number: "AN12399"
+    revision: "Rev. 1.3"
+    date: "revision date 2022-03-28"
+    url: https://www.nxp.com/docs/en/application-note/AN12399.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "446db9bad137cfb87d5be3405bd55e52ec2b0c375ff9e6d85c3c8103c0fcd3fe"
+  - id: an12449
+    vendor: NXP
+    title: "AN12449 Sensor data protection with SE05x"
+    kind: Application note (datasheet set)
+    number: "AN12449"
+    revision: "Rev. 1.3"
+    date: "2021-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12449.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "7caf8d855cca5571f099e49409effc26133a0dc560cb65ee5e4689f55b51b70f"
+  - id: an12663
+    vendor: NXP
+    title: "AN12663 SE05x TPM-like functionality"
+    kind: Application note (datasheet set)
+    number: "AN12663"
+    revision: "Rev. 1.0"
+    date: "revision date 2021-04-13"
+    url: https://www.nxp.com/docs/en/application-note/AN12663.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "d66a71ce45d493a6341fb2318ea363f17710599dbf125f177da6c5e2538d64e0"
+  - id: an13086
+    vendor: NXP
+    title: "AN13086 SE05x to enhance MCU boot sequence security"
+    kind: Application note (datasheet set)
+    number: "AN13086"
+    revision: "Rev. 1.0"
+    date: "revision date 2021-04-13"
+    url: https://www.nxp.com/docs/en/application-note/AN13086.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "e42ecfb9a776150c898b992e28d67f3f09d93aed9ef6a6b9e200cd643e9f6178"
+  - id: an12404
+    vendor: NXP
+    title: "AN12404 SE05x secure connection to AWS IoT Core"
+    kind: Application note (datasheet set)
+    number: "AN12404"
+    revision: "Rev. 1.6"
+    date: "revision date 2021-01-15"
+    url: https://www.nxp.com/docs/en/application-note/AN12404.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "f4b42146d804fcabad156dc168fc504be02823255a8ff4d4dae53ed8e4147129"
+  - id: an12400
+    vendor: NXP
+    title: "AN12400 SE05x secure connection to OEM cloud"
+    kind: Application note (datasheet set)
+    number: "AN12400"
+    revision: "Rev. 1.3"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12400.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "853b224416a2a184ff331e8c66a43c62297de20ada9f0cbe01fe9c30580d2486"
+  - id: an12402  # URL not recorded
+    vendor: NXP
+    title: "AN12402 EdgeLock SE05x for secure connection to Azure IoT Hub"
+    kind: Application note (datasheet set)
+    number: "AN12402"
+    revision: "Rev. 2.1"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "d7dda67d4d0b574c25fcc94cfdead6d0d02b109a64c3270b2c4e239adc4b43b7"
+  - id: an12569
+    vendor: NXP
+    title: "AN12569 SE05x secure access control in IIoT"
+    kind: Application note (datasheet set)
+    number: "AN12569"
+    revision: "Rev. 1.2"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12569.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "5b453d38e94eea05984b396c4c64eaa4643929fbb08c913b8cb29d71b812970b"
+  - id: an12660
+    vendor: NXP
+    title: "AN12660 Ease ISA/IEC 62443 compliance with SE05x"
+    kind: Application note (datasheet set)
+    number: "AN12660"
+    revision: "Rev. 1.1"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/docs/en/application-note/AN12660.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "e910c81f438b737590e93ced840850beccdb71cddfff7666f6e2a5ee124e5a0a"
+  - id: an12661  # URL not recorded
+    vendor: NXP
+    title: "AN12661 EdgeLock SE05x for Wi-Fi credential protection"
+    kind: Application note (datasheet set)
+    number: "AN12661"
+    revision: "Rev. 1.2"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "59289045b4368707a9b446dd3e6651867fc6b59a69183a605232a063fa6021e3"
+  - id: an12664  # URL not recorded
+    vendor: NXP
+    title: "AN12664 EdgeLock SE05x for NFC late-stage configuration"
+    kind: Application note (datasheet set)
+    number: "AN12664"
+    revision: "Rev. 1.1"
+    date: "revision date 2020-12-07"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "f29b3a38a91a73cae03a4cf9839ac988fd04d1dc000e1a4f9e6bd376fc7c2bda"
+  - id: an12665  # URL not recorded
+    vendor: NXP
+    title: "AN12665 EdgeLock SE05x for Blockchain ID"
+    kind: Application note (datasheet set)
+    number: "AN12665"
+    revision: "Rev. 1.1"
+    date: "revision date 2022-08-22"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "f73768b6219211e552eaff30d83787c845f71cc68dde133ed90129ea065d8c2f"
+  - id: an13445
+    vendor: NXP
+    title: "AN13445 Matter with SE05x/A5000"
+    kind: Application note (datasheet set)
+    number: "AN13445"
+    revision: "Rev. 1.1"
+    date: "revision date 2023-02-10"
+    url: https://www.nxp.com/docs/en/application-note/AN13445.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "d9064da6d6d872b969e20377165dc3e5e3fa9d44f43f6f5b0cc55770b81d3b9f"
+  - id: an13645  # URL not recorded
+    vendor: NXP
+    title: "AN13645 Smart and secure EV charging with NXP secure solutions"
+    kind: Application note (datasheet set)
+    number: "AN13645"
+    revision: "Rev. 1.0"
+    date: "revision date 2022-11-28"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "241670b7d3fb9477800945a03ffccea708446b4ddcc94ff37148bf2c6d1ee449"
+  - id: an13742  # URL not recorded
+    vendor: NXP
+    title: "AN13742 Secure smart metering with NXP secure solutions"
+    kind: Application note (datasheet set)
+    number: "AN13742"
+    revision: "Rev. 1.0"
+    date: "revision date 2024-06-07"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "d599dcb2eab666cf7c1147476574642e6e6a64f8c61c00126f72955a2036e976"
+  - id: an14252  # URL not recorded
+    vendor: NXP
+    title: "AN14252 Secure medical IoT application with NXP secure devices"
+    kind: Application note (datasheet set)
+    number: "AN14252"
+    revision: "Rev. 2.1"
+    date: "revision date 2025-12-19"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "25586d44cbfdb35cc264c6d29729e8a0f3c64160884e7cd01fdb84d5400e2037"
+  - id: an14671  # URL not recorded
+    vendor: NXP
+    title: "AN14671 Ease CRA compliance with EdgeLock discrete portfolio"
+    kind: Application note (datasheet set)
+    number: "AN14671"
+    revision: "Rev. 1.0"
+    date: "revision date 2025-10-13"
+    url: https://www.nxp.com/
+    pdf: null
+    page_offset: 0
+    sha256: "4bdee3bf5727c855694d3d2ec1cb6c1be81964b85a0fffcaa92c78e7897e0917"
+  - id: fs-se051
+    vendor: NXP
+    title: "SE051 fact sheet"
+    kind: Fact sheet (datasheet set)
+    number: "FS-SE051"
+    revision: "n/a"
+    date: "n/a"
+    url: https://www.nxp.com/docs/en/fact-sheet/FS-SE051.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "7e9cb1b6866a27962b95058fdc71786db4cd2e9a1788cb393dc83aae00bf4fe1"
+  - id: se051hfs
+    vendor: NXP
+    title: "SE051H fact sheet (Matter, NFC)"
+    kind: Fact sheet (datasheet set)
+    number: "SE051HFS"
+    revision: "n/a"
+    date: "n/a"
+    url: https://www.nxp.com/docs/en/fact-sheet/SE051HFS.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "ae817e37a8fbcea8a7f4cf72b05ca49dabe47e99cdf82e148e24473e83a8bd20"
+  - id: se051w-block-diagram
+    vendor: NXP
+    title: "SE051W block diagram page (UWB)"
+    kind: Fact sheet (datasheet set)
+    number: "SE051W-block-diagram"
+    revision: "n/a"
+    date: "revision date 2026-02-18"
+    url: https://www.nxp.com/assets/block-diagram/en/SE051W.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "933d952015d1601f79502c8514b698ee107b0489914c72dd111ac555b54deb12"
+  - id: else052ffsa4
+    vendor: NXP
+    title: "SE052F fact sheet"
+    kind: Fact sheet (datasheet set)
+    number: "ELSE052FFSA4"
+    revision: "n/a"
+    date: "n/a"
+    url: https://www.nxp.com/docs/en/fact-sheet/ELSE052FFSA4.pdf
+    pdf: null
+    page_offset: 0
+    sha256: "a38511c452d9c295541907d4b7bd724561216fc0541a6a018d7628c0e8a278e9"
+  - id: middleware  # sha256 of the sorted file hashes of the checkout; BSD-3-Clause; never a dependency
+    vendor: NXP
+    title: "Plug and Trust middleware, mini package"
+    kind: Source (test oracle only; not a datasheet)
+    number: "plug-and-trust"
+    revision: "v04.08.02, commit 7102413e0457d3dfa4fc4be686ca8ec50bd9f5e2"
+    date: "revision date 2026-09-24"
+    url: https://github.com/NXP/plug-and-trust
+    pdf: null
+    page_offset: 0
+    sha256: "9be1618fedf584443367ec3007364f2002728264662e446133ca611b1941d43c"
+
+# One row per thing the driver or its documentation takes from a document: the section, the page, the driver API
+# that implements it and the pages that explain it. A row whose API is not built yet still names the frozen header.
+topics:
+  - topic: "Start-up: the interface is chosen by the line levels at boot"
+    doc: se050
+    section: "3.4 Startup behavior"
+    page: 8
+    driver: "`Device::Open()`, `Config::boot_wait_ms`"
+    docs: [se050, hardware, troubleshooting]
+  - topic: "I2C target address 0x48"
+    doc: se050
+    section: "4.1 I2C interfaces, Figure 3"
+    page: 8
+    driver: "`kI2cAddress`, `Config::i2c_address`"
+    docs: [hardware, quickstart, porting-esp-idf]
+  - topic: "Common Criteria EAL 6+ for hardware and OS"
+    doc: se050
+    section: "2.2 Key features"
+    page: 3
+    driver: "none: the chip's certification (`docs/hardware.yml` overview)"
+    docs: [security-model]
+  - topic: "SE051 Common Criteria EAL 6+ for hardware and OS"
+    doc: se051
+    section: "2.2 Key features"
+    page: 3
+    driver: "none: the chip's certification (`docs/hardware.yml` overview)"
+    docs: [security-model]
+  - topic: "SE052 Common Criteria EAL 6+ for hardware and OS"
+    doc: se052
+    section: "3.1 Product-specific features"
+    page: 3
+    driver: "none: the chip's certification (`docs/hardware.yml` overview)"
+    docs: [security-model]
+  - topic: "I2C clock and clock stretching per variant"
+    doc: se050
+    section: "4.1.1 Supported I2C frequencies"
+    page: 9
+    driver: "`kMaxClockHz`, `HasMaxClockKhz`"
+    docs: [se050, hardware, porting-esp-idf, variants]
+  - topic: "RST_N has no effect when only I2C is enabled"
+    doc: se050
+    section: "4.2 ISO7816 and ISO14443 interface"
+    page: 9
+    driver: "`ResetInterface::PowerCycle()` (ENA), not `Reset()`"
+    docs: [se050, hardware, troubleshooting, porting]
+  - topic: "Power-down and deep power-down modes"
+    doc: se050
+    section: "5 Power-saving modes"
+    page: 9
+    driver: "`Device::DeepPowerDown()`, `ResetInterface::SetEnable()`"
+    docs: [se050, hardware, transport]
+  - topic: "Deep power-down supply: VIN, VOUT to VCC"
+    doc: se050
+    section: "5.2 Deep Power-down mode"
+    page: 10
+    driver: "`docs/hardware.yml`"
+    docs: [se050, hardware]
+  - topic: "SE050 ordering and variants"
+    doc: se050
+    section: "Table 3 Ordering information"
+    page: 10
+    driver: "`Family`"
+    docs: [variants, se050]
+  - topic: "Pin table of the HX2QFN20 package (SE050)"
+    doc: se050
+    section: "Table 5 Pin description"
+    page: 11
+    driver: "`docs/hardware.yml`"
+    docs: [hardware, se050, quickstart]
+  - topic: "Supply range and pin reference voltages"
+    doc: se050
+    section: "Table 9 Recommended operating conditions"
+    page: 13
+    driver: "`docs/hardware.yml`"
+    docs: [hardware, se050]
+  - topic: "ENA low time and glitches"
+    doc: se050
+    section: "Table 14 AC characteristics"
+    page: 18
+    driver: "`ResetInterface::SetEnable()`, `PowerCycle()`"
+    docs: [se050, hardware, porting]
+  - topic: "Wake-up from power-down may need a retransmission"
+    doc: se050
+    section: "Table 14 notes 4 and 5"
+    page: 19
+    driver: "`t1::Link` (R-block resend)"
+    docs: [transport, troubleshooting]
+  - topic: "SE051 ordering and variants"
+    doc: se051
+    section: "Table 2 Ordering information"
+    page: 11
+    driver: "`Family`"
+    docs: [variants, se051]
+  - topic: "SE051 I2C address and clock stretching"
+    doc: se051
+    section: "4.1 I2C interfaces"
+    page: 9
+    driver: "`kI2cAddress`, `kMaxClockHz`"
+    docs: [se051]
+  - topic: "SE051 RST_N has no effect when only I2C is enabled"
+    doc: se051
+    section: "4.2 ISO7816 and ISO14443 interface"
+    page: 10
+    driver: "`ResetInterface::PowerCycle()` (ENA)"
+    docs: [se051]
+  - topic: "SE051 power-saving modes"
+    doc: se051
+    section: "5 Power-saving modes"
+    page: 11
+    driver: "`Device::DeepPowerDown()`"
+    docs: [se051, transport]
+  - topic: "Pin table (SE051)"
+    doc: se051
+    section: "Table 3 Pin description"
+    page: 12
+    driver: "`docs/hardware.yml`"
+    docs: [hardware, se051]
+  - topic: "Pin table of the HVQFN20 package (SE052)"
+    doc: se052
+    section: "Table 2 Pin description"
+    page: 4
+    driver: "`docs/diagrams/figures/_se052.py`"
+    docs: [hardware, se052]
+  - topic: "SE052 package HVQFN20 (SOT917-7)"
+    doc: se052
+    section: "6 Package"
+    page: 5
+    driver: "`docs/diagrams/figures/_se052.py`"
+    docs: [se052, ambiguities]
+  - topic: "SE052 system integration: pull-ups, VIN and VOUT capacitors"
+    doc: se052
+    section: "Figure 1 SE052 using I2C"
+    page: 6
+    driver: "`docs/diagrams/figures/_se052.py`"
+    docs: [se052]
+  - topic: "SE052 power-down by RELEASE and deep power-down by S-block 0xDF"
+    doc: se052
+    section: "10 Power-saving modes"
+    page: 7
+    driver: "`Device::DeepPowerDown()`"
+    docs: [se052, transport]
+  - topic: "SE052 tDPD: no access for 300 us after a deep power-down"
+    doc: se052
+    section: "Table 15 Electrical AC characteristics, tDPD"
+    page: 22
+    driver: "`wire::kSe052DeepPowerDownUs`, `t1::Link::DeepPowerDown()`"
+    docs: [transport, ambiguities]
+  - topic: "SE052 supplies: VDD 1.62 V to 5.5 V, VIN 1.65 V to 3.6 V"
+    doc: se052
+    section: "Table 13 IC supply current"
+    page: 18
+    driver: "`docs/diagrams/figures/_se052.py`"
+    docs: [se052, hardware]
+  - topic: "SE052 CIP bytes in the configuration"
+    doc: se052
+    section: "Table 12 Configuration parameters"
+    page: 17
+    driver: "`ParseCip()`"
+    docs: [se052, transport]
+  - topic: "SE052 I2C parameters, flavour and address in the configuration"
+    doc: se052
+    section: "Table 12 I2C_SPI_PARAMS, I2C_SLAVE_ADDRESS"
+    page: 18
+    driver: "`TransportFlavour`, `kI2cAddress`"
+    docs: [se052, ambiguities, troubleshooting]
+  - topic: "SE052 RST_N reset pulse width"
+    doc: se052
+    section: "Table 14 AC characteristics"
+    page: 20
+    driver: "`ResetInterface::Reset()`"
+    docs: [se052, porting]
+  - topic: "Errata list and affected variants"
+    doc: errata
+    section: "Table of functional problems"
+    page: 6
+    driver: "`detail::Layer`"
+    docs: [se050, troubleshooting]
+  - topic: "I2C.1 lock-up after a second command, I2C.2 no empty frame"
+    doc: errata
+    section: "3.1, 3.2"
+    page: 7
+    driver: "`t1::Link` single flight, `BusStatus::BusStuck`"
+    docs: [transport, troubleshooting, porting, porting-esp-idf]
+  - topic: "I2C.3 lines high around a soft reset, I2C.4 SCL before SDA"
+    doc: errata
+    section: "3.3, 3.4"
+    page: 8
+    driver: "`t1::Link`, the bus port"
+    docs: [troubleshooting, porting, porting-esp-idf]
+  - topic: "APP.1 attestation over 1024 bytes, APP.2 CloseSession without a session"
+    doc: errata
+    section: "3.5, 3.6"
+    page: 9
+    driver: "`kMaxResponse`, `Device::EndSession()`"
+    docs: [status-words, troubleshooting]
+  - topic: "JOS.1 wrong EC key length resets the chip, JOS.2 SCP03 counter"
+    doc: errata
+    section: "3.12, 3.13"
+    page: 11
+    driver: "capability gate, `scp03::Channel`"
+    docs: [secure-channels, troubleshooting]
+  - topic: "NXP flavour block: NAD, PCB, LEN, INF, CRC"
+    doc: um11225
+    section: "Table 1, Tables 3 and 4"
+    page: 5
+    driver: "`kUm11225Frame`"
+    docs: [transport]
+  - topic: "NXP flavour I-block and R-block PCB"
+    doc: um11225
+    section: "Tables 5 to 7"
+    page: 6
+    driver: "`t1::Link`"
+    docs: [transport]
+  - topic: "NXP flavour S-blocks"
+    doc: um11225
+    section: "Table 9"
+    page: 7
+    driver: "`kSResync` to `kUmGetAtr`"
+    docs: [transport, status-words]
+  - topic: "NXP flavour ATR"
+    doc: um11225
+    section: "Tables 11 to 13"
+    page: 9
+    driver: "`ParseAtr()`"
+    docs: [transport, se052]
+  - topic: "Retransmissions, WTX and soft reset rules"
+    doc: um11225
+    section: "Error handling and retransmission"
+    page: 11
+    driver: "`kUmMaxRetransmissions`, `Config::wtx_limit`"
+    docs: [transport, troubleshooting]
+  - topic: "One block per I2C write, no repeated start"
+    doc: um11225
+    section: "I2C framing"
+    page: 13
+    driver: "`kRepeatedStart`"
+    docs: [transport, porting, porting-esp-idf]
+  - topic: "Polling with one-byte reads after MPOT"
+    doc: um11225
+    section: "Polling"
+    page: 14
+    driver: "`Config::poll_interval_us`"
+    docs: [transport, porting, porting-esp-idf]
+  - topic: "Default SEGT, MPOT and power wake-up time"
+    doc: um11225
+    section: "Table 14"
+    page: 19
+    driver: "`kUmDefaultSegtUs`, `kUmDefaultMpotMs`"
+    docs: [transport]
+  - topic: "GP flavour I2C: polling, guard times, clock stretching"
+    doc: gp-apdu-transport
+    section: "I2C physical layer"
+    page: 23
+    driver: "`t1::Link`"
+    docs: [transport]
+  - topic: "GP flavour default IFSC, BWT and power wake time"
+    doc: gp-apdu-transport
+    section: "Default values"
+    page: 31
+    driver: "`kGpDefaultIfsc`, `kGpDefaultBwtMs`"
+    docs: [transport]
+  - topic: "GP flavour block, NAD 21/12, two-byte LEN, CRC example BDA4"
+    doc: gp-apdu-transport
+    section: "Table 4-1"
+    page: 33
+    driver: "`kGpFrame`, `kGpExampleCrc`"
+    docs: [transport, troubleshooting]
+  - topic: "GP flavour PCB and S-block codes"
+    doc: gp-apdu-transport
+    section: "Table 4-4"
+    page: 34
+    driver: "`kGpCip`, `kGpRelease`"
+    docs: [transport]
+  - topic: "GP flavour CIP"
+    doc: gp-apdu-transport
+    section: "Tables 4-6 to 4-9"
+    page: 36
+    driver: "`ParseCip()`"
+    docs: [transport]
+  - topic: "APDU buffer 270 bytes, internal buffer 1024 bytes"
+    doc: an12543
+    section: "APDU buffer sizes"
+    page: 3
+    driver: "`kApduBuffer`, `kInternalBuffer`"
+    docs: [objects-policies, limitations]
+  - topic: "Reserved object identifiers"
+    doc: an12543
+    section: "Table 5"
+    page: 10
+    driver: "`ReservedId`"
+    docs: [objects-policies, lifecycle, getting-started]
+  - topic: "Attestation: hash of the command, no freshness echo (applet 7.x)"
+    doc: an12543
+    section: "Attestation"
+    page: 19
+    driver: "`attest::Verifier`, `AttestationFormat`"
+    docs: [getting-started, security-model, hrot-cookbook]
+  - topic: "ECKey session: master key, session keys, receipt"
+    doc: an12543
+    section: "ECKey session"
+    page: 22
+    driver: "`eckey::Session`"
+    docs: [secure-channels]
+  - topic: "Feature bits of the extended version"
+    doc: an12543
+    section: "Table 9"
+    page: 26
+    driver: "`Capabilities`, `Features`"
+    docs: [variants]
+  - topic: "Limits of FIPS 140-3 mode"
+    doc: an12543
+    section: "3.13.2 FIPS 140-3 mode"
+    page: 45
+    driver: "capability gate"
+    docs: [variants, se052]
+  - topic: "Status words and APDU encoding"
+    doc: an12543
+    section: "Table 21 and the APDU encoding rules"
+    page: 49
+    driver: "`apdu::StatusToError()`"
+    docs: [status-words]
+  - topic: "Session policy and object policy headers"
+    doc: an12543
+    section: "Tables 62 and 63"
+    page: 66
+    driver: "`PolicyBuilder`, `SessionPolicy`"
+    docs: [objects-policies, getting-started]
+  - topic: "Session commands: CreateSession to ECKeySessionInternalAuthenticate"
+    doc: an12543
+    section: "Session management commands"
+    page: 68
+    driver: "`Device::Begin*Session()`"
+    docs: [secure-channels, getting-started]
+  - topic: "SetLockState, DisableObjectCreation, SetPlatformSCPRequest"
+    doc: an12543
+    section: "Module management commands"
+    page: 73
+    driver: "`irreversible::Operations`, `RequiredRole()`"
+    docs: [lifecycle, irreversible]
+  - topic: "SetAppletFeatures, TriggerSelfTest, ReadState"
+    doc: an12543
+    section: "Module management commands"
+    page: 76
+    driver: "`irreversible::Operations`, `Device::TriggerSelfTest()`"
+    docs: [lifecycle, irreversible]
+  - topic: "WriteECKey and key generation on the chip"
+    doc: an12543
+    section: "WriteECKey"
+    page: 80
+    driver: "`Device::GenerateEcKey()`, `hrot::Device::Provision()`"
+    docs: [getting-started]
+  - topic: "WriteSymmKey, RFC 3394 wrapped import"
+    doc: an12543
+    section: "WriteSymmKey"
+    page: 83
+    driver: "`hrot::Device::Unwrap()`"
+    docs: [getting-started]
+  - topic: "WriteBinary, WriteUserID, WriteCounter"
+    doc: an12543
+    section: "WriteBinary, WriteUserID, WriteCounter"
+    page: 84
+    driver: "`Device::WriteBinary()`, `Device::IncrementCounter()`"
+    docs: [getting-started, objects-policies]
+  - topic: "ImportExternalObject"
+    doc: an12543
+    section: "ImportExternalObject"
+    page: 88
+    driver: "held (needs vendor contact per the note)"
+    docs: [getting-started, limitations]
+  - topic: "ReadObject and the attested read"
+    doc: an12543
+    section: "ReadObject"
+    page: 89
+    driver: "`Device::ReadObject()`, `Device::ReadAttested()`"
+    docs: [getting-started]
+  - topic: "DeleteSecureObject; provisioned objects stay"
+    doc: an12543
+    section: "DeleteSecureObject"
+    page: 96
+    driver: "`Device::DeleteObject()`"
+    docs: [lifecycle, objects-policies]
+  - topic: "ECDSASign and ECDSAVerify"
+    doc: an12543
+    section: "ECDSASign, ECDSAVerify"
+    page: 101
+    driver: "`Device::EcdsaSign()`, `hrot::Device::Sign()`"
+    docs: [getting-started]
+  - topic: "ECDHGenerateSharedSecret"
+    doc: an12543
+    section: "ECDHGenerateSharedSecret"
+    page: 105
+    driver: "`EcdhArgs`"
+    docs: [getting-started]
+  - topic: "AEAD one-shot limit 888 bytes"
+    doc: an12543
+    section: "AEADOneShot"
+    page: 125
+    driver: "`kAeadOneShotMax`"
+    docs: [limitations]
+  - topic: "GetVersion, GetTimestamp, GetFreeMemory, GetRandom"
+    doc: an12543
+    section: "Generic management commands"
+    page: 151
+    driver: "`Device::GetVersion()`, `GetRandom()`"
+    docs: [getting-started, variants]
+  - topic: "DeleteAll: factory reset role, unwrapped reply"
+    doc: an12543
+    section: "DeleteAll"
+    page: 154
+    driver: "`irreversible::DeleteAllObjects`"
+    docs: [irreversible, lifecycle]
+  - topic: "Edwards and Montgomery byte order on the wire"
+    doc: an12543
+    section: "Edwards and Montgomery byte order"
+    page: 168
+    driver: "`EcCurve`, byte-order helper"
+    docs: [getting-started]
+  - topic: "SE052 ATR bytes"
+    doc: se052
+    section: "Table 12 Configuration parameters"
+    page: 16
+    driver: "`ParseAtr()`"
+    docs: [se052]
+  - topic: "Object identifier ranges"
+    doc: an13904
+    section: "Object identifier ranges"
+    page: 7
+    driver: "`MakeUserObject()`"
+    docs: [objects-policies]
+  - topic: "WTX host timeout at least 4 s; NXP mode is the default"
+    doc: an13904
+    section: "WTX and T=1 mode"
+    page: 27
+    driver: "`kMinWtxHostTimeoutMs`, `TransportFlavour`"
+    docs: [transport, troubleshooting, se052]
+  - topic: "APDU throughput limit on the SE052F"
+    doc: an13904
+    section: "APDU throughput limit"
+    page: 28
+    driver: "`Error::ThroughputLimited`, `hrot::ApduBudget`"
+    docs: [se052, troubleshooting, status-words, security-model]
+  - topic: "Timeouts and waiting time extensions"
+    doc: an13030
+    section: "2.10"
+    page: 9
+    driver: "`Timeouts`, `Config::wtx_limit`, `kSessionOpenWtxAllowance`"
+    docs: [architecture, ambiguities, configuration, porting]
+  - topic: "APDU throughput limit, SW 0x66A6"
+    doc: an13030
+    section: "2.12 and 10.16.6"
+    page: 10
+    driver: "`Error::ThroughputLimited`, `t1::Rung::ChipReset`, `hrot::ApduBudget`"
+    docs: [safety, architecture, api-guide, troubleshooting, status-words]
+  - topic: "Policy flag layouts per applet generation"
+    doc: an13030
+    section: "Policy table for 3.x, 6.x and 7.x"
+    page: 53
+    driver: "`PolicyBuilder<Generation, Class>`, `RuleAllowedFor()`"
+    docs: [contract, ambiguities, objects-policies]
+  - topic: "ECKey session flow and receipt"
+    doc: an13030
+    section: "ECKey session"
+    page: 156
+    driver: "`eckey::Session`, `Config::verify_eckey_receipt`"
+    docs: [architecture, ambiguities, secure-channels]
+  - topic: "Platform SCP03 with AES-128 and AES-256; keys in plain files are insecure"
+    doc: an13030
+    section: "Platform SCP03"
+    page: 152
+    driver: "`scp03::Channel`, `KeyRef`"
+    docs: [secure-channels, security-model]
+  - topic: "Attestation formats 1 and 2"
+    doc: an13030
+    section: "Attested read"
+    page: 248
+    driver: "`attest::Verifier`, `AttestedRead`, `AttestationFormat`"
+    docs: [safety, contract, getting-started]
+  - topic: "Timestamp layout"
+    doc: an13030
+    section: "GetTimestamp"
+    page: 253
+    driver: "`Timestamp`, `attest::TimestampNotBefore()`"
+    docs: [safety, getting-started]
+  - topic: "PERSO applet and chip-side I2C settings"
+    doc: an13030
+    section: "Perso module notes"
+    page: 260
+    driver: "`perso::Perso`, `I2cParams`"
+    docs: [safety, ambiguities, se051]
+  - topic: "T=1 chip reset and deep power-down"
+    doc: an13030
+    section: "10.16"
+    page: 281
+    driver: "`t1::Rung::ChipReset`, `Device::DeepPowerDown()`"
+    docs: [architecture, transport]
+  - topic: "Authentication object 0 is the default session only"
+    doc: an12543
+    section: "3.7.1.2 Policy"
+    page: 36
+    driver: "`PolicyBuilder::ForAllOthers()`, `hrot::Device` policies"
+    docs: [objects-policies, ambiguities]
+  - topic: "DeleteAll and its unwrapped reply"
+    doc: an13030
+    section: "Command to applet: DeleteAll"
+    page: 615
+    driver: "`irreversible::DeleteAllObjects`, `ReplyEndsSession()`"
+    docs: [safety]
+  - topic: "GetFreeMemory reply width"
+    doc: an13030
+    section: "GetFreeMemory"
+    page: 641
+    driver: "`Features::free_memory_4byte`, `U32Reply`"
+    docs: [contract, variants]
+  - topic: "Lifecycle commands and their session preconditions"
+    doc: an13030
+    section: "SetLockState, SetPlatformSCPRequest, SetAppletFeatures"
+    page: 679
+    driver: "`RequiredRole()`, `AuthRole`"
+    docs: [safety, contract, lifecycle]
+  - topic: "Edwards and Montgomery keys, ECDH wear"
+    doc: an13030
+    section: "2.35.4 and 2.35.5"
+    page: 28
+    driver: "`EcCurve`, `EcdhArgs`"
+    docs: [contract]
+  - topic: "PERSO applet needs no authentication: anyone can change the address"
+    doc: an13015
+    section: "Deleting the PERSO applet"
+    page: 19
+    driver: "`perso::Perso::Probe()`"
+    docs: [se051, security-model, irreversible]
+  - topic: "PERSO I2C_PARAMS bits and ATR/CIP interface bytes"
+    doc: an13015
+    section: "I2C_PARAMS, ATR and CIP bytes"
+    page: 49
+    driver: "`I2cParams`, `perso::Tag`"
+    docs: [contract, ambiguities, se051, troubleshooting]
+  - topic: "Applet generations of the SE051"
+    doc: an12907
+    section: "Supported applet versions"
+    page: 13
+    driver: "`AppletGeneration`, `Capabilities::generation`"
+    docs: [contract, ambiguities, se051]
+  - topic: "SE051 OEF identifiers per variant"
+    doc: an12973
+    section: "Table 4"
+    page: 4
+    driver: "`Capabilities::oef`"
+    docs: [se051, variants]
+  - topic: "SE050 variant identifiers"
+    doc: an12436
+    section: "Table 2 Variant identifiers"
+    page: 8
+    driver: "`Identity::oef_id`"
+    docs: [se050, variants]
+  - topic: "Pre-provisioned attestation keys"
+    doc: an12436
+    section: "Tables 8 and 9"
+    page: 10
+    driver: "`ReservedId`, `hrot::Device::Attest()`"
+    docs: [getting-started, objects-policies]
+  - topic: "SE052F configuration: applet 7.2.22, AppletConfig 0x26F2, OEF B501"
+    doc: an14277
+    section: "SE052F configuration"
+    page: 2
+    driver: "`Capabilities`"
+    docs: [se052, variants]
+  - topic: "Development kit jumpers: ENA, reset, pull-ups"
+    doc: an13539
+    section: "Table 9 and the jumper tables"
+    page: 15
+    driver: "`ResetInterface`"
+    docs: [hardware, porting-esp-idf]

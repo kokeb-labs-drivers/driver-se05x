@@ -1,0 +1,31 @@
+---
+# Model of the figure 'scp03-open'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: scp03-open
+title: "Opening an SCP03 session"
+alt: >-
+  Opening an SCP03 session: Device::Open sends a host challenge, derives the session keys from the card's reply,
+  checks the card cryptogram and sends EXTERNAL AUTHENTICATE, after which every command and answer is protected.
+reads: >-
+  Participants, left to right: Device::Open, Crypto port and SE05x card manager. The steps run from top to bottom.
+  Device::Open sends host challenge (Random) to Crypto port. Device::Open sends INITIALIZE UPDATE (host challenge)
+  to SE05x card manager. SE05x card manager returns card challenge, card cryptogram to Device::Open. Device::Open
+  sends derive S-ENC, S-MAC, S-RMAC (CMAC KDF) to Crypto port. A note over Device::Open and SE05x card manager
+  says: Device::Open: check the card cryptogram. Device::Open sends EXTERNAL AUTHENTICATE (host cryptogram, level)
+  to SE05x card manager. A note over Device::Open and SE05x card manager says: from here every command: C-MAC (+
+  C-DEC); every answer: R-MAC (+ R-ENC).
+print: landscape
+sources:
+  - docs/model/scp03-open.seq.yml
+participants:
+  - {id: d, label: "Device::Open", tone: green}
+  - {id: c, label: "Crypto port", tone: teal}
+  - {id: s, label: "SE05x card manager", tone: amber}
+steps:
+  - {from: d, to: c, label: "host challenge (Random)"}
+  - {from: d, to: s, label: "INITIALIZE UPDATE (host challenge)"}
+  - {from: s, to: d, label: "card challenge, card cryptogram", return: true}
+  - {from: d, to: c, label: "derive S-ENC, S-MAC, S-RMAC (CMAC KDF)"}
+  - {note: "Device::Open: check the card cryptogram", over: [d, s]}
+  - {from: d, to: s, label: "EXTERNAL AUTHENTICATE (host cryptogram, level)"}
+  - {note: "from here every command: C-MAC (+ C-DEC); every answer: R-MAC (+ R-ENC)", over: [d, s]}

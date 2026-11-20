@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627" role="img" aria-labelledby="t1-frame-title t1-frame-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="t1-frame-title">One T=1 block on the bus</title>
+<desc id="t1-frame-desc">Two rows of fields: the NXP flavour NAD, PCB, one-byte LEN, INF up to 254 bytes, CRC; the GP flavour NAD, PCB, two-byte LEN, INF up to 4089 bytes, CRC; and the three PCB forms.</desc>
+<rect x="0.5" y="0.5" width="1199" height="626" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#7A360E">TRANSPORT</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#0E1726">One T=1 block on the bus</text>
+<text x="32" y="103.8" font-size="15" fill="#566070">One block is one I2C write; a reply is read after the chip stops NAKing its address.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="32" y="137.8" width="1136" height="150" rx="14" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1.2"/>
+<rect x="32" y="307.8" width="1136" height="150" rx="14" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1.2"/>
+<rect x="48" y="178.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="48" y="186.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="211.5" y="178.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="211.5" y="186.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="375" y="178.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="375" y="186.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="538.5" y="178.8" width="330" height="88" rx="10" fill="#F3EEFF" stroke="#7C3AED" stroke-width="1.4"/>
+<rect x="538.5" y="186.8" width="4" height="72" rx="2" fill="#7C3AED"/>
+<rect x="882" y="178.8" width="270" height="88" rx="10" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="882" y="186.8" width="4" height="72" rx="2" fill="#0B7A72"/>
+<rect x="48" y="348.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="48" y="356.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="211.5" y="348.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="211.5" y="356.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="375" y="348.8" width="150" height="88" rx="10" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<rect x="375" y="356.8" width="4" height="72" rx="2" fill="#2563EB"/>
+<rect x="538.5" y="348.8" width="330" height="88" rx="10" fill="#F3EEFF" stroke="#7C3AED" stroke-width="1.4"/>
+<rect x="538.5" y="356.8" width="4" height="72" rx="2" fill="#7C3AED"/>
+<rect x="882" y="348.8" width="270" height="88" rx="10" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<rect x="882" y="356.8" width="4" height="72" rx="2" fill="#0B7A72"/>
+<rect x="32" y="477.8" width="365.3" height="88" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="485.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="417.3" y="477.8" width="365.3" height="88" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="417.3" y="485.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<rect x="802.7" y="477.8" width="365.3" height="88" rx="10" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="802.7" y="485.8" width="4" height="72" rx="2" fill="#9A4A17"/>
+<text x="48" y="162.8" font-size="13" font-weight="700" fill="#334155">NXP FLAVOUR</text>
+<text x="159.1" y="162.8" font-size="12" fill="#334155">UM11225 Table 1, p. 5</text>
+<text x="68" y="205.6" font-size="15" font-weight="700" fill="#1E429F">NAD</text>
+<text x="68" y="230.4" font-size="13" fill="#2B3442">0x5A to chip</text>
+<text x="68" y="249.2" font-size="13" fill="#2B3442">0xA5 to host</text>
+<text x="231.5" y="205.6" font-size="15" font-weight="700" fill="#1E429F">PCB</text>
+<text x="231.5" y="230.4" font-size="13" fill="#2B3442">block type</text>
+<text x="231.5" y="249.2" font-size="13" fill="#2B3442">sequence bits</text>
+<text x="395" y="205.6" font-size="15" font-weight="700" fill="#1E429F">LEN</text>
+<text x="395" y="230.4" font-size="13" fill="#2B3442">1 byte</text>
+<text x="395" y="249.2" font-size="13" fill="#2B3442">0 to 254</text>
+<text x="558.5" y="205.6" font-size="15" font-weight="700" fill="#5B21B6">INF</text>
+<text x="558.5" y="230.4" font-size="13" fill="#2B3442">0 to 254 bytes</text>
+<text x="558.5" y="249.2" font-size="13" fill="#2B3442">an APDU or a part of one</text>
+<text x="902" y="205.6" font-size="15" font-weight="700" fill="#0B5F59">CRC</text>
+<text x="902" y="230.4" font-size="13" fill="#2B3442">2 bytes over NAD..INF</text>
+<text x="902" y="249.2" font-size="13" fill="#2B3442">order: tried both</text>
+<text x="48" y="332.8" font-size="13" font-weight="700" fill="#334155">GLOBALPLATFORM FLAVOUR</text>
+<text x="262.2" y="332.8" font-size="12" fill="#334155">GPC_SPE_172 Table 4-1, p. 33</text>
+<text x="68" y="375.6" font-size="15" font-weight="700" fill="#1E429F">NAD</text>
+<text x="68" y="400.4" font-size="13" fill="#2B3442">0x21 to chip</text>
+<text x="68" y="419.3" font-size="13" fill="#2B3442">0x12 to host</text>
+<text x="231.5" y="375.6" font-size="15" font-weight="700" fill="#1E429F">PCB</text>
+<text x="231.5" y="400.4" font-size="13" fill="#2B3442">block type</text>
+<text x="231.5" y="419.3" font-size="13" fill="#2B3442">sequence bits</text>
+<text x="395" y="375.6" font-size="15" font-weight="700" fill="#1E429F">LEN</text>
+<text x="395" y="400.4" font-size="13" fill="#2B3442">2 bytes</text>
+<text x="395" y="419.3" font-size="13" fill="#2B3442">big endian</text>
+<text x="558.5" y="375.6" font-size="15" font-weight="700" fill="#5B21B6">INF</text>
+<text x="558.5" y="400.4" font-size="13" fill="#2B3442">0 to 4089 bytes</text>
+<text x="558.5" y="419.3" font-size="13" fill="#2B3442">an APDU or a part of one</text>
+<text x="902" y="375.6" font-size="15" font-weight="700" fill="#0B5F59">CRC</text>
+<text x="902" y="400.4" font-size="13" fill="#2B3442">2 bytes over NAD..INF</text>
+<text x="902" y="419.3" font-size="13" fill="#2B3442">X-25, MSB first (0xBDA4)</text>
+<text x="52" y="504.6" font-size="15" font-weight="700" fill="#0E1726">I-block</text>
+<text x="52" y="529.4" font-size="13" fill="#2B3442">PCB 0 N(S) M 00000</text>
+<text x="52" y="548.2" font-size="13" fill="#2B3442">carries the APDU; M = more to come</text>
+<text x="437.3" y="504.6" font-size="15" font-weight="700" fill="#0E1726">R-block</text>
+<text x="437.3" y="529.4" font-size="13" fill="#2B3442">PCB 100 N(R) 00 EE</text>
+<text x="437.3" y="548.2" font-size="13" fill="#2B3442">acknowledge (EE 00) or error 01, 10</text>
+<text x="822.7" y="504.6" font-size="15" font-weight="700" fill="#0E1726">S-block</text>
+<text x="822.7" y="529.4" font-size="13" fill="#2B3442">PCB 11 x xxxxx</text>
+<text x="822.7" y="548.2" font-size="13" fill="#2B3442">control: resync, IFS, abort, WTX, reset</text>
+<rect x="32" y="581.2" width="14" height="14" rx="4" fill="#EAF2FF" stroke="#2563EB" stroke-width="1.4"/>
+<text x="54" y="592.8" font-size="12.5" fill="#566070">prologue</text>
+<rect x="133.9" y="581.2" width="14" height="14" rx="4" fill="#F3EEFF" stroke="#7C3AED" stroke-width="1.4"/>
+<text x="155.9" y="592.8" font-size="12.5" fill="#566070">information field</text>
+<rect x="282" y="581.2" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="304" y="592.8" font-size="12.5" fill="#566070">epilogue</text>
+</svg>

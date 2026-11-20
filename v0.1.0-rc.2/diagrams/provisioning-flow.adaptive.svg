@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1168" viewBox="0 0 640 1168" role="img" aria-labelledby="provisioning-flow-title provisioning-flow-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" class="fk">
+<title id="provisioning-flow-title">The factory provisioning flow</title>
+<desc id="provisioning-flow-desc">Flow of factory provisioning: open with the product's platform keys, provision keys, record the identity, install certificates, create counters and store credentials, then either lock the device or ship it unlocked for development.</desc>
+<style>
+.fk{--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-blue-strong:#2563EB;--fk-canvas:#FFFFFF;--fk-card:#FFFFFF;--fk-frame:#E2E7EE;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-ink2:#2B3442;--fk-line:#738093;--fk-muted:#566070;--fk-rail:#7C8798;--fk-rose-strong:#DB2752;--fk-slate-strong:#64748B;}
+@media (prefers-color-scheme:dark){.fk{--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-blue-strong:#60A5FA;--fk-canvas:#0E131A;--fk-card:#151C26;--fk-frame:#283241;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-ink2:#D2DAE4;--fk-line:#6C7889;--fk-muted:#9AA6B5;--fk-rail:#6C7889;--fk-rose-strong:#FB7185;--fk-slate-strong:#94A3B8;}}
+:root[data-theme="dark"] .fk,[data-md-color-scheme="slate"] .fk{--fk-amber-strong:#FBBF24;--fk-amber-text:#FDE68A;--fk-amber-tint:#2C2310;--fk-blue-strong:#60A5FA;--fk-canvas:#0E131A;--fk-card:#151C26;--fk-frame:#283241;--fk-hair:#252F3C;--fk-ink:#E8EDF3;--fk-ink2:#D2DAE4;--fk-line:#6C7889;--fk-muted:#9AA6B5;--fk-rail:#6C7889;--fk-rose-strong:#FB7185;--fk-slate-strong:#94A3B8;}
+:root[data-theme="light"] .fk,[data-md-color-scheme="default"] .fk{--fk-amber-strong:#C26A05;--fk-amber-text:#8A3C0B;--fk-amber-tint:#FFF5E3;--fk-blue-strong:#2563EB;--fk-canvas:#FFFFFF;--fk-card:#FFFFFF;--fk-frame:#E2E7EE;--fk-hair:#E2E7EE;--fk-ink:#0E1726;--fk-ink2:#2B3442;--fk-line:#738093;--fk-muted:#566070;--fk-rail:#7C8798;--fk-rose-strong:#DB2752;--fk-slate-strong:#64748B;}
+.fk-f-amber-strong{fill:var(--fk-amber-strong)}.fk-s-amber-strong{stroke:var(--fk-amber-strong)}
+.fk-f-amber-text{fill:var(--fk-amber-text)}.fk-s-amber-text{stroke:var(--fk-amber-text)}
+.fk-f-amber-tint{fill:var(--fk-amber-tint)}.fk-s-amber-tint{stroke:var(--fk-amber-tint)}
+.fk-f-blue-strong{fill:var(--fk-blue-strong)}.fk-s-blue-strong{stroke:var(--fk-blue-strong)}
+.fk-f-canvas{fill:var(--fk-canvas)}.fk-s-canvas{stroke:var(--fk-canvas)}
+.fk-f-card{fill:var(--fk-card)}.fk-s-card{stroke:var(--fk-card)}
+.fk-f-frame{fill:var(--fk-frame)}.fk-s-frame{stroke:var(--fk-frame)}
+.fk-f-hair{fill:var(--fk-hair)}.fk-s-hair{stroke:var(--fk-hair)}
+.fk-f-ink{fill:var(--fk-ink)}.fk-s-ink{stroke:var(--fk-ink)}
+.fk-f-ink2{fill:var(--fk-ink2)}.fk-s-ink2{stroke:var(--fk-ink2)}
+.fk-f-line{fill:var(--fk-line)}.fk-s-line{stroke:var(--fk-line)}
+.fk-f-muted{fill:var(--fk-muted)}.fk-s-muted{stroke:var(--fk-muted)}
+.fk-f-rail{fill:var(--fk-rail)}.fk-s-rail{stroke:var(--fk-rail)}
+.fk-f-rose-strong{fill:var(--fk-rose-strong)}.fk-s-rose-strong{stroke:var(--fk-rose-strong)}
+.fk-f-slate-strong{fill:var(--fk-slate-strong)}.fk-s-slate-strong{stroke:var(--fk-slate-strong)}
+@media (forced-colors:active){.fk text{fill:CanvasText}.fk rect,.fk circle{fill:Canvas;stroke:CanvasText}.fk path{stroke:CanvasText}.fk marker path{fill:CanvasText;stroke:none}}
+</style>
+<defs><marker id="provisioning-flow-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fk-f-rail"/></marker></defs>
+<rect x="0.5" y="0.5" width="639" height="1167" rx="16" class="fk-f-canvas fk-s-frame"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" class="fk-f-ink">The factory provisioning flow</text>
+<rect x="32" y="70.8" width="576" height="1" class="fk-f-hair"/>
+<path d="M320.5 161.8 L320.5 192.3 Q320.5 192.8 320 192.8 L320 192.8 Q319.5 192.8 319.5 193.3 L319.5 223.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M319.5 300.8 L320 362.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M320 458.8 L320.5 520.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M320.5 572.8 L320 634.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M320 711.8 L320 773.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M320 850.8 L320 912.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M239 964.8 L239 973 Q239 981 231 981 L205 981 Q197 981 197 989 L197 1026.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<path d="M401 964.8 L401 1002.6 Q401 1010.6 409 1010.6 L435 1010.6 Q443 1010.6 443 1018.6 L443 1045.8" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#provisioning-flow-arrow-rail)" class="fk-s-rail"/>
+<rect x="154" y="88.8" width="333" height="69" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="154" y="96.8" width="4" height="53" rx="2" class="fk-f-blue-strong"/>
+<rect x="200" y="227.8" width="239" height="69" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="200" y="235.8" width="4" height="53" rx="2" class="fk-f-blue-strong"/>
+<rect x="225" y="366.8" width="190" height="88" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="225" y="374.8" width="4" height="72" rx="2" class="fk-f-blue-strong"/>
+<rect x="186" y="524.8" width="269" height="44" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="186" y="532.8" width="4" height="28" rx="2" class="fk-f-blue-strong"/>
+<rect x="225" y="638.8" width="190" height="69" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="225" y="646.8" width="4" height="53" rx="2" class="fk-f-blue-strong"/>
+<rect x="225" y="777.8" width="190" height="69" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="225" y="785.8" width="4" height="53" rx="2" class="fk-f-blue-strong"/>
+<rect x="225" y="916.8" width="190" height="44" rx="10" stroke-width="1.4" class="fk-f-amber-tint fk-s-amber-strong"/>
+<rect x="225" y="924.8" width="4" height="28" rx="2" class="fk-f-amber-strong"/>
+<rect x="102" y="1030.8" width="190" height="107" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="102" y="1038.8" width="4" height="91" rx="2" class="fk-f-rose-strong"/>
+<rect x="348" y="1049.8" width="190" height="69" rx="10" stroke-width="1" class="fk-f-card fk-s-line"/>
+<rect x="348" y="1057.8" width="4" height="53" rx="2" class="fk-f-slate-strong"/>
+<text x="174" y="115.5" font-size="15" font-weight="700" class="fk-f-ink">Open with the product's platform keys</text>
+<text x="174" y="140.4" font-size="13" class="fk-f-ink2">never the vendor defaults</text>
+<text x="220" y="254.6" font-size="15" font-weight="700" class="fk-f-ink">CheckPlan, then Provision</text>
+<text x="220" y="279.4" font-size="13" class="fk-f-ink2">sign, TLS, agree keys</text>
+<text x="245" y="393.6" font-size="15" font-weight="700" class="fk-f-ink">FactoryRecord</text>
+<text x="245" y="418.4" font-size="13" class="fk-f-ink2">Identify, public keys,</text>
+<text x="245" y="437.3" font-size="13" class="fk-f-ink2">attestation</text>
+<text x="206" y="551.5" font-size="15" font-weight="700" class="fk-f-ink">CSR, certificates, trust anchor</text>
+<text x="245" y="665.5" font-size="15" font-weight="700" class="fk-f-ink">CreateCounter</text>
+<text x="245" y="690.4" font-size="13" class="fk-f-ink2">anti-rollback floors</text>
+<text x="245" y="804.5" font-size="15" font-weight="700" class="fk-f-ink">Store</text>
+<text x="245" y="829.4" font-size="13" class="fk-f-ink2">network credentials</text>
+<text x="245" y="943.5" font-size="15" font-weight="700" class="fk-f-amber-text">Lock?</text>
+<text x="122" y="1057.5" font-size="15" font-weight="700" class="fk-f-ink">Irreversible</text>
+<text x="122" y="1082.4" font-size="13" class="fk-f-ink2">RequirePlatformScp,</text>
+<text x="122" y="1101.2" font-size="13" class="fk-f-ink2">SetLockStatePersistent,</text>
+<text x="122" y="1120.1" font-size="13" class="fk-f-ink2">DisableObjectCreation</text>
+<text x="368" y="1076.5" font-size="15" font-weight="700" class="fk-f-ink">Ship unlocked</text>
+<text x="368" y="1101.4" font-size="13" class="fk-f-ink2">development only</text>
+<rect x="247.1" y="971" width="126.8" height="20" rx="10" class="fk-f-canvas"/>
+<text x="310.5" y="985.3" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">plan, read, confirm</text>
+<rect x="394.9" y="1000.6" width="54.2" height="20" rx="10" class="fk-f-canvas"/>
+<text x="422" y="1015" font-size="12" font-weight="500" text-anchor="middle" class="fk-f-muted">not yet</text>
+</svg>

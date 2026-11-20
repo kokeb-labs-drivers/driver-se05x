@@ -1,0 +1,54 @@
+{
+ "direction": "TB",
+ "edges": [
+  {
+   "from": "a",
+   "to": "b",
+   "via": []
+  },
+  {
+   "from": "b",
+   "to": "c",
+   "via": []
+  },
+  {
+   "from": "c",
+   "to": "d",
+   "via": []
+  }
+ ],
+ "engine": "graphviz dot 13.1.0 (recorded for the reader; render never reads it)",
+ "figkit_layout": 1,
+ "id": "first-15-minutes",
+ "input": "0e17b4b0df8915ca7707ea09ccf10e476027119f5a1b911a9e2822f842668cf4",
+ "nodes": {
+  "a": [
+   18,
+   0,
+   285,
+   69
+  ],
+  "b": [
+   40,
+   115,
+   240,
+   69
+  ],
+  "c": [
+   48,
+   230,
+   223,
+   44
+  ],
+  "d": [
+   0,
+   320,
+   320,
+   44
+  ]
+ },
+ "size": [
+  320,
+  364
+ ]
+}

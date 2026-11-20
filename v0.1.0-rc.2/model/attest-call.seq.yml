@@ -1,0 +1,32 @@
+---
+# Model of the figure 'attest-call'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: attest-call
+title: "An attested read"
+alt: >-
+  An attested read: the facade draws a fresh nonce, asks the chip to read the object with attestation, and checks
+  the command hash, the signature, a later timestamp and the unique id on the host before it returns a Verified
+  result.
+reads: >-
+  Participants, left to right: Firmware, hrot::Device and SE05x. The steps run from top to bottom. Firmware sends
+  Attest(trusted attestation key, slot 0) to hrot::Device. A note over Firmware and hrot::Device and SE05x says:
+  hrot::Device: fresh 16-byte nonce from the host crypto port. hrot::Device sends ReadObject with attestation
+  (nonce) to SE05x. SE05x returns value, unique id, timestamp, attributes, signature to hrot::Device. A note over
+  Firmware and hrot::Device and SE05x says: hrot::Device: check the command hash and the signature over the TLVs
+  as returned. A note over Firmware and hrot::Device and SE05x says: hrot::Device: check a later timestamp and the
+  unique id against this open's read. hrot::Device returns Verified<AttestedValue>, or an error to Firmware.
+print: landscape
+sources:
+  - docs/model/attest-call.seq.yml
+participants:
+  - {id: f, label: "Firmware", tone: magenta}
+  - {id: h, label: "hrot::Device", tone: green}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {from: f, to: h, label: "Attest(trusted attestation key, slot 0)"}
+  - {note: "hrot::Device: fresh 16-byte nonce from the host crypto port", over: [f, h, s]}
+  - {from: h, to: s, label: "ReadObject with attestation (nonce)"}
+  - {from: s, to: h, label: "value, unique id, timestamp, attributes, signature", return: true}
+  - {note: "hrot::Device: check the command hash and the signature over the TLVs as returned", over: [f, h, s]}
+  - {note: "hrot::Device: check a later timestamp and the unique id against this open's read", over: [f, h, s]}
+  - {from: h, to: f, label: "Verified<AttestedValue>, or an error", return: true}

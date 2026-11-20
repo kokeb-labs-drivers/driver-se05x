@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="982" viewBox="0 0 1200 982" role="img" aria-labelledby="variant-decision-title variant-decision-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="variant-decision-title">Choosing a variant, an applet and an authentication</title>
+<desc id="variant-decision-desc">Decision tree: FIPS 140-3 leads to SE052F, FIPS 140-2 to SE050F, NFC and Matter to SE051H, UWB to SE051W, field updates to SE051A or C, else SE050E, C, A, B or D by algorithms; then platform SCP03, ECKey or UserID sessions.</desc>
+<defs><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="981" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">DECIDE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">Choosing a variant, an applet and an authentication</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Take the first yes. Capabilities are read from the chip at Open().</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<path d="M596 159.8 L683.8 159.8 Q690 159.8 690 166.1 L690 166.1 Q690 172.3 696.2 172.3 L784 172.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 235.8 L683.8 235.8 Q690 235.8 690 242.1 L690 242.1 Q690 248.3 696.2 248.3 L784 248.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 185.8 L116 209.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 311.8 L683.8 311.8 Q690 311.8 690 318.1 L690 318.1 Q690 324.3 696.2 324.3 L784 324.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 261.8 L116 285.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 387.8 L683.8 387.8 Q690 387.8 690 394.1 L690 394.1 Q690 400.3 696.2 400.3 L784 400.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 337.8 L116 361.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 463.8 L683.8 463.8 Q690 463.8 690 470.1 L690 470.1 Q690 476.3 696.2 476.3 L784 476.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 413.8 L116 437.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 539.8 L683.8 539.8 Q690 539.8 690 546 L690 546 Q690 552.3 696.2 552.3 L784 552.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 489.8 L116 513.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 615.8 L683.8 615.8 Q690 615.8 690 622 L690 622 Q690 628.3 696.2 628.3 L784 628.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 565.8 L116 589.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 691.8 L683.8 691.8 Q690 691.8 690 698 L690 698 Q690 704.3 696.2 704.3 L784 704.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 641.8 L116 665.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M116 717.8 L116 741.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 767.8 L683.8 767.8 Q690 767.8 690 774 L690 774 Q690 780.3 696.2 780.3 L784 780.3" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="137.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="137.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="213.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="221.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="213.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="221.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="289.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="297.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="289.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="297.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="365.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="373.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="365.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="373.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="441.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="449.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="441.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="449.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="517.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="525.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="517.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="525.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="593.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="601.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="593.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="601.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="669.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="677.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="669.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="677.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="745.8" width="560" height="44" rx="10" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<rect x="32" y="753.8" width="4" height="28" rx="2" fill="#F4B942"/>
+<rect x="788" y="745.8" width="380" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="788" y="753.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="32" y="851.8" width="365.3" height="69" rx="10" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="32" y="859.8" width="4" height="53" rx="2" fill="#A78BFA"/>
+<rect x="417.3" y="851.8" width="365.3" height="69" rx="10" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="417.3" y="859.8" width="4" height="53" rx="2" fill="#A78BFA"/>
+<rect x="802.7" y="851.8" width="365.3" height="69" rx="10" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<rect x="802.7" y="859.8" width="4" height="53" rx="2" fill="#A78BFA"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#F8D27A">FIPS 140-3 Level 3 needed?</text>
+<text x="808" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">SE052F</text>
+<text x="808" y="189.4" font-size="13" fill="#D2DAE4">applet 7.2.22, HVQFN20, no ENA</text>
+<rect x="673.2" y="156.1" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="170.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<text x="52" y="240.6" font-size="15" font-weight="700" fill="#F8D27A">FIPS 140-2, SCP03 always on?</text>
+<text x="808" y="240.6" font-size="15" font-weight="700" fill="#A7F3E6">SE050F</text>
+<text x="808" y="265.4" font-size="13" fill="#D2DAE4">applet 3.6.0</text>
+<rect x="673.2" y="232.1" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="246.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="187.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="202.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="316.6" font-size="15" font-weight="700" fill="#F8D27A">NFC commissioning or Matter PAKE?</text>
+<text x="808" y="316.6" font-size="15" font-weight="700" fill="#A7F3E6">SE051H</text>
+<text x="808" y="341.4" font-size="13" fill="#D2DAE4">applet 7.x</text>
+<rect x="673.2" y="308.1" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="322.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="263.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="278.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="392.6" font-size="15" font-weight="700" fill="#F8D27A">UWB?</text>
+<text x="808" y="392.6" font-size="15" font-weight="700" fill="#A7F3E6">SE051W</text>
+<text x="808" y="417.4" font-size="13" fill="#D2DAE4">applet 7.x</text>
+<rect x="673.2" y="384.1" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="398.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="339.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="354.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="468.6" font-size="15" font-weight="700" fill="#F8D27A">Field update of the applet?</text>
+<text x="808" y="468.6" font-size="15" font-weight="700" fill="#A7F3E6">SE051A or SE051C</text>
+<text x="808" y="493.4" font-size="13" fill="#D2DAE4">applet 6.0 or 7.2, SEMS Lite</text>
+<rect x="673.2" y="460.1" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="474.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="415.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="430.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="544.5" font-size="15" font-weight="700" fill="#F8D27A">AES-GCM or CCM, Curve448?</text>
+<text x="808" y="544.5" font-size="15" font-weight="700" fill="#A7F3E6">SE050E</text>
+<text x="808" y="569.4" font-size="13" fill="#D2DAE4">applet 7.2, 1 MHz without stretching</text>
+<rect x="673.2" y="536" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="550.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="491.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="506.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="620.5" font-size="15" font-weight="700" fill="#F8D27A">ECC and RSA, more cloud keys?</text>
+<text x="808" y="620.5" font-size="15" font-weight="700" fill="#A7F3E6">SE050C</text>
+<text x="808" y="645.4" font-size="13" fill="#D2DAE4">applet 3.x</text>
+<rect x="673.2" y="612" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="626.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="567.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="582.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="696.5" font-size="15" font-weight="700" fill="#F8D27A">RSA only? DESFire?</text>
+<text x="808" y="696.5" font-size="15" font-weight="700" fill="#A7F3E6">SE050B or SE050D</text>
+<text x="808" y="721.4" font-size="13" fill="#D2DAE4">applet 3.x</text>
+<rect x="673.2" y="688" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="690" y="702.4" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<rect x="102.3" y="643.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="658.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="772.5" font-size="15" font-weight="700" fill="#F8D27A">Otherwise</text>
+<rect x="102.3" y="719.8" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="116" y="734.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="808" y="772.5" font-size="15" font-weight="700" fill="#A7F3E6">SE050A</text>
+<text x="808" y="797.4" font-size="13" fill="#D2DAE4">ECC only, applet 3.x</text>
+<text x="52" y="878.5" font-size="15" font-weight="700" fill="#DDD6FE">Platform SCP03</text>
+<text x="52" y="903.4" font-size="13" fill="#D2DAE4">whenever the I2C bus can be probed</text>
+<text x="437.3" y="878.5" font-size="15" font-weight="700" fill="#DDD6FE">ECKey session</text>
+<text x="437.3" y="903.4" font-size="13" fill="#D2DAE4">bind one host to the chip</text>
+<text x="822.7" y="878.5" font-size="15" font-weight="700" fill="#DDD6FE">UserID session</text>
+<text x="822.7" y="903.4" font-size="13" fill="#D2DAE4">trusted host OS only: no secure messaging</text>
+<rect x="32" y="936.2" width="14" height="14" rx="4" fill="#2A2113" stroke="#F4B942" stroke-width="1.4"/>
+<text x="54" y="947.8" font-size="12.5" fill="#9AA6B5">question</text>
+<rect x="132" y="936.2" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="154" y="947.8" font-size="12.5" fill="#9AA6B5">variant</text>
+<rect x="220.7" y="936.2" width="14" height="14" rx="4" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<text x="242.7" y="947.8" font-size="12.5" fill="#9AA6B5">authentication</text>
+</svg>

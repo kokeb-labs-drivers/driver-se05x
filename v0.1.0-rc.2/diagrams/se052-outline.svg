@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="788" viewBox="0 0 1200 788" role="img" aria-labelledby="se052-outline-title se052-outline-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="se052-outline-title">SE052 package outline, HVQFN20</title>
+<desc id="se052-outline-desc">Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high.</desc>
+<rect x="0.5" y="0.5" width="1199" height="787" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#7A360E">SE052</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#0E1726">SE052 package outline, HVQFN20</text>
+<text x="32" y="103.8" font-size="15" fill="#566070">SE052 data sheet Rev. 1.5: section 6 (p. 5), pin order Table 2 (p. 4)</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="152" y="207.8" width="360" height="360" rx="8" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<circle cx="172" cy="227.8" r="6" fill="#2B3442"/>
+<rect x="138" y="293.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="238" y="567.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="512" y="473.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="418" y="193.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="138" y="338.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="283" y="567.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="512" y="428.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="373" y="193.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="138" y="383.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="328" y="567.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="512" y="383.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="328" y="193.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="138" y="428.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="373" y="567.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="512" y="338.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="283" y="193.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="138" y="473.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="418" y="567.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="512" y="293.8" width="14" height="8" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="238" y="193.8" width="8" height="14" rx="1" fill="#2B3442" stroke="#2B3442" stroke-width="1"/>
+<rect x="712" y="349.6" width="360" height="76.5" rx="3" fill="#F5F7FA" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="647.8" width="1136" height="79.3" rx="10" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="332" y="379.8" font-size="22" font-weight="700" text-anchor="middle" fill="#0E1726">SE052</text>
+<text x="332" y="405.8" font-size="14" text-anchor="middle" fill="#566070">top view</text>
+<text x="130" y="301.8" font-size="14" text-anchor="end" fill="#0E1726">1</text>
+<text x="332" y="607.8" font-size="15" text-anchor="middle" fill="#0E1726">4.0 mm</text>
+<text x="538" y="387.8" font-size="15" fill="#0E1726">4.0 mm</text>
+<text x="332" y="179.8" font-size="14" text-anchor="middle" fill="#566070">pitch 0.5 mm, 5 pins per side</text>
+<text x="892" y="335.6" font-size="14" text-anchor="middle" fill="#566070">side view</text>
+<text x="1084" y="392.8" font-size="15" fill="#0E1726">0.85 mm</text>
+<text x="892" y="452.1" font-size="15" text-anchor="middle" fill="#0E1726">4.0 mm</text>
+<text x="46" y="674.5" font-size="15" font-weight="700" fill="#334155">Footprint</text>
+<text x="46" y="692.3" font-size="13" fill="#334155">Terminal sizes and the exposed pad are in the package drawing SOT917-7, which the data sheet refers to; use that drawing for the footprint. The SE050 and SE051</text>
+<text x="46" y="711.2" font-size="13" fill="#334155">HX2QFN20 is 3.0 x 3.0 x 0.32 mm at 0.4 mm.</text>
+<rect x="32" y="742.5" width="14" height="14" rx="4" fill="#E6F6F4" stroke="#0B7A72" stroke-width="1.4"/>
+<text x="54" y="754.2" font-size="12.5" fill="#566070">body</text>
+<rect x="109.6" y="742.5" width="14" height="14" rx="4" fill="#F1F4F8" stroke="#64748B" stroke-width="1.4"/>
+<text x="131.6" y="754.2" font-size="12.5" fill="#566070">pin position</text>
+</svg>

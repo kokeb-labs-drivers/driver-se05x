@@ -1,0 +1,34 @@
+---
+# Model of the figure 'csr-flow'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: csr-flow
+title: "From a device key to a stored certificate"
+alt: >-
+  The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA
+  issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies
+  on every boot.
+reads: >-
+  Participants, left to right: Your CA, Factory station, Device firmware and SE05x. The steps run from top to
+  bottom. Device firmware sends generate the device key (inside the chip) to SE05x. Device firmware sends sign the
+  CSR body (ECDSASign) to SE05x. Device firmware sends CSR with the unique id as serialNumber to Factory station.
+  Factory station sends CSR to Your CA. Your CA returns device certificate, CA certificate to Factory station.
+  Factory station sends both certificates to Device firmware. Device firmware sends WriteBinary: certificate and
+  trust anchor (nobody may write them) to SE05x. A note over Device firmware and SE05x says: every boot: read both
+  back, verify the chain.
+print: landscape
+sources:
+  - docs/model/csr-flow.seq.yml
+participants:
+  - {id: ca, label: "Your CA", tone: magenta}
+  - {id: f, label: "Factory station", tone: magenta}
+  - {id: d, label: "Device firmware", tone: magenta}
+  - {id: s, label: "SE05x", tone: amber}
+steps:
+  - {from: d, to: s, label: "generate the device key (inside the chip)"}
+  - {from: d, to: s, label: "sign the CSR body (ECDSASign)"}
+  - {from: d, to: f, label: "CSR with the unique id as serialNumber"}
+  - {from: f, to: ca, label: "CSR"}
+  - {from: ca, to: f, label: "device certificate, CA certificate", return: true}
+  - {from: f, to: d, label: "both certificates"}
+  - {from: d, to: s, label: "WriteBinary: certificate and trust anchor (nobody may write them)"}
+  - {note: "every boot: read both back, verify the chain", over: [d, s]}

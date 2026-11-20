@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1129" height="544" viewBox="0 0 1129 544" role="img" aria-labelledby="csr-flow-title csr-flow-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="csr-flow-title">From a device key to a stored certificate</title>
+<desc id="csr-flow-desc">The certificate flow: the chip generates the device key and signs the CSR body, the factory station has your CA issue the device and CA certificates, and the firmware writes both to the chip, which it reads back and verifies on every boot.</desc>
+<defs><marker id="csr-flow-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker></defs>
+<rect x="0.5" y="0.5" width="1128" height="543" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="54.8" font-size="26" font-weight="700" fill="#E8EDF3">From a device key to a stored certificate</text>
+<rect x="32" y="70.8" width="1065" height="1" fill="#252F3C"/>
+<path d="M104.6 144.8 L104.6 530.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M329 144.8 L329 530.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M596.6 144.8 L596.6 530.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M1024.4 144.8 L1024.4 530.8" fill="none" stroke="#6C7889" stroke-width="1.2" stroke-dasharray="5 5"/>
+<path d="M600.6 180.8 L1020.4 180.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M600.6 224.8 L1020.4 224.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M592.6 268.8 L333 268.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M325 312.8 L108.6 312.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M108.6 356.8 L325 356.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M333 400.8 L592.6 400.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<path d="M600.6 444.8 L1020.4 444.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#csr-flow-arrow-rail)"/>
+<rect x="39.6" y="88.8" width="130" height="52" rx="10" fill="#2E1533" stroke="#F0ABFC" stroke-width="1.4"/>
+<rect x="39.6" y="96.8" width="4" height="36" rx="2" fill="#F0ABFC"/>
+<rect x="249.4" y="88.8" width="159" height="52" rx="10" fill="#2E1533" stroke="#F0ABFC" stroke-width="1.4"/>
+<rect x="249.4" y="96.8" width="4" height="36" rx="2" fill="#F0ABFC"/>
+<rect x="511.8" y="88.8" width="169.7" height="52" rx="10" fill="#2E1533" stroke="#F0ABFC" stroke-width="1.4"/>
+<rect x="511.8" y="96.8" width="4" height="36" rx="2" fill="#F0ABFC"/>
+<rect x="959.4" y="88.8" width="130" height="52" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="959.4" y="96.8" width="4" height="36" rx="2" fill="#FBBF24"/>
+<rect x="526.6" y="472.8" width="567.8" height="41" rx="10" fill="#2C2310" stroke="#6A5220" stroke-width="1"/>
+<text x="107.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#F5D0FE">Your CA</text>
+<text x="332" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#F5D0FE">Factory station</text>
+<text x="599.6" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#F5D0FE">Device firmware</text>
+<text x="1027.4" y="119.3" font-size="15" font-weight="700" text-anchor="middle" fill="#FDE68A">SE05x</text>
+<rect x="680.5" y="156.8" width="259.9" height="20" rx="10" fill="#0E131A"/>
+<text x="810.5" y="171.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">generate the device key (inside the chip)</text>
+<rect x="707.1" y="200.8" width="206.9" height="20" rx="10" fill="#0E131A"/>
+<text x="810.5" y="215.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">sign the CSR body (ECDSASign)</text>
+<rect x="337" y="244.8" width="251.7" height="20" rx="10" fill="#0E131A"/>
+<text x="462.8" y="259.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">CSR with the unique id as serialNumber</text>
+<rect x="197.9" y="288.8" width="37.8" height="20" rx="10" fill="#0E131A"/>
+<text x="216.8" y="303.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">CSR</text>
+<rect x="112.6" y="332.8" width="208.4" height="20" rx="10" fill="#0E131A"/>
+<text x="216.8" y="347.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">device certificate, CA certificate</text>
+<rect x="407.1" y="376.8" width="111.4" height="20" rx="10" fill="#0E131A"/>
+<text x="462.8" y="391.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">both certificates</text>
+<rect x="604.6" y="420.8" width="411.8" height="20" rx="10" fill="#0E131A"/>
+<text x="810.5" y="435.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">WriteBinary: certificate and trust anchor (nobody may write them)</text>
+<text x="540.6" y="497.9" font-size="13" fill="#FDE68A">every boot: read both back, verify the chain</text>
+</svg>
