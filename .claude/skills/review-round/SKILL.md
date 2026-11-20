@@ -12,14 +12,14 @@ says which findings move from review to test to lint.
 
 ## Who runs it
 
-A round starts after the pre-push check passed for the current tree. The reviewer did not write the driver, its
-model or its tests, and is read-only: it works in a scratch copy of the tree. The fix is made by someone other than
-the reviewer. Reviewers are not given the author's own assessment.
+The orchestrator (or the person) starts the round, after the gate runner reported PASS for the current tree. The
+reviewer did not write the driver, its model or its tests, and is read-only: it works in a scratch copy of the tree.
+The fixer is a different worker from the reviewer. Reviewers never see the builder's conclusions.
 
 ## Inputs given to the reviewer
 
 The tree, the datasheet, the catalogue, the template's skills, the previous round's report (round 2 and later) and
-the gate verdict and log. Not given: the author's self-review, or "what to expect". The build report and the docs
+the gate verdict and log. Not given: the builder's self-review, or "what to expect". The build report and the docs
 are inputs to the claims check only.
 
 ## Steps

@@ -4,8 +4,8 @@ The defects that reached an independent reviewer or the first CI run of more tha
 Review skills cite these ids; the [mechanization policy](mechanization-policy.md) says where each class is caught and
 when it moves up a level. Append new findings to the entry they belong to, or add an entry (see the policy).
 
-Each entry gives the number of drivers in which the class was seen; the evidence itself is kept outside this
-repository. Code examples are generic and minimal; none quotes a datasheet or a standard.
+Evidence names the driver, the review round (`reviews/<driver>-review<N>.md`, finding id) or the CI run
+(`reports/<driver>-ci-*.txt`). Code examples are generic and minimal; none quotes a datasheet or a standard.
 
 Detection levels: `lint` (a script in the preflight or the gate, no judgement), `test` (a model knob, a mutation, a
 fuzz property or a compile-fail case that fails when the defect is present), `review` (a named reviewer asks one
@@ -71,7 +71,8 @@ Result<void> SetLimit(uint8_t v) {
 
 Hurts: stale state rewritten into a chip at reset values energises outputs or sets limits the application never
 chose; the call returns Ok.
-Seen in 4 drivers.
+Seen: ads9324 (review1 J1), pf1550 (review1 M8, review2 F1, review3 N1, review4 R4-1, review5 R5-2), tmc5160
+(review1 M5), fdo2 (review1 B1: abort during start-up leaves the driver initialised). 4 drivers.
 Detection: `test`: model knob "reset mid-session" (registers to reset values, reset flags set) plus a fuzz property
 "no write after a reset is seen"; mutate the sentinel compare and the pending-check latch, each must fail a test.
 `review`: hardware-lessons-review 12a. Question: "List every way this chip resets or reloads; for each, which bit or
@@ -90,7 +91,8 @@ if (ReadReg(kId) != kExpectedId) { identified_ = false; }
 
 Hurts: a transient line error becomes "device reset" or "not initialised", a read-modify-write writes garbage bits
 back, a resync hides a lost write so the chip runs at the wrong current.
-Seen in 5 drivers.
+Seen: pf1550 (review1 B1, M1; review4 R4-3), ads9324 (review1 J2), tmc5160 (review1 M1, lost-write masking by
+resync), sfm (review1 B1: any NACK after a first sample became DeviceReset), fdo2 (review1 B1). 5 drivers.
 Detection: `test`: model fault "one flipped reply at call k" swept over every call of every public function; the
 expected result is the call's own error, no state loss, no unsafe write. `review`: hardware-lessons-review 1, 12.
 Question: "Which reads in this driver decide something, and is there a mutant that removes each validation?"
@@ -108,7 +110,8 @@ if (IsStuck(words)) { return Error::NoDevice; }
 ```
 
 Hurts: a wrong value is returned as data, which downstream control trusts.
-Seen in 3 drivers.
+Seen: ads9324 (review1 J3), tmc5160 (review1 M8), sfm (review3 M-A: the temperature path had no stuck check while
+the sample path had one). 3 drivers.
 Detection: `test`: one model fault per pattern (zeros, ones, echo, repeat) applied to every read function; a table
 test lists each public read function and the fault, so a new read function without a row fails.
 `review`: hardware-lessons-review 4. Question: "For each read path, which of the four patterns does the CRC pass,
@@ -128,7 +131,8 @@ auto pos = ReadPos();
 ```
 
 Hurts: a rejected call moves state or leaves the driver config invalid, and the next call sends from it.
-Seen in 2 drivers.
+Seen: tmc5160 (review1 M2: three sites, found by a fuzz abort), ads9324 (review2 N2: a division by `convst_hz`
+before the state check). 2 drivers.
 Detection: `test`: the model counts frames; every `InvalidArgument` test asserts the count is unchanged, and the
 fuzz target asserts it for every call that returned `InvalidArgument`. `review`: hardware-lessons-review 11.
 Question: "For each early return of an argument error, what is the first line above it that touches the port?"
@@ -146,7 +150,9 @@ Result<void> Off() { auto r = Write(kEnable, 0); MarkUnverified(); return r; }
 ```
 
 Hurts: the one command that makes the system safe is the one that fails when the system is most in doubt.
-Seen in 4 drivers.
+Seen: ads9324 (review2 N1), pf1550 (review2 F2, review3 N2, review4 R4-3), tmc5160 (review3: stop and switch-off
+refused after a reset report; review1 M4: not verified on UART), alicat (review2 N3: a switch-off in an unknown state
+is sent only to the held settings). 4 drivers.
 Detection: `test`: for every uncertainty flag the driver has, a test sets it through the model and asserts the
 switch-off still writes (mutation: add the refusal back, the test fails). `review`: hardware-lessons-review 12c.
 Question: "Name each flag that can make a call return early; show the test where it is set and Off still sends."
@@ -164,7 +170,10 @@ std::array<uint8_t, 4> tx_{};   // member
 ```
 
 Hurts: DMA or TCM-stack ports fail on the first frame; the host build and a DMA-disabled example hide it.
-Seen in 4 drivers.
+Seen: ads9324 (review2 N3), pf1550 (review3 N3), bno08x (review1 M-1, UART receive buffers, and the contract said the
+opposite), tmc5160 (review3 M3; its fix was killed by an address-in-object test, review4). 4 drivers.
+Alicat keeps its buffers in the bus object (review3). The ads9324 fix still had a survivor that pinned no
+ownership (review3 m2): the address test below closes that.
 Detection: `test`: the mock port records the address of every transmit and receive buffer and asserts it lies inside
 `[&driver, &driver + sizeof(driver))`; compile it into the shared model. `review`: KB-HW-019.
 Question: "In every function that calls the port, where does the memory of each buffer argument live?"
@@ -180,7 +189,8 @@ transcribed from the datasheet's figures and checked by a test the driver's auth
 ```
 
 Hurts: green tests, wrong data on the wire; only hardware or an independent reader shows it.
-Seen in 2 drivers.
+Seen: ads9324 (review1 B1: wrong bits of the reply, model and driver agreed), tmc5160 (review5 m2: the model set a
+status bit the instant the velocity was zero, the chip sets it 2^20 clocks later). 2 drivers.
 Detection: `lint`: `tests/mock_*.hpp` includes no driver header (planned, preflight `model-standalone`); `review`:
 datasheet-conformance, independence check. Question: "Take one golden frame from the datasheet figure; which test
 fails if the driver and the model both decode it the other way?"
@@ -198,7 +208,9 @@ while (Velocity() != 0 || DelayActive()) { }  Enable();
 ```
 
 Hurts: outputs energise in a state the guard did not consider; the motion or power surprise is real.
-Seen in 5 drivers.
+Seen: tmc5160 (review5 M1: enable during a pending zero-wait), ws2812 (review2 N1: the power gate started open),
+pf1550 (review1 M3, M4: rail enabled with a voltage no limit checked), sfm (review1 M2: soft reset accepted while
+asleep), fdo2 (review1 B1). 5 drivers.
 Detection: `test`: a generated state x command table test (every public command in every modelled state, expected
 result and frame count), and a mutant for each guard. `review`: hardware-lessons-review 11, 12.
 Question: "Draw the states from the datasheet; for each command and state, where is the guard and which test
@@ -209,7 +221,8 @@ removes it?"
 Rule: bounds, divisors and state are checked before they are used, on every path, including the framing layer.
 
 Hurts: abort in hardened builds, UB elsewhere.
-Seen in 3 drivers.
+Seen: bno08x (review1 B-1: a framer returned a frame longer than its buffer), ads9324 (review2 N2: divide before the
+state check), tmc5160 (review1: fuzz aborts, see RD-04). 3 drivers.
 Detection: `test`: libFuzzer with ASan and UBSan in the gate (`enforced`); fuzz target feeds every public function.
 `review`: question "which divisor, index or span length comes from a caller or the chip, and where is it checked?"
 
@@ -218,7 +231,8 @@ Detection: `test`: libFuzzer with ASan and UBSan in the gate (`enforced`); fuzz 
 Rule: clear-on-read and write-1-to-clear flags collect in one driver-owned latch; a self-check or raw read never
 discards them.
 
-Seen in 2 drivers.
+Seen: pf1550 (review1 M2: `SelfCheck()` and `ReadRegister()` read status registers the chip clears on read), tmc5160
+(review1: `Service()` cleared the stall event, a BLOCKER, review1 B1). 2 drivers.
 Detection: `test`: model with clear-on-read bits; test reads through every diagnostic path, then asserts the latch
 still reports the fault. `review`: hardware-lessons-review 10, 12b.
 
@@ -228,7 +242,8 @@ still reports the fault. `review`: hardware-lessons-review 10, 12b.
 
 Rule: every field position, clear semantic, wait and gap cites its section and has a test that pins it independently.
 
-Seen in 6 drivers.
+Seen: ads9324 (review1 B1, J4), tmc5160 (review1 B1), sfm (review1 M3, M4), ws2812 (review1 M2, M3), fdo2 (review1 M3,
+M4). 6 drivers.
 Detection: `review` (datasheet-conformance): re-derive the five facts the change touches from the datasheet before
 reading the code. Question: "For this register or frame, what do the datasheet's bits say, and does the code agree
 before you look at the model?"
@@ -238,7 +253,7 @@ before you look at the model?"
 Rule: a reference circuit, wiring table or example never exceeds an absolute maximum or ties a pin the datasheet
 forbids tying.
 
-Seen in 3 drivers.
+Seen: ws2812 (review1 M7), fdo2 (review1 M9), ws2812 (review1 M3: documents disagree on the input threshold). 3 drivers.
 Detection: `review`: docs and diagram pass. Question: "For each net in the reference circuit, what is the highest
 voltage the chip pin sees, and where does the datasheet allow it?"
 
@@ -253,7 +268,8 @@ Result<void> ClearFaults();              // code returns Busy while the motor mo
 ```
 
 Hurts: callers and later reviewers rely on the claim; a promised error never occurs, a promised recovery never runs.
-Seen in 6 drivers.
+Seen: ws2812 (review1 M5, review2 N2, n9), tmc5160 (review1 M4, review5 m1), fdo2 (review1 M7), pf1550 (review1 M6),
+bno08x (review1 M-1), ads9324 (review1 J5-J7). 6 drivers.
 Detection: `review` via the review-round claims-vs-code check: list every "always", "never", "returns", "enables" in
 docs and the build report and cite the code line and test for each. Mechanical part (`lint`, planned): every `Error`
 named in docs exists; every Doxygen `@return` lists the values the function can return.
@@ -262,7 +278,9 @@ named in docs exists; every Doxygen `@return` lists the values the function can 
 
 Rule: a matrix row, test id or knob named in docs exists in code, and a row's test asserts the row.
 
-Seen in 3 drivers.
+Seen: ads9324 (review1 J5, J6: 873 rows unproved, fuzz claims invariants it does not check), pf1550 (review2 F4: 47 rows
+cite symbols that do not exist; F5: knobs that do not exist; review1 M11), ws2812 (review2 n9: "each fix has a test"
+overstated). 3 drivers.
 Detection: `lint` (planned `claims-symbols`): every backticked identifier in the datasheet coverage page,
 the coverage matrix and `docs/ambiguities.md` resolves with grep in `inc/ src/ tests/`. `review`: row-level sample.
 
@@ -270,12 +288,12 @@ the coverage matrix and `docs/ambiguities.md` resolves with grep in `inc/ src/ t
 
 Rule: Markdown lines are at most 120 characters, list items are separated, text changed by a fix is updated everywhere.
 
-Seen in 3 drivers.
+Seen: ws2812 (review2 n4, n5, n6), ntc (review1), mcp9700 (review2 m2-1). 3 drivers.
 Detection: `lint` (`enforced`: markdownlint in the preflight; line length 120). Stale text after a change is RD-09.
 
 ### RD-33 Another project's name or dated history
 
-Seen in more than one driver.
+Seen: ntc (review1 M5: old-history wording in eleven places). 1 driver; `enforced` by `tools/check_standalone.py`.
 
 ## Process and test-quality classes
 
@@ -283,7 +301,9 @@ Seen in more than one driver.
 
 Rule: every guard that protects a write, a state or a value has a test that fails when the guard is removed.
 
-Seen in 6 drivers.
+Seen: ads9324 (review1 mutants M22 to N66), pf1550 (review2 F3, review3 N4, review4 R4-2: 7 of 12 survivors matter,
+review5 R5-1), tmc5160 (review1 M6: 22 of 50 survive), bno08x (review1 M-3: 33 survive), alicat (review2, review3).
+6 drivers.
 Detection: `test`: a mutation runner over the guard lines (one-edit mutants: negate, drop, swap constant), built by the
 reviewer in each round; target: a template `tools/mutate.py` run by the gate with a survivor budget of zero on
 guards. `review`: the review-round mutant check of fixes.
@@ -293,7 +313,9 @@ guards. `review`: the review-round mutant check of fixes.
 Rule: the fuzz target asserts the invariants of the safety rules (no write after a reset is seen, no switch-on in
 doubt, no frame after InvalidArgument), and a mutant of each invariant fails it.
 
-Seen in 3 drivers.
+Seen: ads9324 (review1 J6), pf1550 (review1 M10, review3 N4: blind to a missed reset), alicat (review2 m9, review3
+m9: no
+no-write-in-doubt invariant). 3 drivers.
 Detection: `test`: mutate the invariant check in the harness; `review`: question "which safety rule does the fuzz
 target assert, and what input would break each?"
 
@@ -316,26 +338,33 @@ Check(r, was_up, sent());
 
 Hurts: the check passes, or aborts, on one CI runner only. A "nothing was sent" promise becomes vacuous, and a
 positive promise (`sent >= 1`) aborts on a correct driver; neither shows on an Apple-silicon or aarch64 rehearsal.
-Seen in more than one driver.
+Seen: dynamixel (first CI, `sent >= 1` aborted on x86-64 GCC only), pcal9555 (three fuzz cases, latent), tle92466ed
+(16 fuzz cases, vacuous; 6 more with two input reads), the template's own fuzz target (5 cases).
+3 drivers, all copies of the same pattern.
 Detection: `lint` (`enforced`): `tools/eval_order_check.py`, the `eval-order` preflight step, scans `tests/` and
 `examples/`. `test`: the fuzz replay with a one-edit mutant that must abort (`mutant_replay_*`, kept out of the
 `fuzz_*` names so the libFuzzer job does not pick it up).
 
 ### RD-24 Missing gitlink for the scripts submodule
 
-Seen in 2 drivers.
+Seen: sfm (review3 M-B), mcp9700 first push (the ESP32 examples job fails: no such directory). 2 drivers.
 Detection: `lint` (`enforced`): the gate runs `git ls-files -s | grep ^160000` after setting the pinned commit.
 
 ### RD-19 Template drift
 
-Seen in 3 drivers.
+Seen: fdo2 (`reports/fdo2-ci2.txt`: drift warning and a 160-character workflow line), alicat (review1 m6) and
+pf1550 (review4 m-3):
+the template record said `unknown`. 3 drivers. Detection: `lint` (`enforced`): `scaffold.py --check-drift` in the gate.
 
 ### RD-27 Local tidy and format differ from CI
 
 Rule: the preflight runs clang-format 20 and clang-tidy over the same file list and compile database as CI, inside the
 container.
 
-Seen in 4 drivers.
+Seen: ntc (first CI: tidy failed on a generated file absent from a configure-only database), bno08x (review1 M-2:
+`readability-named-parameter` in the install consumer), fdo2 (`reports/fdo2-ci-failed.log`: lint job, 2 files),
+fdo2 later (tidy on the ESP32 stub). 4 drivers. Detection: `lint` (`enforced` in the container preflight once it uses
+a configure-only database; check the log names the tidy file count).
 
 ## CI-only checks (MISRA scan, ESP-IDF, compile-fail)
 
@@ -348,7 +377,8 @@ Rule: `#include <...>` in `inc/` and `src/` is only from the driver subset of th
 #include <string_view>
 ```
 
-Seen in more than one driver.
+Seen: fdo2 (`reports/fdo2-ci2.txt`, `<string_view>`), tmc5160 (review4 B1, `<numeric>`). 2 drivers; the second hit makes
+it a lint. Detection: `lint` (`enforced` in handbook_check; the preflight must also run the include scan or grep).
 
 ### RD-12 Rule 7.0.3 character arithmetic
 
@@ -360,7 +390,9 @@ if (c == 'A') {}                 // bad
 const int d = DigitValue(c);     // good: lookup in a constexpr digit array via std::find
 ```
 
-Seen in 3 drivers.
+Seen: fdo2 (`reports/fdo2-ci-misra.txt`, `reports/fdo2-ci2.txt`: the bare comparisons too), alicat (review2:
+about 30 computations predicted; review3 R3-M1, six conversions; m-10, tests), pf1550 (review4 m-4: a template
+file used in tests). 3 drivers.
 Detection: `lint`: `misra_lint` rule 7.0.3 (planned): char literals in arithmetic or comparison in `inc src tests
 examples`. Until then: grep `'.'` next to `-`, `+`, `==`, `!=`.
 
@@ -373,40 +405,42 @@ static_assert(kA == 1 && kB < 2);           // bad
 static_assert((kA == 1) && (kB < 2));       // good
 ```
 
-Seen in 2 drivers.
+Seen: ads9324 (`reports/ads9324-ci-misra.txt`, three lines), pf1550 (review4 m-1: `static_assert`s). 2 drivers.
 Detection: `lint`: `misra_lint` rule 8.0.1 (planned): parenthesis-depth scan of `inc src tests`.
 
 ### RD-14 Rule 9.4.1 else-less chain
 
 Rule: every `if ... else if` chain ends with `else`, with a comment when empty; in tests and models too.
 
-Seen in 3 drivers.
+Seen: ads9324 (`reports/ads9324-ci-misra.txt`), fdo2 (`reports/fdo2-ci3.txt`), tmc5160 (review5 B1: two chains in the
+model). 3 drivers. Detection: `lint`: `misra_lint` rule 9.4.1 (planned).
 
 ### RD-15 Rule 0.1.2 unused return value
 
-Seen in 1 driver.
+Seen: fdo2 (`reports/fdo2-ci-misra.txt`: `failInit`). 1 driver. Detection: `lint`: rule 0.1.2 (planned): a call to a
+non-void function as an expression statement; mark with an explicit discard where intended.
 
 ### RD-16 Rule 13.3.3 parameter names differ
 
-Seen in 1 driver.
+Seen: fdo2 (`reports/fdo2-ci-misra.txt`: `checkOxygen`). 1 driver. Detection: `lint`: rule 13.3.3 (planned):
+declaration in `inc/` against definition in `src/*.ipp`.
 
 ### RD-17 Rule 7.0.6 literal argument type
 
-Rule: a constant argument has its parameter's type (a `static_cast` of the constant; no literal operators), and no
-mixed-width arithmetic on literals.
+Rule: a constant argument has its parameter's type (`_u32` literal), and no mixed-width arithmetic on literals.
 
-Seen in 4 drivers.
+Seen: ntc (review1 M3), fdo2 (review1 M10), tmc5160 (review1 M7), ws2812 (review1: call sites). 4 drivers.
 Detection: `lint` (partial, planned): literal passed to a `uint32_t` or `uint8_t` parameter of a known function;
 `review`
 for the rest (the CI scan is final). Question: "Which call passes a bare integer constant to a narrower parameter?"
 
 ### RD-18 Advisories 6.9.2, 15.1.4, 0.0.2
 
-Rule: these three appear on every driver and need no re-report: 6.9.2 on the version getters (this driver has no
-literal operators, whose `unsigned long long` parameter was the other 6.9.2 site), 15.1.4 on a constructor whose members
-have default initialisers, 0.0.2 on a
+Rule: these three appear on every driver and need no re-report: 6.9.2 on the `unsigned long long` literal-operator
+parameter and on the version getters, 15.1.4 on a constructor whose members have default initialisers, 0.0.2 on a
 condition a constant-hook port makes always the same.
-Seen in the first CI run of 2 drivers and predicted for 3 more. 5 drivers.
+Seen in CI: fdo2, ads9324 (`reports/fdo2-ci-misra.txt`, `reports/ads9324-ci-misra.txt`); predicted by the reviewer
+from those runs: pf1550 (review3, review4 m-4), alicat (review3, review4), bno08x (review1). 5 drivers.
 Detection: `lint` (planned): the gate compares the CodeQL advisory list to this known list; anything else is new.
 Reviewers do not report the known three; whether to record them as deviations is an owner decision.
 
@@ -414,22 +448,31 @@ Reviewers do not report the known three; whether to record them as deviations is
 
 Rule: every `#include` of an ESP-IDF header in `examples/esp32/main` has its component in `REQUIRES`.
 
-Seen in 1 driver.
+Seen: fdo2 (`reports/fdo2-ci-failed.log`: `esp_timer.h`; the ESP32 job failed in both examples). Later reviews found it
+clean (`pf1550` review5). 1 driver. Detection: `lint` (planned): include-to-component map checked against the
+`idf_component_register` call.
 
 ### RD-21 ESP32 example cannot start with its defaults
 
 Rule: the example's default pins and `Config` start up; an optional hook returns `true` when the pin is absent.
 
-Seen in 3 drivers.
+Seen: fdo2 (review1 M5), mcp9700 (review1 B-1: `GpioSet` returned false with the default `-1` pin), ntc (review1 M1).
+3 drivers. Detection: `test`: build the ESP32 port against stub ESP headers on the host and run the example's start-up
+with default `Config`. `review`: question "does `app_main` with the default pins reach the first measurement?"
 
 ### RD-22 Compile-fail regex wording differs by compiler
 
 Rule: an `EXPECT:` is a concept or type name, or the `static_assert` text, never compiler wording.
 
-Seen in more than one driver.
+Seen: no CI failure yet. Reviewers could not confirm GCC 13/14 and clang CI wording for alicat, pf1550, bno08x
+(review4, review5, review1). 0 driver hits; listed because it is unverified each time. Detection: `lint` (planned):
+every `EXPECT:` string is `static assertion failed`, an identifier, or a string from a `static_assert`.
 
 ### RD-23 Tests are also scanned by MISRA
 
 Rule: the MISRA job builds with tests on, so `tests/`, models, fuzz and consumers meet the same rules as `inc/`.
 
-Seen in more than one driver.
+Seen: tmc5160 (review5 B1, the model), alicat (review3 m-10: char compares in tests and the model, "if CodeQL scans
+tests"). 2 drivers; whether
+the job reports test files is not proved by the two CI runs on file. Detection: `lint`:
+every `misra_lint` rule scans `tests/ examples/` as well as `inc/ src/`.

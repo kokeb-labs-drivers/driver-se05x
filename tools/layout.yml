@@ -1,0 +1,40 @@
+# Exceptions to the layout rule (tools/check_layout.py): each entry has a one-line reason.
+header_only:
+  se05x: Umbrella header that only includes the others
+  se05x_apdu: Umbrella header that only includes the APDU parts
+  se05x_apdu_base: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_codec: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_consts: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_crypto: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_identity: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_misc: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_apdu_objects: APDU command builders and constants as constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_atr: Constants, small inline types and templates, no non-template logic
+  se05x_caps: Constants, small inline types and templates, no non-template logic
+  se05x_codec: Templates over the port types and inline value types, no non-template logic
+  se05x_commands: Templates over the port types and inline value types, no non-template logic
+  se05x_confirm: Templates over the port types and inline value types, no non-template logic
+  se05x_device: Device front end is a class template over the port types, implemented in the se05x_device_* parts
+  se05x_device_stage: Device front end is a class template over the port types, implemented in the se05x_device_* parts
+  se05x_gate: Constants, small inline types and templates, no non-template logic
+  se05x_ids: Templates over the port types and inline value types, no non-template logic
+  se05x_lifecycle: Constants, small inline types and templates, no non-template logic
+  se05x_objects: Constants, small inline types and templates, no non-template logic
+  se05x_pki: Umbrella header that only includes the others
+  se05x_pki_csr: PKI helpers as templates and constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_pki_der: PKI helpers as templates and constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_pki_device: PKI helpers as templates and constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_pki_verify: PKI helpers as templates and constexpr inline functions, which must live in the header to be usable at compile time
+  se05x_policy: Templates over the port types and inline value types, no non-template logic
+  se05x_ports: Templates over the port types and inline value types, no non-template logic
+  se05x_secret: Constants, small inline types and templates, no non-template logic
+  se05x_status: Constants, small inline types and templates, no non-template logic
+  se05x_t1_crc: Constants, small inline types and templates, no non-template logic
+  se05x_wire: Constants, small inline types and templates, no non-template logic
+internal:
+  se05x_crypto_aes: part of se05x_crypto.hpp, the AES operations
+  se05x_crypto_p256: part of se05x_crypto.hpp, the P-256 operations
+  se05x_crypto_sha: part of se05x_crypto.hpp, the SHA operations
+  se05x_device_core: part of se05x_device.hpp, session and transport handling
+  se05x_device_crypto: part of se05x_device.hpp, the cryptographic calls
+  se05x_device_objects: part of se05x_device.hpp, the secure object calls

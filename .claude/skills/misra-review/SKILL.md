@@ -24,8 +24,8 @@ the final word, and it scans `tests/`, models, fuzz and consumers as well (RD-23
 | RD-14 | 9.4.1 | `if ... else if` with no final `else`, in tests and models too | every `else if` chain ends in `else` |
 | RD-15 | 0.1.2 | a non-void call as a statement | call result used or the call returns `void` |
 | RD-16 | 13.3.3 | parameter names differ between `inc/*.hpp` and `src/*.ipp` | compare each declaration and definition |
-| RD-17 | 7.0.6 | a bare integer constant passed to a narrower parameter | a `static_cast` of the constant to the parameter's type at the call site (no literal operators: their `unsigned long long` parameter is Rule 6.9.2) |
-| RD-18 | 6.9.2, 15.1.4, 0.0.2 | constructor with default member initialisers, constant-hook port conditions | known advisories: do not report them again; record or accept per the owner decision |
+| RD-17 | 7.0.6 | a bare integer constant passed to a narrower parameter | `_u8`/`_u16`/`_u32` literals at the call site |
+| RD-18 | 6.9.2, 15.1.4, 0.0.2 | `unsigned long long` literal-operator parameter, constructor with default member initialisers, constant-hook port conditions | known advisories: do not report them again; record or accept per the owner decision |
 | RD-11 | KB-CPP-012 | `#include <numeric>`, `<string_view>` outside the driver subset | handbook_check include scan |
 
 ## Review steps (judgement)
@@ -46,7 +46,7 @@ the final word, and it scans `tests/`, models, fuzz and consumers as well (RD-23
      `detail::EnumLast<E>`;
    - narrow operands meet `U` constants and widen to `uint32_t` before bit operations (Rule 7.0.5);
    - integer constant arguments have the parameter's type (Rule 7.0.6), noting `uint32_t` is `unsigned long` on
-     Cortex-M; cast the constant: `static_cast<uint32_t>(1U)`;
+     Cortex-M; bring literals in with `using detail::operator""_u32;` inside the function;
    - a non-constant loop bound is a `const` local (Rule 9.5.1); `std::fill`, not `std::fill_n` (Rule 0.1.2);
    - a defaulted `operator==` is a hidden friend (Rule 16.6.1); the trailing `#include "../src/<chip>.ipp"` is
      deviated by MD-CPP-009 on the line before it (Rule 19.0.3);

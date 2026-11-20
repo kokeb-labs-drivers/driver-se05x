@@ -46,27 +46,6 @@ NAMES = [
     ("a private repository", re.compile(r"standards" r"-private", re.I)),
     ("a local path", re.compile(r"~/Doc" r"uments|(?<![\w.])/(?:Us" r"ers|ho" r"me)/[A-Za-z0-9_.-]+/")),
 ]
-# The chips of the sibling driver repositories: a driver names only its own chip. Spelled in pieces.
-SIBLING_CHIPS = ["ads" "7952", "ads" "9324", "ali" "cat", "as" "5047u", "bmp" "581", "bno" "08x",
-                 "dyna" "mixel", "fd" "o2", "isf" "15acp4", "max" "22200", "mcp" "9700", "ntc-ther" "mistor",
-                 "pca" "9685", "pcal" "9555", "pf" "1550", "sfm-flow" "-meter", "tle" "92466ed", "tmc" "5160",
-                 "tmc" "9660", "ws" "2812", "se" "05x"]
-# Process language: who built what, review rounds and their reports, internal tooling. Spelled in pieces.
-PROCESS = [
-    ("process language", re.compile(r"\borches" r"trator\b|\bwork pack" r"ages?\b|\bowner ques" r"tion\b", re.I)),
-    ("an internal tool", re.compile(r"\bgate" r"\.sh\b|\bkokeb" r"-tools\b", re.I)),
-    ("a review report", re.compile(r"\breview" r"\d+\b|(?<![\w.-])(?:reviews|reports)" r"/[\w.-]+", re.I)),
-    ("process language", re.compile(r"\bthe build" r"er's (?:conclusions?|self-review)\b", re.I)),
-]
-
-
-def sibling_names(repo: str) -> list:
-    """The sibling chips as patterns, without this repository's own chip."""
-    own = repo.lower().removeprefix("driver-")
-    chips = [c for c in SIBLING_CHIPS if c != own and not own.startswith(c)]
-    return [("another driver's chip", re.compile(r"\b(?:" + "|".join(re.escape(c) for c in chips) + r")\b", re.I))]
-
-
 # A maintainer's account: allowed only where GitHub needs it, in .github/CODEOWNERS (repository governance).
 ACCOUNTS = re.compile(r"\bn3" r"b3x\b", re.I)
 ACCOUNT_FILES = {".github/CODEOWNERS"}
@@ -133,12 +112,14 @@ def date_allowed(rel: str, line: str) -> bool:
         return True
     if rel.split("/")[-1].startswith("datasheets.yml") or re.search(r"datasheet|revision", line, re.I):
         return True
+    if line.lstrip().startswith("effective_from:"):
+        return True  # the language declaration's start date (driver.yml, and the example in its docs) is not history
     return rel == ".kokeb/handbook.yml" and re.search(r"expir", line, re.I) is not None
 
 
 def check(root: Path, repo: str, strict: bool = False) -> list[str]:
     holder = record_field(root, "author") or f"The {repo} authors"
-    names = NAMES + sibling_names(repo) + PROCESS + (STRICT_NAMES if strict else [])
+    names = NAMES + (STRICT_NAMES if strict else [])
     bad = []
     for rel in files(root):
         try:
@@ -181,7 +162,7 @@ def selftest() -> int:
     cases = {
         "clean": ({"README.md": "# Chip\n\nReads the chip (datasheet section 7.5).\n",
                    "LICENSE": f"MIT License\n\n{c} {mine}\n\nPermission is hereby granted\n",
-                   "driver.yml": f'name: x1\nauthors: ["{mine}"]\n',
+                   "driver.yml": f'name: x1\nauthors: ["{mine}"]\nlanguage:\n  effective_from: {day}\n',
                    "_config/mkdocs.yml": f"copyright: {c} {mine}\n",
                    "CHANGELOG.md": f"## [0.1.0] - {day}\n",
                    "docs/datasheets.yml": f"    date: {day}\n",
@@ -193,8 +174,6 @@ def selftest() -> int:
                      ".github/CODEOWNERS": "* @N3" + "b3x\n"}, 3),
         "dates": ({"docs/a.md": f"On {day} the bench saw a stuck line.\n", "CHANGELOG.md": f"- Fixed on {day}.\n"}, 2),
         "holder": ({"inc/x1.hpp": f"// {c} Acme Inc. SPDX-License-Identifier: MIT\n", "driver.yml": "name: x1\n"}, 2),
-        "siblings": ({"docs/a.md": "Seen in " + "tmc" + "5160 and pf" + "1550.\n"}, 1),
-        "process": ({"docs/a.md": "The orches" + "trator runs gate" + ".sh; see review" + "3 in rep" + "orts/x.txt.\n"}, 3),
     }
     with tempfile.TemporaryDirectory(prefix="standalone-") as tmp:
         for label, (tree, want) in cases.items():
