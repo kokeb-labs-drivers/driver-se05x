@@ -2,194 +2,210 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/agent-context/</loc>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/ambiguities/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/api-guide/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/api-reference/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/architecture/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/changelog/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/claims/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/configuration/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/contract/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/datasheet/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/examples/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/first-15-minutes/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/getting-started/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/hardware/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/hrot-cookbook/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/installation/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/irreversible/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/jobs/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/knowledge-index/</loc>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/lifecycle/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/limitations/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/mechanization-policy/</loc>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/objects-policies/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/pki/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/platforms/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/porting-esp-idf/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/porting/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/quickstart/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/recurring-defects/</loc>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/repo-setup/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/safety/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/se050/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/se051/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/se052/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/secure-channels/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/security-model/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/status-words/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/testing/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/transport/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/troubleshooting/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/variants/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/diagrams/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/anti-rollback/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/attestation/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/certificates/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/device-identity/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/ecdh/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/mutual-tls/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/provisioning/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/secret-storage/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
     <url>
          <loc>https://kokeb-labs-drivers.github.io/driver-se05x/latest/tasks/secure-channel/</loc>
-         <lastmod>2026-11-19</lastmod>
+         <lastmod>2026-11-20</lastmod>
     </url>
 </urlset>

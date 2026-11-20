@@ -1616,7 +1616,7 @@
 
 
 <h1 id="porting-to-esp-idf">Porting to ESP-IDF<a class="headerlink" href="#porting-to-esp-idf" title="Permanent link">&para;</a></h1>
-<p>The ESP-IDF ports in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a> use the
+<p>The ESP-IDF ports in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/a824605ad34fe3ca44ad1d4d79624c8565957efd/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a> use the
 <code>i2c_master</code> driver for the bus, <code>esp_timer</code> for the clock and a GPIO for the reset port. This page says what each
 port must do for the SE05x and why. For another platform read <a href="../porting/">Porting</a> first.</p>
 <!-- generated: datasheet-refs -->
@@ -1717,7 +1717,7 @@ switched. On the vendor development kit ENA and the reset line reach the Arduino
 (AN13539 p. 15).</p>
 <h2 id="crypto-port">Crypto port<a class="headerlink" href="#crypto-port" title="Permanent link">&para;</a></h2>
 <p>Bind the crypto port to mbedTLS or PSA on the target, never to the driver's <code>ReferenceCrypto</code> in a product: the
-optional <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/c389f69c669174461968b86cc1b1d482b89ca099/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/se05x_psa_crypto.hpp</code></a> does it over PSA Crypto, which
+optional <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/a824605ad34fe3ca44ad1d4d79624c8565957efd/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/se05x_psa_crypto.hpp</code></a> does it over PSA Crypto, which
 the ESP-IDF mbedtls component provides (<code>se05x_hrot_example</code> uses it; add <code>mbedtls</code> to the component's <code>REQUIRES</code>).
 Keep the platform SCP03 keys in NVS encryption or a key store and give the driver only <code>KeyRef</code> handles. Never
 compile keys into the image.</p>
