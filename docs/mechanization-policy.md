@@ -8,7 +8,7 @@ judgement, not on what a script can do.
 
 Catch a class at the first level that can decide it without judgement, in order of cost:
 
-1. **Lint** (`tools/preflight.sh`, runs in seconds, on every developer's machine). Use it when the defect is a pattern in
+1. **Lint** (`tools/preflight.sh`, runs in seconds, on every builder's machine). Use it when the defect is a pattern in
    text or syntax: a forbidden include, a MISRA rule CodeQL reports, a missing `else`, a parameter name, a symbol
    named in docs that does not exist, a missing gitlink.
 2. **Test, model or mutation** (host tests, the chip model's fault knobs, fuzz properties, compile-fail cases,
@@ -24,8 +24,9 @@ reviewer time every round; it is a candidate for promotion.
 ## Promotion
 
 - A defect that reached a reviewer or the CI of a **second** driver is promoted one level up: review to test, test to
-  lint where a pattern exists. The promotion is implemented in the shared driver template before the next driver's
-  first push, or the catalogue entry records why it cannot be mechanised.
+  lint where a pattern exists. The reviewer who finds the second occurrence writes the promotion item in the round's
+  report; the template maintainer (the agent or person that owns the template branch) implements it before the next
+  driver's first push, or records why it cannot be mechanised in the catalogue entry.
 - A defect that reached a third driver after its promotion means the check is wrong: fix the check first, then
   look at the driver.
 - Demotion never happens by silence: a check is removed only with a catalogue note saying what replaced it.
@@ -44,8 +45,8 @@ reviewer time every round; it is a candidate for promotion.
 
 ## Recording a new finding
 
-1. Add the finding to its catalogue entry by updating the count and the index table; add a new entry only when no
-   class fits.
+1. Append the finding to its catalogue entry (driver, review round or CI report file, finding id) and update the
+   count and the index table; add a new entry only when no class fits.
 2. Write the check at the level the rules above give: the lint, or the test pattern (model knob, mutant, fuzz property),
    or the reviewer's question in the skill.
 3. Run it over the finished drivers (lint) or add the regression test that fails without the fix (test).
@@ -53,25 +54,33 @@ reviewer time every round; it is a candidate for promotion.
    drivers take it with `scaffold.py --check-drift --fix` (the skills and tools are managed files), which updates the
    `template` pin in `.kokeb/template.yml`. Mention the catalogue id in the commit subject.
 
-## The pre-push check
+## The pre-push gate
 
-A driver is pushed for the first time only after all of these pass on the tree as it will be committed:
+A driver is cleared for its first push only by `kokeb-tools/gate.sh <chip>` (the orchestrator's script, one run per
+driver through the shared Docker lock). It writes a log and a verdict, and PASS needs all of:
 
-- the container preflight (`tools/preflight.sh --container`) with `0 failure(s)` and `0 gate failure(s)`, including
-  the MISRA scan and the ESP32 builds; a skipped MISRA or ESP32 step counts as a failure;
+- container preflight (`tools/preflight.sh --container`) with `0 failure(s)` and `0 gate failure(s)`, including the
+  MISRA scan and the ESP32 builds; a skipped MISRA or ESP32 step is a FAIL;
 - `handbook_check` reports 0 errors (this includes the library-subset include scan);
 - `tools/check_standalone.py` passes;
 - template drift: `scaffold.py --check-drift` reports nothing;
 - no `.pdf` file is tracked;
-- the `examples/esp32/scripts` gitlink (mode 160000) is present.
+- the `examples/esp32/scripts` gitlink (mode 160000) is present;
+- the tree is staged as it will be committed.
 
-No silent skips: every step prints a line, and a missing tool fails the check.
+No silent skips: every step prints a line, and a missing tool fails the gate.
 
-## Independence
+## Roles
 
-The person or tool that reviews a change did not write it, works read-only on a copy of the tree, and is given the
-code, the model, the datasheet, the catalogue and the previous review, not the author's own assessment. A fix is
-made at the cause, with the test that fails without it, and answers each finding id.
+- **Builders** write code, models, tests and docs and run host tests and the quick preflight. They do not run the
+  container gate, push, or create repositories.
+- **The gate runner** is one serialized worker that runs `gate.sh` for one driver at a time and reports the verdict
+  and the log; it does not edit the driver.
+- **Reviewers** are read-only and independent. They are given the code, the model, the datasheet, the catalogue and
+  the previous round's report, and **never the builder's conclusions** (the build report is read only in the
+  claims-vs-code step). They run the [review-round](../.claude/skills/review-round/SKILL.md) protocol.
+- **Fixers** change the driver, fix at the cause, add the test that fails without the fix, and answer each finding id.
+- **The template maintainer** applies promotions and keeps the catalogue current.
 
 ## Backlog of promotions (state of the catalogue)
 
