@@ -209,6 +209,23 @@
     "twin": false,
     "font": ""
   },
+  "i2c-timing": {
+    "title": "I2C timing of the address byte",
+    "alt": "I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit, with the two data hold times the data sheet defines after a falling SCL edge, the edge times and the clock limits.",
+    "description": "The two lanes are SCL and SDA, left to right in time. SDA falls while SCL is high (the start), then the address bits 1001000 and the write bit 0 follow, each set after a falling SCL edge and held while SCL is high, and the SE05x pulls SDA low for the acknowledge. The marks show the hold time before a rising and before a falling SDA edge.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/i2c-timing.timing.yml",
+    "sources": [
+      "docs/model/i2c-timing.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
+  },
   "irreversible-flow": {
     "title": "Irreversible operations: plan, confirm, apply",
     "alt": "Four steps: build flag, Plan (no I/O), Confirmation from the operation's phrase, Apply; and the list of the operations that need them.",
@@ -424,6 +441,23 @@
     "sources": [
       "inc/se05x_wire.hpp:kUm11225Frame, kGpFrame, kGpExampleCrc"
     ]
+  },
+  "t1-i2c-block": {
+    "title": "One T=1 block each way on I2C",
+    "alt": "Two I2C transfers of the NXP T=1 flavour: the host writes a block with NAD, PCB, LEN, the information field and a two-byte CRC, and after polling reads the chip's block of the same form.",
+    "description": "The two lanes are Host to SE and SE to Host, each one I2C transfer from START to STOP. Host to SE carries the address with the write bit, then NAD, PCB, LEN, INF with the command APDU, CRC-1 and CRC-2. SE to Host carries the address with the read bit, then the chip's NAD, PCB, LEN, INF with the response APDU, CRC-1 and CRC-2.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/t1-i2c-block.timing.yml",
+    "sources": [
+      "docs/model/t1-i2c-block.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
   },
   "t1-states": {
     "title": "The T=1 link: states and S-blocks",

@@ -10,8 +10,8 @@ Run the driver on a new MCU by writing small port classes.
     - SE052 RST_N reset pulse width: NXP SE052 Rev. 1.5, Table 14 AC characteristics, p. 20
     - I2C.1 lock-up after a second command, I2C.2 no empty frame: NXP SE050_Erratasheet Rev. 1.0, 3.1, 3.2, p. 7
     - I2C.3 lines high around a soft reset, I2C.4 SCL before SDA: NXP SE050_Erratasheet Rev. 1.0, 3.3, 3.4, p. 8
-    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, I2C framing, p. 13
-    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, Polling, p. 14
+    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, 3.1.1.1 SE I2C Receive State, Figure 4, p. 13
+    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, 3.1.1.2 SE I2C Processing State, p. 14
     - Timeouts and waiting time extensions: NXP AN13030 Rev. 2.7, 2.10, p. 9
 
     All of them, with the driver API for each: [Datasheet map](datasheet.md).

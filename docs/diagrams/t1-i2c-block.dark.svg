@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1086" viewBox="0 0 640 1086" role="img" aria-labelledby="t1-i2c-block-title t1-i2c-block-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="t1-i2c-block-title">One T=1 block each way on I2C</title>
+<desc id="t1-i2c-block-desc">Two I2C transfers of the NXP T=1 flavour: the host writes a block with NAD, PCB, LEN, the information field and a two-byte CRC, and after polling reads the chip's block of the same form.</desc>
+<rect x="0.5" y="0.5" width="639" height="1085" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44.4" font-size="13" font-weight="700" letter-spacing="1.2" fill="#F8D27A">ON THE BUS</text>
+<text x="32" y="76.2" font-size="24" font-weight="700" fill="#E8EDF3">One T=1 block each way on I2C</text>
+<text x="32" y="102.7" font-size="15" fill="#9AA6B5">Datasheet: UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5;</text>
+<text x="32" y="124.5" font-size="15" fill="#9AA6B5">UM11225 3.1.1.4 SE I2C Default Values, Table 14, p. 19; UM11225 2.1.2</text>
+<text x="32" y="146.2" font-size="15" fill="#9AA6B5">Information Field (INF), Table 10, p. 8; UM11225 2.1.3 Epilogue Field (CRC),</text>
+<text x="32" y="167.9" font-size="15" fill="#9AA6B5">p. 9; UM11225 3.1.1.1 SE I2C Receive State, Figure 4, p. 13; UM11225 3.1.1.2</text>
+<text x="32" y="189.7" font-size="15" fill="#9AA6B5">SE I2C Processing State, p. 14; UM11225 3.1.1.3 SE I2C Send State, Figures 7</text>
+<text x="32" y="211.4" font-size="15" fill="#9AA6B5">and 8, p. 15.</text>
+<rect x="32" y="227.4" width="576" height="1" fill="#252F3C"/>
+<path d="M141.4 249.4 L141.4 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M172.1 249.4 L172.1 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M202.8 249.4 L202.8 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M233.5 249.4 L233.5 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M264.2 249.4 L264.2 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M294.9 249.4 L294.9 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M325.6 249.4 L325.6 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M356.3 249.4 L356.3 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M387.1 249.4 L387.1 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M417.8 249.4 L417.8 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M448.5 249.4 L448.5 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M479.2 249.4 L479.2 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M509.9 249.4 L509.9 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M540.6 249.4 L540.6 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M571.3 249.4 L571.3 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M602 249.4 L602 333.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 379.5 L608 379.5" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 452.4 L608 452.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 525.2 L608 525.2" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 598.1 L608 598.1" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 671 L608 671" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 743.8 L608 743.8" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 816.7 L608 816.7" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 889.5 L608 889.5" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M141.4 267.4 L146.4 254.4 L228.5 254.4 L233.5 267.4 L228.5 280.4 L146.4 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M233.5 267.4 L238.5 254.4 L289.9 254.4 L294.9 267.4 L289.9 280.4 L238.5 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M294.9 267.4 L299.9 254.4 L351.3 254.4 L356.3 267.4 L351.3 280.4 L299.9 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M356.3 267.4 L361.3 254.4 L412.8 254.4 L417.8 267.4 L412.8 280.4 L361.3 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M417.8 267.4 L422.8 254.4 L474.2 254.4 L479.2 267.4 L474.2 280.4 L422.8 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M479.2 267.4 L484.2 254.4 L535.6 254.4 L540.6 267.4 L535.6 280.4 L484.2 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M540.6 267.4 L545.6 254.4 L597 254.4 L602 267.4 L597 280.4 L545.6 280.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M141.4 315.4 L146.4 302.4 L228.5 302.4 L233.5 315.4 L228.5 328.4 L146.4 328.4 Z" fill="#13233A" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M233.5 315.4 L238.5 302.4 L289.9 302.4 L294.9 315.4 L289.9 328.4 L238.5 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M294.9 315.4 L299.9 302.4 L351.3 302.4 L356.3 315.4 L351.3 328.4 L299.9 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M356.3 315.4 L361.3 302.4 L412.8 302.4 L417.8 315.4 L412.8 328.4 L361.3 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M417.8 315.4 L422.8 302.4 L474.2 302.4 L479.2 315.4 L474.2 328.4 L422.8 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M479.2 315.4 L484.2 302.4 L535.6 302.4 L540.6 315.4 L535.6 328.4 L484.2 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M540.6 315.4 L545.6 302.4 L597 302.4 L602 315.4 L597 328.4 L545.6 328.4 Z" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="32" y="903.5" width="576" height="152.1" rx="10" fill="#1B232E" stroke="#3A4656" stroke-width="1"/>
+<text x="32" y="272.8" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">Host to SE</text>
+<text x="187.5" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">Adr + W</text>
+<text x="264.2" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">NAD</text>
+<text x="325.6" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">PCB</text>
+<text x="387.1" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">LEN</text>
+<text x="448.5" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">INF</text>
+<text x="509.9" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">CRC-1</text>
+<text x="571.3" y="272.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">CRC-2</text>
+<text x="32" y="320.9" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">SE to Host</text>
+<text x="187.5" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#BFDBFE">Adr + R</text>
+<text x="264.2" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">NAD</text>
+<text x="325.6" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">PCB</text>
+<text x="387.1" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">LEN</text>
+<text x="448.5" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">INF</text>
+<text x="509.9" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">CRC-1</text>
+<text x="571.3" y="320.5" font-size="14" font-weight="600" text-anchor="middle" fill="#A7F3E6">CRC-2</text>
+<text x="32" y="363.9" font-size="17" font-weight="700" fill="#E8EDF3">Values</text>
+<text x="32" y="400.3" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">NAD</text>
+<text x="608" y="400.3" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 1 byte</text>
+<text x="32" y="420.5" font-size="15" fill="#D2DAE4">Node address: 0x5A host to SE, 0xA5 SE to host</text>
+<text x="32" y="440.7" font-size="14" fill="#9AA6B5">Datasheet UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</text>
+<text x="32" y="473.1" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">PCB</text>
+<text x="608" y="473.1" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 1 byte</text>
+<text x="32" y="493.4" font-size="15" fill="#D2DAE4">Protocol control: I-, R- or S-block</text>
+<text x="32" y="513.5" font-size="14" fill="#9AA6B5">Datasheet UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</text>
+<text x="32" y="546" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">LEN</text>
+<text x="608" y="546" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 1 byte</text>
+<text x="32" y="566.2" font-size="15" fill="#D2DAE4">Length of INF</text>
+<text x="32" y="586.4" font-size="14" fill="#9AA6B5">Datasheet UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</text>
+<text x="32" y="618.9" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">INF</text>
+<text x="608" y="618.9" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">min 0 · max 254 byte</text>
+<text x="32" y="639.1" font-size="15" fill="#D2DAE4">Information field</text>
+<text x="32" y="659.2" font-size="14" fill="#9AA6B5">Datasheet UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</text>
+<text x="32" y="691.7" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">CRC16</text>
+<text x="608" y="691.7" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 2 byte</text>
+<text x="32" y="712" font-size="15" fill="#D2DAE4">Error detection code of the block</text>
+<text x="32" y="732.1" font-size="14" fill="#9AA6B5">Datasheet UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</text>
+<text x="32" y="764.6" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">DSEGT</text>
+<text x="608" y="764.6" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 10 µs</text>
+<text x="32" y="784.8" font-size="15" fill="#D2DAE4">Default guard time between two I2C accesses</text>
+<text x="32" y="805" font-size="14" fill="#9AA6B5">Datasheet UM11225 3.1.1.4 SE I2C Default Values, Table 14, p. 19</text>
+<text x="32" y="837.4" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">DMPOT</text>
+<text x="608" y="837.4" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">typ 1 ms</text>
+<text x="32" y="857.7" font-size="15" fill="#D2DAE4">Default minimum polling time</text>
+<text x="32" y="877.8" font-size="14" fill="#9AA6B5">Datasheet UM11225 3.1.1.4 SE I2C Default Values, Table 14, p. 19</text>
+<text x="46" y="932" font-size="17" font-weight="700" fill="#E2E8F0">Notes</text>
+<text x="46" y="952.4" font-size="15" fill="#E2E8F0">In an I-block INF holds the command or response APDU; an R-block has</text>
+<text x="46" y="974.1" font-size="15" fill="#E2E8F0">none. The CRC covers the prologue and INF. A whole block in one I2C</text>
+<text x="46" y="995.9" font-size="15" fill="#E2E8F0">write, START to STOP, never a repeated START. While it works the SE</text>
+<text x="46" y="1017.6" font-size="15" fill="#E2E8F0">NACKs its address; the host polls with one-byte reads, MPOT apart. The</text>
+<text x="46" y="1039.4" font-size="15" fill="#E2E8F0">host may read the prologue first and the rest in a second read.</text>
+</svg>
