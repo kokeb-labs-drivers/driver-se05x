@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/ambiguities/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -596,6 +530,8 @@
   
     
     
+      
+        
       
         
       
@@ -1695,6 +1631,14 @@ named), partly settle it, or leave it open.</p>
 <td><code>Attest</code> reads the object whole into a 256-byte buffer (<code>kMaxAttestedBytes</code>); the model returns the whole value, which the host refuses as <code>BufferTooSmall</code>. A chip that answers an error status instead returns that status's error (a device error, not <code>BufferTooSmall</code>); either way no value is returned</td>
 <td>model only (<code>kMaxBinary</code>)</td>
 <td><code>Store</code> 255, 300 and 600 bytes on a dev kit, <code>Attest</code> each, and record the error and the status word of each (<code>Device::GetLastStatusWord()</code>)</td>
+</tr>
+<tr>
+<td>A37</td>
+<td>NAD of a block from the chip in the NXP flavour</td>
+<td>settled: UM11225 Table 4 (p. 5) gives 0xA5 from the SE to the host; Figure 7 (p. 16) prints "NAD (0x5A)" in the SE-to-host frame, a copy of Figure 4</td>
+<td>the link expects 0xA5 from the chip (<code>kUm11225Frame</code>), as Table 4 says</td>
+<td>none</td>
+<td>log the NAD byte of the first reply of an SE050 in the NXP flavour</td>
 </tr>
 </tbody>
 </table>

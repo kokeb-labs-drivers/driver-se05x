@@ -1,0 +1,53 @@
+---
+# Model of the figure 'i2c-timing'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+# Every value is from the SE050 data sheet (Rev. 3.8): the address of 4.1, the clock limits of 4.1.1, the edge times
+# of Table 14 and the two data hold times of 14.3 (Figure 11, Table 17), which replace tHD;DAT of the I2C-bus
+# specification. The SE051 data sheet (Rev. 2.0) repeats the same values. Keys: docs/figkit.md in ci-tools.
+kind: timing
+id: i2c-timing
+title: I2C timing of the address byte
+kicker: On the bus
+alt: >-
+  I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit, with the two
+  data hold times the data sheet defines after a falling SCL edge, the edge times and the clock limits.
+reads: >-
+  The two lanes are SCL and SDA, left to right in time. SDA falls while SCL is high (the start), then the address
+  bits 1001000 and the write bit 0 follow, each set after a falling SCL edge and held while SCL is high, and the
+  SE05x pulls SDA low for the acknowledge. The marks show the hold time before a rising and before a falling SDA edge.
+print: landscape
+sources:
+  - docs/model/i2c-timing.timing.yml
+bus: i2c
+refs:
+  freq: {doc: se050, section: "SE050 4.1.1 Supported I2C frequencies", page: 9}
+  ac-i2c: {doc: se050, section: "SE050 14.2 AC characteristics, Table 14", page: 18}
+  hold: {doc: se050, section: "SE050 14.3 I2C Bus Timings, Figure 11, Table 17", page: 21}
+signals:
+  - {id: scl, label: SCL, wave: "11nnnnnnnnn1"}
+  - {id: sda, label: SDA, wave: "1010.10....."}
+groups:
+  - {from: 1, to: 2, label: S}
+  - {from: 2, to: 9, label: "address 0x48: 1001000", ref: addr}
+  - {from: 9, to: 10, label: W}
+  - {from: 10, to: 11, label: ACK}
+params:
+  - {id: thdr, symbol: tHDr;DAT50, label: "Data hold, 50 % SCL fall to 50 % SDA rise, Fast mode", min: 24, unit: ns,
+     ref: hold}
+  - {id: thdf, symbol: tHDf;DAT50, label: "Data hold, 50 % SCL fall to 50 % SDA fall, Fast mode", min: 8, unit: ns,
+     ref: hold}
+  - {id: thdr-hs, symbol: tHDr;DAT50, label: "Data hold before a rising SDA edge, Hs mode", min: 9, unit: ns,
+     ref: hold}
+  - {id: thdf-hs, symbol: tHDf;DAT50, label: "Data hold before a falling SDA edge, Hs mode", min: 8, unit: ns,
+     ref: hold}
+  - {id: tri, symbol: tr(i), label: "Input rise time, 30 % to 70 %", max: 1, unit: µs, ref: ac-i2c}
+  - {id: tfi, symbol: tf(i), label: "Input fall time, 70 % to 30 %", max: 1, unit: µs, ref: ac-i2c}
+  - {id: tfo, symbol: tf(o), label: "Output fall time, CL = 30 pF", max: 0.3, unit: µs, ref: ac-i2c}
+  - {id: fscl-hs, symbol: fSCL, label: "SCL clock with clock stretching enabled (Hs mode)", max: 3.4, unit: MHz,
+     ref: freq}
+  - {id: fscl, symbol: fSCL, label: SCL clock with clock stretching disabled, max: 1, unit: MHz, ref: freq}
+marks:
+  - {param: thdr, signal: sda, from: 2, to: 2.35}
+  - {param: thdf, signal: sda, from: 3, to: 3.35}
+notes:
+  - {text: "The A, B, C, D and F configurations stretch the clock above 600 kHz; the SE050E has it off by default.",
+     ref: freq}

@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/diagrams/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -596,6 +530,8 @@
   
     
     
+      
+        
       
         
       
@@ -1311,6 +1247,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#i2c-timing-of-the-address-byte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I2C timing of the address byte
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#irreversible-operations-plan-confirm-apply" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1487,6 +1434,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#one-t1-block-each-way-on-i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One T=1 block each way on I2C
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-t1-link-states-and-s-blocks" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1602,13 +1560,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE05x's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="what-the-se05x-does">What the SE05x does<a class="headerlink" href="#what-the-se05x-does" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1619,13 +1577,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Each card is one function of the SE05x: an icon, its name and what it does for the application. The filled pill says how this driver covers it (legend below); the outlined pills are the chip registers behind it. The coverage table in the README gives the driver calls and the datasheet section of each card.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x-minimal-application-no-power-cycle-se050-se051">SE05x: Minimal application, no power cycle (SE050, SE051)<a class="headerlink" href="#se05x-minimal-application-no-power-cycle-se050-se051" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1636,13 +1594,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x-recommended-application-se050-se051">SE05x: Recommended application (SE050, SE051)<a class="headerlink" href="#se05x-recommended-application-se050-se051" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1653,13 +1611,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x-t1-r-block-acknowledgement">SE05x: T=1 R-block (acknowledgement)<a class="headerlink" href="#se05x-t1-r-block-acknowledgement" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1670,13 +1628,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>One T=1 R-block (acknowledgement) of the SE05x, 40 bits in a row from the most significant (left, sent first) to the least significant (right). Each row is one kind of frame; each coloured box a field, with its first and last bit number under it. The table at the bottom names each bit of the PCB field.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x">SE05x<a class="headerlink" href="#se05x" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1687,13 +1645,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE05x in the middle, drawn as its HX2QFN20 package. On the left the MCU that runs the driver, joined to it by I2C, T=1. To the right, what the chip drives, in the order the power flows. The tiles at the bottom are the headline numbers, each with the datasheet section and page it comes from.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x-package-hx2qfn20">SE05x package, HX2QFN20<a class="headerlink" href="#se05x-package-hx2qfn20" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1704,13 +1662,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE05x package seen from the top and, when the height is known, from the side, drawn to scale: 3.0 x 3.0 x 0.32 mm. The arrows carry the datasheet's dimensions, the dot marks pin 1 and the pads are numbered counter-clockwise from it, coloured by the pin's electrical type (legend below). Pads sit centred on each side at the stated pitch; the datasheet's land pattern is the reference for a board.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="se05x-pinout-hx2qfn20">SE05x pinout, HX2QFN20<a class="headerlink" href="#se05x-pinout-hx2qfn20" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1721,13 +1679,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE05x seen from the top, in its HX2QFN20 package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver. The dashed square is the exposed pad.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="wiring-minimal-application-no-power-cycle-se050-se051">Wiring: Minimal application, no power cycle (SE050, SE051)<a class="headerlink" href="#wiring-minimal-application-no-power-cycle-se050-se051" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1738,13 +1696,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The MCU on the left, the SE05x in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="wiring-recommended-application-se050-se051">Wiring: Recommended application (SE050, SE051)<a class="headerlink" href="#wiring-recommended-application-se050-se051" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1755,13 +1713,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The MCU on the left, the SE05x in the middle. Each wire to the chip is coloured by the chip pin's electrical type and carries the net name and the chip pin number above it and, under it, the driver hooks that use it (and any part on the net). The boxes underneath list the supplies, the support parts and the pins this circuit leaves unconnected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>.</p>
 </details>
 <p>Hardware description: <a href="../hardware.yml"><code>docs/hardware.yml</code></a></p>
 <p>Drawn from:</p>
 <ul>
 <li><a href="../hardware.yml"><code>docs/hardware.yml</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
 </ul>
 <h2 id="from-a-device-key-to-a-stored-certificate">From a device key to a stored certificate<a class="headerlink" href="#from-a-device-key-to-a-stored-certificate" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1788,12 +1746,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a> <code>public calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a> <code>public calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>public calls</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a></li>
+<li><code>public calls</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_device.hpp"><code>inc/se05x_device.hpp</code></a></li>
 </ul>
 <h2 id="eckey-session-opening-it">ECKey session: opening it<a class="headerlink" href="#eckey-session-opening-it" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1804,12 +1762,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The driver's eckey layer, the crypto port and the IoT applet. The driver first reads the chip's ECKA public key with an attested ReadObject and verifies the attestation. The crypto port makes a fresh ephemeral P-256 key pair for this session only and signs the request with the host's long-term key, whose public half is the ECKey authentication object on the chip. ECKeySessionInternalAuthenticate (84 88) carries the parameters (tag A6), the ephemeral public key (tag 7F49) and the signature (tag 5F37). The chip answers a 16-byte challenge and a 16-byte receipt. The host computes the shared secret, derives the master key (the first 16 bytes of SHA-256 over a counter, the secret, the chip's random and the parameters) and the session keys by CMAC, and checks the receipt in constant time before it trusts the session. The ephemeral private key and the master key are wiped. AN12543 pp. 22-23, 33-34, 72-73; no vector confirms the derivation yet, so it is built behind a flag.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_eckey.hpp"><code>inc/se05x_eckey.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/eckey-session.py"><code>docs/diagrams/figures/eckey-session.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_eckey.hpp"><code>inc/se05x_eckey.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/eckey-session.py"><code>docs/diagrams/figures/eckey-session.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/eckey-session.py"><code>docs/diagrams/figures/eckey-session.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/eckey-session.py"><code>docs/diagrams/figures/eckey-session.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_eckey.hpp"><code>inc/se05x_eckey.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_eckey.hpp"><code>inc/se05x_eckey.hpp</code></a></li>
 </ul>
 <h2 id="the-first-15-minutes">The first 15 minutes<a class="headerlink" href="#the-first-15-minutes" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1827,6 +1785,22 @@ committed figure no longer matches the code. Each figure below lists the files i
 <ul>
 <li><a href="../model/first-15-minutes.graph.yml"><code>docs/model/first-15-minutes.graph.yml</code></a></li>
 </ul>
+<h2 id="i2c-timing-of-the-address-byte">I2C timing of the address byte<a class="headerlink" href="#i2c-timing-of-the-address-byte" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="i2c-timing.svg#only-light" alt="I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit, with the two data hold times the data sheet defines after a falling SCL edge, the edge times and the clock limits." width="640" height="1240" loading="lazy"><img src="i2c-timing.dark.svg#only-dark" alt="I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit, with the two data hold times the data sheet defines after a falling SCL edge, the edge times and the clock limits." width="640" height="1240" loading="lazy">
+<figcaption>I2C timing of the address byte</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The two lanes are SCL and SDA, left to right in time. SDA falls while SCL is high (the start), then the address bits 1001000 and the write bit 0 follow, each set after a falling SCL edge and held while SCL is high, and the SE05x pulls SDA low for the acknowledge. The marks show the hold time before a rising and before a falling SDA edge.</p>
+<p>Drawn from: <a href="../model/i2c-timing.timing.yml"><code>docs/model/i2c-timing.timing.yml</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../model/i2c-timing.timing.yml"><code>docs/model/i2c-timing.timing.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../model/i2c-timing.timing.yml"><code>docs/model/i2c-timing.timing.yml</code></a></li>
+</ul>
 <h2 id="irreversible-operations-plan-confirm-apply">Irreversible operations: plan, confirm, apply<a class="headerlink" href="#irreversible-operations-plan-confirm-apply" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
 <img src="irreversible-flow.svg#only-light" alt="Four steps: build flag, Plan (no I/O), Confirmation from the operation&#x27;s phrase, Apply; and the list of the operations that need them." width="1200" height="523" loading="lazy"><img src="irreversible-flow.dark.svg#only-dark" alt="Four steps: build flag, Plan (no I/O), Confirmation from the operation&#x27;s phrase, Apply; and the list of the operations that need them." width="1200" height="523" loading="lazy">
@@ -1836,12 +1810,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Left to right. The build must define SE05X_ENABLE_IRREVERSIBLE, or none of these calls exists. The caller asks irreversible::Operations for a Plan of one operation: the Plan sends nothing, checks the arguments, the capabilities and the role, and says what will change. The caller shows the Plan to a person and builds a Confirmation of the same operation from its phrase. Apply() takes both; a Plan of another operation, a phrase of another operation or a Plan that was not prepared is refused before any byte is sent (Error::IrreversibleNotConfirmed). The operation tags are read from inc/se05x_confirm.hpp; the two PERSO operations live on perso::Perso and follow the same flow.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_confirm.hpp"><code>inc/se05x_confirm.hpp</code></a> <code>operation tags</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/irreversible-flow.py"><code>docs/diagrams/figures/irreversible-flow.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_confirm.hpp"><code>inc/se05x_confirm.hpp</code></a> <code>operation tags</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/irreversible-flow.py"><code>docs/diagrams/figures/irreversible-flow.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/irreversible-flow.py"><code>docs/diagrams/figures/irreversible-flow.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/irreversible-flow.py"><code>docs/diagrams/figures/irreversible-flow.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>operation tags</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_confirm.hpp"><code>inc/se05x_confirm.hpp</code></a></li>
+<li><code>operation tags</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_confirm.hpp"><code>inc/se05x_confirm.hpp</code></a></li>
 </ul>
 <h2 id="what-the-chip-does-for-your-firmware">What the chip does for your firmware<a class="headerlink" href="#what-the-chip-does-for-your-firmware" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1868,13 +1842,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The device-wide settings of the IoT applet, each changed by one command that the chip accepts only in a session opened with one reserved authentication object (the AuthRole of inc/se05x_lifecycle.hpp, checked by RequiredRole() before anything is sent). Transport lock: SetLockState from a Transport session; while locked the chip answers only GetVersion, ReadState, the read of the unique id, GetRandom and CreateSession (AN12543 Table 19); the persistent lock survives resets and is lifted only from a Transport session again. Platform SCP required: SetPlatformSCPRequest from a PlatformScp session; from then on every command needs full platform SCP03. Restricted object creation: DisableObjectCreation; the persistent form cannot be undone. Applet features: SetAppletFeatures from a Feature (ECKey) session. Factory reset: DeleteAll from a FactoryReset session removes every object except the provisioned ones; its reply is not wrapped and the session ends. ReadState reads the first three at any time. Red arrows are the operations the driver treats as irreversible: they exist only with SE05X_ENABLE_IRREVERSIBLE and need a Plan and a Confirmation.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a> <code>AuthRole</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a> <code>RequiredRole</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/lifecycle.py"><code>docs/diagrams/figures/lifecycle.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a> <code>AuthRole</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a> <code>RequiredRole</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/lifecycle.py"><code>docs/diagrams/figures/lifecycle.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/lifecycle.py"><code>docs/diagrams/figures/lifecycle.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/lifecycle.py"><code>docs/diagrams/figures/lifecycle.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>AuthRole</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a></li>
-<li><code>RequiredRole</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a></li>
+<li><code>AuthRole</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a></li>
+<li><code>RequiredRole</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_lifecycle.hpp"><code>inc/se05x_lifecycle.hpp</code></a></li>
 </ul>
 <h2 id="objects-policies-and-sessions">Objects, policies and sessions<a class="headerlink" href="#objects-policies-and-sessions" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1885,13 +1859,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Every key or data item on the chip is a secure object: a 4-byte identifier, a class (ObjectClass of inc/se05x_ids.hpp), a lifetime (persistent, or transient: the content is lost at reset or deselect) and an origin (generated inside, written from outside, or provisioned by the vendor; attestation reports it). At creation the object gets a policy set: each policy names one authentication object and the operations it may do (the Rule enumeration of inc/se05x_policy_types.hpp, 9 to 53 bytes per policy; AN12543 Table 63). An authentication object is itself a secure object (a UserID, an AES key or an EC key); a session opened with it (at most 2 at a time) is what a policy checks. The policy builder only builds rules valid for the class and generation, and the facade uses the strict profile only.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ids.hpp"><code>inc/se05x_ids.hpp</code></a> <code>ObjectClass, Origin, Lifetime</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_policy_types.hpp"><code>inc/se05x_policy_types.hpp</code></a> <code>Rule</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/object-policy.py"><code>docs/diagrams/figures/object-policy.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ids.hpp"><code>inc/se05x_ids.hpp</code></a> <code>ObjectClass, Origin, Lifetime</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_policy_types.hpp"><code>inc/se05x_policy_types.hpp</code></a> <code>Rule</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/object-policy.py"><code>docs/diagrams/figures/object-policy.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/object-policy.py"><code>docs/diagrams/figures/object-policy.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/object-policy.py"><code>docs/diagrams/figures/object-policy.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>ObjectClass, Origin, Lifetime</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ids.hpp"><code>inc/se05x_ids.hpp</code></a></li>
-<li><code>Rule</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_policy_types.hpp"><code>inc/se05x_policy_types.hpp</code></a></li>
+<li><code>ObjectClass, Origin, Lifetime</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ids.hpp"><code>inc/se05x_ids.hpp</code></a></li>
+<li><code>Rule</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_policy_types.hpp"><code>inc/se05x_policy_types.hpp</code></a></li>
 </ul>
 <h2 id="device-certificates-provision-once-verify-at-boot">Device certificates: provision once, verify at boot<a class="headerlink" href="#device-certificates-provision-once-verify-at-boot" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1902,14 +1876,14 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Left to right, top row once in the factory, bottom row at every boot. 1. The chip generates the key pair; only the public key comes out (ReadPublicKey). 2. BuildCsr writes the request and the chip signs its digest (DeviceSigner); VerifyCsr checks it against its own key. 3. The CA, outside the driver, issues the certificate. 4. StoreCertificate writes the certificate and the CA certificate (the trust anchor) into new binary objects with read-only policies, in one WriteBinary each, and reads them back. At boot: ReadCertificate and LoadTrustAnchor read them, VerifyChain checks signature, names, time, constraints and path length with the caller's clock, and the verified key is the chip's own. The CA, revocation and TLS are outside the driver.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_csr.hpp"><code>inc/se05x_pki_csr.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_device.hpp"><code>inc/se05x_pki_device.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_verify.hpp"><code>inc/se05x_pki_verify.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/pki-provisioning.py"><code>docs/diagrams/figures/pki-provisioning.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_csr.hpp"><code>inc/se05x_pki_csr.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_device.hpp"><code>inc/se05x_pki_device.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_verify.hpp"><code>inc/se05x_pki_verify.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/pki-provisioning.py"><code>docs/diagrams/figures/pki-provisioning.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/pki-provisioning.py"><code>docs/diagrams/figures/pki-provisioning.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/pki-provisioning.py"><code>docs/diagrams/figures/pki-provisioning.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_csr.hpp"><code>inc/se05x_pki_csr.hpp</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_device.hpp"><code>inc/se05x_pki_device.hpp</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_pki_verify.hpp"><code>inc/se05x_pki_verify.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_csr.hpp"><code>inc/se05x_pki_csr.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_device.hpp"><code>inc/se05x_pki_device.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_pki_verify.hpp"><code>inc/se05x_pki_verify.hpp</code></a></li>
 </ul>
 <h2 id="the-factory-provisioning-flow">The factory provisioning flow<a class="headerlink" href="#the-factory-provisioning-flow" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1936,12 +1910,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>When an exchange fails the link climbs these rungs in order, read from the Rung enumeration in inc/se05x_t1.hpp, and stops at the first that works. Each rung is bounded and is never repeated without limit. Resending the last block keeps everything. A resync and an interface soft reset keep the chip's state but drop the exchange in progress. Selecting the applet again closes the applet sessions. The chip reset (the NXP-flavour S-block 0xC6, or the reset port in the GP flavour, where 0xC6 means RELEASE) also clears transient objects, and is the only answer to SW 0x66A6. The power cycle needs the reset port (ENA with VOUT wired to VCC on the SE050 and SE051) and is the only cure for errata I2C.1. After any rung past the resend, the driver forgets every session and the caller authenticates again (Error::Resynced).</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a> <code>Rung</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/recovery-ladder.py"><code>docs/diagrams/figures/recovery-ladder.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a> <code>Rung</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/recovery-ladder.py"><code>docs/diagrams/figures/recovery-ladder.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/recovery-ladder.py"><code>docs/diagrams/figures/recovery-ladder.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/recovery-ladder.py"><code>docs/diagrams/figures/recovery-ladder.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>Rung</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a></li>
+<li><code>Rung</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a></li>
 </ul>
 <h2 id="the-anti-rollback-boot-check">The anti-rollback boot check<a class="headerlink" href="#the-anti-rollback-boot-check" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -1984,12 +1958,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Three parties, left to right: the driver's scp03 layer, the crypto port that holds the static platform keys as handles, and the chip's card manager. The driver sends INITIALIZE UPDATE with a host challenge; the chip answers with its challenge and card cryptogram. The crypto port derives the session keys from the static keys (the driver never sees them) and the driver checks the card cryptogram in constant time. EXTERNAL AUTHENTICATE carries the host cryptogram and the security level; when platform SCP is required the level must be full C-MAC, C-ENC, R-MAC and R-ENC (AN12543 SetPlatformSCPRequest, p. 75). Every later APDU is wrapped (C-MAC, C-ENC) and every reply checked (R-MAC, R-ENC); a failed check closes the channel and wipes the keys. The normative SCP03 text is the GlobalPlatform SCP03 amendment, which is not in this driver's source set: the byte detail follows AN12543 p. 72 and the middleware oracle.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_scp03.hpp"><code>inc/se05x_scp03.hpp</code></a> <code>SecurityLevel</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/scp03-session.py"><code>docs/diagrams/figures/scp03-session.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_scp03.hpp"><code>inc/se05x_scp03.hpp</code></a> <code>SecurityLevel</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/scp03-session.py"><code>docs/diagrams/figures/scp03-session.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/scp03-session.py"><code>docs/diagrams/figures/scp03-session.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/scp03-session.py"><code>docs/diagrams/figures/scp03-session.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>SecurityLevel</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_scp03.hpp"><code>inc/se05x_scp03.hpp</code></a></li>
+<li><code>SecurityLevel</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_scp03.hpp"><code>inc/se05x_scp03.hpp</code></a></li>
 </ul>
 <h2 id="se052-package-outline-hvqfn20">SE052 package outline, HVQFN20<a class="headerlink" href="#se052-package-outline-hvqfn20" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2000,12 +1974,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 body from above and from the side, to one scale: 4.0 x 4.0 mm, 0.85 mm high, 20 pins at a 0.5 mm pitch, five on each side, pin 1 at the top of the left side (SE052 data sheet section 6, p. 5, and the pin order of Table 2, p. 4). The terminal and exposed-pad dimensions are in the package drawing SOT917-7, not in the data sheet, so the pins are drawn as position marks only. The SE050 and SE051 come in the smaller HX2QFN20 (3.0 x 3.0 x 0.32 mm, 0.4 mm pitch).</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
 </ul>
 <h2 id="se052-pinout-hvqfn20">SE052 pinout, HVQFN20<a class="headerlink" href="#se052-pinout-hvqfn20" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2016,12 +1990,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 seen from the top in its HVQFN20 package (4 x 4 x 0.85 mm, 0.5 mm pitch, SOT917-7 in the data sheet). Pin 1 is at the top of the left side and the numbers run counter-clockwise: 1 to 5 down the left side, 6 to 10 along the bottom, 11 to 15 up the right side and 16 to 20 along the top. Each pin card is coloured by the pin's type as in the HX2QFN20 pinout. The driver uses SDA (11) and SCL (10) for the bus and RST_N (14) through the reset port; the SE052 has no ENA pin, so deep power-down is a T=1 S-block (0xDF) and the next I2C access wakes it. The table is SE052 Table 2 (p. 4).</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
 </ul>
 <h2 id="wiring-the-se052">Wiring the SE052<a class="headerlink" href="#wiring-the-se052" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2032,12 +2006,12 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 on an MCU's I2C bus. SDA (pin 11) and SCL (pin 10) go to the MCU with pull-ups to the bus supply of 1.65 V to 3.6 V, which also feeds VIN (pin 12). VOUT (pin 15) goes to VDD (pin 18) on the board, as Table 2 asks; Figure 1 shows an optional 22 nF on VIN and an optional 22 nF (or nothing) on VOUT. RST_N (pin 14) goes to a GPIO the reset port drives low to reset the chip. There is no ENA pin: deep power-down is the S-block 0xDF, and the next I2C access wakes the chip. CLK (13) is left open or tied to ground, LA and LB are left open, IO1 and IO2 are the chip's own I2C controller and stay open when it is not used. The pull-up value is not in the data sheet.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a></li>
 </ul>
 <h2 id="provision-a-signing-key-then-sign">Provision a signing key, then sign<a class="headerlink" href="#provision-a-signing-key-then-sign" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2080,12 +2054,28 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>One block on the I2C bus, in the order its bytes are sent, for each flavour the driver speaks. The NXP flavour (UM11225) has NAD 0x5A from the host and 0xA5 from the chip, a one-byte LEN and at most 254 bytes of INF. The GlobalPlatform flavour (GPC_SPE_172) has NAD 0x21 and 0x12, a two-byte big-endian LEN and up to 4089 bytes of INF. Both end with a CRC-16 over NAD to INF; in the GP flavour it is CRC-16/X-25 sent most significant byte first (the document's example block ends in BDA4); UM11225 gives neither the polynomial's byte order nor an example, so the link tries both orders and keeps the first that checks. The PCB byte tells the three kinds of block apart. Every number is read from inc/se05x_wire.hpp.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a> <code>kUm11225Frame, kGpFrame, kGpExampleCrc</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/t1-frame.py"><code>docs/diagrams/figures/t1-frame.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a> <code>kUm11225Frame, kGpFrame, kGpExampleCrc</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/t1-frame.py"><code>docs/diagrams/figures/t1-frame.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/t1-frame.py"><code>docs/diagrams/figures/t1-frame.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/t1-frame.py"><code>docs/diagrams/figures/t1-frame.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>kUm11225Frame, kGpFrame, kGpExampleCrc</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a></li>
+<li><code>kUm11225Frame, kGpFrame, kGpExampleCrc</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a></li>
+</ul>
+<h2 id="one-t1-block-each-way-on-i2c">One T=1 block each way on I2C<a class="headerlink" href="#one-t1-block-each-way-on-i2c" title="Permanent link">&para;</a></h2>
+<figure class="kb-figure">
+<img src="t1-i2c-block.svg#only-light" alt="Two I2C transfers of the NXP T=1 flavour: the host writes a block with NAD, PCB, LEN, the information field and a two-byte CRC, and after polling reads the chip&#x27;s block of the same form." width="640" height="1086" loading="lazy"><img src="t1-i2c-block.dark.svg#only-dark" alt="Two I2C transfers of the NXP T=1 flavour: the host writes a block with NAD, PCB, LEN, the information field and a two-byte CRC, and after polling reads the chip&#x27;s block of the same form." width="640" height="1086" loading="lazy">
+<figcaption>One T=1 block each way on I2C</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>The two lanes are Host to SE and SE to Host, each one I2C transfer from START to STOP. Host to SE carries the address with the write bit, then NAD, PCB, LEN, INF with the command APDU, CRC-1 and CRC-2. SE to Host carries the address with the read bit, then the chip's NAD, PCB, LEN, INF with the response APDU, CRC-1 and CRC-2.</p>
+<p>Drawn from: <a href="../model/t1-i2c-block.timing.yml"><code>docs/model/t1-i2c-block.timing.yml</code></a>.</p>
+</details>
+<p>Hardware description: <a href="../model/t1-i2c-block.timing.yml"><code>docs/model/t1-i2c-block.timing.yml</code></a></p>
+<p>Drawn from:</p>
+<ul>
+<li><a href="../model/t1-i2c-block.timing.yml"><code>docs/model/t1-i2c-block.timing.yml</code></a></li>
 </ul>
 <h2 id="the-t1-link-states-and-s-blocks">The T=1 link: states and S-blocks<a class="headerlink" href="#the-t1-link-states-and-s-blocks" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2096,13 +2086,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Each box is a LinkState of t1::Link, read from inc/se05x_t1.hpp. Open() reads the ATR or CIP and selects the applet, leaving the link Idle. A command makes it InFlight: one I-block per I2C write (chained when the APDU is longer than IFSC, each part acknowledged by an R-block), then the reply is polled. While in flight the chip may ask for more time with S(WTX request), which the link answers with S(WTX response), counted against Config::wtx_limit; a bad block gets an R-block and is resent at most Config::frame_retries times. A reply returns the link to Idle. A rung of the recovery ladder that resets the chip's context leaves NeedsReselect, which selecting the applet again ends; when the ladder is spent the link is Dead and only Close() and Open() start it again. The S-block codes are the ones of inc/se05x_wire.hpp; 0xC6 is a chip reset in the NXP flavour and RELEASE in the GP one.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a> <code>LinkState</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a> <code>S-block codes</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/t1-states.py"><code>docs/diagrams/figures/t1-states.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a> <code>LinkState</code>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a> <code>S-block codes</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/t1-states.py"><code>docs/diagrams/figures/t1-states.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/t1-states.py"><code>docs/diagrams/figures/t1-states.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/t1-states.py"><code>docs/diagrams/figures/t1-states.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><code>LinkState</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a></li>
-<li><code>S-block codes</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a></li>
+<li><code>LinkState</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_t1.hpp"><code>inc/se05x_t1.hpp</code></a></li>
+<li><code>S-block codes</code> in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_wire.hpp"><code>inc/se05x_wire.hpp</code></a></li>
 </ul>
 <h2 id="a-tls-client-signature">A TLS client signature<a class="headerlink" href="#a-tls-client-signature" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2129,13 +2119,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Three zones from right to left. Inside the chip: the private keys, the policies, the counters, the RNG and the attestation key; the chip enforces every access rule. The bus between host and chip carries APDUs in clear unless a secure channel (platform SCP03, an AESKey or an ECKey session) wraps them; anyone with a probe on SDA and SCL sees and can inject plain traffic. The host MCU runs this driver, which is a courier: it holds no long-term secret except the platform SCP03 keys, and those only as handles in the crypto port. The verifier, far left, checks attestations and signatures with public keys only. Each arrow says what crosses the boundary.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_secret.hpp"><code>inc/se05x_secret.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/trust-boundaries.py"><code>docs/diagrams/figures/trust-boundaries.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_secret.hpp"><code>inc/se05x_secret.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/trust-boundaries.py"><code>docs/diagrams/figures/trust-boundaries.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/trust-boundaries.py"><code>docs/diagrams/figures/trust-boundaries.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/trust-boundaries.py"><code>docs/diagrams/figures/trust-boundaries.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_secret.hpp"><code>inc/se05x_secret.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_ports.hpp"><code>inc/se05x_ports.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_secret.hpp"><code>inc/se05x_secret.hpp</code></a></li>
 </ul>
 <h2 id="choosing-a-variant-an-applet-and-an-authentication">Choosing a variant, an applet and an authentication<a class="headerlink" href="#choosing-a-variant-an-applet-and-an-authentication" title="Permanent link">&para;</a></h2>
 <figure class="kb-figure">
@@ -2146,13 +2136,13 @@ committed figure no longer matches the code. Each figure below lists the files i
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Read top to bottom; take the first question you answer yes. Certification needs come first: FIPS 140-3 Level 3 is the SE052F; FIPS 140-2 with SCP03 mandatory is the SE050F. Then interfaces: NFC commissioning and Matter (PAKE) is the SE051H, UWB the SE051W. Field update of the applet (SEMS Lite) is the SE051A or C. Otherwise the SE050 by algorithm set: E for AES-GCM and CCM and Curve448 (applet 7.x), C for ECC and RSA, A for ECC only, B for RSA only, D for ECC with MIFARE DESFire. The SE051P runs a customer applet and has no IoT applet, so this driver does not apply. The bottom row is the authentication choice: platform SCP03 whenever the bus can be probed, an ECKey session to bind a host, a UserID session only under a trusted host OS, since it has no secure messaging. The driver reads the real capabilities at Open() and never trusts the part name.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_types.hpp"><code>inc/se05x_types.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_caps.hpp"><code>inc/se05x_caps.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/variant-decision.py"><code>docs/diagrams/figures/variant-decision.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_types.hpp"><code>inc/se05x_types.hpp</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_caps.hpp"><code>inc/se05x_caps.hpp</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/variant-decision.py"><code>docs/diagrams/figures/variant-decision.py</code></a>.</p>
 </details>
-<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/variant-decision.py"><code>docs/diagrams/figures/variant-decision.py</code></a></p>
+<p>Figure module: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/variant-decision.py"><code>docs/diagrams/figures/variant-decision.py</code></a></p>
 <p>Drawn from:</p>
 <ul>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_types.hpp"><code>inc/se05x_types.hpp</code></a></li>
-<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/inc/se05x_caps.hpp"><code>inc/se05x_caps.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_types.hpp"><code>inc/se05x_types.hpp</code></a></li>
+<li><a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/inc/se05x_caps.hpp"><code>inc/se05x_caps.hpp</code></a></li>
 </ul>
 
 

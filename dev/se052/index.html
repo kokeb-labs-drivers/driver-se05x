@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/se052/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -607,6 +541,8 @@
       
         
       
+        
+      
     
     
     
@@ -672,6 +608,34 @@
     
   
     Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On the bus
   
 
     
@@ -1258,7 +1222,7 @@ accepts up to 5.5 V. Do not reuse an SE050 footprint.</p>
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 seen from the top in its HVQFN20 package (4 x 4 x 0.85 mm, 0.5 mm pitch, SOT917-7 in the data sheet). Pin 1 is at the top of the left side and the numbers run counter-clockwise: 1 to 5 down the left side, 6 to 10 along the bottom, 11 to 15 up the right side and 16 to 20 along the top. Each pin card is coloured by the pin's type as in the HX2QFN20 pinout. The driver uses SDA (11) and SCL (10) for the bus and RST_N (14) through the reset port; the SE052 has no ENA pin, so deep power-down is a T=1 S-block (0xDF) and the next I2C access wakes it. The table is SE052 Table 2 (p. 4).</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-pinout.py"><code>docs/diagrams/figures/se052-pinout.py</code></a>.</p>
 </details>
 <figure class="kb-figure">
 <img src="../diagrams/se052-outline.svg#only-light" alt="Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high." width="1200" height="788" loading="lazy"><img src="../diagrams/se052-outline.dark.svg#only-dark" alt="Outline of the SE052 in HVQFN20 drawn to scale: a 4.0 x 4.0 mm body from above with five pin marks per side at a 0.5 mm pitch and pin 1 at the top left, and a side view 0.85 mm high." width="1200" height="788" loading="lazy">
@@ -1268,7 +1232,7 @@ accepts up to 5.5 V. Do not reuse an SE050 footprint.</p>
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 body from above and from the side, to one scale: 4.0 x 4.0 mm, 0.85 mm high, 20 pins at a 0.5 mm pitch, five on each side, pin 1 at the top of the left side (SE052 data sheet section 6, p. 5, and the pin order of Table 2, p. 4). The terminal and exposed-pad dimensions are in the package drawing SOT917-7, not in the data sheet, so the pins are drawn as position marks only. The SE050 and SE051 come in the smaller HX2QFN20 (3.0 x 3.0 x 0.32 mm, 0.4 mm pitch).</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-outline.py"><code>docs/diagrams/figures/se052-outline.py</code></a>.</p>
 </details>
 <p>HVQFN20, 4 x 4 x 0.85 mm, 0.5 mm pitch. The data sheet names the outline SOT917-7 (section 6, p. 5) and AN14028
 names SOT917-6: check the package data sheet before the footprint (ambiguity A2).</p>
@@ -1281,7 +1245,7 @@ names SOT917-6: check the package data sheet before the footprint (ambiguity A2)
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The SE052 on an MCU's I2C bus. SDA (pin 11) and SCL (pin 10) go to the MCU with pull-ups to the bus supply of 1.65 V to 3.6 V, which also feeds VIN (pin 12). VOUT (pin 15) goes to VDD (pin 18) on the board, as Table 2 asks; Figure 1 shows an optional 22 nF on VIN and an optional 22 nF (or nothing) on VOUT. RST_N (pin 14) goes to a GPIO the reset port drives low to reset the chip. There is no ENA pin: deep power-down is the S-block 0xDF, and the next I2C access wakes the chip. CLK (13) is left open or tied to ground, LA and LB are left open, IO1 and IO2 are the chip's own I2C controller and stay open when it is not used. The pull-up value is not in the data sheet.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/_se052.py"><code>docs/diagrams/figures/_se052.py</code></a>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/docs/diagrams/figures/se052-wiring.py"><code>docs/diagrams/figures/se052-wiring.py</code></a>.</p>
 </details>
 <ul>
 <li><strong>Supplies.</strong> VIN 1.65 V to 3.6 V feeds the I2C pads; VDD takes 1.62 V to 5.5 V in three classes (Table 13,

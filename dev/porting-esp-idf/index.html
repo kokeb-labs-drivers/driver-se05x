@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver and hardware root-of-trust facade for the NXP EdgeLock SE050, SE051 and SE052 secure elements over I2C (T=1, GlobalPlatform SCP03, IoT applet), with the transport, crypto and timing behind ports.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-se05x/latest/porting-esp-idf/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -596,6 +530,8 @@
   
     
     
+      
+        
       
         
       
@@ -1616,7 +1552,7 @@
 
 
 <h1 id="porting-to-esp-idf">Porting to ESP-IDF<a class="headerlink" href="#porting-to-esp-idf" title="Permanent link">&para;</a></h1>
-<p>The ESP-IDF ports in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a> use the
+<p>The ESP-IDF ports in <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/examples/esp32/main/esp32_se05x_port.hpp"><code>examples/esp32/main/esp32_se05x_port.hpp</code></a> use the
 <code>i2c_master</code> driver for the bus, <code>esp_timer</code> for the clock and a GPIO for the reset port. This page says what each
 port must do for the SE05x and why. For another platform read <a href="../porting/">Porting</a> first.</p>
 <!-- generated: datasheet-refs -->
@@ -1627,8 +1563,8 @@ port must do for the SE05x and why. For another platform read <a href="../portin
 <li>I2C clock and clock stretching per variant: NXP SE050-DATASHEET Rev. 3.8, 4.1.1 Supported I2C frequencies, p. 9</li>
 <li>I2C.1 lock-up after a second command, I2C.2 no empty frame: NXP SE050_Erratasheet Rev. 1.0, 3.1, 3.2, p. 7</li>
 <li>I2C.3 lines high around a soft reset, I2C.4 SCL before SDA: NXP SE050_Erratasheet Rev. 1.0, 3.3, 3.4, p. 8</li>
-<li>One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, I2C framing, p. 13</li>
-<li>Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, Polling, p. 14</li>
+<li>One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, 3.1.1.1 SE I2C Receive State, Figure 4, p. 13</li>
+<li>Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, 3.1.1.2 SE I2C Processing State, p. 14</li>
 <li>Development kit jumpers: ENA, reset, pull-ups: NXP AN13539 Rev. 1.2, Table 9 and the jumper tables, p. 15</li>
 </ul>
 <p>All of them, with the driver API for each: <a href="../datasheet/">Datasheet map</a>.</p>
@@ -1717,7 +1653,7 @@ switched. On the vendor development kit ENA and the reset line reach the Arduino
 (AN13539 p. 15).</p>
 <h2 id="crypto-port">Crypto port<a class="headerlink" href="#crypto-port" title="Permanent link">&para;</a></h2>
 <p>Bind the crypto port to mbedTLS or PSA on the target, never to the driver's <code>ReferenceCrypto</code> in a product: the
-optional <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/7538e10516f97b752c8c10e661b77e8b479163c2/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/se05x_psa_crypto.hpp</code></a> does it over PSA Crypto, which
+optional <a href="https://github.com/kokeb-labs-drivers/driver-se05x/blob/8161253f342d4cc99d9e979c83a0eaae0c73a89d/examples/psa/se05x_psa_crypto.hpp"><code>examples/psa/se05x_psa_crypto.hpp</code></a> does it over PSA Crypto, which
 the ESP-IDF mbedtls component provides (<code>se05x_hrot_example</code> uses it; add <code>mbedtls</code> to the component's <code>REQUIRES</code>).
 Keep the platform SCP03 keys in NVS encryption or a key store and give the driver only <code>KeyRef</code> handles. Never
 compile keys into the image.</p>
