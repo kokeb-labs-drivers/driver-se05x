@@ -13,14 +13,14 @@ and the recovery ladder. The layer is `se05x::t1::Link`; its numbers are in `inc
     - SE052 CIP bytes in the configuration: NXP SE052 Rev. 1.5, Table 12 Configuration parameters, p. 17
     - SE052 tDPD: no access for 300 us after a deep power-down: NXP SE052 Rev. 1.5, Table 15 Electrical AC characteristics, tDPD, p. 22
     - I2C.1 lock-up after a second command, I2C.2 no empty frame: NXP SE050_Erratasheet Rev. 1.0, 3.1, 3.2, p. 7
-    - NXP flavour block: NAD, PCB, LEN, INF, CRC: NXP UM11225 Rev. 1.2, Table 1, Tables 3 and 4, p. 5
+    - NXP flavour block: NAD, PCB, LEN, INF, CRC: NXP UM11225 Rev. 1.2, 2.1 T=1 Block Frame Format, Tables 1, 3 and 4, p. 5
     - NXP flavour I-block and R-block PCB: NXP UM11225 Rev. 1.2, Tables 5 to 7, p. 6
     - NXP flavour S-blocks: NXP UM11225 Rev. 1.2, Table 9, p. 7
     - NXP flavour ATR: NXP UM11225 Rev. 1.2, Tables 11 to 13, p. 9
-    - Retransmissions, WTX and soft reset rules: NXP UM11225 Rev. 1.2, Error handling and retransmission, p. 11
-    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, I2C framing, p. 13
-    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, Polling, p. 14
-    - Default SEGT, MPOT and power wake-up time: NXP UM11225 Rev. 1.2, Table 14, p. 19
+    - Retransmissions, WTX and soft reset rules: NXP UM11225 Rev. 1.2, 2.4 Error handling, p. 11
+    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, 3.1.1.1 SE I2C Receive State, Figure 4, p. 13
+    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, 3.1.1.2 SE I2C Processing State, p. 14
+    - Default SEGT, MPOT and power wake-up time: NXP UM11225 Rev. 1.2, 3.1.1.4 SE I2C Default Values, Table 14, p. 19
     - GP flavour I2C: polling, guard times, clock stretching: GlobalPlatform GPC_SPE_172 v1.0, I2C physical layer, p. 23
     - GP flavour default IFSC, BWT and power wake time: GlobalPlatform GPC_SPE_172 v1.0, Default values, p. 31
     - GP flavour block, NAD 21/12, two-byte LEN, CRC example BDA4: GlobalPlatform GPC_SPE_172 v1.0, Table 4-1, p. 33

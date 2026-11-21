@@ -312,6 +312,24 @@ Drawn from:
 
 - [`docs/model/first-15-minutes.graph.yml`](../model/first-15-minutes.graph.yml)
 
+## I2C timing of the address byte
+
+<!-- figure: i2c-timing -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="i2c-timing.dark.svg">
+  <img src="i2c-timing.svg"
+    alt="I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit,
+    with the two data hold times the data sheet defines after a falling SCL edge, the edge times and the
+    clock limits.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/i2c-timing.timing.yml`](../model/i2c-timing.timing.yml)
+
+Drawn from:
+
+- [`docs/model/i2c-timing.timing.yml`](../model/i2c-timing.timing.yml)
+
 ## Irreversible operations: plan, confirm, apply
 
 <!-- figure: irreversible-flow -->
@@ -592,6 +610,23 @@ Figure module: [`docs/diagrams/figures/t1-frame.py`](../../docs/diagrams/figures
 Drawn from:
 
 - `kUm11225Frame, kGpFrame, kGpExampleCrc` in [`inc/se05x_wire.hpp`](../../inc/se05x_wire.hpp)
+
+## One T=1 block each way on I2C
+
+<!-- figure: t1-i2c-block -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="t1-i2c-block.dark.svg">
+  <img src="t1-i2c-block.svg"
+    alt="Two I2C transfers of the NXP T=1 flavour: the host writes a block with NAD, PCB, LEN, the
+    information field and a two-byte CRC, and after polling reads the chip's block of the same form.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/t1-i2c-block.timing.yml`](../model/t1-i2c-block.timing.yml)
+
+Drawn from:
+
+- [`docs/model/t1-i2c-block.timing.yml`](../model/t1-i2c-block.timing.yml)
 
 ## The T=1 link: states and S-blocks
 

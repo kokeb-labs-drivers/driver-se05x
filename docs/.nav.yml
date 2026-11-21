@@ -12,6 +12,7 @@ nav:
       - Platforms: platforms.md
   - Hardware:
       - Hardware: hardware.md
+      - On the bus: bus.md
       - SE050 guide: se050.md
       - SE051 guide: se051.md
       - SE052 guide: se052.md

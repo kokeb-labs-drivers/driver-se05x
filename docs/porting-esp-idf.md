@@ -11,8 +11,8 @@ port must do for the SE05x and why. For another platform read [Porting](porting.
     - I2C clock and clock stretching per variant: NXP SE050-DATASHEET Rev. 3.8, 4.1.1 Supported I2C frequencies, p. 9
     - I2C.1 lock-up after a second command, I2C.2 no empty frame: NXP SE050_Erratasheet Rev. 1.0, 3.1, 3.2, p. 7
     - I2C.3 lines high around a soft reset, I2C.4 SCL before SDA: NXP SE050_Erratasheet Rev. 1.0, 3.3, 3.4, p. 8
-    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, I2C framing, p. 13
-    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, Polling, p. 14
+    - One block per I2C write, no repeated start: NXP UM11225 Rev. 1.2, 3.1.1.1 SE I2C Receive State, Figure 4, p. 13
+    - Polling with one-byte reads after MPOT: NXP UM11225 Rev. 1.2, 3.1.1.2 SE I2C Processing State, p. 14
     - Development kit jumpers: ENA, reset, pull-ups: NXP AN13539 Rev. 1.2, Table 9 and the jumper tables, p. 15
 
     All of them, with the driver API for each: [Datasheet map](datasheet.md).

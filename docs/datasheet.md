@@ -171,25 +171,29 @@ any behaviour against the source. Page numbers are the PDF footer numbers; the S
 | --- | --- | --- | --- | --- |
 | Common Criteria EAL 6+ for hardware and OS | SE050-DATASHEET: 2.2 Key features | p. 3 | none: the chip's certification (`docs/hardware.yml` overview) | [Security model](security-model.md) |
 | Start-up: the interface is chosen by the line levels at boot | SE050-DATASHEET: 3.4 Startup behavior | p. 8 | `Device::Open()`, `Config::boot_wait_ms` | [SE050 guide](se050.md), [Hardware](hardware.md), [Troubleshooting](troubleshooting.md) |
-| I2C target address 0x48 | SE050-DATASHEET: 4.1 I2C interfaces, Figure 3 | p. 8 | `kI2cAddress`, `Config::i2c_address` | [Hardware](hardware.md), [Quickstart](quickstart.md), [Porting to ESP-IDF](porting-esp-idf.md) |
-| I2C clock and clock stretching per variant | SE050-DATASHEET: 4.1.1 Supported I2C frequencies | p. 9 | `kMaxClockHz`, `HasMaxClockKhz` | [SE050 guide](se050.md), [Hardware](hardware.md), [Porting to ESP-IDF](porting-esp-idf.md), [Where to use it: which variant](variants.md) |
+| I2C target address 0x48 | SE050-DATASHEET: 4.1 I2C interfaces, Figure 3 | p. 8 | `kI2cAddress`, `Config::i2c_address` | [Hardware](hardware.md), [Quickstart](quickstart.md), [Porting to ESP-IDF](porting-esp-idf.md), [On the bus](bus.md) |
+| I2C clock and clock stretching per variant | SE050-DATASHEET: 4.1.1 Supported I2C frequencies | p. 9 | `kMaxClockHz`, `HasMaxClockKhz` | [SE050 guide](se050.md), [Hardware](hardware.md), [Porting to ESP-IDF](porting-esp-idf.md), [Where to use it: which variant](variants.md), [On the bus](bus.md) |
 | RST_N has no effect when only I2C is enabled | SE050-DATASHEET: 4.2 ISO7816 and ISO14443 interface | p. 9 | `ResetInterface::PowerCycle()` (ENA), not `Reset()` | [SE050 guide](se050.md), [Hardware](hardware.md), [Troubleshooting](troubleshooting.md), [Porting](porting.md) |
 | Power-down and deep power-down modes | SE050-DATASHEET: 5 Power-saving modes | p. 9 | `Device::DeepPowerDown()`, `ResetInterface::SetEnable()` | [SE050 guide](se050.md), [Hardware](hardware.md), [Transport: T=1 over I2C](transport.md) |
 | Deep power-down supply: VIN, VOUT to VCC | SE050-DATASHEET: 5.2 Deep Power-down mode | p. 10 | `docs/hardware.yml` | [SE050 guide](se050.md), [Hardware](hardware.md) |
 | SE050 ordering and variants | SE050-DATASHEET: Table 3 Ordering information | p. 10 | `Family` | [Where to use it: which variant](variants.md), [SE050 guide](se050.md) |
 | Pin table of the HX2QFN20 package (SE050) | SE050-DATASHEET: Table 5 Pin description | p. 11 | `docs/hardware.yml` | [Hardware](hardware.md), [SE050 guide](se050.md), [Quickstart](quickstart.md) |
 | Supply range and pin reference voltages | SE050-DATASHEET: Table 9 Recommended operating conditions | p. 13 | `docs/hardware.yml` | [Hardware](hardware.md), [SE050 guide](se050.md) |
+| I2C input rise and fall times, output fall time | SE050-DATASHEET: 14.2 AC characteristics, Table 14 | p. 18 | none: a property of the board's pull-ups and bus capacitance | [On the bus](bus.md) |
 | ENA low time and glitches | SE050-DATASHEET: Table 14 AC characteristics | p. 18 | `ResetInterface::SetEnable()`, `PowerCycle()` | [SE050 guide](se050.md), [Hardware](hardware.md), [Porting](porting.md) |
 | Wake-up from power-down may need a retransmission | SE050-DATASHEET: Table 14 notes 4 and 5 | p. 19 | `t1::Link` (R-block resend) | [Transport: T=1 over I2C](transport.md), [Troubleshooting](troubleshooting.md) |
+| I2C data hold times that replace tHD;DAT | SE050-DATASHEET: 14.3 I2C Bus Timings, Figure 11, Table 17 | p. 21 | none: a property of the host's I2C controller | [On the bus](bus.md) |
 | SE051 Common Criteria EAL 6+ for hardware and OS | SE051: 2.2 Key features | p. 3 | none: the chip's certification (`docs/hardware.yml` overview) | [Security model](security-model.md) |
-| SE051 I2C address and clock stretching | SE051: 4.1 I2C interfaces | p. 9 | `kI2cAddress`, `kMaxClockHz` | [SE051 guide](se051.md) |
+| SE051 I2C address and clock stretching | SE051: 4.1 I2C interfaces; 4.1.1 Supported I2C frequencies; 4.1.2 Default I2C Communication Parameters | p. 9 | `kI2cAddress`, `kMaxClockHz` | [SE051 guide](se051.md), [On the bus](bus.md) |
 | SE051 RST_N has no effect when only I2C is enabled | SE051: 4.2 ISO7816 and ISO14443 interface | p. 10 | `ResetInterface::PowerCycle()` (ENA) | [SE051 guide](se051.md) |
 | SE051 ordering and variants | SE051: Table 2 Ordering information | p. 11 | `Family` | [Where to use it: which variant](variants.md), [SE051 guide](se051.md) |
 | SE051 power-saving modes | SE051: 5 Power-saving modes | p. 11 | `Device::DeepPowerDown()` | [SE051 guide](se051.md), [Transport: T=1 over I2C](transport.md) |
 | Pin table (SE051) | SE051: Table 3 Pin description | p. 12 | `docs/hardware.yml` | [Hardware](hardware.md), [SE051 guide](se051.md) |
+| SE051 I2C data hold times | SE051: 14.4 I2C Bus Timings, Table 16 | p. 23 | none: a property of the host's I2C controller | [On the bus](bus.md) |
 | SE052 Common Criteria EAL 6+ for hardware and OS | SE052: 3.1 Product-specific features | p. 3 | none: the chip's certification (`docs/hardware.yml` overview) | [Security model](security-model.md) |
 | Pin table of the HVQFN20 package (SE052) | SE052: Table 2 Pin description | p. 4 | `docs/diagrams/figures/_se052.py` | [Hardware](hardware.md), [SE052 guide](se052.md) |
 | SE052 package HVQFN20 (SOT917-7) | SE052: 6 Package | p. 5 | `docs/diagrams/figures/_se052.py` | [SE052 guide](se052.md), [Ambiguities and knobs](ambiguities.md) |
+| SE052 I2C target up to 3.4 Mbit/s | SE052: 9 I2C interface | p. 6 | `kMaxClockHz` | [On the bus](bus.md) |
 | SE052 system integration: pull-ups, VIN and VOUT capacitors | SE052: Figure 1 SE052 using I2C | p. 6 | `docs/diagrams/figures/_se052.py` | [SE052 guide](se052.md) |
 | SE052 power-down by RELEASE and deep power-down by S-block 0xDF | SE052: 10 Power-saving modes | p. 7 | `Device::DeepPowerDown()` | [SE052 guide](se052.md), [Transport: T=1 over I2C](transport.md) |
 | SE052 ATR bytes | SE052: Table 12 Configuration parameters | p. 16 | `ParseAtr()` | [SE052 guide](se052.md) |
@@ -203,14 +207,17 @@ any behaviour against the source. Page numbers are the PDF footer numbers; the S
 | I2C.3 lines high around a soft reset, I2C.4 SCL before SDA | SE050_Erratasheet: 3.3, 3.4 | p. 8 | `t1::Link`, the bus port | [Troubleshooting](troubleshooting.md), [Porting](porting.md), [Porting to ESP-IDF](porting-esp-idf.md) |
 | APP.1 attestation over 1024 bytes, APP.2 CloseSession without a session | SE050_Erratasheet: 3.5, 3.6 | p. 9 | `kMaxResponse`, `Device::EndSession()` | [Errors and status words](status-words.md), [Troubleshooting](troubleshooting.md) |
 | JOS.1 wrong EC key length resets the chip, JOS.2 SCP03 counter | SE050_Erratasheet: 3.12, 3.13 | p. 11 | capability gate, `scp03::Channel` | [Secure channels](secure-channels.md), [Troubleshooting](troubleshooting.md) |
-| NXP flavour block: NAD, PCB, LEN, INF, CRC | UM11225: Table 1, Tables 3 and 4 | p. 5 | `kUm11225Frame` | [Transport: T=1 over I2C](transport.md) |
+| NXP flavour block: NAD, PCB, LEN, INF, CRC | UM11225: 2.1 T=1 Block Frame Format, Tables 1, 3 and 4 | p. 5 | `kUm11225Frame` | [Transport: T=1 over I2C](transport.md), [On the bus](bus.md) |
 | NXP flavour I-block and R-block PCB | UM11225: Tables 5 to 7 | p. 6 | `t1::Link` | [Transport: T=1 over I2C](transport.md) |
 | NXP flavour S-blocks | UM11225: Table 9 | p. 7 | `kSResync` to `kUmGetAtr` | [Transport: T=1 over I2C](transport.md), [Errors and status words](status-words.md) |
+| NXP flavour INF per block type | UM11225: 2.1.2 Information Field (INF), Table 10 | p. 8 | `t1::Link` | [On the bus](bus.md) |
+| NXP flavour CRC over the prologue and INF | UM11225: 2.1.3 Epilogue Field (CRC) | p. 9 | `t1::Link` | [On the bus](bus.md) |
 | NXP flavour ATR | UM11225: Tables 11 to 13 | p. 9 | `ParseAtr()` | [Transport: T=1 over I2C](transport.md), [SE052 guide](se052.md) |
-| Retransmissions, WTX and soft reset rules | UM11225: Error handling and retransmission | p. 11 | `kUmMaxRetransmissions`, `Config::wtx_limit` | [Transport: T=1 over I2C](transport.md), [Troubleshooting](troubleshooting.md) |
-| One block per I2C write, no repeated start | UM11225: I2C framing | p. 13 | `kRepeatedStart` | [Transport: T=1 over I2C](transport.md), [Porting](porting.md), [Porting to ESP-IDF](porting-esp-idf.md) |
-| Polling with one-byte reads after MPOT | UM11225: Polling | p. 14 | `Config::poll_interval_us` | [Transport: T=1 over I2C](transport.md), [Porting](porting.md), [Porting to ESP-IDF](porting-esp-idf.md) |
-| Default SEGT, MPOT and power wake-up time | UM11225: Table 14 | p. 19 | `kUmDefaultSegtUs`, `kUmDefaultMpotMs` | [Transport: T=1 over I2C](transport.md) |
+| Retransmissions, WTX and soft reset rules | UM11225: 2.4 Error handling | p. 11 | `kUmMaxRetransmissions`, `Config::wtx_limit` | [Transport: T=1 over I2C](transport.md), [Troubleshooting](troubleshooting.md) |
+| One block per I2C write, no repeated start | UM11225: 3.1.1.1 SE I2C Receive State, Figure 4 | p. 13 | `kRepeatedStart` | [Transport: T=1 over I2C](transport.md), [Porting](porting.md), [Porting to ESP-IDF](porting-esp-idf.md), [On the bus](bus.md) |
+| Polling with one-byte reads after MPOT | UM11225: 3.1.1.2 SE I2C Processing State | p. 14 | `Config::poll_interval_us` | [Transport: T=1 over I2C](transport.md), [Porting](porting.md), [Porting to ESP-IDF](porting-esp-idf.md), [On the bus](bus.md) |
+| Reading the reply in one or several reads | UM11225: 3.1.1.3 SE I2C Send State, Figures 7 and 8 | p. 15 | `t1::Link` | [On the bus](bus.md) |
+| Default SEGT, MPOT and power wake-up time | UM11225: 3.1.1.4 SE I2C Default Values, Table 14 | p. 19 | `kUmDefaultSegtUs`, `kUmDefaultMpotMs` | [Transport: T=1 over I2C](transport.md), [On the bus](bus.md) |
 | GP flavour I2C: polling, guard times, clock stretching | GPC_SPE_172: I2C physical layer | p. 23 | `t1::Link` | [Transport: T=1 over I2C](transport.md) |
 | GP flavour default IFSC, BWT and power wake time | GPC_SPE_172: Default values | p. 31 | `kGpDefaultIfsc`, `kGpDefaultBwtMs` | [Transport: T=1 over I2C](transport.md) |
 | GP flavour block, NAD 21/12, two-byte LEN, CRC example BDA4 | GPC_SPE_172: Table 4-1 | p. 33 | `kGpFrame`, `kGpExampleCrc` | [Transport: T=1 over I2C](transport.md), [Troubleshooting](troubleshooting.md) |
