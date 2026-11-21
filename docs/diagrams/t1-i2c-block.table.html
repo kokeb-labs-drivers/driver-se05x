@@ -1,0 +1,16 @@
+<details>
+<summary>Table form of this figure</summary>
+<table>
+<caption>One T=1 block each way on I2C</caption>
+<thead><tr><th scope="col">Symbol</th><th scope="col">Parameter</th><th scope="col">Min</th><th scope="col">Typ</th><th scope="col">Max</th><th scope="col">Unit</th><th scope="col">Datasheet</th></tr></thead>
+<tbody>
+<tr><th scope="row">NAD</th><td>Node address: 0x5A host to SE, 0xA5 SE to host</td><td></td><td>1</td><td></td><td>byte</td><td>UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</td></tr>
+<tr><th scope="row">PCB</th><td>Protocol control: I-, R- or S-block</td><td></td><td>1</td><td></td><td>byte</td><td>UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</td></tr>
+<tr><th scope="row">LEN</th><td>Length of INF</td><td></td><td>1</td><td></td><td>byte</td><td>UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</td></tr>
+<tr><th scope="row">INF</th><td>Information field</td><td>0</td><td></td><td>254</td><td>byte</td><td>UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</td></tr>
+<tr><th scope="row">CRC16</th><td>Error detection code of the block</td><td></td><td>2</td><td></td><td>byte</td><td>UM11225 2.1 T=1 Block Frame Format, Tables 1 and 4, p. 5</td></tr>
+<tr><th scope="row">DSEGT</th><td>Default guard time between two I2C accesses</td><td></td><td>10</td><td></td><td>µs</td><td>UM11225 3.1.1.4 SE I2C Default Values, Table 14, p. 19</td></tr>
+<tr><th scope="row">DMPOT</th><td>Default minimum polling time</td><td></td><td>1</td><td></td><td>ms</td><td>UM11225 3.1.1.4 SE I2C Default Values, Table 14, p. 19</td></tr>
+</tbody>
+</table>
+</details>

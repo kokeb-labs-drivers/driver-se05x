@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1240" viewBox="0 0 640 1240" role="img" aria-labelledby="i2c-timing-title i2c-timing-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="i2c-timing-title">I2C timing of the address byte</title>
+<desc id="i2c-timing-desc">I2C timing of the SE05x: the start condition and the address 0x48 with the write bit, bit by bit, with the two data hold times the data sheet defines after a falling SCL edge, the edge times and the clock limits.</desc>
+<rect x="0.5" y="0.5" width="639" height="1239" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44.4" font-size="13" font-weight="700" letter-spacing="1.2" fill="#F8D27A">ON THE BUS</text>
+<text x="32" y="76.2" font-size="24" font-weight="700" fill="#E8EDF3">I2C timing of the address byte</text>
+<text x="32" y="102.7" font-size="15" fill="#9AA6B5">Datasheet: SE050 14.3 I2C Bus Timings, Figure 11, Table 17, p. 21; SE050</text>
+<text x="32" y="124.5" font-size="15" fill="#9AA6B5">14.2 AC characteristics, Table 14, p. 18; SE050 4.1.1 Supported I2C</text>
+<text x="32" y="146.2" font-size="15" fill="#9AA6B5">frequencies, p. 9; SE050 4.1 I2C interfaces, Figure 3, p. 8.</text>
+<rect x="32" y="162.2" width="576" height="1" fill="#252F3C"/>
+<path d="M173.7 320.6 L173.7 372.8" fill="none" stroke="#6C7889" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M188.7 320.6 L188.7 372.8" fill="none" stroke="#6C7889" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M216.5 320.6 L216.5 407" fill="none" stroke="#6C7889" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M231.5 320.6 L231.5 407" fill="none" stroke="#6C7889" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M88 254.6 L88 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M130.8 254.6 L130.8 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M173.7 254.6 L173.7 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M216.5 254.6 L216.5 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M259.3 254.6 L259.3 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M302.2 254.6 L302.2 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M345 254.6 L345 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M387.8 254.6 L387.8 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M430.7 254.6 L430.7 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M473.5 254.6 L473.5 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M516.3 254.6 L516.3 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M559.2 254.6 L559.2 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M602 254.6 L602 407" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 453.1 L608 453.1" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 526 L608 526" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 598.8 L608 598.8" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 671.7 L608 671.7" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 744.5 L608 744.5" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 817.4 L608 817.4" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 890.2 L608 890.2" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 963.1 L608 963.1" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 1035.9 L608 1035.9" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M32 1108.8 L608 1108.8" fill="none" stroke="#252F3C" stroke-width="1"/>
+<path d="M131.8 245.6 L131.8 240.6 L172.7 240.6 L172.7 245.6" fill="none" stroke="#94A3B8" stroke-width="1.4"/>
+<path d="M174.7 213.4 L174.7 208.4 L472.5 208.4 L472.5 213.4" fill="none" stroke="#94A3B8" stroke-width="1.4"/>
+<path d="M474.5 245.6 L474.5 240.6 L515.3 240.6 L515.3 245.6" fill="none" stroke="#94A3B8" stroke-width="1.4"/>
+<path d="M517.3 213.4 L517.3 208.4 L558.2 208.4 L558.2 213.4" fill="none" stroke="#94A3B8" stroke-width="1.4"/>
+<path d="M88 259.6 L130.8 259.6 L173.7 259.6 L173.7 259.6 L173.7 285.6 L195.1 285.6 L195.1 285.6 L195.1 259.6 L216.5 259.6 L216.5 259.6 L216.5 285.6 L237.9 285.6 L237.9 285.6 L237.9 259.6 L259.3 259.6 L259.3 259.6 L259.3 285.6 L280.8 285.6 L280.8 285.6 L280.8 259.6 L302.2 259.6 L302.2 259.6 L302.2 285.6 L323.6 285.6 L323.6 285.6 L323.6 259.6 L345 259.6 L345 259.6 L345 285.6 L366.4 285.6 L366.4 285.6 L366.4 259.6 L387.8 259.6 L387.8 259.6 L387.8 285.6 L409.2 285.6 L409.2 285.6 L409.2 259.6 L430.7 259.6 L430.7 259.6 L430.7 285.6 L452.1 285.6 L452.1 285.6 L452.1 259.6 L473.5 259.6 L473.5 259.6 L473.5 285.6 L494.9 285.6 L494.9 285.6 L494.9 259.6 L516.3 259.6 L516.3 259.6 L516.3 285.6 L537.8 285.6 L537.8 285.6 L537.8 259.6 L559.2 259.6 L602 259.6" fill="none" stroke="#D2DAE4" stroke-width="2"/>
+<path d="M88 307.6 L130.8 307.6 L130.8 307.6 L130.8 333.6 L173.7 333.6 L173.7 333.6 L173.7 307.6 L216.5 307.6 L216.5 307.6 L216.5 333.6 L302.2 333.6 L302.2 333.6 L302.2 307.6 L345 307.6 L345 307.6 L345 333.6 L602 333.6" fill="none" stroke="#D2DAE4" stroke-width="2"/>
+<path d="M173.7 368.8 L188.7 368.8" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<path d="M173.7 364.8 L173.7 372.8" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<path d="M188.7 364.8 L188.7 372.8" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<path d="M216.5 403 L231.5 403" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<path d="M216.5 399 L216.5 407" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<path d="M231.5 399 L231.5 407" fill="none" stroke="#D2DAE4" stroke-width="1.4"/>
+<rect x="32" y="1122.8" width="576" height="86.8" rx="10" fill="#1B232E" stroke="#3A4656" stroke-width="1"/>
+<text x="152.2" y="229.7" font-size="14" font-weight="600" text-anchor="middle" fill="#E2E8F0">S</text>
+<text x="323.6" y="197.5" font-size="14" font-weight="600" text-anchor="middle" fill="#E2E8F0">address 0x48: 1001000</text>
+<text x="494.9" y="229.7" font-size="14" font-weight="600" text-anchor="middle" fill="#E2E8F0">W</text>
+<text x="537.8" y="197.5" font-size="14" font-weight="600" text-anchor="middle" fill="#E2E8F0">ACK</text>
+<text x="32" y="278" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">SCL</text>
+<text x="32" y="326" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">SDA</text>
+<text x="194.7" y="373.8" font-size="14" font-weight="700" fill="#E8EDF3">tHDr;DAT50</text>
+<text x="237.5" y="408" font-size="14" font-weight="700" fill="#E8EDF3">tHDf;DAT50</text>
+<text x="32" y="437.4" font-size="17" font-weight="700" fill="#E8EDF3">Timing values</text>
+<text x="32" y="473.9" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tHDr;DAT50</text>
+<text x="608" y="473.9" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">min 24 ns</text>
+<text x="32" y="494.1" font-size="15" fill="#D2DAE4">Data hold, 50 % SCL fall to 50 % SDA rise, Fast mode</text>
+<text x="32" y="514.2" font-size="14" fill="#9AA6B5">Datasheet SE050 14.3 I2C Bus Timings, Figure 11, Table 17, p. 21</text>
+<text x="32" y="546.7" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tHDf;DAT50</text>
+<text x="608" y="546.7" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">min 8 ns</text>
+<text x="32" y="567" font-size="15" fill="#D2DAE4">Data hold, 50 % SCL fall to 50 % SDA fall, Fast mode</text>
+<text x="32" y="587.1" font-size="14" fill="#9AA6B5">Datasheet SE050 14.3 I2C Bus Timings, Figure 11, Table 17, p. 21</text>
+<text x="32" y="619.6" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tHDr;DAT50</text>
+<text x="608" y="619.6" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">min 9 ns</text>
+<text x="32" y="639.8" font-size="15" fill="#D2DAE4">Data hold before a rising SDA edge, Hs mode</text>
+<text x="32" y="660" font-size="14" fill="#9AA6B5">Datasheet SE050 14.3 I2C Bus Timings, Figure 11, Table 17, p. 21</text>
+<text x="32" y="692.4" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tHDf;DAT50</text>
+<text x="608" y="692.4" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">min 8 ns</text>
+<text x="32" y="712.7" font-size="15" fill="#D2DAE4">Data hold before a falling SDA edge, Hs mode</text>
+<text x="32" y="732.8" font-size="14" fill="#9AA6B5">Datasheet SE050 14.3 I2C Bus Timings, Figure 11, Table 17, p. 21</text>
+<text x="32" y="765.2" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tr(i)</text>
+<text x="608" y="765.2" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">max 1 µs</text>
+<text x="32" y="785.5" font-size="15" fill="#D2DAE4">Input rise time, 30 % to 70 %</text>
+<text x="32" y="805.7" font-size="14" fill="#9AA6B5">Datasheet SE050 14.2 AC characteristics, Table 14, p. 18</text>
+<text x="32" y="838.1" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tf(i)</text>
+<text x="608" y="838.1" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">max 1 µs</text>
+<text x="32" y="858.4" font-size="15" fill="#D2DAE4">Input fall time, 70 % to 30 %</text>
+<text x="32" y="878.5" font-size="14" fill="#9AA6B5">Datasheet SE050 14.2 AC characteristics, Table 14, p. 18</text>
+<text x="32" y="911" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">tf(o)</text>
+<text x="608" y="911" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">max 0.3 µs</text>
+<text x="32" y="931.2" font-size="15" fill="#D2DAE4">Output fall time, CL = 30 pF</text>
+<text x="32" y="951.4" font-size="14" fill="#9AA6B5">Datasheet SE050 14.2 AC characteristics, Table 14, p. 18</text>
+<text x="32" y="983.8" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">fSCL</text>
+<text x="608" y="983.8" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">max 3.4 MHz</text>
+<text x="32" y="1004.1" font-size="15" fill="#D2DAE4">SCL clock with clock stretching enabled (Hs mode)</text>
+<text x="32" y="1024.2" font-size="14" fill="#9AA6B5">Datasheet SE050 4.1.1 Supported I2C frequencies, p. 9</text>
+<text x="32" y="1056.7" font-size="15" font-weight="700" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#E8EDF3">fSCL</text>
+<text x="608" y="1056.7" font-size="15" font-weight="700" text-anchor="end" fill="#E8EDF3">max 1 MHz</text>
+<text x="32" y="1076.9" font-size="15" fill="#D2DAE4">SCL clock with clock stretching disabled</text>
+<text x="32" y="1097.1" font-size="14" fill="#9AA6B5">Datasheet SE050 4.1.1 Supported I2C frequencies, p. 9</text>
+<text x="46" y="1151.2" font-size="17" font-weight="700" fill="#E2E8F0">Notes</text>
+<text x="46" y="1171.6" font-size="15" fill="#E2E8F0">The A, B, C, D and F configurations stretch the clock above 600 kHz; the</text>
+<text x="46" y="1193.4" font-size="15" fill="#E2E8F0">SE050E has it off by default.</text>
+</svg>

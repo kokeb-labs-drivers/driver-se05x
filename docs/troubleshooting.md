@@ -14,7 +14,7 @@ Symptoms, causes and fixes, cheapest check first. The error names are on [Errors
     - I2C.3 lines high around a soft reset, I2C.4 SCL before SDA: NXP SE050_Erratasheet Rev. 1.0, 3.3, 3.4, p. 8
     - APP.1 attestation over 1024 bytes, APP.2 CloseSession without a session: NXP SE050_Erratasheet Rev. 1.0, 3.5, 3.6, p. 9
     - JOS.1 wrong EC key length resets the chip, JOS.2 SCP03 counter: NXP SE050_Erratasheet Rev. 1.0, 3.12, 3.13, p. 11
-    - Retransmissions, WTX and soft reset rules: NXP UM11225 Rev. 1.2, Error handling and retransmission, p. 11
+    - Retransmissions, WTX and soft reset rules: NXP UM11225 Rev. 1.2, 2.4 Error handling, p. 11
     - GP flavour block, NAD 21/12, two-byte LEN, CRC example BDA4: GlobalPlatform GPC_SPE_172 v1.0, Table 4-1, p. 33
     - WTX host timeout at least 4 s; NXP mode is the default: NXP AN13904 Rev. 1.0, WTX and T=1 mode, p. 27
     - APDU throughput limit on the SE052F: NXP AN13904 Rev. 1.0, APDU throughput limit, p. 28
